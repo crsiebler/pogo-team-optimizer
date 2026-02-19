@@ -1,0 +1,38 @@
+# Python bytecode and caches
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Build and packaging artifacts
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Test and coverage outputs
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+
+# Type checker and linter caches
+.mypy_cache/
+.ruff_cache/
+
+# IDE/OS noise
+.DS_Store
+.idea/
+.vscode/
+
+# Local analysis outputs
+analysis.json
+analysis.md
+analysis.pvpoke
+
+# Local node tooling workspace
+.opencode/node_modules/

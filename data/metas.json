@@ -1,0 +1,39 @@
+{
+  "metas": {
+    "great": {
+      "matrix_files": [
+        "data/simulations/great_0-shield.csv",
+        "data/simulations/great_1-shield.csv",
+        "data/simulations/great_2-shield.csv"
+      ]
+    },
+    "crucible": {
+      "matrix_files": [
+        "data/simulations/crucible_0-shield.csv",
+        "data/simulations/crucible_1-shield.csv",
+        "data/simulations/crucible_2-shield.csv"
+      ]
+    },
+    "majestic": {
+      "matrix_files": [
+        "data/simulations/majestic_0-shield.csv",
+        "data/simulations/majestic_1-shield.csv",
+        "data/simulations/majestic_2-shield.csv"
+      ]
+    },
+    "euic": {
+      "matrix_files": [
+        "data/simulations/euic_0-shield.csv",
+        "data/simulations/euic_1-shield.csv",
+        "data/simulations/euic_2-shield.csv"
+      ]
+    },
+    "master": {
+      "matrix_files": [
+        "data/simulations/master_0-shield.csv",
+        "data/simulations/master_1-shield.csv",
+        "data/simulations/master_2-shield.csv"
+      ]
+    }
+  }
+}

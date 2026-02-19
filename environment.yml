@@ -1,0 +1,10 @@
+name: pogo-team-optimizer
+channels:
+  - conda-forge
+dependencies:
+  - python=3.12
+  - ruff
+  - mypy
+  - pytest
+  - pytest-cov
+  - pre-commit
