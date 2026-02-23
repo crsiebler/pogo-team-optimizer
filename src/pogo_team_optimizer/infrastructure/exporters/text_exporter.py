@@ -25,7 +25,18 @@ class TextExporter(AnalysisExporter):
             f"{metrics['bulk_pool_min']:.2f}/{metrics['bulk_pool_mean']:.2f}/{metrics['bulk_pool_max']:.2f})"
         )
         lines.append(
+            f"- safety score: {metrics['safety_score']:.2f} "
+            f"(PvPoke switch score avg; pool min/mean/max "
+            f"{metrics['safety_pool_min']:.2f}/{metrics['safety_pool_mean']:.2f}/{metrics['safety_pool_max']:.2f})"
+        )
+        lines.append(
+            f"- safety target: {metrics['safety_priority']} priority | avg >= "
+            f"{metrics['safety_floor_target']:.2f} | members >= {metrics['safe_member_floor']:.2f}: "
+            f"{metrics['safe_member_target']}"
+        )
+        lines.append(
             f"- consistency score: {metrics['consistency_score']:.2f} "
+            "(internal matchup stability metric; not PvPoke bait-dependency consistency) "
             f"= mean {metrics['mean_best_score']:.2f} + dominate bonus - overwhelming penalty"
         )
         lines.append(

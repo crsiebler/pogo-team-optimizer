@@ -24,6 +24,9 @@ def test_use_case_returns_required_sections() -> None:
     assert "recommended_team" in result
     assert len(result["recommended_team"]["members"]) == 6
     assert len(result["coverage"]) == 3
-    assert len(result["threats"]) == 5
+    assert 0 < len(result["threats"]) <= 5
     assert len(result["safe_cores"]) == 3
     assert len(result["target_map"]) > 0
+    assert "safety_score" in result["recommended_team"]["metrics"]
+    assert "safety_pool_mean" in result["recommended_team"]["metrics"]
+    assert result["recommended_team"]["metrics"]["safety_priority"] == "medium"

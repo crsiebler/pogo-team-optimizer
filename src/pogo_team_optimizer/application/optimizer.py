@@ -21,12 +21,19 @@ class TeamOptimizer:
         col_labels: list[str],
         matrices: list[list[list[int]]],
         bulk_by_row: list[float],
+        safety_by_row: list[float] | None = None,
         seed: int = 7,
     ) -> None:
         self.row_labels = row_labels
         self.col_labels = col_labels
         self.matrices = matrices
         self.bulk_by_row = bulk_by_row
+        if safety_by_row is None:
+            self.safety_by_row = [60.0] * len(row_labels)
+        elif len(safety_by_row) != len(row_labels):
+            raise ValueError("safety_by_row length must match row labels")
+        else:
+            self.safety_by_row = safety_by_row
         self.random = random.Random(seed)
 
         self.row_species = [parse_species(label) for label in row_labels]
@@ -47,11 +54,25 @@ class TeamOptimizer:
             for col_idx in indices:
                 self.weights[col_idx] = weight
 
-    def optimize(self, team_size: int = 6, restarts: int = 250) -> TeamSolution:
+    def optimize(
+        self,
+        team_size: int = 6,
+        restarts: int = 250,
+        safety_floor: float | None = None,
+        min_safe_members: int = 0,
+        safe_member_floor: float = 90.0,
+    ) -> TeamSolution:
         best: TeamSolution | None = None
         for _ in range(restarts):
             candidate = self._random_team(team_size)
             score = self._score_team(candidate)
+            key = self._comparison_key(
+                candidate,
+                score,
+                safety_floor=safety_floor,
+                min_safe_members=min_safe_members,
+                safe_member_floor=safe_member_floor,
+            )
             improved = True
             while improved:
                 improved = False
@@ -67,8 +88,16 @@ class TeamOptimizer:
                                 continue
                             candidate[pos] = row_idx
                             next_score = self._score_team(candidate)
-                            if next_score > score:
+                            next_key = self._comparison_key(
+                                candidate,
+                                next_score,
+                                safety_floor=safety_floor,
+                                min_safe_members=min_safe_members,
+                                safe_member_floor=safe_member_floor,
+                            )
+                            if next_key > key:
                                 score = next_score
+                                key = next_key
                                 current_bases = {self.row_base_species[i] for i in candidate}
                                 improved = True
                                 break
@@ -78,7 +107,17 @@ class TeamOptimizer:
                         break
                     candidate[pos] = original
             candidate_solution = TeamSolution(tuple(candidate), score)
-            if best is None or candidate_solution.score > best.score:
+            if best is None:
+                best = candidate_solution
+                continue
+            best_key = self._comparison_key(
+                list(best.member_indices),
+                best.score,
+                safety_floor=safety_floor,
+                min_safe_members=min_safe_members,
+                safe_member_floor=safe_member_floor,
+            )
+            if key > best_key:
                 best = candidate_solution
         if best is None:
             raise RuntimeError("Failed to optimize team")
@@ -107,7 +146,12 @@ class TeamOptimizer:
         redundant_coverage_3plus = 0
         single_cover_pairs = 0
         no_cover_pairs = 0
-        team_bulk_score = sum(self.bulk_by_row[row_idx] for row_idx in team_indices) / len(team_indices)
+        team_bulk_score = sum(self.bulk_by_row[row_idx] for row_idx in team_indices) / len(
+            team_indices
+        )
+        team_safety_score = sum(self.safety_by_row[row_idx] for row_idx in team_indices) / len(
+            team_indices
+        )
         dominate_count = 0
         overwhelming_count = 0
         mean_best_score = 0.0
@@ -161,14 +205,52 @@ class TeamOptimizer:
         return (
             float(pair_coverage),
             float(full_col_coverage),
+            float(-no_cover_pairs),
+            float(-single_cover_pairs),
+            weighted_worst_best_score,
+            team_bulk_score,
+            team_safety_score,
+            consistency_score,
             float(redundant_coverage_2plus),
             float(redundant_coverage_3plus),
-            float(-single_cover_pairs),
-            team_bulk_score,
-            consistency_score,
-            weighted_worst_best_score,
             mean_best_score,
             float(dominate_count),
-            float(overwhelming_count),
-            float(-no_cover_pairs),
+            float(-overwhelming_count),
+        )
+
+    def _comparison_key(
+        self,
+        team_indices: list[int],
+        score: tuple[float, ...],
+        *,
+        safety_floor: float | None,
+        min_safe_members: int,
+        safe_member_floor: float,
+    ) -> tuple[float, ...]:
+        team_safety_score = score[6]
+        floor_deficit = 0.0
+        if safety_floor is not None and team_safety_score < safety_floor:
+            floor_deficit = safety_floor - team_safety_score
+
+        safe_member_count = sum(
+            1 for row_idx in team_indices if self.safety_by_row[row_idx] >= safe_member_floor
+        )
+        safe_member_deficit = float(max(0, min_safe_members - safe_member_count))
+
+        return (
+            -floor_deficit,
+            -safe_member_deficit,
+            score[2],
+            score[3],
+            score[4],
+            score[6],
+            score[5],
+            score[0],
+            score[1],
+            score[7],
+            score[8],
+            score[9],
+            score[10],
+            score[11],
+            score[12],
         )

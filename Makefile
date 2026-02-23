@@ -28,15 +28,15 @@ coverage:
 	PYTHONPATH=$(SRC) $(PYTHON) -m pytest --cov=src --cov-report=term-missing
 
 run:
-	PYTHONPATH=$(SRC) $(PYTHON) -m pogo_team_optimizer.cli.main --meta crucible --format text --top-threats 10 --top-cores 5 --restarts 80
+	PYTHONPATH=$(SRC) $(PYTHON) -m pogo_team_optimizer.cli.main --meta great --format text --top-threats 10 --top-cores 5 --restarts 80
 
 run-json:
-	PYTHONPATH=$(SRC) $(PYTHON) -m pogo_team_optimizer.cli.main --meta crucible --format json --output analysis.json --top-threats 10 --top-cores 5 --restarts 80
+	PYTHONPATH=$(SRC) $(PYTHON) -m pogo_team_optimizer.cli.main --meta great --format json --output analysis.json --top-threats 10 --top-cores 5 --restarts 80
 
 run-md:
-	PYTHONPATH=$(SRC) $(PYTHON) -m pogo_team_optimizer.cli.main --meta crucible --format markdown --output analysis.md --top-threats 10 --top-cores 5 --restarts 80
+	PYTHONPATH=$(SRC) $(PYTHON) -m pogo_team_optimizer.cli.main --meta great --format markdown --output analysis.md --top-threats 10 --top-cores 5 --restarts 80
 
 run-pvpoke:
-	PYTHONPATH=$(SRC) $(PYTHON) -m pogo_team_optimizer.cli.main --meta crucible --format pvpoke --output analysis.pvpoke --top-threats 10 --top-cores 5 --restarts 80
+	PYTHONPATH=$(SRC) $(PYTHON) -m pogo_team_optimizer.cli.main --meta great --format pvpoke --output analysis.pvpoke --top-threats 10 --top-cores 5 --restarts 80
 
 all: lint typecheck test

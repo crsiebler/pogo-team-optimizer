@@ -19,6 +19,12 @@ class PokemonRepository(ABC):
         """Return (atk, def, hp) for a species when available."""
 
 
+class SwitchRankingsRepository(ABC):
+    @abstractmethod
+    def get_switch_score(self, species_name: str) -> float | None:
+        """Return PvPoke switch score for a species when available."""
+
+
 class AnalysisExporter(ABC):
     @abstractmethod
     def export(self, result: dict, output_path: str | None = None) -> str | None:

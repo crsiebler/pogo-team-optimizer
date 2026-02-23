@@ -29,9 +29,21 @@ class MarkdownExporter(AnalysisExporter):
             f"`{metrics['bulk_pool_min']:.2f}/{metrics['bulk_pool_mean']:.2f}/{metrics['bulk_pool_max']:.2f}`)"
         )
         lines.append(
+            "- Safety score: "
+            f"`{metrics['safety_score']:.2f}` "
+            "(PvPoke switch score avg; pool min/mean/max "
+            f"`{metrics['safety_pool_min']:.2f}/{metrics['safety_pool_mean']:.2f}/{metrics['safety_pool_max']:.2f}`)"
+        )
+        lines.append(
+            "- Safety target: "
+            f"`{metrics['safety_priority']}` priority, avg >= `{metrics['safety_floor_target']:.2f}`; "
+            f"members >= `{metrics['safe_member_floor']:.2f}`: `{metrics['safe_member_target']}`"
+        )
+        lines.append(
             "- Consistency score: "
             f"`{metrics['consistency_score']:.2f}` "
-            f"(mean `{metrics['mean_best_score']:.2f}` + dominate bonus - overwhelming penalty)"
+            "(internal matchup stability metric, not PvPoke bait dependency; "
+            f"mean `{metrics['mean_best_score']:.2f}` + dominate bonus - overwhelming penalty)"
         )
         lines.append(
             "- Redundancy (2+ winners): "

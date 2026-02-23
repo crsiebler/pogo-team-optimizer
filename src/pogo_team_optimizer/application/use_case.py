@@ -10,7 +10,11 @@ from pogo_team_optimizer.application.analyzers import (
 )
 from pogo_team_optimizer.application.normalization import parse_species
 from pogo_team_optimizer.application.optimizer import TeamOptimizer
-from pogo_team_optimizer.domain.interfaces import PokemonRepository, SimulationMatrixRepository
+from pogo_team_optimizer.domain.interfaces import (
+    PokemonRepository,
+    SimulationMatrixRepository,
+    SwitchRankingsRepository,
+)
 
 
 class AnalyzeMetaUseCase:
@@ -18,9 +22,11 @@ class AnalyzeMetaUseCase:
         self,
         simulation_repository: SimulationMatrixRepository,
         pokemon_repository: PokemonRepository,
+        switch_rankings_repository: SwitchRankingsRepository | None = None,
     ) -> None:
         self.simulation_repository = simulation_repository
         self.pokemon_repository = pokemon_repository
+        self.switch_rankings_repository = switch_rankings_repository
 
     def execute(
         self,
@@ -28,6 +34,7 @@ class AnalyzeMetaUseCase:
         top_cores: int = 5,
         seed: int = 7,
         restarts: int = 250,
+        safety_priority: str = "medium",
     ) -> dict:
         row_labels, col_labels, matrices = self.simulation_repository.load()
         col_species = [parse_species(label) for label in col_labels]
@@ -42,9 +49,16 @@ class AnalyzeMetaUseCase:
                 weights[col_idx] = weight
 
         bulk_by_row: list[float] = []
+        safety_by_row: list[float] = []
         for label in row_labels:
             species = parse_species(label)
             stats = self.pokemon_repository.get_base_stats(species)
+            switch_score = 60.0
+            if self.switch_rankings_repository is not None:
+                ranked_score = self.switch_rankings_repository.get_switch_score(species)
+                if ranked_score is not None:
+                    switch_score = ranked_score
+            safety_by_row.append(switch_score)
             if stats is None:
                 bulk_by_row.append(0.0)
                 continue
@@ -54,8 +68,32 @@ class AnalyzeMetaUseCase:
                 continue
             bulk_by_row.append((defense * hp) / atk)
 
-        optimizer = TeamOptimizer(row_labels, col_labels, matrices, bulk_by_row=bulk_by_row, seed=seed)
-        best_team = optimizer.optimize(restarts=restarts)
+        safety_priority_rules: dict[str, tuple[float | None, int, float]] = {
+            "low": (72.0, 0, 90.0),
+            "medium": (78.0, 1, 90.0),
+            "high": (82.0, 2, 90.0),
+        }
+        if safety_priority not in safety_priority_rules:
+            raise ValueError(
+                "Invalid safety priority "
+                f"'{safety_priority}'. Expected one of: {', '.join(sorted(safety_priority_rules))}"
+            )
+        safety_floor, min_safe_members, safe_member_floor = safety_priority_rules[safety_priority]
+
+        optimizer = TeamOptimizer(
+            row_labels,
+            col_labels,
+            matrices,
+            bulk_by_row=bulk_by_row,
+            safety_by_row=safety_by_row,
+            seed=seed,
+        )
+        best_team = optimizer.optimize(
+            restarts=restarts,
+            safety_floor=safety_floor,
+            min_safe_members=min_safe_members,
+            safe_member_floor=safe_member_floor,
+        )
 
         safe_cores = optimizer.rank_safe_cores(best_team.member_indices, top_n=top_cores)
 
@@ -66,23 +104,24 @@ class AnalyzeMetaUseCase:
 
         total_pairs = len(col_labels) * len(matrices)
         score = best_team.score
-        dominate_count = int(score[9])
-        overwhelming_count = int(score[10])
-        single_cover_pairs = int(-score[4])
-        no_cover_pairs = int(-score[11])
+        dominate_count = int(score[11])
+        overwhelming_count = int(-score[12])
+        single_cover_pairs = int(-score[3])
+        no_cover_pairs = int(-score[2])
         metrics = {
             "pair_coverage": int(score[0]),
             "full_col_coverage": int(score[1]),
-            "redundant_coverage_2plus": int(score[2]),
-            "redundant_coverage_3plus": int(score[3]),
+            "redundant_coverage_2plus": int(score[8]),
+            "redundant_coverage_3plus": int(score[9]),
             "single_cover_pairs": single_cover_pairs,
             "single_cover_rate": single_cover_pairs / total_pairs,
             "no_cover_pairs": no_cover_pairs,
             "no_cover_rate": no_cover_pairs / total_pairs,
             "bulk_score": float(score[5]),
-            "consistency_score": float(score[6]),
-            "weighted_worst_best_score": float(score[7]),
-            "mean_best_score": float(score[8]),
+            "safety_score": float(score[6]),
+            "consistency_score": float(score[7]),
+            "weighted_worst_best_score": float(score[4]),
+            "mean_best_score": float(score[10]),
             "dominate_count": dominate_count,
             "dominate_rate": dominate_count / total_pairs,
             "overwhelming_count": overwhelming_count,
@@ -91,6 +130,15 @@ class AnalyzeMetaUseCase:
             "bulk_pool_min": min(bulk_by_row) if bulk_by_row else 0.0,
             "bulk_pool_max": max(bulk_by_row) if bulk_by_row else 0.0,
             "bulk_pool_mean": (sum(bulk_by_row) / len(bulk_by_row)) if bulk_by_row else 0.0,
+            "safety_pool_min": min(safety_by_row) if safety_by_row else 60.0,
+            "safety_pool_max": max(safety_by_row) if safety_by_row else 60.0,
+            "safety_pool_mean": (sum(safety_by_row) / len(safety_by_row))
+            if safety_by_row
+            else 60.0,
+            "safety_priority": safety_priority,
+            "safety_floor_target": safety_floor if safety_floor is not None else 0.0,
+            "safe_member_floor": safe_member_floor,
+            "safe_member_target": min_safe_members,
         }
 
         result = {
@@ -98,6 +146,8 @@ class AnalyzeMetaUseCase:
                 "members": to_team_members(best_team.member_indices, row_labels, species_cache),
                 "score": best_team.score,
                 "bulk_score": sum(bulk_by_row[idx] for idx in best_team.member_indices)
+                / len(best_team.member_indices),
+                "safety_score": sum(safety_by_row[idx] for idx in best_team.member_indices)
                 / len(best_team.member_indices),
                 "metrics": metrics,
                 "shadow_count": sum(
@@ -119,6 +169,8 @@ class AnalyzeMetaUseCase:
                 }
                 for core in safe_cores
             ],
-            "target_map": build_target_map(row_labels, col_labels, matrices, best_team.member_indices),
+            "target_map": build_target_map(
+                row_labels, col_labels, matrices, best_team.member_indices
+            ),
         }
         return result
