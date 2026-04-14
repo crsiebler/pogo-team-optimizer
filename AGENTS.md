@@ -148,6 +148,7 @@ make test
 - `pvpoke` export requires both `pokemon.json` and `moves.json`.
 - Non-text outputs require explicit output file paths.
 - Meta-specific auxiliary inputs belong in `data/metas.json` via optional `switch_rankings_path` and `required_files`; validate them in the CLI before constructing repositories.
+- Battle Frontier point files should live under `data/battle_frontier/` with `species,points` headers, use names normalized like `parse_species()`, and rely on repository fallback-to-`0` for species omitted from the current cycle.
 
 ## Cursor / Copilot Rule Files
 Checked repository-local instruction files:
