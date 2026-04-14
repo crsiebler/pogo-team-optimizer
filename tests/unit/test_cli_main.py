@@ -104,7 +104,11 @@ def test_main_uses_meta_switch_rankings_when_no_cli_override(tmp_path, monkeypat
 
     class FakeUseCase:
         def __init__(
-            self, simulation_repo: object, pokemon_repo: object, switch_repo: object
+            self,
+            simulation_repo: object,
+            pokemon_repo: object,
+            switch_repo: object,
+            battle_frontier_points_repo: object | None = None,
         ) -> None:
             captured["switch_repo"] = switch_repo
 
@@ -188,7 +192,11 @@ def test_main_uses_legacy_default_switch_rankings_for_other_metas(tmp_path, monk
 
     class FakeUseCase:
         def __init__(
-            self, simulation_repo: object, pokemon_repo: object, switch_repo: object
+            self,
+            simulation_repo: object,
+            pokemon_repo: object,
+            switch_repo: object,
+            battle_frontier_points_repo: object | None = None,
         ) -> None:
             captured["switch_repo"] = switch_repo
 

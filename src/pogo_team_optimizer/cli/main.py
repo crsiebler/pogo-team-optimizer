@@ -10,6 +10,9 @@ from pogo_team_optimizer.application.meta_config import (
 )
 from pogo_team_optimizer.application.use_case import AnalyzeMetaUseCase
 from pogo_team_optimizer.infrastructure.exporters.factory import ExporterFactory
+from pogo_team_optimizer.infrastructure.repositories.battle_frontier_points_repository import (
+    CsvBattleFrontierPointsRepository,
+)
 from pogo_team_optimizer.infrastructure.repositories.csv_matrix_repository import (
     CsvSimulationMatrixRepository,
 )
@@ -84,6 +87,17 @@ def resolve_switch_rankings_path(
     return DEFAULT_SWITCH_RANKINGS_PATH
 
 
+def resolve_battle_frontier_points_path(
+    meta_name: str, required_files: tuple[str, ...]
+) -> str | None:
+    if meta_name != "bfmaster":
+        return None
+    for path in required_files:
+        if path.endswith("_cycle_points.csv"):
+            return path
+    return None
+
+
 def main() -> int:
     parser = build_parser()
     args = parser.parse_args()
@@ -121,7 +135,19 @@ def main() -> int:
     )
     if switch_rankings_path and Path(switch_rankings_path).exists():
         switch_rankings_repo = CsvSwitchRankingsRepository(switch_rankings_path)
-    use_case = AnalyzeMetaUseCase(simulation_repo, pokemon_repo, switch_rankings_repo)
+    battle_frontier_points_repo = None
+    battle_frontier_points_path = resolve_battle_frontier_points_path(
+        args.meta,
+        meta_config.required_files,
+    )
+    if battle_frontier_points_path is not None:
+        battle_frontier_points_repo = CsvBattleFrontierPointsRepository(battle_frontier_points_path)
+    use_case = AnalyzeMetaUseCase(
+        simulation_repo,
+        pokemon_repo,
+        switch_rankings_repo,
+        battle_frontier_points_repo,
+    )
     result = use_case.execute(
         top_threats=args.top_threats,
         top_cores=args.top_cores,

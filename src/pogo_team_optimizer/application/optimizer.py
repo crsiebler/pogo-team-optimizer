@@ -22,6 +22,10 @@ class TeamOptimizer:
         matrices: list[list[list[int]]],
         bulk_by_row: list[float],
         safety_by_row: list[float] | None = None,
+        battle_frontier_points_by_row: list[int] | None = None,
+        battle_frontier_max_points: int = 11,
+        battle_frontier_max_five_point_members: int = 1,
+        battle_frontier_max_mega_members: int = 1,
         seed: int = 7,
     ) -> None:
         self.row_labels = row_labels
@@ -34,10 +38,22 @@ class TeamOptimizer:
             raise ValueError("safety_by_row length must match row labels")
         else:
             self.safety_by_row = safety_by_row
+        if battle_frontier_points_by_row is None:
+            self.battle_frontier_points_by_row = [0] * len(row_labels)
+            self.has_battle_frontier_rules = False
+        elif len(battle_frontier_points_by_row) != len(row_labels):
+            raise ValueError("battle_frontier_points_by_row length must match row labels")
+        else:
+            self.battle_frontier_points_by_row = battle_frontier_points_by_row
+            self.has_battle_frontier_rules = True
+        self.battle_frontier_max_points = battle_frontier_max_points
+        self.battle_frontier_max_five_point_members = battle_frontier_max_five_point_members
+        self.battle_frontier_max_mega_members = battle_frontier_max_mega_members
         self.random = random.Random(seed)
 
         self.row_species = [parse_species(label) for label in row_labels]
         self.row_base_species = [parse_base_species(s) for s in self.row_species]
+        self.row_is_mega = ["(Mega" in species for species in self.row_species]
         self.col_species = [parse_species(label) for label in col_labels]
 
         self.base_to_rows: dict[str, list[int]] = defaultdict(list)
@@ -87,6 +103,8 @@ class TeamOptimizer:
                             if row_idx == original:
                                 continue
                             candidate[pos] = row_idx
+                            if not self._is_team_legal(candidate):
+                                continue
                             next_score = self._score_team(candidate)
                             next_key = self._comparison_key(
                                 candidate,
@@ -136,8 +154,32 @@ class TeamOptimizer:
         return scored[:top_n]
 
     def _random_team(self, team_size: int) -> list[int]:
-        selected_bases = self.random.sample(list(self.base_to_rows.keys()), k=team_size)
-        return [self.random.choice(self.base_to_rows[base]) for base in selected_bases]
+        for _ in range(1000):
+            selected_bases = self.random.sample(list(self.base_to_rows.keys()), k=team_size)
+            team = [self.random.choice(self.base_to_rows[base]) for base in selected_bases]
+            if self._is_team_legal(team):
+                return team
+        raise RuntimeError("Failed to generate legal team")
+
+    def _is_team_legal(self, team_indices: list[int]) -> bool:
+        if len({self.row_base_species[idx] for idx in team_indices}) != len(team_indices):
+            return False
+        if not self.has_battle_frontier_rules:
+            return True
+
+        total_points = sum(self.battle_frontier_points_by_row[idx] for idx in team_indices)
+        if total_points > self.battle_frontier_max_points:
+            return False
+
+        five_point_count = sum(self.battle_frontier_points_by_row[idx] == 5 for idx in team_indices)
+        if five_point_count > self.battle_frontier_max_five_point_members:
+            return False
+
+        mega_count = sum(self.row_is_mega[idx] for idx in team_indices)
+        if mega_count > self.battle_frontier_max_mega_members:
+            return False
+
+        return True
 
     def _score_team(self, team_indices: list[int]) -> tuple[float, ...]:
         pair_coverage = 0

@@ -12,6 +12,7 @@ from pogo_team_optimizer.application.analyzers import (
 from pogo_team_optimizer.application.normalization import parse_species
 from pogo_team_optimizer.application.optimizer import TeamOptimizer
 from pogo_team_optimizer.domain.interfaces import (
+    BattleFrontierPointsRepository,
     PokemonRepository,
     SimulationMatrixRepository,
     SwitchRankingsRepository,
@@ -24,10 +25,12 @@ class AnalyzeMetaUseCase:
         simulation_repository: SimulationMatrixRepository,
         pokemon_repository: PokemonRepository,
         switch_rankings_repository: SwitchRankingsRepository | None = None,
+        battle_frontier_points_repository: BattleFrontierPointsRepository | None = None,
     ) -> None:
         self.simulation_repository = simulation_repository
         self.pokemon_repository = pokemon_repository
         self.switch_rankings_repository = switch_rankings_repository
+        self.battle_frontier_points_repository = battle_frontier_points_repository
 
     def execute(
         self,
@@ -69,6 +72,13 @@ class AnalyzeMetaUseCase:
                 continue
             bulk_by_row.append((defense * hp) / atk)
 
+        battle_frontier_points_by_row: list[int] | None = None
+        if self.battle_frontier_points_repository is not None:
+            battle_frontier_points_by_row = [
+                self.battle_frontier_points_repository.get_points(parse_species(label))
+                for label in row_labels
+            ]
+
         safety_priority_rules: dict[str, tuple[float | None, int, float]] = {
             "low": (72.0, 0, 90.0),
             "medium": (78.0, 1, 90.0),
@@ -87,6 +97,7 @@ class AnalyzeMetaUseCase:
             matrices,
             bulk_by_row=bulk_by_row,
             safety_by_row=safety_by_row,
+            battle_frontier_points_by_row=battle_frontier_points_by_row,
             seed=seed,
         )
         best_team = optimizer.optimize(
