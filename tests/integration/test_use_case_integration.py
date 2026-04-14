@@ -1,6 +1,12 @@
 from pogo_team_optimizer.application.use_case import AnalyzeMetaUseCase
+from pogo_team_optimizer.infrastructure.repositories.battle_frontier_points_repository import (
+    CsvBattleFrontierPointsRepository,
+)
 from pogo_team_optimizer.infrastructure.repositories.csv_matrix_repository import (
     CsvSimulationMatrixRepository,
+)
+from pogo_team_optimizer.infrastructure.repositories.csv_switch_rankings_repository import (
+    CsvSwitchRankingsRepository,
 )
 from pogo_team_optimizer.infrastructure.repositories.pokemon_json_repository import (
     PokemonJsonRepository,
@@ -30,3 +36,36 @@ def test_use_case_returns_required_sections() -> None:
     assert "safety_score" in result["recommended_team"]["metrics"]
     assert "safety_pool_mean" in result["recommended_team"]["metrics"]
     assert result["recommended_team"]["metrics"]["safety_priority"] == "medium"
+
+
+def test_bfmaster_use_case_returns_legal_team() -> None:
+    use_case = AnalyzeMetaUseCase(
+        simulation_repository=CsvSimulationMatrixRepository(
+            [
+                "data/simulations/bfmaster_0-shield.csv",
+                "data/simulations/bfmaster_1-shield.csv",
+                "data/simulations/bfmaster_2-shield.csv",
+            ]
+        ),
+        pokemon_repository=PokemonJsonRepository("data/pokemon.json"),
+        switch_rankings_repository=CsvSwitchRankingsRepository(
+            "data/rankings/cp10000_battlefrontiermaster_switches_rankings.csv"
+        ),
+        battle_frontier_points_repository=CsvBattleFrontierPointsRepository(
+            "data/battle_frontier/bfmaster_cycle_points.csv"
+        ),
+    )
+
+    result = use_case.execute(top_threats=5, top_cores=3, seed=7, restarts=10)
+
+    team_members = result["recommended_team"]["members"]
+    metrics = result["recommended_team"]["metrics"]
+
+    assert len(team_members) == 6
+    assert len({member["base_species"] for member in team_members}) == 6
+    assert metrics["battle_frontier_points_used"] <= metrics["battle_frontier_max_points"]
+    assert (
+        metrics["battle_frontier_five_point_members"]
+        <= metrics["battle_frontier_max_five_point_members"]
+    )
+    assert metrics["battle_frontier_mega_members"] <= metrics["battle_frontier_max_mega_members"]
