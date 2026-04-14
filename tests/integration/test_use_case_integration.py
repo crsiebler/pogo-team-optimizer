@@ -1,4 +1,6 @@
 from pogo_team_optimizer.application.use_case import AnalyzeMetaUseCase
+from pogo_team_optimizer.application.optimizer import TeamOptimizer
+from pogo_team_optimizer.application.normalization import parse_species
 from pogo_team_optimizer.infrastructure.repositories.battle_frontier_points_repository import (
     CsvBattleFrontierPointsRepository,
 )
@@ -69,3 +71,48 @@ def test_bfmaster_use_case_returns_legal_team() -> None:
         <= metrics["battle_frontier_max_five_point_members"]
     )
     assert metrics["battle_frontier_mega_members"] <= metrics["battle_frontier_max_mega_members"]
+
+
+def test_bfmaster_points_schedule_marks_known_19_point_team_illegal() -> None:
+    simulation_repository = CsvSimulationMatrixRepository(
+        [
+            "data/simulations/bfmaster_0-shield.csv",
+            "data/simulations/bfmaster_1-shield.csv",
+            "data/simulations/bfmaster_2-shield.csv",
+        ]
+    )
+    points_repository = CsvBattleFrontierPointsRepository(
+        "data/battle_frontier/bfmaster_cycle_points.csv"
+    )
+    row_labels, col_labels, matrices = simulation_repository.load()
+    optimizer = TeamOptimizer(
+        row_labels=row_labels,
+        col_labels=col_labels,
+        matrices=matrices,
+        bulk_by_row=[1.0] * len(row_labels),
+        battle_frontier_points_by_row=[
+            points_repository.get_points(parse_species(label)) for label in row_labels
+        ],
+        seed=7,
+    )
+
+    species_by_row = [parse_species(label) for label in row_labels]
+
+    def find_species_index(*candidates: str) -> int:
+        for candidate in candidates:
+            if candidate in species_by_row:
+                return species_by_row.index(candidate)
+        raise AssertionError(f"Missing expected Battle Frontier species from dataset: {candidates}")
+
+    illegal_team_indices = [
+        find_species_index("Tyranitar", "Tyranitar (Shadow)"),
+        find_species_index("Kyurem (White)"),
+        find_species_index("Meloetta (Aria)"),
+        find_species_index("Charizard (Mega Y)"),
+        find_species_index("Metagross", "Metagross (Shadow)"),
+        find_species_index("Groudon", "Groudon (Shadow)"),
+    ]
+
+    assert len(illegal_team_indices) == 6
+    assert sum(optimizer.battle_frontier_points_by_row[idx] for idx in illegal_team_indices) == 19
+    assert optimizer._is_team_legal(illegal_team_indices) is False

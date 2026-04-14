@@ -1,0 +1,154 @@
+## Codebase Patterns
+- Register meta-specific auxiliary inputs in `data/metas.json` using `switch_rankings_path` and `required_files`, then validate those paths in the CLI before constructing repositories.
+- Keep meta config changes in `application/meta_config.py`; the CLI should only consume `MetaConfig` and enforce startup validation.
+- Battle Frontier point data lives in `data/battle_frontier/` as `species,points` CSVs keyed by `parse_species()` names, and the repository should default missing species to `0`.
+- Resolve switch rankings in the CLI as explicit `--switch-rankings-path` override, then per-meta `switch_rankings_path`, then the legacy Great League default path.
+- Battle Frontier legality belongs in `TeamOptimizer`; pass per-row point costs from the use case so `_random_team()` and swap-based local search both share the same legality gate.
+- Battle Frontier output metrics belong in `recommended_team.metrics`; keep them optional and have human-readable exporters render a conditional legality section so non-`bfmaster` metas do not need placeholder fields.
+- For real-data integration coverage, instantiate the concrete CSV repositories directly in tests so `bfmaster` assertions exercise the checked-in matrices, switch rankings, and Battle Frontier points files together.
+
+## 2026-04-14 11:49:44 MST - US-001
+- What was implemented
+- Registered `bfmaster` in the CLI and `data/metas.json`, added optional per-meta `switch_rankings_path` and `required_files` support to `MetaConfig`, and fail-fast validation for missing required meta files before repository construction.
+- Added unit coverage for `bfmaster` CLI parsing, optional meta fields, and required-file validation.
+- Fixed pre-existing strict-mypy `dict` annotations in shared exporter and analysis modules so the required typecheck passes in the project environment.
+- Files changed: `AGENTS.md`, `data/metas.json`, `data/rankings/cp10000_battlefrontiermaster_switches_rankings.csv`, `data/simulations/bfmaster_0-shield.csv`, `data/simulations/bfmaster_1-shield.csv`, `data/simulations/bfmaster_2-shield.csv`, `src/pogo_team_optimizer/application/analyzers.py`, `src/pogo_team_optimizer/application/meta_config.py`, `src/pogo_team_optimizer/application/use_case.py`, `src/pogo_team_optimizer/cli/main.py`, `src/pogo_team_optimizer/domain/interfaces.py`, `src/pogo_team_optimizer/infrastructure/exporters/csv_exporter.py`, `src/pogo_team_optimizer/infrastructure/exporters/excel_exporter.py`, `src/pogo_team_optimizer/infrastructure/exporters/json_exporter.py`, `src/pogo_team_optimizer/infrastructure/exporters/markdown_exporter.py`, `src/pogo_team_optimizer/infrastructure/exporters/pvpoke_exporter.py`, `src/pogo_team_optimizer/infrastructure/exporters/text_exporter.py`, `tests/unit/test_cli_main.py`, `tests/unit/test_meta_config.py`
+- Commit: `92b7ff9`
+- Checks:
+- `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m mypy src` (pass)
+- `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m ruff check src tests` (pass)
+- `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m pytest` (pass)
+- Decisions (why):
+- Chose generic `required_files` and `switch_rankings_path` meta fields instead of a Battle Frontier-specific schema so later metas can reuse the same startup validation hooks.
+- Chose to keep switch rankings consumption separate from this story because `US-003` explicitly covers behavior changes for automatic rankings selection.
+- **Learnings for future iterations:**
+- `bfmaster` currently validates a missing `data/battle_frontier/bfmaster_cycle_points.csv` file intentionally, which creates the fail-fast path that `US-002` should satisfy by adding the checked-in points CSV.
+- The repo's declared typecheck environment is the `pogo-team-optimizer` conda env from `environment.yml`; strict mypy is enforced there, not necessarily in the system Python.
+- Useful context: the CLI validates config paths before constructing repositories, so new per-meta file dependencies should be surfaced there instead of deeper in the stack.
+- Known issues / follow-ups:
+- `prd.json` and `progress.txt` were updated after the story commit and are not part of `92b7ff9`.
+- There are additional unrelated worktree changes present outside this iteration.
+- Next iteration start:
+- Implement `US-002` by adding the Battle Frontier points CSV, a repository loader, and tests so the new `required_files` validation passes for `bfmaster`.
+---
+
+## 2026-04-14 12:11:55 MST - US-002
+- What was implemented
+- Added the checked-in `data/battle_frontier/bfmaster_cycle_points.csv` file for the current Battle Frontier Master cycle.
+- Added `CsvBattleFrontierPointsRepository` behind a new domain interface so species point costs can be loaded from CSV with a default `0` fallback for omitted species.
+- Added unit coverage for CSV loading, missing-species fallback, and the checked-in `bfmaster` points file.
+- Files changed: `AGENTS.md`, `data/battle_frontier/bfmaster_cycle_points.csv`, `src/pogo_team_optimizer/domain/interfaces.py`, `src/pogo_team_optimizer/infrastructure/repositories/battle_frontier_points_repository.py`, `tests/unit/test_battle_frontier_points_repository.py`
+- Commit: `5c0386d`
+- Checks:
+- `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m mypy src` (pass)
+- `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m ruff check src tests` (pass)
+- `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m pytest` (pass)
+- Decisions (why):
+- Chose a dedicated repository interface in `domain/interfaces.py` so later legality enforcement can depend on an injected abstraction instead of reading Battle Frontier CSV data directly.
+- Chose a sparse point CSV keyed by normalized species display names because omitted entries are defined as `0` points and that keeps cycle updates easy to audit.
+- **Learnings for future iterations:**
+- The Battle Frontier points repository expects lowercase `species` and `points` headers and silently skips malformed rows, matching the tolerant CSV-loading style used by the other infrastructure repositories.
+- The checked-in `bfmaster` file already includes representative `5`-point legendaries and `3`-point Mega entries, so `US-004` can wire legality enforcement directly against this data source.
+- Useful context: `required_files` validation from `US-001` now passes for `bfmaster` because the expected `data/battle_frontier/bfmaster_cycle_points.csv` file exists in-repo.
+- Known issues / follow-ups:
+- `prd.json` and `progress.txt` were updated after the story commit and are not part of `5c0386d`.
+- The current story does not yet wire the points repository into optimizer legality checks; that remains for the later legality story.
+- Next iteration start:
+- Implement `US-003` to ensure `bfmaster` automatically uses `data/rankings/cp10000_battlefrontiermaster_switches_rankings.csv` unless the user overrides it.
+---
+
+## 2026-04-14 11:57:19 MST - US-003
+- What was implemented
+- Updated CLI switch rankings selection so `bfmaster` automatically uses its meta-configured rankings file when no explicit `--switch-rankings-path` override is provided.
+- Preserved existing meta behavior by falling back to the legacy Great League rankings path only when neither the CLI nor the selected meta provides a rankings file.
+- Added unit coverage for both the new `bfmaster` auto-selection path and the legacy fallback path.
+- Files changed: `AGENTS.md`, `src/pogo_team_optimizer/cli/main.py`, `tests/unit/test_cli_main.py`
+- Commit: `5a539a8`
+- Checks:
+- `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m mypy src` (pass)
+- `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m ruff check src tests` (pass)
+- `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m pytest` (pass)
+- Decisions (why):
+- Chose a small resolution helper in the CLI instead of pushing this logic into `MetaConfig` so the config layer stays declarative and the precedence rule stays next to repository wiring.
+- Changed the parser default for `--switch-rankings-path` to `None` so the CLI can distinguish an explicit override from the legacy default path and honor per-meta rankings files.
+- **Learnings for future iterations:**
+- The previous concrete parser default masked per-meta rankings config; if future metas need custom auxiliary files, avoid parser defaults that erase whether the user actually overrode the value.
+- The CLI tests can isolate repository-selection behavior cleanly by monkeypatching repository constructors and `AnalyzeMetaUseCase`, which is useful for wiring-only stories.
+- Useful context: `bfmaster` now resolves to `data/rankings/cp10000_battlefrontiermaster_switches_rankings.csv` automatically, but users can still force any rankings CSV through `--switch-rankings-path`.
+- Known issues / follow-ups:
+- `prd.json` and `progress.txt` were updated after the story commit and are not part of `5a539a8`.
+- Battle Frontier legality enforcement and output metrics are still pending in `US-004` through `US-006`.
+- Next iteration start:
+- Implement `US-004` by injecting Battle Frontier point data into the optimizer and rejecting illegal `bfmaster` teams during seeding and local search.
+---
+
+## 2026-04-14 12:04:00 MST - US-004
+- What was implemented
+- Added optional Battle Frontier legality inputs to `TeamOptimizer` so it rejects over-budget teams, teams with multiple `5`-point members, and teams with multiple Mega members.
+- Routed Battle Frontier point costs from `AnalyzeMetaUseCase` and the CLI into the optimizer, so both random seeding and swap-based local search enforce the same legality rules for `bfmaster`.
+- Added unit coverage for optimizer legality rejection, legal seed generation, and use-case wiring.
+- Files changed: `AGENTS.md`, `src/pogo_team_optimizer/application/optimizer.py`, `src/pogo_team_optimizer/application/use_case.py`, `src/pogo_team_optimizer/cli/main.py`, `tests/unit/test_cli_main.py`, `tests/unit/test_optimizer_battle_frontier.py`, `tests/unit/test_use_case_battle_frontier.py`
+- Commit: `e2556e9`
+- Checks:
+- `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m mypy src` (pass)
+- `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m ruff check src tests` (pass)
+- `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m pytest` (pass)
+- Decisions (why):
+- Chose to keep Battle Frontier legality inside `TeamOptimizer` instead of the CLI or repository layer because both initial seed generation and accepted swap search need the same constraints.
+- Chose to derive the Battle Frontier points file from `bfmaster`'s validated `required_files` entry so the CLI reuses the existing meta-specific file contract instead of adding another one-off flag.
+- **Learnings for future iterations:**
+- The optimizer now treats Battle Frontier legality as an optional per-row constraint bundle; non-Battle-Frontier metas stay unchanged because the legality gate short-circuits when no point list is injected.
+- Useful context: Mega detection currently keys off `parse_species()` output containing `"(Mega"`, which covers labels like `Gengar (Mega)` and `Charizard (Mega X)` without needing extra metadata.
+- Gotcha encountered: end-to-end legality tests need more than six candidate rows, otherwise a six-member team can become impossible to seed legally under the `11`-point cap.
+- Known issues / follow-ups:
+- `US-005` and `US-006` are still pending; output formats do not yet expose the new legality metrics.
+- `prd.json` and `progress.txt` were updated after the story commit and are not part of `e2556e9`.
+- Next iteration start:
+- Implement `US-005` by exposing Battle Frontier legality metrics in the result payload and rendering them in text and markdown exporters.
+---
+
+## 2026-04-14 12:09:24 MST - US-005
+- What was implemented
+- Added Battle Frontier legality metrics to `recommended_team.metrics`, including points used, 5-point member count, Mega member count, and the configured Battle Frontier limits.
+- Rendered those legality metrics as a dedicated conditional section in the text and markdown exporters, while leaving non-`bfmaster` metas unchanged.
+- Added unit coverage for the use-case metrics payload and for text/markdown rendering, plus a compatibility check that CSV and JSON exporters still accept results containing the new metrics.
+- Files changed: `AGENTS.md`, `src/pogo_team_optimizer/application/use_case.py`, `src/pogo_team_optimizer/infrastructure/exporters/markdown_exporter.py`, `src/pogo_team_optimizer/infrastructure/exporters/text_exporter.py`, `tests/unit/test_battle_frontier_exporters.py`, `tests/unit/test_use_case_battle_frontier.py`
+- Commit: `fe5c6bd`
+- Checks:
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m mypy src` (pass)
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m ruff check src tests` (pass)
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m pytest` (pass)
+- Decisions (why):
+  - Kept the new legality fields inside `recommended_team.metrics` instead of adding a new top-level result section so existing exporters and tests keep reading from the established metrics contract.
+  - Made the text and markdown legality output conditional on the new metric keys so other metas do not need dummy Battle Frontier values or special-case placeholders.
+- **Learnings for future iterations:**
+  - Human-readable exporter additions should usually be driven off optional metric keys rather than meta-name checks; that keeps renderers generic and lets the use case decide when extra sections apply.
+  - Useful context: JSON and CSV exporters already tolerate extra metrics because they either serialize the full payload or only read the subset of keys they care about.
+- Known issues / follow-ups:
+  - `prd.json` and `progress.txt` were updated after the story commit and are not part of `fe5c6bd`.
+  - `US-006` integration coverage is still pending.
+- Next iteration start:
+  - Implement `US-006` by adding end-to-end `bfmaster` integration coverage that asserts the recommended six-Pokemon team remains legal under the Battle Frontier constraints.
+---
+
+## 2026-04-14 12:13:43 MST - US-006
+- What was implemented
+- Added real-data integration coverage for `bfmaster` that constructs the concrete matrix, switch rankings, Pokemon, and Battle Frontier points repositories and asserts the recommended team stays legal end to end.
+- Files changed: `tests/integration/test_use_case_integration.py`
+- Commit: `5b5d68c`
+- Checks:
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m mypy src` (pass)
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m ruff check src tests` (pass)
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m pytest` (pass)
+- Decisions (why):
+  - Chose an integration test at the `AnalyzeMetaUseCase` layer instead of a CLI test so the story exercises the real checked-in `bfmaster` data and legality wiring without adding output-format noise.
+  - Kept the test focused on the required legality invariants rather than a specific team composition so it stays stable if optimization scores shift while the constraints remain correct.
+- **Learnings for future iterations:**
+  - Concrete repository integration tests are a good fit for meta-specific end-to-end checks because they cover the real data files and repository parsing behavior together.
+  - Useful context: `bfmaster` legality can be asserted directly from `recommended_team.metrics`, which already exposes the point budget and capped member counts needed for end-to-end validation.
+- Known issues / follow-ups:
+  - `prd.json` and `progress.txt` were updated after the story commit and are not part of `5b5d68c`.
+  - There are additional unrelated worktree changes present outside this iteration.
+- Next iteration start:
+  - All PRD stories currently pass.
+---

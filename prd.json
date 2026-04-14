@@ -1,0 +1,110 @@
+{
+  "project": "pogo-team-optimizer",
+  "branchName": "ralph/battle-frontier-master",
+  "description": "Add support for the Battle Frontier (Master) meta with CSV-backed cycle point rules, optimizer legality enforcement, and output-visible legality metrics.",
+  "userStories": [
+    {
+      "id": "US-001",
+      "title": "Register the bfmaster meta and config fields",
+      "description": "As a CLI user, I want to choose the Battle Frontier (Master) meta so that I can analyze that league without editing code or config manually.",
+      "acceptanceCriteria": [
+        "--meta bfmaster is accepted by the CLI parser",
+        "bfmaster resolves to data/simulations/bfmaster_0-shield.csv, data/simulations/bfmaster_1-shield.csv, and data/simulations/bfmaster_2-shield.csv",
+        "Meta configuration supports optional per-meta fields needed for Battle Frontier rule files and switch rankings",
+        "Missing required Battle Frontier files raise a clear validation error before execution",
+        "Existing metas continue to load without behavior changes",
+        "Typecheck passes"
+      ],
+      "priority": 1,
+      "passes": true,
+      "notes": ""
+    },
+    {
+      "id": "US-002",
+      "title": "Add Battle Frontier points CSV and repository",
+      "description": "As a developer, I want Battle Frontier point values stored in a CSV file so that the current cycle rules are easy to audit and update.",
+      "acceptanceCriteria": [
+        "Add a checked-in CSV file in data containing species-to-points mappings for the current Battle Frontier cycle",
+        "The CSV uses species names that match the normalized names produced by parse_species()",
+        "Add an infrastructure repository that loads point values by species name",
+        "Species not present in the point CSV are treated as 0 points for bfmaster",
+        "Add unit tests covering point CSV loading",
+        "Typecheck passes",
+        "Tests pass"
+      ],
+      "priority": 2,
+      "passes": true,
+      "notes": ""
+    },
+    {
+      "id": "US-003",
+      "title": "Use the correct bfmaster switch rankings",
+      "description": "As a user, I want Battle Frontier analysis to use the correct switch rankings file so that safety scoring reflects the selected meta.",
+      "acceptanceCriteria": [
+        "bfmaster uses data/rankings/cp10000_battlefrontiermaster_switches_rankings.csv automatically",
+        "The application no longer relies on the Great League default switch rankings file for bfmaster unless the user explicitly overrides it",
+        "Existing metas continue to support their current switch ranking behavior",
+        "Typecheck passes",
+        "Tests pass"
+      ],
+      "priority": 3,
+      "passes": true,
+      "notes": ""
+    },
+    {
+      "id": "US-004",
+      "title": "Enforce Battle Frontier legality in optimizer",
+      "description": "As a user, I want every recommended Battle Frontier team to obey the league rules so that the optimizer never suggests an illegal team.",
+      "acceptanceCriteria": [
+        "The optimizer rejects any bfmaster candidate team whose total points exceed 11",
+        "The optimizer rejects any bfmaster candidate team containing more than one 5-point Pokemon",
+        "The optimizer rejects any bfmaster candidate team containing more than one Mega Pokemon",
+        "Existing duplicate-base-species prevention still applies",
+        "Randomly seeded starting teams for bfmaster are legal",
+        "Swap-based local search for bfmaster preserves legality after each accepted replacement",
+        "Add unit tests covering optimizer rejection of over-budget teams",
+        "Add unit tests covering optimizer rejection of teams with two 5-point Pokemon",
+        "Add unit tests covering optimizer rejection of teams with two Mega Pokemon",
+        "Typecheck passes",
+        "Tests pass"
+      ],
+      "priority": 4,
+      "passes": true,
+      "notes": ""
+    },
+    {
+      "id": "US-005",
+      "title": "Expose Battle Frontier legality metrics in results",
+      "description": "As a user, I want the output to show point usage and constraint summary so that I can verify the team is legal without recalculating it manually.",
+      "acceptanceCriteria": [
+        "Result metrics include total points used for the recommended team",
+        "Result metrics include the number of 5-point members on the recommended team",
+        "Result metrics include the number of Mega members on the recommended team",
+        "Result metrics include the Battle Frontier team rule limits used for the analysis",
+        "Text and markdown outputs render the new legality metrics clearly",
+        "Existing output formats continue to work when the new metrics are present",
+        "Typecheck passes",
+        "Tests pass"
+      ],
+      "priority": 5,
+      "passes": true,
+      "notes": ""
+    },
+    {
+      "id": "US-006",
+      "title": "Validate bfmaster end-to-end behavior",
+      "description": "As a developer, I want automated integration coverage for Battle Frontier so that future changes do not break format legality enforcement.",
+      "acceptanceCriteria": [
+        "Add integration coverage showing bfmaster produces a legal six-Pokemon team",
+        "The recommended bfmaster team always has total points less than or equal to 11",
+        "The recommended bfmaster team always contains at most one 5-point Pokemon",
+        "The recommended bfmaster team always contains at most one Mega Pokemon",
+        "Typecheck passes",
+        "Tests pass"
+      ],
+      "priority": 6,
+      "passes": true,
+      "notes": ""
+    }
+  ]
+}

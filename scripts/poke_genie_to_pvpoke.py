@@ -82,7 +82,9 @@ def _pick_best_species_id(
     non_duplicate = [
         species_id
         for species_id in candidates
-        if not ({"duplicate", "duplicate1500"} & species_tags_by_id.get(species_id, set()))
+        if not (
+            {"duplicate", "duplicate1500"} & species_tags_by_id.get(species_id, set())
+        )
     ]
     if len(non_duplicate) == 1:
         return non_duplicate[0]
@@ -107,7 +109,10 @@ def _build_move_lookup(moves_path: Path) -> dict[str, set[str]]:
 
         abbreviation = item.get("abbreviation")
         if isinstance(abbreviation, str) and abbreviation.strip():
-            for key in {abbreviation.strip().upper(), _canonical_move_key(abbreviation.strip())}:
+            for key in {
+                abbreviation.strip().upper(),
+                _canonical_move_key(abbreviation.strip()),
+            }:
                 if key:
                     lookup.setdefault(key, set()).add(move_id)
 
@@ -157,7 +162,9 @@ def _build_species_lookup(
         base_key, form_token, is_shadow = _parse_species_name(species_name)
         key = (base_key, form_token, is_shadow)
         species_ids_by_key.setdefault(key, []).append(species_id)
-        species_ids_by_base_shadow.setdefault((base_key, is_shadow), []).append(species_id)
+        species_ids_by_base_shadow.setdefault((base_key, is_shadow), []).append(
+            species_id
+        )
         fast_moves = item.get("fastMoves", [])
         charged_moves = item.get("chargedMoves", [])
         legal_fast_by_species_id[species_id] = (
@@ -193,7 +200,9 @@ def _resolve_species_id(
     default_form_token = DEFAULT_FORM_BY_BASE.get(base_key, "")
     preferred_form_token = form_token or default_form_token
 
-    lookup_order: list[tuple[str, str, bool]] = [(base_key, preferred_form_token, is_shadow)]
+    lookup_order: list[tuple[str, str, bool]] = [
+        (base_key, preferred_form_token, is_shadow)
+    ]
 
     if preferred_form_token != form_token:
         lookup_order.append((base_key, form_token, is_shadow))
@@ -206,7 +215,9 @@ def _resolve_species_id(
             lookup_order.append((base_key, "", False))
 
     for key in lookup_order:
-        match = _pick_best_species_id(species_ids_by_key.get(key, []), species_tags_by_id)
+        match = _pick_best_species_id(
+            species_ids_by_key.get(key, []), species_tags_by_id
+        )
         if match is not None:
             return match
 
@@ -236,7 +247,9 @@ def _resolve_species_move(
         return "", f"unresolved_move:{token}"
 
     if legal_moves:
-        legal_candidates = sorted(move_id for move_id in candidates if move_id in legal_moves)
+        legal_candidates = sorted(
+            move_id for move_id in candidates if move_id in legal_moves
+        )
         if len(legal_candidates) == 1:
             return legal_candidates[0], None
         if len(legal_candidates) > 1:
@@ -296,7 +309,7 @@ def export_marked_g_to_pvpoke(
     with input_csv.open(newline="", encoding="utf-8") as handle:
         reader = csv.DictReader(handle)
         for row in reader:
-            if row.get("Marked for PvP use", "").strip() != "G":
+            if row.get("Marked for PvP use", "").strip() != "U":
                 continue
 
             name = row.get("Name", "").strip()
@@ -338,7 +351,9 @@ def export_marked_g_to_pvpoke(
                 add_skip("missing_or_invalid_ivs")
                 continue
 
-            level = _normalize_level(row.get("Level Max", "") or row.get("Level Min", ""))
+            level = _normalize_level(
+                row.get("Level Max", "") or row.get("Level Min", "")
+            )
             if not level:
                 add_skip("missing_level")
                 continue
@@ -418,7 +433,9 @@ def main() -> int:
     parser = argparse.ArgumentParser(
         description="Convert Poke Genie CSV to PvPoke import lines for entries marked with G"
     )
-    parser.add_argument("--input", default="poke_genie_export.csv", help="Path to Poke Genie CSV")
+    parser.add_argument(
+        "--input", default="poke_genie_export.csv", help="Path to Poke Genie CSV"
+    )
     parser.add_argument(
         "--output",
         default="poke_genie_g.pvpoke",
