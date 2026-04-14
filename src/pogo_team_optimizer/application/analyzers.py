@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from typing import Any
+
 from pogo_team_optimizer.application.normalization import parse_base_species, parse_species
 
 
@@ -7,8 +9,8 @@ def coverage_by_shield(
     matrices: list[list[list[int]]],
     team_indices: tuple[int, ...],
     weights: list[float],
-) -> list[dict]:
-    summaries: list[dict] = []
+) -> list[dict[str, Any]]:
+    summaries: list[dict[str, Any]] = []
     col_count = len(matrices[0][0])
     for shield_idx, matrix in enumerate(matrices):
         wins = 0
@@ -42,13 +44,13 @@ def build_threats(
     matrices: list[list[list[int]]],
     team_indices: tuple[int, ...],
     top_n: int,
-) -> list[dict]:
-    threats: list[dict] = []
-    fallback_threats: list[dict] = []
+) -> list[dict[str, Any]]:
+    threats: list[dict[str, Any]] = []
+    fallback_threats: list[dict[str, Any]] = []
     for col_idx, opponent_label in enumerate(col_labels):
         shield_best_scores: list[int] = []
         shield_best_members: list[str] = []
-        shield_fragility: list[dict] = []
+        shield_fragility: list[dict[str, Any]] = []
         no_cover_count = 0
         single_cover_count = 0
 
@@ -125,8 +127,8 @@ def build_target_map(
     col_labels: list[str],
     matrices: list[list[list[int]]],
     team_indices: tuple[int, ...],
-) -> list[dict]:
-    target_map: list[dict] = []
+) -> list[dict[str, Any]]:
+    target_map: list[dict[str, Any]] = []
     for col_idx, opponent_label in enumerate(col_labels):
         shield_best_scores: list[int] = []
         shield_best_members: list[str] = []
@@ -165,8 +167,8 @@ def to_team_members(
     team_indices: tuple[int, ...],
     row_labels: list[str],
     pokemon_types: dict[str, tuple[str, ...]],
-) -> list[dict]:
-    members: list[dict] = []
+) -> list[dict[str, Any]]:
+    members: list[dict[str, Any]] = []
     for row_idx in team_indices:
         species = parse_species(row_labels[row_idx])
         members.append(

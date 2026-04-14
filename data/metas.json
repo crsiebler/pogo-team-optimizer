@@ -34,6 +34,24 @@
         "data/simulations/master_1-shield.csv",
         "data/simulations/master_2-shield.csv"
       ]
+    },
+    "bfretro": {
+      "matrix_files": [
+        "data/simulations/bfretro_0-shield.csv",
+        "data/simulations/bfretro_1-shield.csv",
+        "data/simulations/bfretro_2-shield.csv"
+      ]
+    },
+    "bfmaster": {
+      "matrix_files": [
+        "data/simulations/bfmaster_0-shield.csv",
+        "data/simulations/bfmaster_1-shield.csv",
+        "data/simulations/bfmaster_2-shield.csv"
+      ],
+      "switch_rankings_path": "data/rankings/cp10000_battlefrontiermaster_switches_rankings.csv",
+      "required_files": [
+        "data/battle_frontier/bfmaster_cycle_points.csv"
+      ]
     }
   }
 }

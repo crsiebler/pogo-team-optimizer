@@ -1,10 +1,12 @@
 from __future__ import annotations
 
+from typing import Any
+
 from pogo_team_optimizer.domain.interfaces import AnalysisExporter
 
 
 class TextExporter(AnalysisExporter):
-    def export(self, result: dict, output_path: str | None = None) -> str | None:
+    def export(self, result: dict[str, Any], output_path: str | None = None) -> str | None:
         lines: list[str] = []
 
         if "meta" in result:
@@ -63,6 +65,21 @@ class TextExporter(AnalysisExporter):
             f"- overwhelming: {metrics['overwhelming_count']}/{metrics['total_pairs']} "
             f"({metrics['overwhelming_rate'] * 100:.1f}%) where score < 350"
         )
+        if "battle_frontier_points_used" in metrics:
+            lines.append("")
+            lines.append("Battle Frontier legality")
+            lines.append(
+                f"- points used: {metrics['battle_frontier_points_used']}/"
+                f"{metrics['battle_frontier_max_points']}"
+            )
+            lines.append(
+                f"- 5-point members: {metrics['battle_frontier_five_point_members']}/"
+                f"{metrics['battle_frontier_max_five_point_members']}"
+            )
+            lines.append(
+                f"- Mega members: {metrics['battle_frontier_mega_members']}/"
+                f"{metrics['battle_frontier_max_mega_members']}"
+            )
 
         lines.append("")
         lines.append("Coverage")

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from collections import defaultdict
+from typing import Any
 
 from pogo_team_optimizer.application.analyzers import (
     build_target_map,
@@ -11,6 +12,7 @@ from pogo_team_optimizer.application.analyzers import (
 from pogo_team_optimizer.application.normalization import parse_species
 from pogo_team_optimizer.application.optimizer import TeamOptimizer
 from pogo_team_optimizer.domain.interfaces import (
+    BattleFrontierPointsRepository,
     PokemonRepository,
     SimulationMatrixRepository,
     SwitchRankingsRepository,
@@ -23,10 +25,12 @@ class AnalyzeMetaUseCase:
         simulation_repository: SimulationMatrixRepository,
         pokemon_repository: PokemonRepository,
         switch_rankings_repository: SwitchRankingsRepository | None = None,
+        battle_frontier_points_repository: BattleFrontierPointsRepository | None = None,
     ) -> None:
         self.simulation_repository = simulation_repository
         self.pokemon_repository = pokemon_repository
         self.switch_rankings_repository = switch_rankings_repository
+        self.battle_frontier_points_repository = battle_frontier_points_repository
 
     def execute(
         self,
@@ -35,7 +39,7 @@ class AnalyzeMetaUseCase:
         seed: int = 7,
         restarts: int = 250,
         safety_priority: str = "medium",
-    ) -> dict:
+    ) -> dict[str, Any]:
         row_labels, col_labels, matrices = self.simulation_repository.load()
         col_species = [parse_species(label) for label in col_labels]
         species_groups: dict[str, list[int]] = defaultdict(list)
@@ -68,6 +72,13 @@ class AnalyzeMetaUseCase:
                 continue
             bulk_by_row.append((defense * hp) / atk)
 
+        battle_frontier_points_by_row: list[int] | None = None
+        if self.battle_frontier_points_repository is not None:
+            battle_frontier_points_by_row = [
+                self.battle_frontier_points_repository.get_points(parse_species(label))
+                for label in row_labels
+            ]
+
         safety_priority_rules: dict[str, tuple[float | None, int, float]] = {
             "low": (72.0, 0, 90.0),
             "medium": (78.0, 1, 90.0),
@@ -86,6 +97,7 @@ class AnalyzeMetaUseCase:
             matrices,
             bulk_by_row=bulk_by_row,
             safety_by_row=safety_by_row,
+            battle_frontier_points_by_row=battle_frontier_points_by_row,
             seed=seed,
         )
         best_team = optimizer.optimize(
@@ -140,6 +152,26 @@ class AnalyzeMetaUseCase:
             "safe_member_floor": safe_member_floor,
             "safe_member_target": min_safe_members,
         }
+        if battle_frontier_points_by_row is not None:
+            battle_frontier_team_points = [
+                battle_frontier_points_by_row[idx] for idx in best_team.member_indices
+            ]
+            metrics.update(
+                {
+                    "battle_frontier_points_used": sum(battle_frontier_team_points),
+                    "battle_frontier_five_point_members": sum(
+                        points == 5 for points in battle_frontier_team_points
+                    ),
+                    "battle_frontier_mega_members": sum(
+                        "(Mega" in row_labels[idx] for idx in best_team.member_indices
+                    ),
+                    "battle_frontier_max_points": optimizer.battle_frontier_max_points,
+                    "battle_frontier_max_five_point_members": (
+                        optimizer.battle_frontier_max_five_point_members
+                    ),
+                    "battle_frontier_max_mega_members": optimizer.battle_frontier_max_mega_members,
+                }
+            )
 
         result = {
             "recommended_team": {

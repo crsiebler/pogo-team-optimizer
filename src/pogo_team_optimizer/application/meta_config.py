@@ -9,6 +9,8 @@ from pathlib import Path
 class MetaConfig:
     name: str
     matrix_files: tuple[str, ...]
+    switch_rankings_path: str | None = None
+    required_files: tuple[str, ...] = ()
 
 
 def load_meta_config(config_path: str, meta_name: str) -> MetaConfig:
@@ -29,12 +31,33 @@ def load_meta_config(config_path: str, meta_name: str) -> MetaConfig:
     if not isinstance(matrix_files, list) or not all(isinstance(v, str) for v in matrix_files):
         raise ValueError(f"Meta '{meta_name}' must define string list 'matrix_files'")
 
-    return MetaConfig(name=meta_name, matrix_files=tuple(matrix_files))
+    switch_rankings_path = meta_value.get("switch_rankings_path")
+    if switch_rankings_path is not None and not isinstance(switch_rankings_path, str):
+        raise ValueError(f"Meta '{meta_name}' must define string 'switch_rankings_path'")
+
+    required_files = meta_value.get("required_files", [])
+    if not isinstance(required_files, list) or not all(isinstance(v, str) for v in required_files):
+        raise ValueError(f"Meta '{meta_name}' must define string list 'required_files'")
+
+    return MetaConfig(
+        name=meta_name,
+        matrix_files=tuple(matrix_files),
+        switch_rankings_path=switch_rankings_path,
+        required_files=tuple(required_files),
+    )
 
 
 def validate_matrix_files(matrix_files: tuple[str, ...]) -> list[str]:
     missing: list[str] = []
     for path in matrix_files:
+        if not Path(path).exists():
+            missing.append(path)
+    return missing
+
+
+def validate_required_files(required_files: tuple[str, ...]) -> list[str]:
+    missing: list[str] = []
+    for path in required_files:
         if not Path(path).exists():
             missing.append(path)
     return missing

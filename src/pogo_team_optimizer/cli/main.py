@@ -3,9 +3,16 @@ from __future__ import annotations
 import argparse
 from pathlib import Path
 
-from pogo_team_optimizer.application.meta_config import load_meta_config, validate_matrix_files
+from pogo_team_optimizer.application.meta_config import (
+    load_meta_config,
+    validate_matrix_files,
+    validate_required_files,
+)
 from pogo_team_optimizer.application.use_case import AnalyzeMetaUseCase
 from pogo_team_optimizer.infrastructure.exporters.factory import ExporterFactory
+from pogo_team_optimizer.infrastructure.repositories.battle_frontier_points_repository import (
+    CsvBattleFrontierPointsRepository,
+)
 from pogo_team_optimizer.infrastructure.repositories.csv_matrix_repository import (
     CsvSimulationMatrixRepository,
 )
@@ -17,14 +24,17 @@ from pogo_team_optimizer.infrastructure.repositories.pokemon_json_repository imp
 )
 
 
+DEFAULT_SWITCH_RANKINGS_PATH = "data/rankings/cp1500_all_switches_rankings.csv"
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         description="Analyze Battle Frontier matchup simulation matrices"
     )
     parser.add_argument(
         "--meta",
-        default="crucible",
-        choices=["great", "crucible", "majestic", "euic", "master"],
+        default="bfretro",
+        choices=["great", "crucible", "majestic", "euic", "master", "bfretro", "bfmaster"],
         help="Meta to analyze",
     )
     parser.add_argument(
@@ -44,7 +54,7 @@ def build_parser() -> argparse.ArgumentParser:
     )
     parser.add_argument(
         "--switch-rankings-path",
-        default="data/rankings/cp1500_all_switches_rankings.csv",
+        default=None,
         help="Path to PvPoke switch rankings CSV (optional)",
     )
     parser.add_argument(
@@ -65,6 +75,27 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--seed", type=int, default=7)
     parser.add_argument("--restarts", type=int, default=250)
     return parser
+
+
+def resolve_switch_rankings_path(
+    cli_path: str | None, meta_switch_rankings_path: str | None
+) -> str | None:
+    if cli_path is not None:
+        return cli_path
+    if meta_switch_rankings_path is not None:
+        return meta_switch_rankings_path
+    return DEFAULT_SWITCH_RANKINGS_PATH
+
+
+def resolve_battle_frontier_points_path(
+    meta_name: str, required_files: tuple[str, ...]
+) -> str | None:
+    if meta_name != "bfmaster":
+        return None
+    for path in required_files:
+        if path.endswith("_cycle_points.csv"):
+            return path
+    return None
 
 
 def main() -> int:
@@ -88,13 +119,35 @@ def main() -> int:
             "Missing simulation data for selected meta. "
             "Execution stopped. Missing files: " + ", ".join(missing_files)
         )
+    missing_required_files = validate_required_files(meta_config.required_files)
+    if missing_required_files:
+        parser.error(
+            "Missing required files for selected meta. "
+            "Execution stopped. Missing files: " + ", ".join(missing_required_files)
+        )
 
     simulation_repo = CsvSimulationMatrixRepository(list(meta_config.matrix_files))
     pokemon_repo = PokemonJsonRepository(args.pokemon_path)
     switch_rankings_repo = None
-    if args.switch_rankings_path and Path(args.switch_rankings_path).exists():
-        switch_rankings_repo = CsvSwitchRankingsRepository(args.switch_rankings_path)
-    use_case = AnalyzeMetaUseCase(simulation_repo, pokemon_repo, switch_rankings_repo)
+    switch_rankings_path = resolve_switch_rankings_path(
+        args.switch_rankings_path,
+        meta_config.switch_rankings_path,
+    )
+    if switch_rankings_path and Path(switch_rankings_path).exists():
+        switch_rankings_repo = CsvSwitchRankingsRepository(switch_rankings_path)
+    battle_frontier_points_repo = None
+    battle_frontier_points_path = resolve_battle_frontier_points_path(
+        args.meta,
+        meta_config.required_files,
+    )
+    if battle_frontier_points_path is not None:
+        battle_frontier_points_repo = CsvBattleFrontierPointsRepository(battle_frontier_points_path)
+    use_case = AnalyzeMetaUseCase(
+        simulation_repo,
+        pokemon_repo,
+        switch_rankings_repo,
+        battle_frontier_points_repo,
+    )
     result = use_case.execute(
         top_threats=args.top_threats,
         top_cores=args.top_cores,

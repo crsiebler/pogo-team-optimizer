@@ -1,10 +1,12 @@
 from __future__ import annotations
 
+from typing import Any
+
 from pogo_team_optimizer.domain.interfaces import AnalysisExporter
 
 
 class MarkdownExporter(AnalysisExporter):
-    def export(self, result: dict, output_path: str | None = None) -> str | None:
+    def export(self, result: dict[str, Any], output_path: str | None = None) -> str | None:
         lines: list[str] = []
         lines.append("# Battle Frontier Team Analysis")
         lines.append("")
@@ -75,6 +77,22 @@ class MarkdownExporter(AnalysisExporter):
             f"`{metrics['overwhelming_count']}/{metrics['total_pairs']}` "
             f"(`{metrics['overwhelming_rate'] * 100:.1f}%`, score < 350)"
         )
+        if "battle_frontier_points_used" in metrics:
+            lines.append("")
+            lines.append("## Battle Frontier Legality")
+            lines.append(
+                "- Points used: "
+                f"`{metrics['battle_frontier_points_used']}/{metrics['battle_frontier_max_points']}`"
+            )
+            lines.append(
+                "- 5-point members: "
+                f"`{metrics['battle_frontier_five_point_members']}/"
+                f"{metrics['battle_frontier_max_five_point_members']}`"
+            )
+            lines.append(
+                "- Mega members: "
+                f"`{metrics['battle_frontier_mega_members']}/{metrics['battle_frontier_max_mega_members']}`"
+            )
 
         lines.append("")
         lines.append("## Coverage")
