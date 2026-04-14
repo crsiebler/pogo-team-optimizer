@@ -21,6 +21,9 @@ from pogo_team_optimizer.infrastructure.repositories.pokemon_json_repository imp
 )
 
 
+DEFAULT_SWITCH_RANKINGS_PATH = "data/rankings/cp1500_all_switches_rankings.csv"
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         description="Analyze Battle Frontier matchup simulation matrices"
@@ -48,7 +51,7 @@ def build_parser() -> argparse.ArgumentParser:
     )
     parser.add_argument(
         "--switch-rankings-path",
-        default="data/rankings/cp1500_all_switches_rankings.csv",
+        default=None,
         help="Path to PvPoke switch rankings CSV (optional)",
     )
     parser.add_argument(
@@ -69,6 +72,16 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--seed", type=int, default=7)
     parser.add_argument("--restarts", type=int, default=250)
     return parser
+
+
+def resolve_switch_rankings_path(
+    cli_path: str | None, meta_switch_rankings_path: str | None
+) -> str | None:
+    if cli_path is not None:
+        return cli_path
+    if meta_switch_rankings_path is not None:
+        return meta_switch_rankings_path
+    return DEFAULT_SWITCH_RANKINGS_PATH
 
 
 def main() -> int:
@@ -102,8 +115,12 @@ def main() -> int:
     simulation_repo = CsvSimulationMatrixRepository(list(meta_config.matrix_files))
     pokemon_repo = PokemonJsonRepository(args.pokemon_path)
     switch_rankings_repo = None
-    if args.switch_rankings_path and Path(args.switch_rankings_path).exists():
-        switch_rankings_repo = CsvSwitchRankingsRepository(args.switch_rankings_path)
+    switch_rankings_path = resolve_switch_rankings_path(
+        args.switch_rankings_path,
+        meta_config.switch_rankings_path,
+    )
+    if switch_rankings_path and Path(switch_rankings_path).exists():
+        switch_rankings_repo = CsvSwitchRankingsRepository(switch_rankings_path)
     use_case = AnalyzeMetaUseCase(simulation_repo, pokemon_repo, switch_rankings_repo)
     result = use_case.execute(
         top_threats=args.top_threats,
