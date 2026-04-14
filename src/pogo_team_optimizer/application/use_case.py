@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from collections import defaultdict
+from typing import Any
 
 from pogo_team_optimizer.application.analyzers import (
     build_target_map,
@@ -35,7 +36,7 @@ class AnalyzeMetaUseCase:
         seed: int = 7,
         restarts: int = 250,
         safety_priority: str = "medium",
-    ) -> dict:
+    ) -> dict[str, Any]:
         row_labels, col_labels, matrices = self.simulation_repository.load()
         col_species = [parse_species(label) for label in col_labels]
         species_groups: dict[str, list[int]] = defaultdict(list)

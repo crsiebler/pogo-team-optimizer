@@ -1,12 +1,13 @@
 from __future__ import annotations
 
 import csv
+from typing import Any
 
 from pogo_team_optimizer.domain.interfaces import AnalysisExporter
 
 
 class CsvExporter(AnalysisExporter):
-    def export(self, result: dict, output_path: str | None = None) -> str | None:
+    def export(self, result: dict[str, Any], output_path: str | None = None) -> str | None:
         if output_path is None:
             raise ValueError("--output is required for csv format")
 
@@ -48,23 +49,29 @@ class CsvExporter(AnalysisExporter):
                 )
 
             for item in result["coverage"]:
-                writer.writerow(["coverage", f"{item['shield']}-shield", f"{item['wins']}/{item['draws']}/{item['losses']}"])
+                writer.writerow(
+                    [
+                        "coverage",
+                        f"{item['shield']}-shield",
+                        f"{item['wins']}/{item['draws']}/{item['losses']}",
+                    ]
+                )
 
             for threat in result["threats"]:
                 details: list[str] = []
                 for fragile in threat.get("fragile_shields", []):
                     if fragile["winner_count"] == 1:
-                        details.append(
-                            f"{fragile['shield']}-shield only {fragile['only_answer']}"
-                        )
+                        details.append(f"{fragile['shield']}-shield only {fragile['only_answer']}")
                     else:
                         details.append(f"{fragile['shield']}-shield no cover")
-                writer.writerow([
-                    "threat",
-                    threat["opponent_label"],
-                    f"single={threat.get('single_cover_count', 0)};"
-                    f"none={threat.get('no_cover_count', 0)};"
-                    f"details={' | '.join(details) if details else 'n/a'}",
-                ])
+                writer.writerow(
+                    [
+                        "threat",
+                        threat["opponent_label"],
+                        f"single={threat.get('single_cover_count', 0)};"
+                        f"none={threat.get('no_cover_count', 0)};"
+                        f"details={' | '.join(details) if details else 'n/a'}",
+                    ]
+                )
 
         return None

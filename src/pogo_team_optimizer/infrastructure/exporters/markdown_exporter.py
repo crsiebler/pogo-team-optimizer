@@ -1,10 +1,12 @@
 from __future__ import annotations
 
+from typing import Any
+
 from pogo_team_optimizer.domain.interfaces import AnalysisExporter
 
 
 class MarkdownExporter(AnalysisExporter):
-    def export(self, result: dict, output_path: str | None = None) -> str | None:
+    def export(self, result: dict[str, Any], output_path: str | None = None) -> str | None:
         lines: list[str] = []
         lines.append("# Battle Frontier Team Analysis")
         lines.append("")

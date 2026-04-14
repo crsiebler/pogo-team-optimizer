@@ -147,6 +147,7 @@ make test
 - `AnalyzeMetaUseCase` expects repository dependencies through interfaces.
 - `pvpoke` export requires both `pokemon.json` and `moves.json`.
 - Non-text outputs require explicit output file paths.
+- Meta-specific auxiliary inputs belong in `data/metas.json` via optional `switch_rankings_path` and `required_files`; validate them in the CLI before constructing repositories.
 
 ## Cursor / Copilot Rule Files
 Checked repository-local instruction files:

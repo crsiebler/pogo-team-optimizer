@@ -3,6 +3,7 @@ from __future__ import annotations
 import json
 import re
 from pathlib import Path
+from typing import Any
 
 from pogo_team_optimizer.domain.interfaces import AnalysisExporter
 
@@ -120,7 +121,8 @@ class PvpokeExporter(AnalysisExporter):
             non_duplicate = [
                 species_id
                 for species_id in candidates
-                if not {"duplicate", "duplicate1500"} & self._species_tags_by_id.get(species_id, set())
+                if not {"duplicate", "duplicate1500"}
+                & self._species_tags_by_id.get(species_id, set())
             ]
             if len(non_duplicate) == 1:
                 return non_duplicate[0]
@@ -152,11 +154,10 @@ class PvpokeExporter(AnalysisExporter):
             )
 
         raise ValueError(
-            "Unresolved move token "
-            f"'{token}' for species '{species}' in label '{label}'."
+            f"Unresolved move token '{token}' for species '{species}' in label '{label}'."
         )
 
-    def export(self, result: dict, output_path: str | None = None) -> str | None:
+    def export(self, result: dict[str, Any], output_path: str | None = None) -> str | None:
         lines: list[str] = []
         members = result.get("recommended_team", {}).get("members", [])
         for member in members:

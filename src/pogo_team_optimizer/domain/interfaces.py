@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
+from typing import Any
 
 
 class SimulationMatrixRepository(ABC):
@@ -27,5 +28,5 @@ class SwitchRankingsRepository(ABC):
 
 class AnalysisExporter(ABC):
     @abstractmethod
-    def export(self, result: dict, output_path: str | None = None) -> str | None:
+    def export(self, result: dict[str, Any], output_path: str | None = None) -> str | None:
         """Export analysis result and optionally return rendered text."""

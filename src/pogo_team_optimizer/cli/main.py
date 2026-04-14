@@ -3,7 +3,11 @@ from __future__ import annotations
 import argparse
 from pathlib import Path
 
-from pogo_team_optimizer.application.meta_config import load_meta_config, validate_matrix_files
+from pogo_team_optimizer.application.meta_config import (
+    load_meta_config,
+    validate_matrix_files,
+    validate_required_files,
+)
 from pogo_team_optimizer.application.use_case import AnalyzeMetaUseCase
 from pogo_team_optimizer.infrastructure.exporters.factory import ExporterFactory
 from pogo_team_optimizer.infrastructure.repositories.csv_matrix_repository import (
@@ -23,8 +27,8 @@ def build_parser() -> argparse.ArgumentParser:
     )
     parser.add_argument(
         "--meta",
-        default="crucible",
-        choices=["great", "crucible", "majestic", "euic", "master"],
+        default="bfretro",
+        choices=["great", "crucible", "majestic", "euic", "master", "bfretro", "bfmaster"],
         help="Meta to analyze",
     )
     parser.add_argument(
@@ -87,6 +91,12 @@ def main() -> int:
         parser.error(
             "Missing simulation data for selected meta. "
             "Execution stopped. Missing files: " + ", ".join(missing_files)
+        )
+    missing_required_files = validate_required_files(meta_config.required_files)
+    if missing_required_files:
+        parser.error(
+            "Missing required files for selected meta. "
+            "Execution stopped. Missing files: " + ", ".join(missing_required_files)
         )
 
     simulation_repo = CsvSimulationMatrixRepository(list(meta_config.matrix_files))
