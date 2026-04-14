@@ -151,6 +151,7 @@ make test
 - Switch rankings resolution in the CLI is ordered as explicit `--switch-rankings-path` override, then per-meta `switch_rankings_path`, then the legacy Great League default path.
 - Battle Frontier point files should live under `data/battle_frontier/` with `species,points` headers, use names normalized like `parse_species()`, and rely on repository fallback-to-`0` for species omitted from the current cycle.
 - Battle Frontier legality belongs in `TeamOptimizer`; wire per-row point costs from the CLI/use case into the optimizer so both initial seeding and swap search share the same legality checks.
+- Battle Frontier output metrics belong in `recommended_team.metrics`; keep them optional and have human-readable exporters render a conditional legality section so non-`bfmaster` metas do not need placeholder fields.
 
 ## Cursor / Copilot Rule Files
 Checked repository-local instruction files:

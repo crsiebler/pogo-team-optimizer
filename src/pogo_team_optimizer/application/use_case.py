@@ -152,6 +152,26 @@ class AnalyzeMetaUseCase:
             "safe_member_floor": safe_member_floor,
             "safe_member_target": min_safe_members,
         }
+        if battle_frontier_points_by_row is not None:
+            battle_frontier_team_points = [
+                battle_frontier_points_by_row[idx] for idx in best_team.member_indices
+            ]
+            metrics.update(
+                {
+                    "battle_frontier_points_used": sum(battle_frontier_team_points),
+                    "battle_frontier_five_point_members": sum(
+                        points == 5 for points in battle_frontier_team_points
+                    ),
+                    "battle_frontier_mega_members": sum(
+                        "(Mega" in row_labels[idx] for idx in best_team.member_indices
+                    ),
+                    "battle_frontier_max_points": optimizer.battle_frontier_max_points,
+                    "battle_frontier_max_five_point_members": (
+                        optimizer.battle_frontier_max_five_point_members
+                    ),
+                    "battle_frontier_max_mega_members": optimizer.battle_frontier_max_mega_members,
+                }
+            )
 
         result = {
             "recommended_team": {

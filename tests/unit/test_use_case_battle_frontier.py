@@ -73,3 +73,39 @@ def test_use_case_enforces_bfmaster_legality_rules() -> None:
         )
         <= 1
     )
+
+
+def test_use_case_reports_bfmaster_legality_metrics() -> None:
+    use_case = AnalyzeMetaUseCase(
+        simulation_repository=FakeSimulationRepository(),
+        pokemon_repository=FakePokemonRepository(),
+        battle_frontier_points_repository=FakeBattleFrontierPointsRepository(
+            {
+                "Amon": 5,
+                "Bmon": 5,
+                "Cmon": 3,
+                "Dmon": 3,
+                "Emon": 0,
+                "Fmon": 0,
+                "Gmon": 0,
+                "Hmon": 0,
+            }
+        ),
+    )
+
+    result = use_case.execute(seed=7, restarts=40)
+
+    metrics = result["recommended_team"]["metrics"]
+    team_species = [member["species"] for member in result["recommended_team"]["members"]]
+
+    assert metrics["battle_frontier_points_used"] == sum(
+        use_case.battle_frontier_points_repository.get_points(species) for species in team_species
+    )
+    assert metrics["battle_frontier_five_point_members"] == sum(
+        use_case.battle_frontier_points_repository.get_points(species) == 5
+        for species in team_species
+    )
+    assert metrics["battle_frontier_mega_members"] == 0
+    assert metrics["battle_frontier_max_points"] == 11
+    assert metrics["battle_frontier_max_five_point_members"] == 1
+    assert metrics["battle_frontier_max_mega_members"] == 1
