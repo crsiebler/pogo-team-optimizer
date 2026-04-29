@@ -63,6 +63,19 @@ def test_load_meta_config_reads_optional_per_meta_fields(tmp_path) -> None:
     assert config.required_files == ("data/bfmaster_points.csv",)
 
 
+def test_default_meta_config_includes_bayou_cup() -> None:
+    config = load_meta_config("data/metas.json", "bayou")
+
+    assert config.name == "bayou"
+    assert config.matrix_files == (
+        "data/simulations/bayou_0-shield.csv",
+        "data/simulations/bayou_1-shield.csv",
+        "data/simulations/bayou_2-shield.csv",
+    )
+    assert config.switch_rankings_path == "data/rankings/cp1500_bayou_switches_rankings.csv"
+    assert validate_matrix_files(config.matrix_files) == []
+
+
 def test_validate_matrix_files_reports_missing(tmp_path) -> None:
     existing = tmp_path / "exists.csv"
     existing.write_text("", encoding="utf-8")

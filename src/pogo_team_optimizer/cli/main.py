@@ -34,7 +34,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "--meta",
         default="bfretro",
-        choices=["great", "crucible", "majestic", "euic", "master", "bfretro", "bfmaster"],
+        choices=["great", "crucible", "majestic", "euic", "master", "bfretro", "bayou", "bfmaster"],
         help="Meta to analyze",
     )
     parser.add_argument(

@@ -11,6 +11,14 @@ def test_build_parser_accepts_bfmaster_meta() -> None:
     assert args.meta == "bfmaster"
 
 
+def test_build_parser_accepts_bayou_meta() -> None:
+    parser = build_parser()
+
+    args = parser.parse_args(["--meta", "bayou"])
+
+    assert args.meta == "bayou"
+
+
 def test_main_reports_missing_required_meta_files(tmp_path, monkeypatch) -> None:
     metas_config = tmp_path / "metas.json"
     pokemon_path = tmp_path / "pokemon.json"

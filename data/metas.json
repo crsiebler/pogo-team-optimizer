@@ -42,6 +42,14 @@
         "data/simulations/bfretro_2-shield.csv"
       ]
     },
+    "bayou": {
+      "matrix_files": [
+        "data/simulations/bayou_0-shield.csv",
+        "data/simulations/bayou_1-shield.csv",
+        "data/simulations/bayou_2-shield.csv"
+      ],
+      "switch_rankings_path": "data/rankings/cp1500_bayou_switches_rankings.csv"
+    },
     "bfmaster": {
       "matrix_files": [
         "data/simulations/bfmaster_0-shield.csv",

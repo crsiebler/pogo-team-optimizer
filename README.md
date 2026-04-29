@@ -57,6 +57,8 @@ Basic text output:
 PYTHONPATH=src python -m pogo_team_optimizer.cli.main --meta crucible --format text
 ```
 
+Supported metas include `bayou`, `bfretro`, `great`, `bfmaster`, and `crucible`.
+
 Use `--output` for non-text formats (`markdown`, `json`, `csv`, `excel`, `pvpoke`):
 
 ```bash
@@ -66,11 +68,13 @@ PYTHONPATH=src python -m pogo_team_optimizer.cli.main --meta crucible --format j
 Make targets are also available:
 
 ```bash
-make run
-make run-json
-make run-md
-make run-pvpoke
+make run META=bayou
+make run-json META=bayou
+make run-md META=bayou
+make run-pvpoke META=bayou
 ```
+
+If `META` is omitted, Makefile run targets default to `bfmaster`.
 
 ## Fast Test Iteration
 
