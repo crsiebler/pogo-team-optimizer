@@ -1,4 +1,7 @@
+from zipfile import ZipFile
+
 from pogo_team_optimizer.infrastructure.exporters.csv_exporter import CsvExporter
+from pogo_team_optimizer.infrastructure.exporters.excel_exporter import ExcelExporter
 from pogo_team_optimizer.infrastructure.exporters.json_exporter import JsonExporter
 from pogo_team_optimizer.infrastructure.exporters.markdown_exporter import MarkdownExporter
 from pogo_team_optimizer.infrastructure.exporters.text_exporter import TextExporter
@@ -98,3 +101,20 @@ def test_existing_exporters_accept_results_with_battle_frontier_metrics(tmp_path
 
     assert '"battle_frontier_points_used": 8' in JsonExporter().export(result)
     CsvExporter().export(result, output_path=str(tmp_path / "result.csv"))
+
+
+def test_excel_exporter_writes_xlsx_workbook(tmp_path) -> None:
+    output_path = tmp_path / "result.xlsx"
+
+    ExcelExporter().export(build_result(), output_path=str(output_path))
+
+    with ZipFile(output_path) as workbook:
+        names = set(workbook.namelist())
+        assert "[Content_Types].xml" in names
+        assert "xl/workbook.xml" in names
+        assert "xl/worksheets/sheet1.xml" in names
+        assert "xl/worksheets/sheet2.xml" in names
+        first_sheet = workbook.read("xl/worksheets/sheet1.xml").decode("utf-8")
+
+    assert "Recommended Team" in first_sheet
+    assert "Mewtwo" in first_sheet

@@ -43,6 +43,41 @@ def test_pvpoke_exporter_exports_species_and_move_ids(tmp_path) -> None:
     }
 
     rendered = exporter.export(result)
+    assert rendered == "testmon,THUNDER_SHOCK,WILD_CHARGE,AURA_SPHERE,1,1,1"
+
+
+def test_pvpoke_exporter_keeps_legacy_output_when_label_has_no_ivs(tmp_path) -> None:
+    pokemon_path = tmp_path / "pokemon.json"
+    moves_path = tmp_path / "moves.json"
+
+    _write_json(
+        pokemon_path,
+        [
+            {
+                "speciesName": "Testmon",
+                "speciesId": "testmon",
+                "fastMoves": ["THUNDER_SHOCK"],
+                "chargedMoves": ["WILD_CHARGE", "AURA_SPHERE"],
+            }
+        ],
+    )
+    _write_json(
+        moves_path,
+        [
+            {"moveId": "THUNDER_SHOCK", "abbreviation": "TS", "name": "Thunder Shock"},
+            {"moveId": "WILD_CHARGE", "abbreviation": "WC", "name": "Wild Charge"},
+            {"moveId": "AURA_SPHERE", "abbreviation": "AuS", "name": "Aura Sphere"},
+        ],
+    )
+
+    exporter = PvpokeExporter(str(pokemon_path), str(moves_path))
+    result = {
+        "recommended_team": {
+            "members": [{"label": "Testmon TS+WC/AuS"}],
+        }
+    }
+
+    rendered = exporter.export(result)
     assert rendered == "testmon,THUNDER_SHOCK,WILD_CHARGE,AURA_SPHERE"
 
 
@@ -78,7 +113,7 @@ def test_pvpoke_exporter_uses_fallback_alias_without_abbreviation(tmp_path) -> N
     }
 
     rendered = exporter.export(result)
-    assert rendered == "testmon,THUNDER_SHOCK,MYSTIC_BURST,WILD_CHARGE"
+    assert rendered == "testmon,THUNDER_SHOCK,MYSTIC_BURST,WILD_CHARGE,1,1,1"
 
 
 def test_pvpoke_exporter_fails_on_unresolved_move(tmp_path) -> None:
@@ -210,4 +245,4 @@ def test_pvpoke_exporter_avoids_duplicate_species_name_shadow_alias(tmp_path) ->
         }
     }
     rendered = exporter.export(result)
-    assert rendered == "golisopod,SHADOW_CLAW,X_SCISSOR,AQUA_JET"
+    assert rendered == "golisopod,SHADOW_CLAW,X_SCISSOR,AQUA_JET,1,1,1"

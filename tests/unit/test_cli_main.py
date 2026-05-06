@@ -1,3 +1,5 @@
+from pathlib import Path
+
 import pytest
 
 from pogo_team_optimizer.cli.main import build_parser, main
@@ -17,6 +19,13 @@ def test_build_parser_accepts_bayou_meta() -> None:
     args = parser.parse_args(["--meta", "bayou"])
 
     assert args.meta == "bayou"
+
+
+def test_main_rejects_deprecated_output_argument(monkeypatch) -> None:
+    monkeypatch.setattr("sys.argv", ["prog", "--output", "analysis.json"])
+
+    with pytest.raises(SystemExit, match="2"):
+        main()
 
 
 def test_main_reports_missing_required_meta_files(tmp_path, monkeypatch) -> None:
@@ -70,7 +79,9 @@ def test_main_uses_meta_switch_rankings_when_no_cli_override(tmp_path, monkeypat
 
     metas_config = tmp_path / "metas.json"
     pokemon_path = tmp_path / "pokemon.json"
+    moves_path = tmp_path / "moves.json"
     pokemon_path.write_text("[]", encoding="utf-8")
+    moves_path.write_text("[]", encoding="utf-8")
     metas_config.write_text(
         f"""
         {{
@@ -143,6 +154,10 @@ def test_main_uses_meta_switch_rankings_when_no_cli_override(tmp_path, monkeypat
             str(metas_config),
             "--pokemon-path",
             str(pokemon_path),
+            "--moves-path",
+            str(moves_path),
+            "--output-dir",
+            str(tmp_path / "output"),
         ],
     )
 
@@ -160,7 +175,9 @@ def test_main_uses_legacy_default_switch_rankings_for_other_metas(tmp_path, monk
 
     metas_config = tmp_path / "metas.json"
     pokemon_path = tmp_path / "pokemon.json"
+    moves_path = tmp_path / "moves.json"
     pokemon_path.write_text("[]", encoding="utf-8")
+    moves_path.write_text("[]", encoding="utf-8")
     metas_config.write_text(
         f"""
         {{
@@ -232,10 +249,121 @@ def test_main_uses_legacy_default_switch_rankings_for_other_metas(tmp_path, monk
             str(metas_config),
             "--pokemon-path",
             str(pokemon_path),
+            "--moves-path",
+            str(moves_path),
             "--switch-rankings-path",
             str(default_rankings_path),
+            "--output-dir",
+            str(tmp_path / "output"),
         ],
     )
 
     assert main() == 0
     assert captured["switch_rankings_path"] == str(default_rankings_path)
+
+
+def test_main_exports_all_formats_from_one_analysis_result(tmp_path, monkeypatch, capsys) -> None:
+    matrix_paths = [tmp_path / f"bayou_{shield}-shield.csv" for shield in range(3)]
+    for path in matrix_paths:
+        path.write_text("", encoding="utf-8")
+
+    metas_config = tmp_path / "metas.json"
+    pokemon_path = tmp_path / "pokemon.json"
+    moves_path = tmp_path / "moves.json"
+    output_dir = tmp_path / "output"
+    pokemon_path.write_text("[]", encoding="utf-8")
+    moves_path.write_text("[]", encoding="utf-8")
+    metas_config.write_text(
+        f"""
+        {{
+          "metas": {{
+            "bayou": {{
+              "matrix_files": [
+                "{matrix_paths[0]}",
+                "{matrix_paths[1]}",
+                "{matrix_paths[2]}"
+              ]
+            }}
+          }}
+        }}
+        """.strip(),
+        encoding="utf-8",
+    )
+
+    monkeypatch.setattr(
+        "pogo_team_optimizer.cli.main.CsvSimulationMatrixRepository",
+        lambda files: object(),
+    )
+    monkeypatch.setattr(
+        "pogo_team_optimizer.cli.main.PokemonJsonRepository",
+        lambda path: object(),
+    )
+
+    execute_calls = 0
+    result = {"recommended_team": {"members": [], "metrics": {}}, "coverage": [], "safe_cores": [], "threats": []}
+
+    class FakeUseCase:
+        def __init__(self, *_: object) -> None:
+            pass
+
+        def execute(self, **_: object) -> dict[str, object]:
+            nonlocal execute_calls
+            execute_calls += 1
+            return result
+
+    monkeypatch.setattr("pogo_team_optimizer.cli.main.AnalyzeMetaUseCase", FakeUseCase)
+
+    exports: list[tuple[str, str | None, int]] = []
+
+    class FakeExporter:
+        def __init__(self, output_format: str) -> None:
+            self.output_format = output_format
+
+        def export(self, exported_result: dict[str, object], output_path: str | None = None) -> str | None:
+            exports.append((self.output_format, output_path, id(exported_result)))
+            if output_path is not None:
+                Path(output_path).write_text(self.output_format, encoding="utf-8")
+                return None
+            return "text report"
+
+    def fake_create(output_format: str, **_: object) -> FakeExporter:
+        return FakeExporter(output_format)
+
+    monkeypatch.setattr("pogo_team_optimizer.cli.main.ExporterFactory.create", fake_create)
+    monkeypatch.setattr(
+        "sys.argv",
+        [
+            "prog",
+            "--meta",
+            "bayou",
+            "--metas-config",
+            str(metas_config),
+            "--pokemon-path",
+            str(pokemon_path),
+            "--moves-path",
+            str(moves_path),
+            "--output-dir",
+            str(output_dir),
+        ],
+    )
+
+    assert main() == 0
+
+    assert execute_calls == 1
+    assert capsys.readouterr().out == "text report\n"
+    assert exports == [
+        ("text", None, id(result)),
+        ("markdown", str(output_dir / "bayou.md"), id(result)),
+        ("json", str(output_dir / "bayou.json"), id(result)),
+        ("csv", str(output_dir / "bayou.csv"), id(result)),
+        ("excel", str(output_dir / "bayou.xlsx"), id(result)),
+        ("pvpoke", str(output_dir / "bayou.pvpoke"), id(result)),
+    ]
+    assert sorted(path.name for path in output_dir.iterdir()) == [
+        "bayou.csv",
+        "bayou.json",
+        "bayou.md",
+        "bayou.pvpoke",
+        "bayou.txt",
+        "bayou.xlsx",
+    ]
