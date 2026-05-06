@@ -1,0 +1,1204 @@
+{
+  "recommended_team": {
+    "members": [
+      {
+        "index": 66,
+        "label": "Palossand A+SB/ST 1/12/13",
+        "species": "Palossand",
+        "base_species": "Palossand",
+        "types": [
+          "ghost",
+          "ground"
+        ]
+      },
+      {
+        "index": 42,
+        "label": "Greedent MS+BS/TBl 4/14/14",
+        "species": "Greedent",
+        "base_species": "Greedent",
+        "types": [
+          "normal",
+          "none"
+        ]
+      },
+      {
+        "index": 16,
+        "label": "Crustle FC+XS/RW 0/14/15",
+        "species": "Crustle",
+        "base_species": "Crustle",
+        "types": [
+          "bug",
+          "rock"
+        ]
+      },
+      {
+        "index": 12,
+        "label": "Cetitan PS+ISp/SP 1/14/11",
+        "species": "Cetitan",
+        "base_species": "Cetitan",
+        "types": [
+          "ice",
+          "none"
+        ]
+      },
+      {
+        "index": 3,
+        "label": "Annihilape LK+RF/CC 3/11/15",
+        "species": "Annihilape",
+        "base_species": "Annihilape",
+        "types": [
+          "fighting",
+          "ghost"
+        ]
+      },
+      {
+        "index": 75,
+        "label": "Roserade PSt+WBF/LfS 0/14/12",
+        "species": "Roserade",
+        "base_species": "Roserade",
+        "types": [
+          "grass",
+          "poison"
+        ]
+      }
+    ],
+    "score": [
+      135.0,
+      45.0,
+      0.0,
+      0.0,
+      686.7045454545453,
+      192.2466590025347,
+      79.35000000000001,
+      807.2518518518518,
+      135.0,
+      100.0,
+      741.6962962962963,
+      118.0,
+      0.0
+    ],
+    "bulk_score": 192.2466590025347,
+    "safety_score": 79.35000000000001,
+    "metrics": {
+      "pair_coverage": 135,
+      "full_col_coverage": 45,
+      "redundant_coverage_2plus": 135,
+      "redundant_coverage_3plus": 100,
+      "single_cover_pairs": 0,
+      "single_cover_rate": 0.0,
+      "no_cover_pairs": 0,
+      "no_cover_rate": 0.0,
+      "bulk_score": 192.2466590025347,
+      "safety_score": 79.35000000000001,
+      "consistency_score": 807.2518518518518,
+      "weighted_worst_best_score": 686.7045454545453,
+      "mean_best_score": 741.6962962962963,
+      "dominate_count": 118,
+      "dominate_rate": 0.8740740740740741,
+      "overwhelming_count": 0,
+      "overwhelming_rate": 0.0,
+      "total_pairs": 135,
+      "bulk_pool_min": 88.48659003831418,
+      "bulk_pool_max": 377.4611398963731,
+      "bulk_pool_mean": 179.29403210772855,
+      "safety_pool_min": 26.7,
+      "safety_pool_max": 96.3,
+      "safety_pool_mean": 69.376,
+      "safety_priority": "medium",
+      "safety_floor_target": 78.0,
+      "safe_member_floor": 90.0,
+      "safe_member_target": 1
+    },
+    "shadow_count": 0
+  },
+  "coverage": [
+    {
+      "shield": 0,
+      "wins": 45,
+      "draws": 0,
+      "losses": 0,
+      "weighted_wins": 1.0
+    },
+    {
+      "shield": 1,
+      "wins": 45,
+      "draws": 0,
+      "losses": 0,
+      "weighted_wins": 1.0
+    },
+    {
+      "shield": 2,
+      "wins": 45,
+      "draws": 0,
+      "losses": 0,
+      "weighted_wins": 1.0
+    }
+  ],
+  "threats": [
+    {
+      "opponent_label": "Kingdra DB+Sw/O 0/15/15",
+      "min_best_score": 556,
+      "avg_best_score": 624.3333333333334,
+      "shield_best_scores": [
+        615,
+        556,
+        702
+      ],
+      "shield_best_members": [
+        "Greedent MS+BS/TBl 4/14/14",
+        "Roserade PSt+WBF/LfS 0/14/12",
+        "Annihilape LK+RF/CC 3/11/15"
+      ],
+      "single_cover_count": 0,
+      "no_cover_count": 0,
+      "fragile_shields": []
+    },
+    {
+      "opponent_label": "Drifblim A+IW/SB 1/15/15",
+      "min_best_score": 576,
+      "avg_best_score": 666.3333333333334,
+      "shield_best_scores": [
+        576,
+        712,
+        711
+      ],
+      "shield_best_members": [
+        "Cetitan PS+ISp/SP 1/14/11",
+        "Cetitan PS+ISp/SP 1/14/11",
+        "Cetitan PS+ISp/SP 1/14/11"
+      ],
+      "single_cover_count": 0,
+      "no_cover_count": 0,
+      "fragile_shields": []
+    },
+    {
+      "opponent_label": "Tentacruel Ac+Sc/Pbk 0/13/15",
+      "min_best_score": 592,
+      "avg_best_score": 707.6666666666666,
+      "shield_best_scores": [
+        592,
+        639,
+        892
+      ],
+      "shield_best_members": [
+        "Crustle FC+XS/RW 0/14/15",
+        "Greedent MS+BS/TBl 4/14/14",
+        "Palossand A+SB/ST 1/12/13"
+      ],
+      "single_cover_count": 0,
+      "no_cover_count": 0,
+      "fragile_shields": []
+    },
+    {
+      "opponent_label": "Kommo-o DT+ClS/UH 0/11/14",
+      "min_best_score": 600,
+      "avg_best_score": 728.6666666666666,
+      "shield_best_scores": [
+        600,
+        838,
+        748
+      ],
+      "shield_best_members": [
+        "Cetitan PS+ISp/SP 1/14/11",
+        "Cetitan PS+ISp/SP 1/14/11",
+        "Annihilape LK+RF/CC 3/11/15"
+      ],
+      "single_cover_count": 0,
+      "no_cover_count": 0,
+      "fragile_shields": []
+    },
+    {
+      "opponent_label": "Gyarados (Shadow) DB+AT/Tw 0/15/14",
+      "min_best_score": 606,
+      "avg_best_score": 644.0,
+      "shield_best_scores": [
+        688,
+        638,
+        606
+      ],
+      "shield_best_members": [
+        "Roserade PSt+WBF/LfS 0/14/12",
+        "Cetitan PS+ISp/SP 1/14/11",
+        "Cetitan PS+ISp/SP 1/14/11"
+      ],
+      "single_cover_count": 0,
+      "no_cover_count": 0,
+      "fragile_shields": []
+    },
+    {
+      "opponent_label": "Golisopod FC+XS/AJ 1/14/15",
+      "min_best_score": 608,
+      "avg_best_score": 669.3333333333334,
+      "shield_best_scores": [
+        608,
+        756,
+        644
+      ],
+      "shield_best_members": [
+        "Crustle FC+XS/RW 0/14/15",
+        "Roserade PSt+WBF/LfS 0/14/12",
+        "Roserade PSt+WBF/LfS 0/14/12"
+      ],
+      "single_cover_count": 0,
+      "no_cover_count": 0,
+      "fragile_shields": []
+    },
+    {
+      "opponent_label": "Giratina (Origin) SC+SB/DgP 1/12/13",
+      "min_best_score": 621,
+      "avg_best_score": 734.6666666666666,
+      "shield_best_scores": [
+        621,
+        815,
+        768
+      ],
+      "shield_best_members": [
+        "Cetitan PS+ISp/SP 1/14/11",
+        "Cetitan PS+ISp/SP 1/14/11",
+        "Cetitan PS+ISp/SP 1/14/11"
+      ],
+      "single_cover_count": 0,
+      "no_cover_count": 0,
+      "fragile_shields": []
+    },
+    {
+      "opponent_label": "Giratina (Origin) SC+SB/DgP 1/12/13",
+      "min_best_score": 621,
+      "avg_best_score": 734.6666666666666,
+      "shield_best_scores": [
+        621,
+        815,
+        768
+      ],
+      "shield_best_members": [
+        "Cetitan PS+ISp/SP 1/14/11",
+        "Cetitan PS+ISp/SP 1/14/11",
+        "Cetitan PS+ISp/SP 1/14/11"
+      ],
+      "single_cover_count": 0,
+      "no_cover_count": 0,
+      "fragile_shields": []
+    },
+    {
+      "opponent_label": "Poliwrath MS+IW/DyP 0/14/14",
+      "min_best_score": 626,
+      "avg_best_score": 647.0,
+      "shield_best_scores": [
+        679,
+        636,
+        626
+      ],
+      "shield_best_members": [
+        "Roserade PSt+WBF/LfS 0/14/12",
+        "Roserade PSt+WBF/LfS 0/14/12",
+        "Greedent MS+BS/TBl 4/14/14"
+      ],
+      "single_cover_count": 0,
+      "no_cover_count": 0,
+      "fragile_shields": []
+    },
+    {
+      "opponent_label": "Walrein PS+ISp/Eq 0/15/15",
+      "min_best_score": 634,
+      "avg_best_score": 685.6666666666666,
+      "shield_best_scores": [
+        720,
+        703,
+        634
+      ],
+      "shield_best_members": [
+        "Crustle FC+XS/RW 0/14/15",
+        "Crustle FC+XS/RW 0/14/15",
+        "Crustle FC+XS/RW 0/14/15"
+      ],
+      "single_cover_count": 0,
+      "no_cover_count": 0,
+      "fragile_shields": []
+    }
+  ],
+  "safe_cores": [
+    {
+      "members": [
+        {
+          "index": 66,
+          "label": "Palossand A+SB/ST 1/12/13",
+          "species": "Palossand",
+          "base_species": "Palossand",
+          "types": [
+            "ghost",
+            "ground"
+          ]
+        },
+        {
+          "index": 12,
+          "label": "Cetitan PS+ISp/SP 1/14/11",
+          "species": "Cetitan",
+          "base_species": "Cetitan",
+          "types": [
+            "ice",
+            "none"
+          ]
+        },
+        {
+          "index": 75,
+          "label": "Roserade PSt+WBF/LfS 0/14/12",
+          "species": "Roserade",
+          "base_species": "Roserade",
+          "types": [
+            "grass",
+            "poison"
+          ]
+        }
+      ],
+      "score": [
+        131.0,
+        41.0,
+        -4.0,
+        -66.0,
+        632.5681818181816,
+        173.7337435369843,
+        71.13333333333334,
+        755.4074074074073,
+        65.0,
+        13.0,
+        704.1111111111111,
+        94.0,
+        -1.0
+      ]
+    },
+    {
+      "members": [
+        {
+          "index": 66,
+          "label": "Palossand A+SB/ST 1/12/13",
+          "species": "Palossand",
+          "base_species": "Palossand",
+          "types": [
+            "ghost",
+            "ground"
+          ]
+        },
+        {
+          "index": 42,
+          "label": "Greedent MS+BS/TBl 4/14/14",
+          "species": "Greedent",
+          "base_species": "Greedent",
+          "types": [
+            "normal",
+            "none"
+          ]
+        },
+        {
+          "index": 3,
+          "label": "Annihilape LK+RF/CC 3/11/15",
+          "species": "Annihilape",
+          "base_species": "Annihilape",
+          "types": [
+            "fighting",
+            "ghost"
+          ]
+        }
+      ],
+      "score": [
+        130.0,
+        41.0,
+        -5.0,
+        -49.0,
+        611.6136363636364,
+        215.76666666666665,
+        71.7,
+        716.8592592592593,
+        81.0,
+        20.0,
+        672.4148148148148,
+        80.0,
+        0.0
+      ]
+    },
+    {
+      "members": [
+        {
+          "index": 42,
+          "label": "Greedent MS+BS/TBl 4/14/14",
+          "species": "Greedent",
+          "base_species": "Greedent",
+          "types": [
+            "normal",
+            "none"
+          ]
+        },
+        {
+          "index": 12,
+          "label": "Cetitan PS+ISp/SP 1/14/11",
+          "species": "Cetitan",
+          "base_species": "Cetitan",
+          "types": [
+            "ice",
+            "none"
+          ]
+        },
+        {
+          "index": 3,
+          "label": "Annihilape LK+RF/CC 3/11/15",
+          "species": "Annihilape",
+          "base_species": "Annihilape",
+          "types": [
+            "fighting",
+            "ghost"
+          ]
+        }
+      ],
+      "score": [
+        130.0,
+        41.0,
+        -5.0,
+        -55.0,
+        604.590909090909,
+        218.16570512820513,
+        82.96666666666665,
+        709.9555555555555,
+        75.0,
+        15.0,
+        668.2888888888889,
+        75.0,
+        0.0
+      ]
+    },
+    {
+      "members": [
+        {
+          "index": 16,
+          "label": "Crustle FC+XS/RW 0/14/15",
+          "species": "Crustle",
+          "base_species": "Crustle",
+          "types": [
+            "bug",
+            "rock"
+          ]
+        },
+        {
+          "index": 12,
+          "label": "Cetitan PS+ISp/SP 1/14/11",
+          "species": "Cetitan",
+          "base_species": "Cetitan",
+          "types": [
+            "ice",
+            "none"
+          ]
+        },
+        {
+          "index": 3,
+          "label": "Annihilape LK+RF/CC 3/11/15",
+          "species": "Annihilape",
+          "base_species": "Annihilape",
+          "types": [
+            "fighting",
+            "ghost"
+          ]
+        }
+      ],
+      "score": [
+        130.0,
+        41.0,
+        -5.0,
+        -67.0,
+        602.1136363636364,
+        194.6586129296236,
+        87.3,
+        712.1555555555556,
+        63.0,
+        16.0,
+        668.8222222222222,
+        78.0,
+        0.0
+      ]
+    },
+    {
+      "members": [
+        {
+          "index": 42,
+          "label": "Greedent MS+BS/TBl 4/14/14",
+          "species": "Greedent",
+          "base_species": "Greedent",
+          "types": [
+            "normal",
+            "none"
+          ]
+        },
+        {
+          "index": 16,
+          "label": "Crustle FC+XS/RW 0/14/15",
+          "species": "Crustle",
+          "base_species": "Crustle",
+          "types": [
+            "bug",
+            "rock"
+          ]
+        },
+        {
+          "index": 3,
+          "label": "Annihilape LK+RF/CC 3/11/15",
+          "species": "Annihilape",
+          "base_species": "Annihilape",
+          "types": [
+            "fighting",
+            "ghost"
+          ]
+        }
+      ],
+      "score": [
+        130.0,
+        40.0,
+        -5.0,
+        -55.0,
+        597.7045454545454,
+        210.7595744680851,
+        87.56666666666666,
+        692.3555555555556,
+        75.0,
+        20.0,
+        652.9111111111112,
+        71.0,
+        0.0
+      ]
+    }
+  ],
+  "target_map": [
+    {
+      "opponent_label": "Ampharos VS+BrS/TBl 0/13/15",
+      "shield_best_scores": [
+        748,
+        713,
+        693
+      ],
+      "shield_best_members": [
+        "Roserade PSt+WBF/LfS 0/14/12",
+        "Palossand A+SB/ST 1/12/13",
+        "Annihilape LK+RF/CC 3/11/15"
+      ],
+      "confidence": "stable"
+    },
+    {
+      "opponent_label": "Annihilape LK+RF/CC 0/15/15",
+      "shield_best_scores": [
+        784,
+        747,
+        730
+      ],
+      "shield_best_members": [
+        "Palossand A+SB/ST 1/12/13",
+        "Palossand A+SB/ST 1/12/13",
+        "Palossand A+SB/ST 1/12/13"
+      ],
+      "confidence": "stable"
+    },
+    {
+      "opponent_label": "Annihilape (Shadow) LK+RF/CC 0/15/15",
+      "shield_best_scores": [
+        747,
+        701,
+        748
+      ],
+      "shield_best_members": [
+        "Palossand A+SB/ST 1/12/13",
+        "Palossand A+SB/ST 1/12/13",
+        "Roserade PSt+WBF/LfS 0/14/12"
+      ],
+      "confidence": "stable"
+    },
+    {
+      "opponent_label": "Articuno PS+IW/AP 1/15/15",
+      "shield_best_scores": [
+        750,
+        838,
+        769
+      ],
+      "shield_best_members": [
+        "Crustle FC+XS/RW 0/14/15",
+        "Crustle FC+XS/RW 0/14/15",
+        "Crustle FC+XS/RW 0/14/15"
+      ],
+      "confidence": "stable"
+    },
+    {
+      "opponent_label": "Aurorus PS+WBI/MeB 0/15/15",
+      "shield_best_scores": [
+        778,
+        723,
+        783
+      ],
+      "shield_best_members": [
+        "Annihilape LK+RF/CC 3/11/15",
+        "Crustle FC+XS/RW 0/14/15",
+        "Cetitan PS+ISp/SP 1/14/11"
+      ],
+      "confidence": "stable"
+    },
+    {
+      "opponent_label": "Blastoise RO+HC/IB 0/12/15",
+      "shield_best_scores": [
+        768,
+        856,
+        812
+      ],
+      "shield_best_members": [
+        "Roserade PSt+WBF/LfS 0/14/12",
+        "Roserade PSt+WBF/LfS 0/14/12",
+        "Roserade PSt+WBF/LfS 0/14/12"
+      ],
+      "confidence": "stable"
+    },
+    {
+      "opponent_label": "Cofagrigus SC+SB/DP 10/15/15",
+      "shield_best_scores": [
+        691,
+        684,
+        776
+      ],
+      "shield_best_members": [
+        "Greedent MS+BS/TBl 4/14/14",
+        "Greedent MS+BS/TBl 4/14/14",
+        "Greedent MS+BS/TBl 4/14/14"
+      ],
+      "confidence": "stable"
+    },
+    {
+      "opponent_label": "Crustle FC+XS/RW 0/14/15",
+      "shield_best_scores": [
+        718,
+        696,
+        661
+      ],
+      "shield_best_members": [
+        "Annihilape LK+RF/CC 3/11/15",
+        "Palossand A+SB/ST 1/12/13",
+        "Annihilape LK+RF/CC 3/11/15"
+      ],
+      "confidence": "stable"
+    },
+    {
+      "opponent_label": "Dondozo W+S/O 0/14/15",
+      "shield_best_scores": [
+        680,
+        856,
+        812
+      ],
+      "shield_best_members": [
+        "Greedent MS+BS/TBl 4/14/14",
+        "Roserade PSt+WBF/LfS 0/14/12",
+        "Roserade PSt+WBF/LfS 0/14/12"
+      ],
+      "confidence": "swingy"
+    },
+    {
+      "opponent_label": "Drifblim A+IW/SB 1/15/15",
+      "shield_best_scores": [
+        576,
+        712,
+        711
+      ],
+      "shield_best_members": [
+        "Cetitan PS+ISp/SP 1/14/11",
+        "Cetitan PS+ISp/SP 1/14/11",
+        "Cetitan PS+ISp/SP 1/14/11"
+      ],
+      "confidence": "fragile"
+    },
+    {
+      "opponent_label": "Feraligatr SC+HC/IB 1/15/14",
+      "shield_best_scores": [
+        712,
+        796,
+        767
+      ],
+      "shield_best_members": [
+        "Roserade PSt+WBF/LfS 0/14/12",
+        "Roserade PSt+WBF/LfS 0/14/12",
+        "Greedent MS+BS/TBl 4/14/14"
+      ],
+      "confidence": "stable"
+    },
+    {
+      "opponent_label": "Feraligatr (Shadow) SC+HC/IB 1/15/14",
+      "shield_best_scores": [
+        679,
+        796,
+        712
+      ],
+      "shield_best_members": [
+        "Roserade PSt+WBF/LfS 0/14/12",
+        "Roserade PSt+WBF/LfS 0/14/12",
+        "Roserade PSt+WBF/LfS 0/14/12"
+      ],
+      "confidence": "stable"
+    },
+    {
+      "opponent_label": "Galvantula (Shadow) VS+D/Lu 15/15/15",
+      "shield_best_scores": [
+        832,
+        894,
+        857
+      ],
+      "shield_best_members": [
+        "Palossand A+SB/ST 1/12/13",
+        "Palossand A+SB/ST 1/12/13",
+        "Palossand A+SB/ST 1/12/13"
+      ],
+      "confidence": "stable"
+    },
+    {
+      "opponent_label": "Giratina (Origin) SC+SB/DgP 1/12/13",
+      "shield_best_scores": [
+        621,
+        815,
+        768
+      ],
+      "shield_best_members": [
+        "Cetitan PS+ISp/SP 1/14/11",
+        "Cetitan PS+ISp/SP 1/14/11",
+        "Cetitan PS+ISp/SP 1/14/11"
+      ],
+      "confidence": "swingy"
+    },
+    {
+      "opponent_label": "Giratina (Origin) SC+SB/DgP 1/12/13",
+      "shield_best_scores": [
+        621,
+        815,
+        768
+      ],
+      "shield_best_members": [
+        "Cetitan PS+ISp/SP 1/14/11",
+        "Cetitan PS+ISp/SP 1/14/11",
+        "Cetitan PS+ISp/SP 1/14/11"
+      ],
+      "confidence": "swingy"
+    },
+    {
+      "opponent_label": "Gliscor WA+Acr/ST 0/14/15",
+      "shield_best_scores": [
+        942,
+        884,
+        806
+      ],
+      "shield_best_members": [
+        "Cetitan PS+ISp/SP 1/14/11",
+        "Cetitan PS+ISp/SP 1/14/11",
+        "Cetitan PS+ISp/SP 1/14/11"
+      ],
+      "confidence": "stable"
+    },
+    {
+      "opponent_label": "Golisopod FC+XS/AJ 1/14/15",
+      "shield_best_scores": [
+        608,
+        756,
+        644
+      ],
+      "shield_best_members": [
+        "Crustle FC+XS/RW 0/14/15",
+        "Roserade PSt+WBF/LfS 0/14/12",
+        "Roserade PSt+WBF/LfS 0/14/12"
+      ],
+      "confidence": "fragile"
+    },
+    {
+      "opponent_label": "Goodra DB+AT/TP 0/12/12",
+      "shield_best_scores": [
+        646,
+        726,
+        661
+      ],
+      "shield_best_members": [
+        "Cetitan PS+ISp/SP 1/14/11",
+        "Cetitan PS+ISp/SP 1/14/11",
+        "Cetitan PS+ISp/SP 1/14/11"
+      ],
+      "confidence": "stable"
+    },
+    {
+      "opponent_label": "Gourgeist (Average) H+SB/FoP 1/14/15",
+      "shield_best_scores": [
+        661,
+        659,
+        825
+      ],
+      "shield_best_members": [
+        "Cetitan PS+ISp/SP 1/14/11",
+        "Cetitan PS+ISp/SP 1/14/11",
+        "Cetitan PS+ISp/SP 1/14/11"
+      ],
+      "confidence": "stable"
+    },
+    {
+      "opponent_label": "Greedent MS+BS/TBl 3/15/15",
+      "shield_best_scores": [
+        762,
+        819,
+        652
+      ],
+      "shield_best_members": [
+        "Annihilape LK+RF/CC 3/11/15",
+        "Annihilape LK+RF/CC 3/11/15",
+        "Cetitan PS+ISp/SP 1/14/11"
+      ],
+      "confidence": "stable"
+    },
+    {
+      "opponent_label": "Grumpig Psy+DyP/SB 3/14/15",
+      "shield_best_scores": [
+        680,
+        674,
+        789
+      ],
+      "shield_best_members": [
+        "Crustle FC+XS/RW 0/14/15",
+        "Crustle FC+XS/RW 0/14/15",
+        "Crustle FC+XS/RW 0/14/15"
+      ],
+      "confidence": "stable"
+    },
+    {
+      "opponent_label": "Gyarados (Shadow) DB+AT/Tw 0/15/14",
+      "shield_best_scores": [
+        688,
+        638,
+        606
+      ],
+      "shield_best_members": [
+        "Roserade PSt+WBF/LfS 0/14/12",
+        "Cetitan PS+ISp/SP 1/14/11",
+        "Cetitan PS+ISp/SP 1/14/11"
+      ],
+      "confidence": "fragile"
+    },
+    {
+      "opponent_label": "Kingdra DB+Sw/O 0/15/15",
+      "shield_best_scores": [
+        615,
+        556,
+        702
+      ],
+      "shield_best_members": [
+        "Greedent MS+BS/TBl 4/14/14",
+        "Roserade PSt+WBF/LfS 0/14/12",
+        "Annihilape LK+RF/CC 3/11/15"
+      ],
+      "confidence": "fragile"
+    },
+    {
+      "opponent_label": "Kommo-o DT+ClS/UH 0/11/14",
+      "shield_best_scores": [
+        600,
+        838,
+        748
+      ],
+      "shield_best_members": [
+        "Cetitan PS+ISp/SP 1/14/11",
+        "Cetitan PS+ISp/SP 1/14/11",
+        "Annihilape LK+RF/CC 3/11/15"
+      ],
+      "confidence": "fragile"
+    },
+    {
+      "opponent_label": "Latias DB+AuS/MsB 1/15/14",
+      "shield_best_scores": [
+        677,
+        838,
+        738
+      ],
+      "shield_best_members": [
+        "Crustle FC+XS/RW 0/14/15",
+        "Cetitan PS+ISp/SP 1/14/11",
+        "Palossand A+SB/ST 1/12/13"
+      ],
+      "confidence": "stable"
+    },
+    {
+      "opponent_label": "Ludicolo A+WBW/LfS 6/14/15",
+      "shield_best_scores": [
+        656,
+        780,
+        763
+      ],
+      "shield_best_members": [
+        "Roserade PSt+WBF/LfS 0/14/12",
+        "Roserade PSt+WBF/LfS 0/14/12",
+        "Crustle FC+XS/RW 0/14/15"
+      ],
+      "confidence": "stable"
+    },
+    {
+      "opponent_label": "Lugia DT+Fl/A 1/13/13",
+      "shield_best_scores": [
+        737,
+        735,
+        828
+      ],
+      "shield_best_members": [
+        "Cetitan PS+ISp/SP 1/14/11",
+        "Palossand A+SB/ST 1/12/13",
+        "Cetitan PS+ISp/SP 1/14/11"
+      ],
+      "confidence": "stable"
+    },
+    {
+      "opponent_label": "Lunatone Psy+RS/WBI 5/15/15",
+      "shield_best_scores": [
+        698,
+        671,
+        747
+      ],
+      "shield_best_members": [
+        "Palossand A+SB/ST 1/12/13",
+        "Greedent MS+BS/TBl 4/14/14",
+        "Palossand A+SB/ST 1/12/13"
+      ],
+      "confidence": "stable"
+    },
+    {
+      "opponent_label": "Milotic DT+Wr/AT 0/13/15",
+      "shield_best_scores": [
+        752,
+        748,
+        752
+      ],
+      "shield_best_members": [
+        "Roserade PSt+WBF/LfS 0/14/12",
+        "Roserade PSt+WBF/LfS 0/14/12",
+        "Roserade PSt+WBF/LfS 0/14/12"
+      ],
+      "confidence": "stable"
+    },
+    {
+      "opponent_label": "Miltank RO+BS/IB 4/15/15",
+      "shield_best_scores": [
+        781,
+        939,
+        754
+      ],
+      "shield_best_members": [
+        "Annihilape LK+RF/CC 3/11/15",
+        "Annihilape LK+RF/CC 3/11/15",
+        "Annihilape LK+RF/CC 3/11/15"
+      ],
+      "confidence": "swingy"
+    },
+    {
+      "opponent_label": "Poliwrath MS+IW/DyP 0/14/14",
+      "shield_best_scores": [
+        679,
+        636,
+        626
+      ],
+      "shield_best_members": [
+        "Roserade PSt+WBF/LfS 0/14/12",
+        "Roserade PSt+WBF/LfS 0/14/12",
+        "Greedent MS+BS/TBl 4/14/14"
+      ],
+      "confidence": "stable"
+    },
+    {
+      "opponent_label": "Primeape KC+RF/CC 7/15/15",
+      "shield_best_scores": [
+        760,
+        729,
+        683
+      ],
+      "shield_best_members": [
+        "Roserade PSt+WBF/LfS 0/14/12",
+        "Annihilape LK+RF/CC 3/11/15",
+        "Annihilape LK+RF/CC 3/11/15"
+      ],
+      "confidence": "stable"
+    },
+    {
+      "opponent_label": "Raikou VS+WC/AuS 1/15/12",
+      "shield_best_scores": [
+        803,
+        863,
+        786
+      ],
+      "shield_best_members": [
+        "Palossand A+SB/ST 1/12/13",
+        "Palossand A+SB/ST 1/12/13",
+        "Palossand A+SB/ST 1/12/13"
+      ],
+      "confidence": "stable"
+    },
+    {
+      "opponent_label": "Runerigus SC+RT/SB 10/15/15",
+      "shield_best_scores": [
+        860,
+        697,
+        782
+      ],
+      "shield_best_members": [
+        "Roserade PSt+WBF/LfS 0/14/12",
+        "Greedent MS+BS/TBl 4/14/14",
+        "Greedent MS+BS/TBl 4/14/14"
+      ],
+      "confidence": "stable"
+    },
+    {
+      "opponent_label": "Samurott FC+HC/Mh 1/15/15",
+      "shield_best_scores": [
+        684,
+        756,
+        704
+      ],
+      "shield_best_members": [
+        "Greedent MS+BS/TBl 4/14/14",
+        "Roserade PSt+WBF/LfS 0/14/12",
+        "Annihilape LK+RF/CC 3/11/15"
+      ],
+      "confidence": "stable"
+    },
+    {
+      "opponent_label": "Slowbro Cf+DrP/S 0/14/14",
+      "shield_best_scores": [
+        835,
+        764,
+        687
+      ],
+      "shield_best_members": [
+        "Palossand A+SB/ST 1/12/13",
+        "Palossand A+SB/ST 1/12/13",
+        "Palossand A+SB/ST 1/12/13"
+      ],
+      "confidence": "stable"
+    },
+    {
+      "opponent_label": "Slowking (Galarian) Ac+Psh/SB 0/15/15",
+      "shield_best_scores": [
+        678,
+        781,
+        903
+      ],
+      "shield_best_members": [
+        "Palossand A+SB/ST 1/12/13",
+        "Palossand A+SB/ST 1/12/13",
+        "Palossand A+SB/ST 1/12/13"
+      ],
+      "confidence": "swingy"
+    },
+    {
+      "opponent_label": "Solrock Psy+RS/WBF 5/15/15",
+      "shield_best_scores": [
+        764,
+        684,
+        747
+      ],
+      "shield_best_members": [
+        "Palossand A+SB/ST 1/12/13",
+        "Palossand A+SB/ST 1/12/13",
+        "Palossand A+SB/ST 1/12/13"
+      ],
+      "confidence": "stable"
+    },
+    {
+      "opponent_label": "Swampert MS+HC/Eq 0/14/13",
+      "shield_best_scores": [
+        764,
+        763,
+        824
+      ],
+      "shield_best_members": [
+        "Roserade PSt+WBF/LfS 0/14/12",
+        "Greedent MS+BS/TBl 4/14/14",
+        "Roserade PSt+WBF/LfS 0/14/12"
+      ],
+      "confidence": "stable"
+    },
+    {
+      "opponent_label": "Tentacruel Ac+Sc/Pbk 0/13/15",
+      "shield_best_scores": [
+        592,
+        639,
+        892
+      ],
+      "shield_best_members": [
+        "Crustle FC+XS/RW 0/14/15",
+        "Greedent MS+BS/TBl 4/14/14",
+        "Palossand A+SB/ST 1/12/13"
+      ],
+      "confidence": "fragile"
+    },
+    {
+      "opponent_label": "Toucannon (Shadow) Pk+DrlP/BBl 2/15/14",
+      "shield_best_scores": [
+        904,
+        807,
+        749
+      ],
+      "shield_best_members": [
+        "Cetitan PS+ISp/SP 1/14/11",
+        "Cetitan PS+ISp/SP 1/14/11",
+        "Cetitan PS+ISp/SP 1/14/11"
+      ],
+      "confidence": "stable"
+    },
+    {
+      "opponent_label": "Uxie Cf+Sw/FS 1/12/15",
+      "shield_best_scores": [
+        644,
+        775,
+        730
+      ],
+      "shield_best_members": [
+        "Palossand A+SB/ST 1/12/13",
+        "Palossand A+SB/ST 1/12/13",
+        "Crustle FC+XS/RW 0/14/15"
+      ],
+      "confidence": "stable"
+    },
+    {
+      "opponent_label": "Virizion DK+LB/SSw 1/15/12",
+      "shield_best_scores": [
+        804,
+        752,
+        700
+      ],
+      "shield_best_members": [
+        "Roserade PSt+WBF/LfS 0/14/12",
+        "Roserade PSt+WBF/LfS 0/14/12",
+        "Roserade PSt+WBF/LfS 0/14/12"
+      ],
+      "confidence": "stable"
+    },
+    {
+      "opponent_label": "Walrein PS+ISp/Eq 0/15/15",
+      "shield_best_scores": [
+        720,
+        703,
+        634
+      ],
+      "shield_best_members": [
+        "Crustle FC+XS/RW 0/14/15",
+        "Crustle FC+XS/RW 0/14/15",
+        "Crustle FC+XS/RW 0/14/15"
+      ],
+      "confidence": "stable"
+    },
+    {
+      "opponent_label": "Zapdos TS+DrlP/Tb 1/12/13",
+      "shield_best_scores": [
+        775,
+        750,
+        824
+      ],
+      "shield_best_members": [
+        "Palossand A+SB/ST 1/12/13",
+        "Palossand A+SB/ST 1/12/13",
+        "Roserade PSt+WBF/LfS 0/14/12"
+      ],
+      "confidence": "stable"
+    }
+  ],
+  "meta": "bfretro",
+  "matrix_files": [
+    "data/simulations/bfretro_0-shield.csv",
+    "data/simulations/bfretro_1-shield.csv",
+    "data/simulations/bfretro_2-shield.csv"
+  ]
+}

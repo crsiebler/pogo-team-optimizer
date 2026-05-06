@@ -73,8 +73,17 @@ class PvpokeExporter(AnalysisExporter):
             for alias in aliases:
                 self._move_alias_to_ids.setdefault(alias, set()).add(move_id)
 
-    def _parse_label(self, label: str) -> tuple[str, str, str, str]:
-        stripped = re.sub(r"\s+\d+/\d+/\d+$", "", label.strip())
+    def _parse_label(self, label: str) -> tuple[str, str, str, str, tuple[int, int, int] | None]:
+        stripped = label.strip()
+        ivs: tuple[int, int, int] | None = None
+        iv_match = re.search(r"\s+(?P<atk>\d+)/(?P<def>\d+)/(?P<hp>\d+)$", stripped)
+        if iv_match:
+            ivs = (
+                int(iv_match.group("atk")),
+                int(iv_match.group("def")),
+                int(iv_match.group("hp")),
+            )
+            stripped = stripped[: iv_match.start()].strip()
         match = re.match(r"^(?P<species>.+?)\s+(?P<moves>[A-Za-z0-9]+\+[^\s]+)$", stripped)
         if not match:
             raise ValueError(f"Unable to parse moveset from label: {label}")
@@ -85,7 +94,7 @@ class PvpokeExporter(AnalysisExporter):
         charged_parts = charged_tokens.split("/")
         if len(charged_parts) != 2:
             raise ValueError(f"Expected two charged moves in label: {label}")
-        return species, fast_token.upper(), charged_parts[0].upper(), charged_parts[1].upper()
+        return species, fast_token.upper(), charged_parts[0].upper(), charged_parts[1].upper(), ivs
 
     def _parse_species_parts(self, species: str) -> tuple[str, list[str], bool]:
         groups = re.findall(r"\(([^)]+)\)", species)
@@ -162,7 +171,7 @@ class PvpokeExporter(AnalysisExporter):
         members = result.get("recommended_team", {}).get("members", [])
         for member in members:
             label = member["label"]
-            parsed_species, fast_token, charged1_token, charged2_token = self._parse_label(label)
+            parsed_species, fast_token, charged1_token, charged2_token, ivs = self._parse_label(label)
             species_id = self._resolve_species_id(parsed_species, label)
 
             legal_fast = self._legal_fast_by_id.get(species_id, set())
@@ -171,7 +180,10 @@ class PvpokeExporter(AnalysisExporter):
             fast_move = self._resolve_move(fast_token, legal_fast, parsed_species, label)
             charged1 = self._resolve_move(charged1_token, legal_charged, parsed_species, label)
             charged2 = self._resolve_move(charged2_token, legal_charged, parsed_species, label)
-            lines.append(f"{species_id},{fast_move},{charged1},{charged2}")
+            fields = [species_id, fast_move, charged1, charged2]
+            if ivs is not None:
+                fields.extend(str(value) for value in ivs)
+            lines.append(",".join(fields))
 
         rendered = "\n".join(lines)
         if output_path:

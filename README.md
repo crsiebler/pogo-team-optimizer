@@ -51,27 +51,28 @@ PYTHONPATH=src python -m pytest --cov=src --cov-report=term-missing
 
 ## Running the CLI
 
-Basic text output:
+Basic run:
 
 ```bash
-PYTHONPATH=src python -m pogo_team_optimizer.cli.main --meta crucible --format text
+PYTHONPATH=src python -m pogo_team_optimizer.cli.main --meta crucible
 ```
 
 Supported metas include `bayou`, `bfretro`, `great`, `bfmaster`, and `crucible`.
 
-Use `--output` for non-text formats (`markdown`, `json`, `csv`, `excel`, `pvpoke`):
+Each CLI execution runs the optimizer once, prints the text report, and writes every supported
+format to `data/output/`:
 
 ```bash
-PYTHONPATH=src python -m pogo_team_optimizer.cli.main --meta crucible --format json --output analysis.json
+PYTHONPATH=src python -m pogo_team_optimizer.cli.main --meta crucible
 ```
 
-Make targets are also available:
+Generated files use the selected meta name: `<meta>.txt`, `<meta>.md`, `<meta>.json`,
+`<meta>.csv`, `<meta>.xlsx`, and `<meta>.pvpoke`. Use `--output-dir` to write them elsewhere.
+
+The Make target uses the same single-run workflow:
 
 ```bash
 make run META=bayou
-make run-json META=bayou
-make run-md META=bayou
-make run-pvpoke META=bayou
 ```
 
 If `META` is omitted, Makefile run targets default to `bfmaster`.

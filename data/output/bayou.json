@@ -1,0 +1,664 @@
+{
+  "recommended_team": {
+    "members": [
+      {
+        "index": 99,
+        "label": "Zoroark (Hisuian) SC+SB/FoP 0/15/11",
+        "species": "Zoroark (Hisuian)",
+        "base_species": "Zoroark (Hisuian)",
+        "types": [
+          "normal",
+          "ghost"
+        ]
+      },
+      {
+        "index": 21,
+        "label": "Dartrix Pk+BrB/SeB 6/15/15",
+        "species": "Dartrix",
+        "base_species": "Dartrix",
+        "types": [
+          "grass",
+          "flying"
+        ]
+      },
+      {
+        "index": 31,
+        "label": "Galvantula VS+D/Lu 0/15/15",
+        "species": "Galvantula",
+        "base_species": "Galvantula",
+        "types": [
+          "bug",
+          "electric"
+        ]
+      },
+      {
+        "index": 36,
+        "label": "Golbat WA+PF/SB 0/12/12",
+        "species": "Golbat",
+        "base_species": "Golbat",
+        "types": [
+          "poison",
+          "flying"
+        ]
+      },
+      {
+        "index": 12,
+        "label": "Blastoise RO+HC/SkB 1/15/15",
+        "species": "Blastoise",
+        "base_species": "Blastoise",
+        "types": [
+          "water",
+          "none"
+        ]
+      },
+      {
+        "index": 24,
+        "label": "Doublade SC+SSw/GB 12/11/15",
+        "species": "Doublade",
+        "base_species": "Doublade",
+        "types": [
+          "steel",
+          "ghost"
+        ]
+      }
+    ],
+    "score": [
+      96.0,
+      32.0,
+      0.0,
+      0.0,
+      679.0625,
+      154.5109528870039,
+      85.85000000000001,
+      809.2916666666666,
+      96.0,
+      78.0,
+      743.6666666666666,
+      84.0,
+      0.0
+    ],
+    "bulk_score": 154.5109528870039,
+    "safety_score": 85.85000000000001,
+    "metrics": {
+      "pair_coverage": 96,
+      "full_col_coverage": 32,
+      "redundant_coverage_2plus": 96,
+      "redundant_coverage_3plus": 78,
+      "single_cover_pairs": 0,
+      "single_cover_rate": 0.0,
+      "no_cover_pairs": 0,
+      "no_cover_rate": 0.0,
+      "bulk_score": 154.5109528870039,
+      "safety_score": 85.85000000000001,
+      "consistency_score": 809.2916666666666,
+      "weighted_worst_best_score": 679.0625,
+      "mean_best_score": 743.6666666666666,
+      "dominate_count": 84,
+      "dominate_rate": 0.875,
+      "overwhelming_count": 0,
+      "overwhelming_rate": 0.0,
+      "total_pairs": 96,
+      "bulk_pool_min": 58.748971193415635,
+      "bulk_pool_max": 305.35714285714283,
+      "bulk_pool_mean": 175.88294082894464,
+      "safety_pool_min": 30.6,
+      "safety_pool_max": 100.0,
+      "safety_pool_mean": 69.847,
+      "safety_priority": "medium",
+      "safety_floor_target": 78.0,
+      "safe_member_floor": 90.0,
+      "safe_member_target": 1
+    },
+    "shadow_count": 0
+  },
+  "coverage": [
+    {
+      "shield": 0,
+      "wins": 32,
+      "draws": 0,
+      "losses": 0,
+      "weighted_wins": 1.0
+    },
+    {
+      "shield": 1,
+      "wins": 32,
+      "draws": 0,
+      "losses": 0,
+      "weighted_wins": 1.0
+    },
+    {
+      "shield": 2,
+      "wins": 32,
+      "draws": 0,
+      "losses": 0,
+      "weighted_wins": 1.0
+    }
+  ],
+  "threats": [
+    {
+      "opponent_label": "Skuntank (Shadow) PJ+Cr/TBl 0/15/15",
+      "min_best_score": 542,
+      "avg_best_score": 670.6666666666666,
+      "shield_best_scores": [
+        542,
+        623,
+        847
+      ],
+      "shield_best_members": [
+        "Golbat WA+PF/SB 0/12/12",
+        "Zoroark (Hisuian) SC+SB/FoP 0/15/11",
+        "Doublade SC+SSw/GB 12/11/15"
+      ],
+      "single_cover_count": 0,
+      "no_cover_count": 0,
+      "fragile_shields": []
+    }
+  ],
+  "safe_cores": [
+    {
+      "members": [
+        {
+          "index": 21,
+          "label": "Dartrix Pk+BrB/SeB 6/15/15",
+          "species": "Dartrix",
+          "base_species": "Dartrix",
+          "types": [
+            "grass",
+            "flying"
+          ]
+        },
+        {
+          "index": 12,
+          "label": "Blastoise RO+HC/SkB 1/15/15",
+          "species": "Blastoise",
+          "base_species": "Blastoise",
+          "types": [
+            "water",
+            "none"
+          ]
+        },
+        {
+          "index": 24,
+          "label": "Doublade SC+SSw/GB 12/11/15",
+          "species": "Doublade",
+          "base_species": "Doublade",
+          "types": [
+            "steel",
+            "ghost"
+          ]
+        }
+      ],
+      "score": [
+        94.0,
+        30.0,
+        -2.0,
+        -35.0,
+        588.84375,
+        192.4327686912817,
+        89.60000000000001,
+        712.5,
+        59.0,
+        8.0,
+        671.09375,
+        53.0,
+        0.0
+      ]
+    }
+  ],
+  "target_map": [
+    {
+      "opponent_label": "Abomasnow PS+WBI/EB 0/15/15",
+      "shield_best_scores": [
+        790,
+        728,
+        790
+      ],
+      "shield_best_members": [
+        "Doublade SC+SSw/GB 12/11/15",
+        "Doublade SC+SSw/GB 12/11/15",
+        "Doublade SC+SSw/GB 12/11/15"
+      ],
+      "confidence": "stable"
+    },
+    {
+      "opponent_label": "Amoonguss A+GK/FoP 0/14/15",
+      "shield_best_scores": [
+        766,
+        747,
+        707
+      ],
+      "shield_best_members": [
+        "Dartrix Pk+BrB/SeB 6/15/15",
+        "Zoroark (Hisuian) SC+SB/FoP 0/15/11",
+        "Golbat WA+PF/SB 0/12/12"
+      ],
+      "confidence": "stable"
+    },
+    {
+      "opponent_label": "Barbaracle FC+CrC/SE 0/10/13",
+      "shield_best_scores": [
+        746,
+        789,
+        761
+      ],
+      "shield_best_members": [
+        "Galvantula VS+D/Lu 0/15/15",
+        "Dartrix Pk+BrB/SeB 6/15/15",
+        "Doublade SC+SSw/GB 12/11/15"
+      ],
+      "confidence": "stable"
+    },
+    {
+      "opponent_label": "Blastoise RO+HC/SkB 1/15/15",
+      "shield_best_scores": [
+        575,
+        746,
+        680
+      ],
+      "shield_best_members": [
+        "Dartrix Pk+BrB/SeB 6/15/15",
+        "Galvantula VS+D/Lu 0/15/15",
+        "Zoroark (Hisuian) SC+SB/FoP 0/15/11"
+      ],
+      "confidence": "fragile"
+    },
+    {
+      "opponent_label": "Cofagrigus SC+SB/DP 0/11/14",
+      "shield_best_scores": [
+        855,
+        799,
+        726
+      ],
+      "shield_best_members": [
+        "Zoroark (Hisuian) SC+SB/FoP 0/15/11",
+        "Dartrix Pk+BrB/SeB 6/15/15",
+        "Zoroark (Hisuian) SC+SB/FoP 0/15/11"
+      ],
+      "confidence": "stable"
+    },
+    {
+      "opponent_label": "Dartrix Pk+BrB/SeB 0/15/14",
+      "shield_best_scores": [
+        789,
+        654,
+        725
+      ],
+      "shield_best_members": [
+        "Dartrix Pk+BrB/SeB 6/15/15",
+        "Dartrix Pk+BrB/SeB 6/15/15",
+        "Golbat WA+PF/SB 0/12/12"
+      ],
+      "confidence": "stable"
+    },
+    {
+      "opponent_label": "Dewgong IS+IW/DR 0/12/15",
+      "shield_best_scores": [
+        596,
+        707,
+        761
+      ],
+      "shield_best_members": [
+        "Blastoise RO+HC/SkB 1/15/15",
+        "Blastoise RO+HC/SkB 1/15/15",
+        "Doublade SC+SSw/GB 12/11/15"
+      ],
+      "confidence": "fragile"
+    },
+    {
+      "opponent_label": "Doublade SC+SSw/GB 0/11/14",
+      "shield_best_scores": [
+        871,
+        782,
+        731
+      ],
+      "shield_best_members": [
+        "Zoroark (Hisuian) SC+SB/FoP 0/15/11",
+        "Golbat WA+PF/SB 0/12/12",
+        "Zoroark (Hisuian) SC+SB/FoP 0/15/11"
+      ],
+      "confidence": "stable"
+    },
+    {
+      "opponent_label": "Drifblim A+IW/SB 0/15/12",
+      "shield_best_scores": [
+        876,
+        710,
+        618
+      ],
+      "shield_best_members": [
+        "Zoroark (Hisuian) SC+SB/FoP 0/15/11",
+        "Golbat WA+PF/SB 0/12/12",
+        "Zoroark (Hisuian) SC+SB/FoP 0/15/11"
+      ],
+      "confidence": "fragile"
+    },
+    {
+      "opponent_label": "Feraligatr SC+HC/IB 0/11/13",
+      "shield_best_scores": [
+        583,
+        788,
+        750
+      ],
+      "shield_best_members": [
+        "Galvantula VS+D/Lu 0/15/15",
+        "Zoroark (Hisuian) SC+SB/FoP 0/15/11",
+        "Galvantula VS+D/Lu 0/15/15"
+      ],
+      "confidence": "fragile"
+    },
+    {
+      "opponent_label": "Froslass PS+Av/SB 0/15/15",
+      "shield_best_scores": [
+        819,
+        838,
+        804
+      ],
+      "shield_best_members": [
+        "Zoroark (Hisuian) SC+SB/FoP 0/15/11",
+        "Doublade SC+SSw/GB 12/11/15",
+        "Doublade SC+SSw/GB 12/11/15"
+      ],
+      "confidence": "stable"
+    },
+    {
+      "opponent_label": "Galvantula VS+D/Lu 0/15/15",
+      "shield_best_scores": [
+        690,
+        559,
+        651
+      ],
+      "shield_best_members": [
+        "Dartrix Pk+BrB/SeB 6/15/15",
+        "Dartrix Pk+BrB/SeB 6/15/15",
+        "Dartrix Pk+BrB/SeB 6/15/15"
+      ],
+      "confidence": "fragile"
+    },
+    {
+      "opponent_label": "Golbat WA+PF/SB 0/15/15",
+      "shield_best_scores": [
+        664,
+        673,
+        761
+      ],
+      "shield_best_members": [
+        "Zoroark (Hisuian) SC+SB/FoP 0/15/11",
+        "Blastoise RO+HC/SkB 1/15/15",
+        "Doublade SC+SSw/GB 12/11/15"
+      ],
+      "confidence": "stable"
+    },
+    {
+      "opponent_label": "Golbat (Shadow) WA+PF/SB 0/15/15",
+      "shield_best_scores": [
+        678,
+        785,
+        753
+      ],
+      "shield_best_members": [
+        "Galvantula VS+D/Lu 0/15/15",
+        "Doublade SC+SSw/GB 12/11/15",
+        "Galvantula VS+D/Lu 0/15/15"
+      ],
+      "confidence": "stable"
+    },
+    {
+      "opponent_label": "Golisopod SC+XS/AJ 0/8/15",
+      "shield_best_scores": [
+        723,
+        788,
+        750
+      ],
+      "shield_best_members": [
+        "Dartrix Pk+BrB/SeB 6/15/15",
+        "Zoroark (Hisuian) SC+SB/FoP 0/15/11",
+        "Galvantula VS+D/Lu 0/15/15"
+      ],
+      "confidence": "stable"
+    },
+    {
+      "opponent_label": "Gyarados DB+AT/Cr 0/14/15",
+      "shield_best_scores": [
+        700,
+        805,
+        805
+      ],
+      "shield_best_members": [
+        "Blastoise RO+HC/SkB 1/15/15",
+        "Galvantula VS+D/Lu 0/15/15",
+        "Galvantula VS+D/Lu 0/15/15"
+      ],
+      "confidence": "stable"
+    },
+    {
+      "opponent_label": "Lokix SkP+XS/TBl 0/14/14",
+      "shield_best_scores": [
+        785,
+        725,
+        634
+      ],
+      "shield_best_members": [
+        "Galvantula VS+D/Lu 0/15/15",
+        "Golbat WA+PF/SB 0/12/12",
+        "Dartrix Pk+BrB/SeB 6/15/15"
+      ],
+      "confidence": "stable"
+    },
+    {
+      "opponent_label": "Marowak (Alolan) FS+BC/SBo 0/14/14",
+      "shield_best_scores": [
+        773,
+        692,
+        800
+      ],
+      "shield_best_members": [
+        "Zoroark (Hisuian) SC+SB/FoP 0/15/11",
+        "Golbat WA+PF/SB 0/12/12",
+        "Blastoise RO+HC/SkB 1/15/15"
+      ],
+      "confidence": "stable"
+    },
+    {
+      "opponent_label": "Pelipper WA+WBW/Hu 0/12/15",
+      "shield_best_scores": [
+        838,
+        849,
+        849
+      ],
+      "shield_best_members": [
+        "Dartrix Pk+BrB/SeB 6/15/15",
+        "Galvantula VS+D/Lu 0/15/15",
+        "Galvantula VS+D/Lu 0/15/15"
+      ],
+      "confidence": "stable"
+    },
+    {
+      "opponent_label": "Runerigus SC+SB/RT 0/11/14",
+      "shield_best_scores": [
+        855,
+        788,
+        689
+      ],
+      "shield_best_members": [
+        "Zoroark (Hisuian) SC+SB/FoP 0/15/11",
+        "Zoroark (Hisuian) SC+SB/FoP 0/15/11",
+        "Golbat WA+PF/SB 0/12/12"
+      ],
+      "confidence": "stable"
+    },
+    {
+      "opponent_label": "Samurott (Shadow) FC+HC/Mh 0/14/14",
+      "shield_best_scores": [
+        653,
+        789,
+        852
+      ],
+      "shield_best_members": [
+        "Golbat WA+PF/SB 0/12/12",
+        "Dartrix Pk+BrB/SeB 6/15/15",
+        "Doublade SC+SSw/GB 12/11/15"
+      ],
+      "confidence": "swingy"
+    },
+    {
+      "opponent_label": "Seaking Pk+DR/IW 0/14/14",
+      "shield_best_scores": [
+        880,
+        781,
+        761
+      ],
+      "shield_best_members": [
+        "Galvantula VS+D/Lu 0/15/15",
+        "Galvantula VS+D/Lu 0/15/15",
+        "Galvantula VS+D/Lu 0/15/15"
+      ],
+      "confidence": "stable"
+    },
+    {
+      "opponent_label": "Sealeo PS+S/BS 0/15/14",
+      "shield_best_scores": [
+        676,
+        596,
+        680
+      ],
+      "shield_best_members": [
+        "Blastoise RO+HC/SkB 1/15/15",
+        "Blastoise RO+HC/SkB 1/15/15",
+        "Blastoise RO+HC/SkB 1/15/15"
+      ],
+      "confidence": "fragile"
+    },
+    {
+      "opponent_label": "Sealeo (Shadow) PS+S/BS 0/15/14",
+      "shield_best_scores": [
+        670,
+        719,
+        790
+      ],
+      "shield_best_members": [
+        "Galvantula VS+D/Lu 0/15/15",
+        "Blastoise RO+HC/SkB 1/15/15",
+        "Doublade SC+SSw/GB 12/11/15"
+      ],
+      "confidence": "stable"
+    },
+    {
+      "opponent_label": "Skuntank PJ+Cr/TBl 0/15/15",
+      "shield_best_scores": [
+        582,
+        686,
+        809
+      ],
+      "shield_best_members": [
+        "Dartrix Pk+BrB/SeB 6/15/15",
+        "Galvantula VS+D/Lu 0/15/15",
+        "Doublade SC+SSw/GB 12/11/15"
+      ],
+      "confidence": "fragile"
+    },
+    {
+      "opponent_label": "Skuntank (Shadow) PJ+Cr/TBl 0/15/15",
+      "shield_best_scores": [
+        542,
+        623,
+        847
+      ],
+      "shield_best_members": [
+        "Golbat WA+PF/SB 0/12/12",
+        "Zoroark (Hisuian) SC+SB/FoP 0/15/11",
+        "Doublade SC+SSw/GB 12/11/15"
+      ],
+      "confidence": "fragile"
+    },
+    {
+      "opponent_label": "Slowking (Galarian) Ac+Psh/SB 0/14/13",
+      "shield_best_scores": [
+        896,
+        942,
+        919
+      ],
+      "shield_best_members": [
+        "Zoroark (Hisuian) SC+SB/FoP 0/15/11",
+        "Doublade SC+SSw/GB 12/11/15",
+        "Doublade SC+SSw/GB 12/11/15"
+      ],
+      "confidence": "stable"
+    },
+    {
+      "opponent_label": "Swalot MS+Sl/IB 0/14/14",
+      "shield_best_scores": [
+        647,
+        619,
+        690
+      ],
+      "shield_best_members": [
+        "Doublade SC+SSw/GB 12/11/15",
+        "Doublade SC+SSw/GB 12/11/15",
+        "Dartrix Pk+BrB/SeB 6/15/15"
+      ],
+      "confidence": "fragile"
+    },
+    {
+      "opponent_label": "Tentacruel Ac+Sc/Pbk 1/15/15",
+      "shield_best_scores": [
+        685,
+        747,
+        900
+      ],
+      "shield_best_members": [
+        "Doublade SC+SSw/GB 12/11/15",
+        "Zoroark (Hisuian) SC+SB/FoP 0/15/11",
+        "Doublade SC+SSw/GB 12/11/15"
+      ],
+      "confidence": "swingy"
+    },
+    {
+      "opponent_label": "Trevenant SC+SeB/SB 0/15/15",
+      "shield_best_scores": [
+        871,
+        737,
+        731
+      ],
+      "shield_best_members": [
+        "Zoroark (Hisuian) SC+SB/FoP 0/15/11",
+        "Zoroark (Hisuian) SC+SB/FoP 0/15/11",
+        "Zoroark (Hisuian) SC+SB/FoP 0/15/11"
+      ],
+      "confidence": "stable"
+    },
+    {
+      "opponent_label": "Weezing RO+SlB/SB 0/14/14",
+      "shield_best_scores": [
+        684,
+        747,
+        847
+      ],
+      "shield_best_members": [
+        "Blastoise RO+HC/SkB 1/15/15",
+        "Zoroark (Hisuian) SC+SB/FoP 0/15/11",
+        "Doublade SC+SSw/GB 12/11/15"
+      ],
+      "confidence": "stable"
+    },
+    {
+      "opponent_label": "Weezing (Galarian) FW+Sl/BrS 0/14/14",
+      "shield_best_scores": [
+        709,
+        666,
+        750
+      ],
+      "shield_best_members": [
+        "Doublade SC+SSw/GB 12/11/15",
+        "Doublade SC+SSw/GB 12/11/15",
+        "Golbat WA+PF/SB 0/12/12"
+      ],
+      "confidence": "stable"
+    }
+  ],
+  "meta": "bayou",
+  "matrix_files": [
+    "data/simulations/bayou_0-shield.csv",
+    "data/simulations/bayou_1-shield.csv",
+    "data/simulations/bayou_2-shield.csv"
+  ]
+}

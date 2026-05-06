@@ -25,6 +25,16 @@ from pogo_team_optimizer.infrastructure.repositories.pokemon_json_repository imp
 
 
 DEFAULT_SWITCH_RANKINGS_PATH = "data/rankings/cp1500_all_switches_rankings.csv"
+DEFAULT_OUTPUT_DIR = "data/output"
+OUTPUT_FORMATS = ("text", "markdown", "json", "csv", "excel", "pvpoke")
+OUTPUT_EXTENSIONS = {
+    "text": "txt",
+    "markdown": "md",
+    "json": "json",
+    "csv": "csv",
+    "excel": "xlsx",
+    "pvpoke": "pvpoke",
+}
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -61,9 +71,14 @@ def build_parser() -> argparse.ArgumentParser:
         "--format",
         default="text",
         choices=["text", "markdown", "json", "csv", "excel", "pvpoke"],
-        help="Output format",
+        help="Deprecated; all formats are exported every run",
     )
     parser.add_argument("--output", default=None, help="Output file path")
+    parser.add_argument(
+        "--output-dir",
+        default=DEFAULT_OUTPUT_DIR,
+        help="Directory for generated output files",
+    )
     parser.add_argument("--top-threats", type=int, default=10)
     parser.add_argument("--top-cores", type=int, default=5)
     parser.add_argument(
@@ -102,14 +117,14 @@ def main() -> int:
     parser = build_parser()
     args = parser.parse_args()
 
-    if args.format in {"markdown", "json", "csv", "excel", "pvpoke"} and not args.output:
-        parser.error("--output is required for markdown/json/csv/excel/pvpoke formats")
+    if args.output is not None:
+        parser.error("--output is deprecated; use --output-dir for generated artifacts")
 
     if not Path(args.metas_config).exists():
         parser.error(f"Metas config not found: {args.metas_config}")
     if not Path(args.pokemon_path).exists():
         parser.error(f"Pokemon JSON not found: {args.pokemon_path}")
-    if args.format == "pvpoke" and not Path(args.moves_path).exists():
+    if not Path(args.moves_path).exists():
         parser.error(f"Moves JSON not found: {args.moves_path}")
 
     meta_config = load_meta_config(args.metas_config, args.meta)
@@ -158,14 +173,24 @@ def main() -> int:
     result["meta"] = args.meta
     result["matrix_files"] = list(meta_config.matrix_files)
 
-    exporter = ExporterFactory.create(
-        args.format,
-        pokemon_path=args.pokemon_path,
-        moves_path=args.moves_path,
-    )
-    rendered = exporter.export(result, output_path=args.output)
-    if rendered is not None:
-        print(rendered)
+    output_dir = Path(args.output_dir)
+    output_dir.mkdir(parents=True, exist_ok=True)
+    for output_format in OUTPUT_FORMATS:
+        exporter = ExporterFactory.create(
+            output_format,
+            pokemon_path=args.pokemon_path,
+            moves_path=args.moves_path,
+        )
+        if output_format == "text":
+            rendered = exporter.export(result)
+            if rendered is not None:
+                print(rendered)
+                output_path = output_dir / f"{args.meta}.{OUTPUT_EXTENSIONS[output_format]}"
+                output_path.write_text(rendered, encoding="utf-8")
+            continue
+
+        output_path = output_dir / f"{args.meta}.{OUTPUT_EXTENSIONS[output_format]}"
+        exporter.export(result, output_path=str(output_path))
     return 0
 
 

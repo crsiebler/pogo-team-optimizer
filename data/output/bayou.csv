@@ -1,0 +1,15 @@
+section,key,value
+recommended_team,member,Zoroark (Hisuian) SC+SB/FoP 0/15/11
+recommended_team,member,Dartrix Pk+BrB/SeB 6/15/15
+recommended_team,member,Galvantula VS+D/Lu 0/15/15
+recommended_team,member,Golbat WA+PF/SB 0/12/12
+recommended_team,member,Blastoise RO+HC/SkB 1/15/15
+recommended_team,member,Doublade SC+SSw/GB 12/11/15
+recommended_team,bulk_score,154.51
+recommended_team,bulk_pool_min_mean_max,58.75/175.88/305.36
+recommended_team,consistency,score=809.29;mean=743.67;dominate=84/96;overwhelming=0/96
+recommended_team,redundancy,2plus=96/96;3plus=78/96;single=0/96;none=0/96
+coverage,0-shield,32/0/0
+coverage,1-shield,32/0/0
+coverage,2-shield,32/0/0
+threat,Skuntank (Shadow) PJ+Cr/TBl 0/15/15,single=0;none=0;details=n/a

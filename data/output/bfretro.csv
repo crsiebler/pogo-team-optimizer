@@ -1,0 +1,24 @@
+section,key,value
+recommended_team,member,Palossand A+SB/ST 1/12/13
+recommended_team,member,Greedent MS+BS/TBl 4/14/14
+recommended_team,member,Crustle FC+XS/RW 0/14/15
+recommended_team,member,Cetitan PS+ISp/SP 1/14/11
+recommended_team,member,Annihilape LK+RF/CC 3/11/15
+recommended_team,member,Roserade PSt+WBF/LfS 0/14/12
+recommended_team,bulk_score,192.25
+recommended_team,bulk_pool_min_mean_max,88.49/179.29/377.46
+recommended_team,consistency,score=807.25;mean=741.70;dominate=118/135;overwhelming=0/135
+recommended_team,redundancy,2plus=135/135;3plus=100/135;single=0/135;none=0/135
+coverage,0-shield,45/0/0
+coverage,1-shield,45/0/0
+coverage,2-shield,45/0/0
+threat,Kingdra DB+Sw/O 0/15/15,single=0;none=0;details=n/a
+threat,Drifblim A+IW/SB 1/15/15,single=0;none=0;details=n/a
+threat,Tentacruel Ac+Sc/Pbk 0/13/15,single=0;none=0;details=n/a
+threat,Kommo-o DT+ClS/UH 0/11/14,single=0;none=0;details=n/a
+threat,Gyarados (Shadow) DB+AT/Tw 0/15/14,single=0;none=0;details=n/a
+threat,Golisopod FC+XS/AJ 1/14/15,single=0;none=0;details=n/a
+threat,Giratina (Origin) SC+SB/DgP 1/12/13,single=0;none=0;details=n/a
+threat,Giratina (Origin) SC+SB/DgP 1/12/13,single=0;none=0;details=n/a
+threat,Poliwrath MS+IW/DyP 0/14/14,single=0;none=0;details=n/a
+threat,Walrein PS+ISp/Eq 0/15/15,single=0;none=0;details=n/a
