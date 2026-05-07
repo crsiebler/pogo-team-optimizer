@@ -1,45 +1,43 @@
 Meta: bfretro
 
 Recommended Team
-- Palossand A+SB/ST 1/12/13 [ghost/ground]
-- Greedent MS+BS/TBl 4/14/14 [normal/none]
-- Crustle FC+XS/RW 0/14/15 [bug/rock]
-- Cetitan PS+ISp/SP 1/14/11 [ice/none]
-- Annihilape LK+RF/CC 3/11/15 [fighting/ghost]
-- Roserade PSt+WBF/LfS 0/14/12 [grass/poison]
+- Blastoise RO+SkB/HC 1/12/15 [water/none]
+- Kingdra DB+Sw/O 1/13/15 [water/dragon]
+- Kommo-o DT+UH/ClS 3/15/13 [dragon/fighting]
+- Grumpig Psy+SB/DyP 6/14/13 [psychic/none]
+- Skeledirge I+TSo/SB 0/15/15 [fire/ghost]
+- Golisopod FC+XS/AJ 1/14/15 [bug/water]
 
 Team Analysis
-- bulk score: 192.25 (team avg def*hp/atk; pool min/mean/max 88.49/179.29/377.46)
-- safety score: 79.35 (PvPoke switch score avg; pool min/mean/max 26.70/69.38/96.30)
+- bulk score: 200.05 (team avg def*hp/atk; pool min/mean/max 181.00/197.91/227.58)
+- safety score: 77.88 (PvPoke switch score avg; pool min/mean/max 66.90/80.25/88.60)
 - safety target: medium priority | avg >= 78.00 | members >= 90.00: 1
-- consistency score: 807.25 (internal matchup stability metric; not PvPoke bait-dependency consistency) = mean 741.70 + dominate bonus - overwhelming penalty
-- redundancy (2+ winners): 135/135 (100.0%)
-- redundancy (3+ winners): 100/135 (74.1%)
-- single-coverage pairs: 0/135 (0.0%)
-- no-coverage pairs: 0/135 (0.0%)
-- dominate: 118/135 (87.4%) where score > 650
-- overwhelming: 0/135 (0.0%) where score < 350
+- consistency score: 819.28 (internal matchup stability metric; not PvPoke bait-dependency consistency) = mean 752.61 + dominate bonus - overwhelming penalty
+- redundancy (2+ winners): 16/18 (88.9%)
+- redundancy (3+ winners): 11/18 (61.1%)
+- single-coverage pairs: 2/18 (11.1%)
+- no-coverage pairs: 0/18 (0.0%)
+- dominate: 16/18 (88.9%) where score > 650
+- overwhelming: 0/18 (0.0%) where score < 350
 
 Coverage
-- 0-shield: W 45 | D 0 | L 0 | weighted wins 1.000
-- 1-shield: W 45 | D 0 | L 0 | weighted wins 1.000
-- 2-shield: W 45 | D 0 | L 0 | weighted wins 1.000
+- 0-shield: W 6 | D 0 | L 0 | weighted wins 1.000
+- 1-shield: W 6 | D 0 | L 0 | weighted wins 1.000
+- 2-shield: W 6 | D 0 | L 0 | weighted wins 1.000
 
 Safe Cores
-- #1: Palossand A+SB/ST 1/12/13, Cetitan PS+ISp/SP 1/14/11, Roserade PSt+WBF/LfS 0/14/12
-- #2: Palossand A+SB/ST 1/12/13, Greedent MS+BS/TBl 4/14/14, Annihilape LK+RF/CC 3/11/15
-- #3: Greedent MS+BS/TBl 4/14/14, Cetitan PS+ISp/SP 1/14/11, Annihilape LK+RF/CC 3/11/15
-- #4: Crustle FC+XS/RW 0/14/15, Cetitan PS+ISp/SP 1/14/11, Annihilape LK+RF/CC 3/11/15
-- #5: Greedent MS+BS/TBl 4/14/14, Crustle FC+XS/RW 0/14/15, Annihilape LK+RF/CC 3/11/15
+- #1: Blastoise RO+SkB/HC 1/12/15, Kommo-o DT+UH/ClS 3/15/13, Grumpig Psy+SB/DyP 6/14/13
+- #2: Kommo-o DT+UH/ClS 3/15/13, Grumpig Psy+SB/DyP 6/14/13, Skeledirge I+TSo/SB 0/15/15
+- #3: Blastoise RO+SkB/HC 1/12/15, Kingdra DB+Sw/O 1/13/15, Grumpig Psy+SB/DyP 6/14/13
+- #4: Blastoise RO+SkB/HC 1/12/15, Grumpig Psy+SB/DyP 6/14/13, Golisopod FC+XS/AJ 1/14/15
+- #5: Grumpig Psy+SB/DyP 6/14/13, Skeledirge I+TSo/SB 0/15/15, Golisopod FC+XS/AJ 1/14/15
+- #6: Blastoise RO+SkB/HC 1/12/15, Kingdra DB+Sw/O 1/13/15, Kommo-o DT+UH/ClS 3/15/13
+- #7: Kingdra DB+Sw/O 1/13/15, Kommo-o DT+UH/ClS 3/15/13, Grumpig Psy+SB/DyP 6/14/13
+- #8: Kingdra DB+Sw/O 1/13/15, Kommo-o DT+UH/ClS 3/15/13, Skeledirge I+TSo/SB 0/15/15
+- #9: Kommo-o DT+UH/ClS 3/15/13, Grumpig Psy+SB/DyP 6/14/13, Golisopod FC+XS/AJ 1/14/15
+- #10: Blastoise RO+SkB/HC 1/12/15, Kingdra DB+Sw/O 1/13/15, Golisopod FC+XS/AJ 1/14/15
 
 Potential Threats
-- Kingdra DB+Sw/O 0/15/15 | no single-cover scenarios | closest scores 615/556/702
-- Drifblim A+IW/SB 1/15/15 | no single-cover scenarios | closest scores 576/712/711
-- Tentacruel Ac+Sc/Pbk 0/13/15 | no single-cover scenarios | closest scores 592/639/892
-- Kommo-o DT+ClS/UH 0/11/14 | no single-cover scenarios | closest scores 600/838/748
-- Gyarados (Shadow) DB+AT/Tw 0/15/14 | no single-cover scenarios | closest scores 688/638/606
-- Golisopod FC+XS/AJ 1/14/15 | no single-cover scenarios | closest scores 608/756/644
-- Giratina (Origin) SC+SB/DgP 1/12/13 | no single-cover scenarios | closest scores 621/815/768
-- Giratina (Origin) SC+SB/DgP 1/12/13 | no single-cover scenarios | closest scores 621/815/768
-- Poliwrath MS+IW/DyP 0/14/14 | no single-cover scenarios | closest scores 679/636/626
-- Walrein PS+ISp/Eq 0/15/15 | no single-cover scenarios | closest scores 720/703/634
+- Kommo-o DT+ClS/UH 4/12/13 | single-coverage: 2 | no-coverage: 0
+  - 0-shield: only answer Grumpig Psy+SB/DyP 6/14/13 (855)
+  - 1-shield: only answer Grumpig Psy+SB/DyP 6/14/13 (754)
