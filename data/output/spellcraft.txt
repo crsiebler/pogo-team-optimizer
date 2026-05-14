@@ -1,0 +1,42 @@
+Meta: spellcraft
+
+Recommended Team
+- Galvantula FC+D/Lu 4/15/9 [bug/electric]
+- Haunter SC+ShP/IP 5/14/15 [ghost/poison]
+- Electrode VS+Tb/FoP 4/9/15 [electric/none]
+- Emolga TS+Acr/D 4/13/13 [electric/flying]
+- Dartrix Pk+BrB/SeB 4/11/14 [grass/flying]
+- Grimer MSl+Sl/MB 9/15/15 [poison/none]
+
+Team Analysis
+- bulk score: 125.34 (team avg def*hp/atk; pool min/mean/max 61.42/127.03/182.07)
+- safety score: 71.27 (PvPoke switch score avg; pool min/mean/max 59.90/70.82/83.40)
+- safety target: medium priority | avg >= 78.00 | members >= 90.00: 1
+- consistency score: 778.50 (internal matchup stability metric; not PvPoke bait-dependency consistency) = mean 716.00 + dominate bonus - overwhelming penalty
+- redundancy (2+ winners): 23/24 (95.8%)
+- redundancy (3+ winners): 14/24 (58.3%)
+- single-coverage pairs: 1/24 (4.2%)
+- no-coverage pairs: 0/24 (0.0%)
+- dominate: 20/24 (83.3%) where score > 650
+- overwhelming: 0/24 (0.0%) where score < 350
+
+Coverage
+- 0-shield: W 8 | D 0 | L 0 | weighted wins 1.000
+- 1-shield: W 8 | D 0 | L 0 | weighted wins 1.000
+- 2-shield: W 8 | D 0 | L 0 | weighted wins 1.000
+
+Safe Cores
+- #1 ABC: Lead Emolga TS+Acr/D 4/13/13 | Switch Dartrix Pk+BrB/SeB 4/11/14 | Closer Grimer MSl+Sl/MB 9/15/15
+- #2 ABB: Lead Grimer MSl+Sl/MB 9/15/15 | Switch Dartrix Pk+BrB/SeB 4/11/14 | Closer Galvantula FC+D/Lu 4/15/9
+- #3 ABA: Lead Electrode VS+Tb/FoP 4/9/15 | Switch Dartrix Pk+BrB/SeB 4/11/14 | Closer Grimer MSl+Sl/MB 9/15/15
+- #4 ABC: Lead Emolga TS+Acr/D 4/13/13 | Switch Dartrix Pk+BrB/SeB 4/11/14 | Closer Electrode VS+Tb/FoP 4/9/15
+- #5 ABA: Lead Grimer MSl+Sl/MB 9/15/15 | Switch Dartrix Pk+BrB/SeB 4/11/14 | Closer Haunter SC+ShP/IP 5/14/15
+- #6 ABC: Lead Grimer MSl+Sl/MB 9/15/15 | Switch Haunter SC+ShP/IP 5/14/15 | Closer Galvantula FC+D/Lu 4/15/9
+- #7 ABB: Lead Emolga TS+Acr/D 4/13/13 | Switch Haunter SC+ShP/IP 5/14/15 | Closer Grimer MSl+Sl/MB 9/15/15
+- #8 ABC: Lead Emolga TS+Acr/D 4/13/13 | Switch Galvantula FC+D/Lu 4/15/9 | Closer Grimer MSl+Sl/MB 9/15/15
+- #9 ABA: Lead Electrode VS+Tb/FoP 4/9/15 | Switch Emolga TS+Acr/D 4/13/13 | Closer Grimer MSl+Sl/MB 9/15/15
+- #10 ABA: Lead Electrode VS+Tb/FoP 4/9/15 | Switch Galvantula FC+D/Lu 4/15/9 | Closer Grimer MSl+Sl/MB 9/15/15
+
+Potential Threats
+- Weezing (Galarian) FW+Sl/Ov 4/14/13 | single-coverage: 1 | no-coverage: 0
+  - 0-shield: only answer Grimer MSl+Sl/MB 9/15/15 (787)

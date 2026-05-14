@@ -107,8 +107,15 @@ class MarkdownExporter(AnalysisExporter):
         lines.append("")
         lines.append("## Safe Cores")
         for idx, core in enumerate(result["safe_cores"], start=1):
-            names = ", ".join(member["label"] for member in core["members"])
-            lines.append(f"- **#{idx}** {names}")
+            if "recommended_order" in core:
+                roles = {item["role"]: item["label"] for item in core["recommended_order"]}
+                lines.append(
+                    f"- **#{idx} {core['strategy']}** Lead `{roles['lead']}` | "
+                    f"Switch `{roles['switch']}` | Closer `{roles['closer']}`"
+                )
+            else:
+                names = ", ".join(member["label"] for member in core["members"])
+                lines.append(f"- **#{idx}** {names}")
 
         lines.append("")
         lines.append("## Potential Threats")

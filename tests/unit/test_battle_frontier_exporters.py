@@ -53,7 +53,15 @@ def build_result() -> dict[str, object]:
             {"shield": 0, "wins": 1, "draws": 0, "losses": 1, "weighted_wins": 0.5},
         ],
         "safe_cores": [
-            {"members": [{"label": "Mewtwo"}, {"label": "Gengar (Mega)"}, {"label": "Dialga"}]}
+            {
+                "members": [{"label": "Mewtwo"}, {"label": "Gengar (Mega)"}, {"label": "Dialga"}],
+                "strategy": "ABC",
+                "recommended_order": [
+                    {"role": "lead", "label": "Mewtwo", "index": 0},
+                    {"role": "switch", "label": "Gengar (Mega)", "index": 1},
+                    {"role": "closer", "label": "Dialga", "index": 2},
+                ],
+            }
         ],
         "threats": [
             {
@@ -86,6 +94,14 @@ def test_text_exporter_renders_battle_frontier_legality_metrics() -> None:
     assert "Mega members: 1/1" in rendered
 
 
+def test_text_exporter_renders_ordered_core_roles() -> None:
+    rendered = TextExporter().export(build_result())
+
+    assert rendered is not None
+    assert "#1 ABC: Lead Mewtwo | Switch Gengar (Mega) | Closer Dialga" in rendered
+    assert "use standard alignment" not in rendered
+
+
 def test_markdown_exporter_renders_battle_frontier_legality_metrics() -> None:
     rendered = MarkdownExporter().export(build_result())
 
@@ -94,6 +110,14 @@ def test_markdown_exporter_renders_battle_frontier_legality_metrics() -> None:
     assert "- Points used: `8/11`" in rendered
     assert "- 5-point members: `1/1`" in rendered
     assert "- Mega members: `1/1`" in rendered
+
+
+def test_markdown_exporter_renders_ordered_core_roles() -> None:
+    rendered = MarkdownExporter().export(build_result())
+
+    assert rendered is not None
+    assert "**#1 ABC** Lead `Mewtwo` | Switch `Gengar (Mega)` | Closer `Dialga`" in rendered
+    assert "use standard alignment" not in rendered
 
 
 def test_existing_exporters_accept_results_with_battle_frontier_metrics(tmp_path) -> None:

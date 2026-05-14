@@ -4,6 +4,7 @@ from collections import defaultdict
 from typing import Any
 
 from pogo_team_optimizer.application.analyzers import (
+    build_core_role_recommendation,
     build_target_map,
     build_threats,
     coverage_by_shield,
@@ -198,6 +199,13 @@ class AnalyzeMetaUseCase:
                 {
                     "members": to_team_members(core.member_indices, row_labels, species_cache),
                     "score": core.score,
+                    **build_core_role_recommendation(
+                        row_labels=row_labels,
+                        col_labels=col_labels,
+                        matrices=matrices,
+                        core_indices=core.member_indices,
+                        safety_by_row=safety_by_row,
+                    ),
                 }
                 for core in safe_cores
             ],

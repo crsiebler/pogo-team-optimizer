@@ -57,6 +57,25 @@ class CsvExporter(AnalysisExporter):
                     ]
                 )
 
+            for index, core in enumerate(result["safe_cores"], start=1):
+                if "recommended_order" in core:
+                    roles = {item["role"]: item["label"] for item in core["recommended_order"]}
+                    writer.writerow(
+                        [
+                            "safe_core",
+                            f"#{index} {core['strategy']}",
+                            f"lead={roles['lead']};switch={roles['switch']};closer={roles['closer']}",
+                        ]
+                    )
+                else:
+                    writer.writerow(
+                        [
+                            "safe_core",
+                            f"#{index}",
+                            ", ".join(member["label"] for member in core["members"]),
+                        ]
+                    )
+
             for threat in result["threats"]:
                 details: list[str] = []
                 for fragile in threat.get("fragile_shields", []):

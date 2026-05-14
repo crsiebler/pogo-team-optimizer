@@ -1,32 +1,44 @@
 Meta: bayou
 
 Recommended Team
-- Zoroark (Hisuian) SC+SB/FoP 0/15/11 [normal/ghost]
-- Dartrix Pk+BrB/SeB 6/15/15 [grass/flying]
-- Galvantula VS+D/Lu 0/15/15 [bug/electric]
-- Golbat WA+PF/SB 0/12/12 [poison/flying]
-- Blastoise RO+HC/SkB 1/15/15 [water/none]
-- Doublade SC+SSw/GB 12/11/15 [steel/ghost]
+- Sealeo (Shadow) PS+S/BS 5/15/12 [ice/water]
+- Lokix SkP+XS/TBl 4/15/13 [bug/dark]
+- Amoonguss A+GK/FoP 4/15/9 [grass/poison]
+- Blastoise RO+HC/SkB 4/8/15 [water/none]
+- Seaking Pk+DR/IW 4/13/14 [water/none]
+- Skuntank PJ+Cr/TBl 4/15/14 [poison/dark]
 
 Team Analysis
-- bulk score: 154.51 (team avg def*hp/atk; pool min/mean/max 58.75/175.88/305.36)
-- safety score: 85.85 (PvPoke switch score avg; pool min/mean/max 30.60/69.85/100.00)
+- bulk score: 183.47 (team avg def*hp/atk; pool min/mean/max 125.91/189.77/227.58)
+- safety score: 87.90 (PvPoke switch score avg; pool min/mean/max 74.80/86.03/100.00)
 - safety target: medium priority | avg >= 78.00 | members >= 90.00: 1
-- consistency score: 809.29 (internal matchup stability metric; not PvPoke bait-dependency consistency) = mean 743.67 + dominate bonus - overwhelming penalty
-- redundancy (2+ winners): 96/96 (100.0%)
-- redundancy (3+ winners): 78/96 (81.2%)
-- single-coverage pairs: 0/96 (0.0%)
-- no-coverage pairs: 0/96 (0.0%)
-- dominate: 84/96 (87.5%) where score > 650
-- overwhelming: 0/96 (0.0%) where score < 350
+- consistency score: 761.05 (internal matchup stability metric; not PvPoke bait-dependency consistency) = mean 703.90 + dominate bonus - overwhelming penalty
+- redundancy (2+ winners): 19/21 (90.5%)
+- redundancy (3+ winners): 16/21 (76.2%)
+- single-coverage pairs: 2/21 (9.5%)
+- no-coverage pairs: 0/21 (0.0%)
+- dominate: 16/21 (76.2%) where score > 650
+- overwhelming: 0/21 (0.0%) where score < 350
 
 Coverage
-- 0-shield: W 32 | D 0 | L 0 | weighted wins 1.000
-- 1-shield: W 32 | D 0 | L 0 | weighted wins 1.000
-- 2-shield: W 32 | D 0 | L 0 | weighted wins 1.000
+- 0-shield: W 7 | D 0 | L 0 | weighted wins 1.000
+- 1-shield: W 7 | D 0 | L 0 | weighted wins 1.000
+- 2-shield: W 7 | D 0 | L 0 | weighted wins 1.000
 
 Safe Cores
-- #1: Dartrix Pk+BrB/SeB 6/15/15, Blastoise RO+HC/SkB 1/15/15, Doublade SC+SSw/GB 12/11/15
+- #1 ABC: Lead Seaking Pk+DR/IW 4/13/14 | Switch Blastoise RO+HC/SkB 4/8/15 | Closer Lokix SkP+XS/TBl 4/15/13
+- #2 ABC: Lead Sealeo (Shadow) PS+S/BS 5/15/12 | Switch Amoonguss A+GK/FoP 4/15/9 | Closer Lokix SkP+XS/TBl 4/15/13
+- #3 ABC: Lead Sealeo (Shadow) PS+S/BS 5/15/12 | Switch Seaking Pk+DR/IW 4/13/14 | Closer Amoonguss A+GK/FoP 4/15/9
+- #4 ABC: Lead Skuntank PJ+Cr/TBl 4/15/14 | Switch Seaking Pk+DR/IW 4/13/14 | Closer Blastoise RO+HC/SkB 4/8/15
+- #5 ABC: Lead Seaking Pk+DR/IW 4/13/14 | Switch Blastoise RO+HC/SkB 4/8/15 | Closer Amoonguss A+GK/FoP 4/15/9
+- #6 ABC: Lead Blastoise RO+HC/SkB 4/8/15 | Switch Amoonguss A+GK/FoP 4/15/9 | Closer Lokix SkP+XS/TBl 4/15/13
+- #7 ABC: Lead Skuntank PJ+Cr/TBl 4/15/14 | Switch Sealeo (Shadow) PS+S/BS 5/15/12 | Closer Amoonguss A+GK/FoP 4/15/9
+- #8 ABC: Lead Skuntank PJ+Cr/TBl 4/15/14 | Switch Seaking Pk+DR/IW 4/13/14 | Closer Amoonguss A+GK/FoP 4/15/9
+- #9 ABC: Lead Seaking Pk+DR/IW 4/13/14 | Switch Amoonguss A+GK/FoP 4/15/9 | Closer Lokix SkP+XS/TBl 4/15/13
+- #10 ABC: Lead Skuntank PJ+Cr/TBl 4/15/14 | Switch Blastoise RO+HC/SkB 4/8/15 | Closer Amoonguss A+GK/FoP 4/15/9
 
 Potential Threats
-- Skuntank (Shadow) PJ+Cr/TBl 0/15/15 | no single-cover scenarios | closest scores 542/623/847
+- Blastoise RO+HC/SkB 4/8/15 | single-coverage: 1 | no-coverage: 0
+  - 2-shield: only answer Amoonguss A+GK/FoP 4/15/9 (570)
+- Skuntank (Shadow) PJ+Cr/TBl 4/15/14 | single-coverage: 1 | no-coverage: 0
+  - 0-shield: only answer Seaking Pk+DR/IW 4/13/14 (826)

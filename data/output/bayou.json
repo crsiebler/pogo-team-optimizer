@@ -2,48 +2,38 @@
   "recommended_team": {
     "members": [
       {
-        "index": 99,
-        "label": "Zoroark (Hisuian) SC+SB/FoP 0/15/11",
-        "species": "Zoroark (Hisuian)",
-        "base_species": "Zoroark (Hisuian)",
+        "index": 2,
+        "label": "Sealeo (Shadow) PS+S/BS 5/15/12",
+        "species": "Sealeo (Shadow)",
+        "base_species": "Sealeo",
         "types": [
-          "normal",
-          "ghost"
+          "ice",
+          "water"
         ]
       },
       {
-        "index": 21,
-        "label": "Dartrix Pk+BrB/SeB 6/15/15",
-        "species": "Dartrix",
-        "base_species": "Dartrix",
-        "types": [
-          "grass",
-          "flying"
-        ]
-      },
-      {
-        "index": 31,
-        "label": "Galvantula VS+D/Lu 0/15/15",
-        "species": "Galvantula",
-        "base_species": "Galvantula",
+        "index": 1,
+        "label": "Lokix SkP+XS/TBl 4/15/13",
+        "species": "Lokix",
+        "base_species": "Lokix",
         "types": [
           "bug",
-          "electric"
+          "dark"
         ]
       },
       {
-        "index": 36,
-        "label": "Golbat WA+PF/SB 0/12/12",
-        "species": "Golbat",
-        "base_species": "Golbat",
+        "index": 3,
+        "label": "Amoonguss A+GK/FoP 4/15/9",
+        "species": "Amoonguss",
+        "base_species": "Amoonguss",
         "types": [
-          "poison",
-          "flying"
+          "grass",
+          "poison"
         ]
       },
       {
-        "index": 12,
-        "label": "Blastoise RO+HC/SkB 1/15/15",
+        "index": 5,
+        "label": "Blastoise RO+HC/SkB 4/8/15",
         "species": "Blastoise",
         "base_species": "Blastoise",
         "types": [
@@ -52,83 +42,93 @@
         ]
       },
       {
-        "index": 24,
-        "label": "Doublade SC+SSw/GB 12/11/15",
-        "species": "Doublade",
-        "base_species": "Doublade",
+        "index": 0,
+        "label": "Seaking Pk+DR/IW 4/13/14",
+        "species": "Seaking",
+        "base_species": "Seaking",
         "types": [
-          "steel",
-          "ghost"
+          "water",
+          "none"
+        ]
+      },
+      {
+        "index": 4,
+        "label": "Skuntank PJ+Cr/TBl 4/15/14",
+        "species": "Skuntank",
+        "base_species": "Skuntank",
+        "types": [
+          "poison",
+          "dark"
         ]
       }
     ],
     "score": [
-      96.0,
-      32.0,
+      21.0,
+      7.0,
       0.0,
-      0.0,
-      679.0625,
-      154.5109528870039,
-      85.85000000000001,
-      809.2916666666666,
-      96.0,
-      78.0,
-      743.6666666666666,
-      84.0,
+      -2.0,
+      654.9166666666666,
+      183.4717541291859,
+      87.89999999999999,
+      761.047619047619,
+      19.0,
+      16.0,
+      703.9047619047619,
+      16.0,
       0.0
     ],
-    "bulk_score": 154.5109528870039,
-    "safety_score": 85.85000000000001,
+    "bulk_score": 183.4717541291859,
+    "safety_score": 87.89999999999999,
     "metrics": {
-      "pair_coverage": 96,
-      "full_col_coverage": 32,
-      "redundant_coverage_2plus": 96,
-      "redundant_coverage_3plus": 78,
-      "single_cover_pairs": 0,
-      "single_cover_rate": 0.0,
+      "pair_coverage": 21,
+      "full_col_coverage": 7,
+      "redundant_coverage_2plus": 19,
+      "redundant_coverage_3plus": 16,
+      "single_cover_pairs": 2,
+      "single_cover_rate": 0.09523809523809523,
       "no_cover_pairs": 0,
       "no_cover_rate": 0.0,
-      "bulk_score": 154.5109528870039,
-      "safety_score": 85.85000000000001,
-      "consistency_score": 809.2916666666666,
-      "weighted_worst_best_score": 679.0625,
-      "mean_best_score": 743.6666666666666,
-      "dominate_count": 84,
-      "dominate_rate": 0.875,
+      "bulk_score": 183.4717541291859,
+      "safety_score": 87.89999999999999,
+      "consistency_score": 761.047619047619,
+      "weighted_worst_best_score": 654.9166666666666,
+      "mean_best_score": 703.9047619047619,
+      "dominate_count": 16,
+      "dominate_rate": 0.7619047619047619,
       "overwhelming_count": 0,
       "overwhelming_rate": 0.0,
-      "total_pairs": 96,
-      "bulk_pool_min": 58.748971193415635,
-      "bulk_pool_max": 305.35714285714283,
-      "bulk_pool_mean": 175.88294082894464,
-      "safety_pool_min": 30.6,
+      "total_pairs": 21,
+      "bulk_pool_min": 125.90954773869346,
+      "bulk_pool_max": 227.57894736842104,
+      "bulk_pool_mean": 189.77278173479093,
+      "safety_pool_min": 74.8,
       "safety_pool_max": 100.0,
-      "safety_pool_mean": 69.847,
+      "safety_pool_mean": 86.02857142857144,
       "safety_priority": "medium",
       "safety_floor_target": 78.0,
       "safe_member_floor": 90.0,
       "safe_member_target": 1
     },
-    "shadow_count": 0
+    "shadow_count": 1
   },
   "coverage": [
     {
       "shield": 0,
-      "wins": 32,
+      "wins": 7,
       "draws": 0,
       "losses": 0,
       "weighted_wins": 1.0
     },
     {
       "shield": 1,
-      "wins": 32,
+      "wins": 7,
       "draws": 0,
       "losses": 0,
       "weighted_wins": 1.0
     },
     {
       "shield": 2,
-      "wins": 32,
+      "wins": 7,
       "draws": 0,
       "losses": 0,
       "weighted_wins": 1.0
@@ -136,40 +136,76 @@
   ],
   "threats": [
     {
-      "opponent_label": "Skuntank (Shadow) PJ+Cr/TBl 0/15/15",
-      "min_best_score": 542,
-      "avg_best_score": 670.6666666666666,
+      "opponent_label": "Blastoise RO+HC/SkB 4/8/15",
+      "min_best_score": 570,
+      "avg_best_score": 662.6666666666666,
       "shield_best_scores": [
-        542,
-        623,
-        847
+        803,
+        615,
+        570
       ],
       "shield_best_members": [
-        "Golbat WA+PF/SB 0/12/12",
-        "Zoroark (Hisuian) SC+SB/FoP 0/15/11",
-        "Doublade SC+SSw/GB 12/11/15"
+        "Lokix SkP+XS/TBl 4/15/13",
+        "Amoonguss A+GK/FoP 4/15/9",
+        "Amoonguss A+GK/FoP 4/15/9"
       ],
-      "single_cover_count": 0,
+      "single_cover_count": 1,
       "no_cover_count": 0,
-      "fragile_shields": []
+      "fragile_shields": [
+        {
+          "shield": 2,
+          "winner_count": 1,
+          "only_answer": "Amoonguss A+GK/FoP 4/15/9",
+          "only_answer_score": 570,
+          "best_loser": null,
+          "best_loser_score": null
+        }
+      ]
+    },
+    {
+      "opponent_label": "Skuntank (Shadow) PJ+Cr/TBl 4/15/14",
+      "min_best_score": 584,
+      "avg_best_score": 707.0,
+      "shield_best_scores": [
+        826,
+        711,
+        584
+      ],
+      "shield_best_members": [
+        "Seaking Pk+DR/IW 4/13/14",
+        "Sealeo (Shadow) PS+S/BS 5/15/12",
+        "Blastoise RO+HC/SkB 4/8/15"
+      ],
+      "single_cover_count": 1,
+      "no_cover_count": 0,
+      "fragile_shields": [
+        {
+          "shield": 0,
+          "winner_count": 1,
+          "only_answer": "Seaking Pk+DR/IW 4/13/14",
+          "only_answer_score": 826,
+          "best_loser": null,
+          "best_loser_score": null
+        }
+      ]
     }
   ],
   "safe_cores": [
     {
       "members": [
         {
-          "index": 21,
-          "label": "Dartrix Pk+BrB/SeB 6/15/15",
-          "species": "Dartrix",
-          "base_species": "Dartrix",
+          "index": 1,
+          "label": "Lokix SkP+XS/TBl 4/15/13",
+          "species": "Lokix",
+          "base_species": "Lokix",
           "types": [
-            "grass",
-            "flying"
+            "bug",
+            "dark"
           ]
         },
         {
-          "index": 12,
-          "label": "Blastoise RO+HC/SkB 1/15/15",
+          "index": 5,
+          "label": "Blastoise RO+HC/SkB 4/8/15",
           "species": "Blastoise",
           "base_species": "Blastoise",
           "types": [
@@ -178,481 +214,942 @@
           ]
         },
         {
-          "index": 24,
-          "label": "Doublade SC+SSw/GB 12/11/15",
-          "species": "Doublade",
-          "base_species": "Doublade",
+          "index": 0,
+          "label": "Seaking Pk+DR/IW 4/13/14",
+          "species": "Seaking",
+          "base_species": "Seaking",
           "types": [
-            "steel",
-            "ghost"
+            "water",
+            "none"
           ]
         }
       ],
       "score": [
-        94.0,
-        30.0,
-        -2.0,
-        -35.0,
-        588.84375,
-        192.4327686912817,
-        89.60000000000001,
-        712.5,
-        59.0,
-        8.0,
-        671.09375,
-        53.0,
+        20.0,
+        6.0,
+        -1.0,
+        -8.0,
+        588.5833333333334,
+        171.02949836903815,
+        84.76666666666667,
+        702.2380952380953,
+        12.0,
+        2.0,
+        659.3809523809524,
+        12.0,
         0.0
-      ]
+      ],
+      "strategy": "ABC",
+      "recommended_order": [
+        {
+          "role": "lead",
+          "label": "Seaking Pk+DR/IW 4/13/14",
+          "index": 0
+        },
+        {
+          "role": "switch",
+          "label": "Blastoise RO+HC/SkB 4/8/15",
+          "index": 5
+        },
+        {
+          "role": "closer",
+          "label": "Lokix SkP+XS/TBl 4/15/13",
+          "index": 1
+        }
+      ],
+      "role_scores": {
+        "Lokix SkP+XS/TBl 4/15/13": {
+          "lead": 492.143,
+          "switch": 635.738,
+          "closer": 609.857
+        },
+        "Blastoise RO+HC/SkB 4/8/15": {
+          "lead": 472.571,
+          "switch": 560.181,
+          "closer": 487.429
+        },
+        "Seaking Pk+DR/IW 4/13/14": {
+          "lead": 565.857,
+          "switch": 640.048,
+          "closer": 537.286
+        }
+      },
+      "shared_weaknesses": [],
+      "shared_strengths": []
+    },
+    {
+      "members": [
+        {
+          "index": 2,
+          "label": "Sealeo (Shadow) PS+S/BS 5/15/12",
+          "species": "Sealeo (Shadow)",
+          "base_species": "Sealeo",
+          "types": [
+            "ice",
+            "water"
+          ]
+        },
+        {
+          "index": 1,
+          "label": "Lokix SkP+XS/TBl 4/15/13",
+          "species": "Lokix",
+          "base_species": "Lokix",
+          "types": [
+            "bug",
+            "dark"
+          ]
+        },
+        {
+          "index": 3,
+          "label": "Amoonguss A+GK/FoP 4/15/9",
+          "species": "Amoonguss",
+          "base_species": "Amoonguss",
+          "types": [
+            "grass",
+            "poison"
+          ]
+        }
+      ],
+      "score": [
+        20.0,
+        6.0,
+        -1.0,
+        -9.0,
+        621.8333333333333,
+        182.8838591355648,
+        88.60000000000001,
+        721.7142857142858,
+        11.0,
+        1.0,
+        678.8571428571429,
+        12.0,
+        0.0
+      ],
+      "strategy": "ABC",
+      "recommended_order": [
+        {
+          "role": "lead",
+          "label": "Sealeo (Shadow) PS+S/BS 5/15/12",
+          "index": 2
+        },
+        {
+          "role": "switch",
+          "label": "Amoonguss A+GK/FoP 4/15/9",
+          "index": 3
+        },
+        {
+          "role": "closer",
+          "label": "Lokix SkP+XS/TBl 4/15/13",
+          "index": 1
+        }
+      ],
+      "role_scores": {
+        "Sealeo (Shadow) PS+S/BS 5/15/12": {
+          "lead": 553.286,
+          "switch": 615.452,
+          "closer": 448.571
+        },
+        "Lokix SkP+XS/TBl 4/15/13": {
+          "lead": 492.143,
+          "switch": 635.738,
+          "closer": 609.857
+        },
+        "Amoonguss A+GK/FoP 4/15/9": {
+          "lead": 491.571,
+          "switch": 591.895,
+          "closer": 535.143
+        }
+      },
+      "shared_weaknesses": [],
+      "shared_strengths": []
+    },
+    {
+      "members": [
+        {
+          "index": 2,
+          "label": "Sealeo (Shadow) PS+S/BS 5/15/12",
+          "species": "Sealeo (Shadow)",
+          "base_species": "Sealeo",
+          "types": [
+            "ice",
+            "water"
+          ]
+        },
+        {
+          "index": 3,
+          "label": "Amoonguss A+GK/FoP 4/15/9",
+          "species": "Amoonguss",
+          "base_species": "Amoonguss",
+          "types": [
+            "grass",
+            "poison"
+          ]
+        },
+        {
+          "index": 0,
+          "label": "Seaking Pk+DR/IW 4/13/14",
+          "species": "Seaking",
+          "base_species": "Seaking",
+          "types": [
+            "water",
+            "none"
+          ]
+        }
+      ],
+      "score": [
+        20.0,
+        6.0,
+        -1.0,
+        -9.0,
+        596.0,
+        194.11400988933363,
+        95.43333333333334,
+        701.4761904761905,
+        11.0,
+        1.0,
+        662.1904761904761,
+        11.0,
+        0.0
+      ],
+      "strategy": "ABC",
+      "recommended_order": [
+        {
+          "role": "lead",
+          "label": "Sealeo (Shadow) PS+S/BS 5/15/12",
+          "index": 2
+        },
+        {
+          "role": "switch",
+          "label": "Seaking Pk+DR/IW 4/13/14",
+          "index": 0
+        },
+        {
+          "role": "closer",
+          "label": "Amoonguss A+GK/FoP 4/15/9",
+          "index": 3
+        }
+      ],
+      "role_scores": {
+        "Sealeo (Shadow) PS+S/BS 5/15/12": {
+          "lead": 553.286,
+          "switch": 615.452,
+          "closer": 448.571
+        },
+        "Amoonguss A+GK/FoP 4/15/9": {
+          "lead": 491.571,
+          "switch": 591.895,
+          "closer": 535.143
+        },
+        "Seaking Pk+DR/IW 4/13/14": {
+          "lead": 565.857,
+          "switch": 640.048,
+          "closer": 537.286
+        }
+      },
+      "shared_weaknesses": [],
+      "shared_strengths": []
+    },
+    {
+      "members": [
+        {
+          "index": 5,
+          "label": "Blastoise RO+HC/SkB 4/8/15",
+          "species": "Blastoise",
+          "base_species": "Blastoise",
+          "types": [
+            "water",
+            "none"
+          ]
+        },
+        {
+          "index": 0,
+          "label": "Seaking Pk+DR/IW 4/13/14",
+          "species": "Seaking",
+          "base_species": "Seaking",
+          "types": [
+            "water",
+            "none"
+          ]
+        },
+        {
+          "index": 4,
+          "label": "Skuntank PJ+Cr/TBl 4/15/14",
+          "species": "Skuntank",
+          "base_species": "Skuntank",
+          "types": [
+            "poison",
+            "dark"
+          ]
+        }
+      ],
+      "score": [
+        20.0,
+        6.0,
+        -1.0,
+        -9.0,
+        566.25,
+        184.05964912280703,
+        87.2,
+        653.2857142857142,
+        11.0,
+        1.0,
+        624.7142857142857,
+        8.0,
+        0.0
+      ],
+      "strategy": "ABC",
+      "recommended_order": [
+        {
+          "role": "lead",
+          "label": "Skuntank PJ+Cr/TBl 4/15/14",
+          "index": 4
+        },
+        {
+          "role": "switch",
+          "label": "Seaking Pk+DR/IW 4/13/14",
+          "index": 0
+        },
+        {
+          "role": "closer",
+          "label": "Blastoise RO+HC/SkB 4/8/15",
+          "index": 5
+        }
+      ],
+      "role_scores": {
+        "Blastoise RO+HC/SkB 4/8/15": {
+          "lead": 472.571,
+          "switch": 560.181,
+          "closer": 487.429
+        },
+        "Seaking Pk+DR/IW 4/13/14": {
+          "lead": 565.857,
+          "switch": 640.048,
+          "closer": 537.286
+        },
+        "Skuntank PJ+Cr/TBl 4/15/14": {
+          "lead": 591.0,
+          "switch": 609.848,
+          "closer": 521.0
+        }
+      },
+      "shared_weaknesses": [],
+      "shared_strengths": []
+    },
+    {
+      "members": [
+        {
+          "index": 3,
+          "label": "Amoonguss A+GK/FoP 4/15/9",
+          "species": "Amoonguss",
+          "base_species": "Amoonguss",
+          "types": [
+            "grass",
+            "poison"
+          ]
+        },
+        {
+          "index": 5,
+          "label": "Blastoise RO+HC/SkB 4/8/15",
+          "species": "Blastoise",
+          "base_species": "Blastoise",
+          "types": [
+            "water",
+            "none"
+          ]
+        },
+        {
+          "index": 0,
+          "label": "Seaking Pk+DR/IW 4/13/14",
+          "species": "Seaking",
+          "base_species": "Seaking",
+          "types": [
+            "water",
+            "none"
+          ]
+        }
+      ],
+      "score": [
+        20.0,
+        6.0,
+        -1.0,
+        -9.0,
+        558.5833333333333,
+        203.49190718732314,
+        88.2,
+        661.6190476190476,
+        11.0,
+        2.0,
+        629.4761904761905,
+        9.0,
+        0.0
+      ],
+      "strategy": "ABC",
+      "recommended_order": [
+        {
+          "role": "lead",
+          "label": "Seaking Pk+DR/IW 4/13/14",
+          "index": 0
+        },
+        {
+          "role": "switch",
+          "label": "Blastoise RO+HC/SkB 4/8/15",
+          "index": 5
+        },
+        {
+          "role": "closer",
+          "label": "Amoonguss A+GK/FoP 4/15/9",
+          "index": 3
+        }
+      ],
+      "role_scores": {
+        "Amoonguss A+GK/FoP 4/15/9": {
+          "lead": 491.571,
+          "switch": 591.895,
+          "closer": 535.143
+        },
+        "Blastoise RO+HC/SkB 4/8/15": {
+          "lead": 472.571,
+          "switch": 560.181,
+          "closer": 487.429
+        },
+        "Seaking Pk+DR/IW 4/13/14": {
+          "lead": 565.857,
+          "switch": 640.048,
+          "closer": 537.286
+        }
+      },
+      "shared_weaknesses": [],
+      "shared_strengths": []
+    },
+    {
+      "members": [
+        {
+          "index": 1,
+          "label": "Lokix SkP+XS/TBl 4/15/13",
+          "species": "Lokix",
+          "base_species": "Lokix",
+          "types": [
+            "bug",
+            "dark"
+          ]
+        },
+        {
+          "index": 3,
+          "label": "Amoonguss A+GK/FoP 4/15/9",
+          "species": "Amoonguss",
+          "base_species": "Amoonguss",
+          "types": [
+            "grass",
+            "poison"
+          ]
+        },
+        {
+          "index": 5,
+          "label": "Blastoise RO+HC/SkB 4/8/15",
+          "species": "Blastoise",
+          "base_species": "Blastoise",
+          "types": [
+            "water",
+            "none"
+          ]
+        }
+      ],
+      "score": [
+        20.0,
+        6.0,
+        -1.0,
+        -10.0,
+        582.2499999999999,
+        192.2617564335543,
+        81.36666666666666,
+        687.4285714285713,
+        10.0,
+        3.0,
+        651.7142857142857,
+        10.0,
+        0.0
+      ],
+      "strategy": "ABC",
+      "recommended_order": [
+        {
+          "role": "lead",
+          "label": "Blastoise RO+HC/SkB 4/8/15",
+          "index": 5
+        },
+        {
+          "role": "switch",
+          "label": "Amoonguss A+GK/FoP 4/15/9",
+          "index": 3
+        },
+        {
+          "role": "closer",
+          "label": "Lokix SkP+XS/TBl 4/15/13",
+          "index": 1
+        }
+      ],
+      "role_scores": {
+        "Lokix SkP+XS/TBl 4/15/13": {
+          "lead": 492.143,
+          "switch": 635.738,
+          "closer": 609.857
+        },
+        "Amoonguss A+GK/FoP 4/15/9": {
+          "lead": 491.571,
+          "switch": 591.895,
+          "closer": 535.143
+        },
+        "Blastoise RO+HC/SkB 4/8/15": {
+          "lead": 472.571,
+          "switch": 560.181,
+          "closer": 487.429
+        }
+      },
+      "shared_weaknesses": [],
+      "shared_strengths": []
+    },
+    {
+      "members": [
+        {
+          "index": 2,
+          "label": "Sealeo (Shadow) PS+S/BS 5/15/12",
+          "species": "Sealeo (Shadow)",
+          "base_species": "Sealeo",
+          "types": [
+            "ice",
+            "water"
+          ]
+        },
+        {
+          "index": 3,
+          "label": "Amoonguss A+GK/FoP 4/15/9",
+          "species": "Amoonguss",
+          "base_species": "Amoonguss",
+          "types": [
+            "grass",
+            "poison"
+          ]
+        },
+        {
+          "index": 4,
+          "label": "Skuntank PJ+Cr/TBl 4/15/14",
+          "species": "Skuntank",
+          "base_species": "Skuntank",
+          "types": [
+            "poison",
+            "dark"
+          ]
+        }
+      ],
+      "score": [
+        20.0,
+        6.0,
+        -1.0,
+        -11.0,
+        617.3333333333334,
+        195.91400988933364,
+        91.03333333333335,
+        703.8095238095239,
+        9.0,
+        1.0,
+        660.952380952381,
+        12.0,
+        0.0
+      ],
+      "strategy": "ABC",
+      "recommended_order": [
+        {
+          "role": "lead",
+          "label": "Skuntank PJ+Cr/TBl 4/15/14",
+          "index": 4
+        },
+        {
+          "role": "switch",
+          "label": "Sealeo (Shadow) PS+S/BS 5/15/12",
+          "index": 2
+        },
+        {
+          "role": "closer",
+          "label": "Amoonguss A+GK/FoP 4/15/9",
+          "index": 3
+        }
+      ],
+      "role_scores": {
+        "Sealeo (Shadow) PS+S/BS 5/15/12": {
+          "lead": 553.286,
+          "switch": 615.452,
+          "closer": 448.571
+        },
+        "Amoonguss A+GK/FoP 4/15/9": {
+          "lead": 491.571,
+          "switch": 591.895,
+          "closer": 535.143
+        },
+        "Skuntank PJ+Cr/TBl 4/15/14": {
+          "lead": 591.0,
+          "switch": 609.848,
+          "closer": 521.0
+        }
+      },
+      "shared_weaknesses": [],
+      "shared_strengths": []
+    },
+    {
+      "members": [
+        {
+          "index": 3,
+          "label": "Amoonguss A+GK/FoP 4/15/9",
+          "species": "Amoonguss",
+          "base_species": "Amoonguss",
+          "types": [
+            "grass",
+            "poison"
+          ]
+        },
+        {
+          "index": 0,
+          "label": "Seaking Pk+DR/IW 4/13/14",
+          "species": "Seaking",
+          "base_species": "Seaking",
+          "types": [
+            "water",
+            "none"
+          ]
+        },
+        {
+          "index": 4,
+          "label": "Skuntank PJ+Cr/TBl 4/15/14",
+          "species": "Skuntank",
+          "base_species": "Skuntank",
+          "types": [
+            "poison",
+            "dark"
+          ]
+        }
+      ],
+      "score": [
+        19.0,
+        6.0,
+        -2.0,
+        -6.0,
+        546.8333333333333,
+        182.63225806451612,
+        92.2,
+        643.7142857142857,
+        13.0,
+        1.0,
+        617.5238095238095,
+        9.0,
+        -1.0
+      ],
+      "strategy": "ABC",
+      "recommended_order": [
+        {
+          "role": "lead",
+          "label": "Skuntank PJ+Cr/TBl 4/15/14",
+          "index": 4
+        },
+        {
+          "role": "switch",
+          "label": "Seaking Pk+DR/IW 4/13/14",
+          "index": 0
+        },
+        {
+          "role": "closer",
+          "label": "Amoonguss A+GK/FoP 4/15/9",
+          "index": 3
+        }
+      ],
+      "role_scores": {
+        "Amoonguss A+GK/FoP 4/15/9": {
+          "lead": 491.571,
+          "switch": 591.895,
+          "closer": 535.143
+        },
+        "Seaking Pk+DR/IW 4/13/14": {
+          "lead": 565.857,
+          "switch": 640.048,
+          "closer": 537.286
+        },
+        "Skuntank PJ+Cr/TBl 4/15/14": {
+          "lead": 591.0,
+          "switch": 609.848,
+          "closer": 521.0
+        }
+      },
+      "shared_weaknesses": [],
+      "shared_strengths": []
+    },
+    {
+      "members": [
+        {
+          "index": 1,
+          "label": "Lokix SkP+XS/TBl 4/15/13",
+          "species": "Lokix",
+          "base_species": "Lokix",
+          "types": [
+            "bug",
+            "dark"
+          ]
+        },
+        {
+          "index": 3,
+          "label": "Amoonguss A+GK/FoP 4/15/9",
+          "species": "Amoonguss",
+          "base_species": "Amoonguss",
+          "types": [
+            "grass",
+            "poison"
+          ]
+        },
+        {
+          "index": 0,
+          "label": "Seaking Pk+DR/IW 4/13/14",
+          "species": "Seaking",
+          "base_species": "Seaking",
+          "types": [
+            "water",
+            "none"
+          ]
+        }
+      ],
+      "score": [
+        19.0,
+        6.0,
+        -2.0,
+        -8.0,
+        577.8333333333333,
+        169.60210731074727,
+        89.76666666666667,
+        682.5714285714286,
+        11.0,
+        5.0,
+        646.8571428571429,
+        10.0,
+        0.0
+      ],
+      "strategy": "ABC",
+      "recommended_order": [
+        {
+          "role": "lead",
+          "label": "Seaking Pk+DR/IW 4/13/14",
+          "index": 0
+        },
+        {
+          "role": "switch",
+          "label": "Amoonguss A+GK/FoP 4/15/9",
+          "index": 3
+        },
+        {
+          "role": "closer",
+          "label": "Lokix SkP+XS/TBl 4/15/13",
+          "index": 1
+        }
+      ],
+      "role_scores": {
+        "Lokix SkP+XS/TBl 4/15/13": {
+          "lead": 492.143,
+          "switch": 635.738,
+          "closer": 609.857
+        },
+        "Amoonguss A+GK/FoP 4/15/9": {
+          "lead": 491.571,
+          "switch": 591.895,
+          "closer": 535.143
+        },
+        "Seaking Pk+DR/IW 4/13/14": {
+          "lead": 565.857,
+          "switch": 640.048,
+          "closer": 537.286
+        }
+      },
+      "shared_weaknesses": [],
+      "shared_strengths": []
+    },
+    {
+      "members": [
+        {
+          "index": 3,
+          "label": "Amoonguss A+GK/FoP 4/15/9",
+          "species": "Amoonguss",
+          "base_species": "Amoonguss",
+          "types": [
+            "grass",
+            "poison"
+          ]
+        },
+        {
+          "index": 5,
+          "label": "Blastoise RO+HC/SkB 4/8/15",
+          "species": "Blastoise",
+          "base_species": "Blastoise",
+          "types": [
+            "water",
+            "none"
+          ]
+        },
+        {
+          "index": 4,
+          "label": "Skuntank PJ+Cr/TBl 4/15/14",
+          "species": "Skuntank",
+          "base_species": "Skuntank",
+          "types": [
+            "poison",
+            "dark"
+          ]
+        }
+      ],
+      "score": [
+        19.0,
+        6.0,
+        -2.0,
+        -10.0,
+        570.9166666666666,
+        205.29190718732312,
+        83.8,
+        643.8095238095239,
+        9.0,
+        3.0,
+        618.8095238095239,
+        7.0,
+        0.0
+      ],
+      "strategy": "ABC",
+      "recommended_order": [
+        {
+          "role": "lead",
+          "label": "Skuntank PJ+Cr/TBl 4/15/14",
+          "index": 4
+        },
+        {
+          "role": "switch",
+          "label": "Blastoise RO+HC/SkB 4/8/15",
+          "index": 5
+        },
+        {
+          "role": "closer",
+          "label": "Amoonguss A+GK/FoP 4/15/9",
+          "index": 3
+        }
+      ],
+      "role_scores": {
+        "Amoonguss A+GK/FoP 4/15/9": {
+          "lead": 491.571,
+          "switch": 591.895,
+          "closer": 535.143
+        },
+        "Blastoise RO+HC/SkB 4/8/15": {
+          "lead": 472.571,
+          "switch": 560.181,
+          "closer": 487.429
+        },
+        "Skuntank PJ+Cr/TBl 4/15/14": {
+          "lead": 591.0,
+          "switch": 609.848,
+          "closer": 521.0
+        }
+      },
+      "shared_weaknesses": [],
+      "shared_strengths": []
     }
   ],
   "target_map": [
     {
-      "opponent_label": "Abomasnow PS+WBI/EB 0/15/15",
+      "opponent_label": "Golbat (Shadow) WA+PF/SB 4/13/15",
       "shield_best_scores": [
-        790,
-        728,
-        790
+        752,
+        812,
+        758
       ],
       "shield_best_members": [
-        "Doublade SC+SSw/GB 12/11/15",
-        "Doublade SC+SSw/GB 12/11/15",
-        "Doublade SC+SSw/GB 12/11/15"
+        "Sealeo (Shadow) PS+S/BS 5/15/12",
+        "Sealeo (Shadow) PS+S/BS 5/15/12",
+        "Sealeo (Shadow) PS+S/BS 5/15/12"
       ],
       "confidence": "stable"
     },
     {
-      "opponent_label": "Amoonguss A+GK/FoP 0/14/15",
+      "opponent_label": "Blastoise RO+HC/SkB 4/8/15",
       "shield_best_scores": [
-        766,
-        747,
-        707
+        803,
+        615,
+        570
       ],
       "shield_best_members": [
-        "Dartrix Pk+BrB/SeB 6/15/15",
-        "Zoroark (Hisuian) SC+SB/FoP 0/15/11",
-        "Golbat WA+PF/SB 0/12/12"
-      ],
-      "confidence": "stable"
-    },
-    {
-      "opponent_label": "Barbaracle FC+CrC/SE 0/10/13",
-      "shield_best_scores": [
-        746,
-        789,
-        761
-      ],
-      "shield_best_members": [
-        "Galvantula VS+D/Lu 0/15/15",
-        "Dartrix Pk+BrB/SeB 6/15/15",
-        "Doublade SC+SSw/GB 12/11/15"
-      ],
-      "confidence": "stable"
-    },
-    {
-      "opponent_label": "Blastoise RO+HC/SkB 1/15/15",
-      "shield_best_scores": [
-        575,
-        746,
-        680
-      ],
-      "shield_best_members": [
-        "Dartrix Pk+BrB/SeB 6/15/15",
-        "Galvantula VS+D/Lu 0/15/15",
-        "Zoroark (Hisuian) SC+SB/FoP 0/15/11"
+        "Lokix SkP+XS/TBl 4/15/13",
+        "Amoonguss A+GK/FoP 4/15/9",
+        "Amoonguss A+GK/FoP 4/15/9"
       ],
       "confidence": "fragile"
     },
     {
-      "opponent_label": "Cofagrigus SC+SB/DP 0/11/14",
+      "opponent_label": "Blastoise RO+HC/IB 4/8/15",
       "shield_best_scores": [
-        855,
-        799,
+        665,
+        615,
+        565
+      ],
+      "shield_best_members": [
+        "Blastoise RO+HC/SkB 4/8/15",
+        "Blastoise RO+HC/SkB 4/8/15",
+        "Blastoise RO+HC/SkB 4/8/15"
+      ],
+      "confidence": "fragile"
+    },
+    {
+      "opponent_label": "Doublade SC+SSw/GB 6/15/15",
+      "shield_best_scores": [
+        676,
+        711,
+        844
+      ],
+      "shield_best_members": [
+        "Lokix SkP+XS/TBl 4/15/13",
+        "Amoonguss A+GK/FoP 4/15/9",
+        "Lokix SkP+XS/TBl 4/15/13"
+      ],
+      "confidence": "stable"
+    },
+    {
+      "opponent_label": "Slowking (Galarian) Ac+Psh/SB 4/15/13",
+      "shield_best_scores": [
+        725,
+        683,
+        745
+      ],
+      "shield_best_members": [
+        "Lokix SkP+XS/TBl 4/15/13",
+        "Skuntank PJ+Cr/TBl 4/15/14",
+        "Lokix SkP+XS/TBl 4/15/13"
+      ],
+      "confidence": "stable"
+    },
+    {
+      "opponent_label": "Amoonguss A+GK/FoP 4/15/9",
+      "shield_best_scores": [
+        667,
+        729,
         726
       ],
       "shield_best_members": [
-        "Zoroark (Hisuian) SC+SB/FoP 0/15/11",
-        "Dartrix Pk+BrB/SeB 6/15/15",
-        "Zoroark (Hisuian) SC+SB/FoP 0/15/11"
+        "Skuntank PJ+Cr/TBl 4/15/14",
+        "Sealeo (Shadow) PS+S/BS 5/15/12",
+        "Sealeo (Shadow) PS+S/BS 5/15/12"
       ],
       "confidence": "stable"
     },
     {
-      "opponent_label": "Dartrix Pk+BrB/SeB 0/15/14",
+      "opponent_label": "Skuntank (Shadow) PJ+Cr/TBl 4/15/14",
       "shield_best_scores": [
-        789,
-        654,
-        725
+        826,
+        711,
+        584
       ],
       "shield_best_members": [
-        "Dartrix Pk+BrB/SeB 6/15/15",
-        "Dartrix Pk+BrB/SeB 6/15/15",
-        "Golbat WA+PF/SB 0/12/12"
-      ],
-      "confidence": "stable"
-    },
-    {
-      "opponent_label": "Dewgong IS+IW/DR 0/12/15",
-      "shield_best_scores": [
-        596,
-        707,
-        761
-      ],
-      "shield_best_members": [
-        "Blastoise RO+HC/SkB 1/15/15",
-        "Blastoise RO+HC/SkB 1/15/15",
-        "Doublade SC+SSw/GB 12/11/15"
+        "Seaking Pk+DR/IW 4/13/14",
+        "Sealeo (Shadow) PS+S/BS 5/15/12",
+        "Blastoise RO+HC/SkB 4/8/15"
       ],
       "confidence": "fragile"
-    },
-    {
-      "opponent_label": "Doublade SC+SSw/GB 0/11/14",
-      "shield_best_scores": [
-        871,
-        782,
-        731
-      ],
-      "shield_best_members": [
-        "Zoroark (Hisuian) SC+SB/FoP 0/15/11",
-        "Golbat WA+PF/SB 0/12/12",
-        "Zoroark (Hisuian) SC+SB/FoP 0/15/11"
-      ],
-      "confidence": "stable"
-    },
-    {
-      "opponent_label": "Drifblim A+IW/SB 0/15/12",
-      "shield_best_scores": [
-        876,
-        710,
-        618
-      ],
-      "shield_best_members": [
-        "Zoroark (Hisuian) SC+SB/FoP 0/15/11",
-        "Golbat WA+PF/SB 0/12/12",
-        "Zoroark (Hisuian) SC+SB/FoP 0/15/11"
-      ],
-      "confidence": "fragile"
-    },
-    {
-      "opponent_label": "Feraligatr SC+HC/IB 0/11/13",
-      "shield_best_scores": [
-        583,
-        788,
-        750
-      ],
-      "shield_best_members": [
-        "Galvantula VS+D/Lu 0/15/15",
-        "Zoroark (Hisuian) SC+SB/FoP 0/15/11",
-        "Galvantula VS+D/Lu 0/15/15"
-      ],
-      "confidence": "fragile"
-    },
-    {
-      "opponent_label": "Froslass PS+Av/SB 0/15/15",
-      "shield_best_scores": [
-        819,
-        838,
-        804
-      ],
-      "shield_best_members": [
-        "Zoroark (Hisuian) SC+SB/FoP 0/15/11",
-        "Doublade SC+SSw/GB 12/11/15",
-        "Doublade SC+SSw/GB 12/11/15"
-      ],
-      "confidence": "stable"
-    },
-    {
-      "opponent_label": "Galvantula VS+D/Lu 0/15/15",
-      "shield_best_scores": [
-        690,
-        559,
-        651
-      ],
-      "shield_best_members": [
-        "Dartrix Pk+BrB/SeB 6/15/15",
-        "Dartrix Pk+BrB/SeB 6/15/15",
-        "Dartrix Pk+BrB/SeB 6/15/15"
-      ],
-      "confidence": "fragile"
-    },
-    {
-      "opponent_label": "Golbat WA+PF/SB 0/15/15",
-      "shield_best_scores": [
-        664,
-        673,
-        761
-      ],
-      "shield_best_members": [
-        "Zoroark (Hisuian) SC+SB/FoP 0/15/11",
-        "Blastoise RO+HC/SkB 1/15/15",
-        "Doublade SC+SSw/GB 12/11/15"
-      ],
-      "confidence": "stable"
-    },
-    {
-      "opponent_label": "Golbat (Shadow) WA+PF/SB 0/15/15",
-      "shield_best_scores": [
-        678,
-        785,
-        753
-      ],
-      "shield_best_members": [
-        "Galvantula VS+D/Lu 0/15/15",
-        "Doublade SC+SSw/GB 12/11/15",
-        "Galvantula VS+D/Lu 0/15/15"
-      ],
-      "confidence": "stable"
-    },
-    {
-      "opponent_label": "Golisopod SC+XS/AJ 0/8/15",
-      "shield_best_scores": [
-        723,
-        788,
-        750
-      ],
-      "shield_best_members": [
-        "Dartrix Pk+BrB/SeB 6/15/15",
-        "Zoroark (Hisuian) SC+SB/FoP 0/15/11",
-        "Galvantula VS+D/Lu 0/15/15"
-      ],
-      "confidence": "stable"
-    },
-    {
-      "opponent_label": "Gyarados DB+AT/Cr 0/14/15",
-      "shield_best_scores": [
-        700,
-        805,
-        805
-      ],
-      "shield_best_members": [
-        "Blastoise RO+HC/SkB 1/15/15",
-        "Galvantula VS+D/Lu 0/15/15",
-        "Galvantula VS+D/Lu 0/15/15"
-      ],
-      "confidence": "stable"
-    },
-    {
-      "opponent_label": "Lokix SkP+XS/TBl 0/14/14",
-      "shield_best_scores": [
-        785,
-        725,
-        634
-      ],
-      "shield_best_members": [
-        "Galvantula VS+D/Lu 0/15/15",
-        "Golbat WA+PF/SB 0/12/12",
-        "Dartrix Pk+BrB/SeB 6/15/15"
-      ],
-      "confidence": "stable"
-    },
-    {
-      "opponent_label": "Marowak (Alolan) FS+BC/SBo 0/14/14",
-      "shield_best_scores": [
-        773,
-        692,
-        800
-      ],
-      "shield_best_members": [
-        "Zoroark (Hisuian) SC+SB/FoP 0/15/11",
-        "Golbat WA+PF/SB 0/12/12",
-        "Blastoise RO+HC/SkB 1/15/15"
-      ],
-      "confidence": "stable"
-    },
-    {
-      "opponent_label": "Pelipper WA+WBW/Hu 0/12/15",
-      "shield_best_scores": [
-        838,
-        849,
-        849
-      ],
-      "shield_best_members": [
-        "Dartrix Pk+BrB/SeB 6/15/15",
-        "Galvantula VS+D/Lu 0/15/15",
-        "Galvantula VS+D/Lu 0/15/15"
-      ],
-      "confidence": "stable"
-    },
-    {
-      "opponent_label": "Runerigus SC+SB/RT 0/11/14",
-      "shield_best_scores": [
-        855,
-        788,
-        689
-      ],
-      "shield_best_members": [
-        "Zoroark (Hisuian) SC+SB/FoP 0/15/11",
-        "Zoroark (Hisuian) SC+SB/FoP 0/15/11",
-        "Golbat WA+PF/SB 0/12/12"
-      ],
-      "confidence": "stable"
-    },
-    {
-      "opponent_label": "Samurott (Shadow) FC+HC/Mh 0/14/14",
-      "shield_best_scores": [
-        653,
-        789,
-        852
-      ],
-      "shield_best_members": [
-        "Golbat WA+PF/SB 0/12/12",
-        "Dartrix Pk+BrB/SeB 6/15/15",
-        "Doublade SC+SSw/GB 12/11/15"
-      ],
-      "confidence": "swingy"
-    },
-    {
-      "opponent_label": "Seaking Pk+DR/IW 0/14/14",
-      "shield_best_scores": [
-        880,
-        781,
-        761
-      ],
-      "shield_best_members": [
-        "Galvantula VS+D/Lu 0/15/15",
-        "Galvantula VS+D/Lu 0/15/15",
-        "Galvantula VS+D/Lu 0/15/15"
-      ],
-      "confidence": "stable"
-    },
-    {
-      "opponent_label": "Sealeo PS+S/BS 0/15/14",
-      "shield_best_scores": [
-        676,
-        596,
-        680
-      ],
-      "shield_best_members": [
-        "Blastoise RO+HC/SkB 1/15/15",
-        "Blastoise RO+HC/SkB 1/15/15",
-        "Blastoise RO+HC/SkB 1/15/15"
-      ],
-      "confidence": "fragile"
-    },
-    {
-      "opponent_label": "Sealeo (Shadow) PS+S/BS 0/15/14",
-      "shield_best_scores": [
-        670,
-        719,
-        790
-      ],
-      "shield_best_members": [
-        "Galvantula VS+D/Lu 0/15/15",
-        "Blastoise RO+HC/SkB 1/15/15",
-        "Doublade SC+SSw/GB 12/11/15"
-      ],
-      "confidence": "stable"
-    },
-    {
-      "opponent_label": "Skuntank PJ+Cr/TBl 0/15/15",
-      "shield_best_scores": [
-        582,
-        686,
-        809
-      ],
-      "shield_best_members": [
-        "Dartrix Pk+BrB/SeB 6/15/15",
-        "Galvantula VS+D/Lu 0/15/15",
-        "Doublade SC+SSw/GB 12/11/15"
-      ],
-      "confidence": "fragile"
-    },
-    {
-      "opponent_label": "Skuntank (Shadow) PJ+Cr/TBl 0/15/15",
-      "shield_best_scores": [
-        542,
-        623,
-        847
-      ],
-      "shield_best_members": [
-        "Golbat WA+PF/SB 0/12/12",
-        "Zoroark (Hisuian) SC+SB/FoP 0/15/11",
-        "Doublade SC+SSw/GB 12/11/15"
-      ],
-      "confidence": "fragile"
-    },
-    {
-      "opponent_label": "Slowking (Galarian) Ac+Psh/SB 0/14/13",
-      "shield_best_scores": [
-        896,
-        942,
-        919
-      ],
-      "shield_best_members": [
-        "Zoroark (Hisuian) SC+SB/FoP 0/15/11",
-        "Doublade SC+SSw/GB 12/11/15",
-        "Doublade SC+SSw/GB 12/11/15"
-      ],
-      "confidence": "stable"
-    },
-    {
-      "opponent_label": "Swalot MS+Sl/IB 0/14/14",
-      "shield_best_scores": [
-        647,
-        619,
-        690
-      ],
-      "shield_best_members": [
-        "Doublade SC+SSw/GB 12/11/15",
-        "Doublade SC+SSw/GB 12/11/15",
-        "Dartrix Pk+BrB/SeB 6/15/15"
-      ],
-      "confidence": "fragile"
-    },
-    {
-      "opponent_label": "Tentacruel Ac+Sc/Pbk 1/15/15",
-      "shield_best_scores": [
-        685,
-        747,
-        900
-      ],
-      "shield_best_members": [
-        "Doublade SC+SSw/GB 12/11/15",
-        "Zoroark (Hisuian) SC+SB/FoP 0/15/11",
-        "Doublade SC+SSw/GB 12/11/15"
-      ],
-      "confidence": "swingy"
-    },
-    {
-      "opponent_label": "Trevenant SC+SeB/SB 0/15/15",
-      "shield_best_scores": [
-        871,
-        737,
-        731
-      ],
-      "shield_best_members": [
-        "Zoroark (Hisuian) SC+SB/FoP 0/15/11",
-        "Zoroark (Hisuian) SC+SB/FoP 0/15/11",
-        "Zoroark (Hisuian) SC+SB/FoP 0/15/11"
-      ],
-      "confidence": "stable"
-    },
-    {
-      "opponent_label": "Weezing RO+SlB/SB 0/14/14",
-      "shield_best_scores": [
-        684,
-        747,
-        847
-      ],
-      "shield_best_members": [
-        "Blastoise RO+HC/SkB 1/15/15",
-        "Zoroark (Hisuian) SC+SB/FoP 0/15/11",
-        "Doublade SC+SSw/GB 12/11/15"
-      ],
-      "confidence": "stable"
-    },
-    {
-      "opponent_label": "Weezing (Galarian) FW+Sl/BrS 0/14/14",
-      "shield_best_scores": [
-        709,
-        666,
-        750
-      ],
-      "shield_best_members": [
-        "Doublade SC+SSw/GB 12/11/15",
-        "Doublade SC+SSw/GB 12/11/15",
-        "Golbat WA+PF/SB 0/12/12"
-      ],
-      "confidence": "stable"
     }
   ],
   "meta": "bayou",

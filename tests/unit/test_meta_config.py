@@ -1,5 +1,7 @@
 import json
 
+import pytest
+
 from pogo_team_optimizer.application.meta_config import (
     load_meta_config,
     validate_matrix_files,
@@ -63,16 +65,53 @@ def test_load_meta_config_reads_optional_per_meta_fields(tmp_path) -> None:
     assert config.required_files == ("data/bfmaster_points.csv",)
 
 
-def test_default_meta_config_includes_bayou_cup() -> None:
-    config = load_meta_config("data/metas.json", "bayou")
+@pytest.mark.parametrize(
+    ("meta", "matrix_files", "switch_rankings_path"),
+    [
+        (
+            "bayou",
+            (
+                "data/simulations/bayou_0-shield.csv",
+                "data/simulations/bayou_1-shield.csv",
+                "data/simulations/bayou_2-shield.csv",
+            ),
+            "data/rankings/cp1500_bayou_switches_rankings.csv",
+        ),
+        (
+            "naic",
+            (
+                "data/simulations/naic_0-shield.csv",
+                "data/simulations/naic_1-shield.csv",
+                "data/simulations/naic_2-shield.csv",
+            ),
+            "data/rankings/cp1500_naic2026_switches_rankings.csv",
+        ),
+        (
+            "spellcraft",
+            (
+                "data/simulations/spellcraft_0-shield.csv",
+                "data/simulations/spellcraft_1-shield.csv",
+                "data/simulations/spellcraft_2-shield.csv",
+            ),
+            None,
+        ),
+    ],
+)
+def test_default_meta_config_includes_supported_cups(
+    meta: str,
+    matrix_files: tuple[str, ...],
+    switch_rankings_path: str | None,
+) -> None:
+    config = load_meta_config("data/metas.json", meta)
 
-    assert config.name == "bayou"
-    assert config.matrix_files == (
-        "data/simulations/bayou_0-shield.csv",
-        "data/simulations/bayou_1-shield.csv",
-        "data/simulations/bayou_2-shield.csv",
-    )
-    assert config.switch_rankings_path == "data/rankings/cp1500_bayou_switches_rankings.csv"
+    assert config.name == meta
+    assert config.matrix_files == matrix_files
+    assert config.switch_rankings_path == switch_rankings_path
+
+
+def test_default_naic_matrix_files_exist() -> None:
+    config = load_meta_config("data/metas.json", "naic")
+
     assert validate_matrix_files(config.matrix_files) == []
 
 

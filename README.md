@@ -57,7 +57,8 @@ Basic run:
 PYTHONPATH=src python -m pogo_team_optimizer.cli.main --meta crucible
 ```
 
-Supported metas include `bayou`, `bfretro`, `great`, `bfmaster`, and `crucible`.
+Supported metas include `bayou`, `bfretro`, `bfmaster`, `crucible`, `euic`, `great`,
+`majestic`, `master`, `naic`, and `spellcraft`.
 
 Each CLI execution runs the optimizer once, prints the text report, and writes every supported
 format to `data/output/`:
