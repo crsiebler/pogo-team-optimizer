@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import itertools
 from typing import Any
 
 from pogo_team_optimizer.application.normalization import parse_base_species, parse_species
@@ -161,6 +162,113 @@ def build_target_map(
         )
 
     return target_map
+
+
+def build_core_role_recommendation(
+    row_labels: list[str],
+    col_labels: list[str],
+    matrices: list[list[list[int]]],
+    core_indices: tuple[int, ...],
+    safety_by_row: list[float],
+) -> dict[str, Any]:
+    role_scores = {
+        row_labels[row_idx]: _role_scores(row_idx, matrices, safety_by_row)
+        for row_idx in core_indices
+    }
+    best_order = max(
+        itertools.permutations(core_indices),
+        key=lambda order: (
+            role_scores[row_labels[order[0]]]["lead"]
+            + role_scores[row_labels[order[1]]]["switch"]
+            + role_scores[row_labels[order[2]]]["closer"],
+            role_scores[row_labels[order[1]]]["switch"],
+            role_scores[row_labels[order[0]]]["lead"],
+            role_scores[row_labels[order[2]]]["closer"],
+        ),
+    )
+    strategy, shared_weaknesses, shared_strengths = _classify_ordered_core(
+        best_order, col_labels, matrices
+    )
+
+    return {
+        "strategy": strategy,
+        "recommended_order": [
+            {"role": role, "label": row_labels[row_idx], "index": row_idx}
+            for role, row_idx in zip(("lead", "switch", "closer"), best_order, strict=True)
+        ],
+        "role_scores": role_scores,
+        "shared_weaknesses": shared_weaknesses,
+        "shared_strengths": shared_strengths,
+    }
+
+
+def _role_scores(
+    row_idx: int,
+    matrices: list[list[list[int]]],
+    safety_by_row: list[float],
+) -> dict[str, float]:
+    zero_shield = matrices[0][row_idx]
+    one_shield = matrices[min(1, len(matrices) - 1)][row_idx]
+    all_scores = [score for matrix in matrices for score in matrix[row_idx]]
+
+    lead_score = _average(one_shield) - (25.0 * _hard_loss_rate(one_shield))
+    switch_score = _average(all_scores) + safety_by_row[row_idx]
+    closer_score = _average(zero_shield) + (20.0 * _dominate_rate(zero_shield))
+    return {
+        "lead": round(lead_score, 3),
+        "switch": round(switch_score, 3),
+        "closer": round(closer_score, 3),
+    }
+
+
+def _classify_ordered_core(
+    order: tuple[int, ...],
+    col_labels: list[str],
+    matrices: list[list[list[int]]],
+) -> tuple[str, list[str], list[str]]:
+    lead_idx, switch_idx, closer_idx = order
+    back_weaknesses = _shared_matchups(switch_idx, closer_idx, col_labels, matrices, upper_bound=450)
+    back_strengths = _shared_matchups(switch_idx, closer_idx, col_labels, matrices, lower_bound=600)
+    lead_closer_weaknesses = _shared_matchups(lead_idx, closer_idx, col_labels, matrices, upper_bound=450)
+    lead_closer_strengths = _shared_matchups(lead_idx, closer_idx, col_labels, matrices, lower_bound=600)
+
+    if len(back_weaknesses) >= 2 or len(back_strengths) >= 2:
+        return "ABB", back_weaknesses, back_strengths
+    if len(lead_closer_weaknesses) >= 2 or len(lead_closer_strengths) >= 2:
+        return "ABA", lead_closer_weaknesses, lead_closer_strengths
+    return "ABC", [], []
+
+
+def _shared_matchups(
+    first_idx: int,
+    second_idx: int,
+    col_labels: list[str],
+    matrices: list[list[list[int]]],
+    *,
+    upper_bound: int | None = None,
+    lower_bound: int | None = None,
+) -> list[str]:
+    shared: list[str] = []
+    for col_idx, col_label in enumerate(col_labels):
+        first = _average([matrix[first_idx][col_idx] for matrix in matrices])
+        second = _average([matrix[second_idx][col_idx] for matrix in matrices])
+        if upper_bound is not None and first < upper_bound and second < upper_bound:
+            shared.append(col_label)
+        if lower_bound is not None and first > lower_bound and second > lower_bound:
+            shared.append(col_label)
+    return shared
+
+
+def _average(values: list[int]) -> float:
+    return sum(values) / len(values) if values else 0.0
+
+
+def _hard_loss_rate(values: list[int]) -> float:
+    return sum(1 for value in values if value < 450) / len(values) if values else 0.0
+
+
+def _dominate_rate(values: list[int]) -> float:
+    return sum(1 for value in values if value > 650) / len(values) if values else 0.0
 
 
 def to_team_members(

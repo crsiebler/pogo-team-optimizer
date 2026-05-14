@@ -41,9 +41,21 @@ class ExcelExporter(AnalysisExporter):
                 [item["shield"], item["wins"], item["draws"], item["losses"], item["weighted_wins"]]
             )
 
-        core_rows: list[list[object]] = [["Rank", "Members"]]
+        core_rows: list[list[object]] = [["Rank", "Strategy", "Lead", "Switch", "Closer"]]
         for index, core in enumerate(result["safe_cores"], start=1):
-            core_rows.append([index, ", ".join(member["label"] for member in core["members"])])
+            if "recommended_order" in core:
+                roles = {item["role"]: item["label"] for item in core["recommended_order"]}
+                core_rows.append(
+                    [
+                        index,
+                        core["strategy"],
+                        roles["lead"],
+                        roles["switch"],
+                        roles["closer"],
+                    ]
+                )
+            else:
+                core_rows.append([index, "", ", ".join(member["label"] for member in core["members"]), "", ""])
 
         threat_rows: list[list[object]] = [
             ["Opponent", "Single Coverage", "No Coverage", "Details"]

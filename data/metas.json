@@ -28,6 +28,14 @@
         "data/simulations/euic_2-shield.csv"
       ]
     },
+    "naic": {
+      "matrix_files": [
+        "data/simulations/naic_0-shield.csv",
+        "data/simulations/naic_1-shield.csv",
+        "data/simulations/naic_2-shield.csv"
+      ],
+      "switch_rankings_path": "data/rankings/cp1500_naic2026_switches_rankings.csv"
+    },
     "master": {
       "matrix_files": [
         "data/simulations/master_0-shield.csv",
@@ -49,6 +57,14 @@
         "data/simulations/bayou_2-shield.csv"
       ],
       "switch_rankings_path": "data/rankings/cp1500_bayou_switches_rankings.csv"
+    },
+    "spellcraft": {
+      "matrix_files": [
+        "data/simulations/spellcraft_0-shield.csv",
+        "data/simulations/spellcraft_1-shield.csv",
+        "data/simulations/spellcraft_2-shield.csv"
+      ],
+      "switch_rankings_path": "data/rankings/cp1500_spellcraft_switches_rankings.csv"
     },
     "bfmaster": {
       "matrix_files": [

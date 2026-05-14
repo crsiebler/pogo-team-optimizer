@@ -5,20 +5,13 @@ import pytest
 from pogo_team_optimizer.cli.main import build_parser, main
 
 
-def test_build_parser_accepts_bfmaster_meta() -> None:
+@pytest.mark.parametrize("meta", ["bfmaster", "bayou", "naic", "spellcraft"])
+def test_build_parser_accepts_supported_metas(meta: str) -> None:
     parser = build_parser()
 
-    args = parser.parse_args(["--meta", "bfmaster"])
+    args = parser.parse_args(["--meta", meta])
 
-    assert args.meta == "bfmaster"
-
-
-def test_build_parser_accepts_bayou_meta() -> None:
-    parser = build_parser()
-
-    args = parser.parse_args(["--meta", "bayou"])
-
-    assert args.meta == "bayou"
+    assert args.meta == meta
 
 
 def test_main_rejects_deprecated_output_argument(monkeypatch) -> None:

@@ -1,0 +1,46 @@
+Meta: great
+
+Recommended Team
+- Diggersby MS+FiP/ScS 4/15/14 [normal/ground]
+- Grumpig Psy+DyP/SB 4/15/15 [psychic/none]
+- Lickilicky RO+BS/SB 4/15/8 [normal/none]
+- Togekiss Pk+Psh/AuS 4/15/15 [fairy/flying]
+- Corsola (Galarian) A+NSh/PG 4/15/14 [ghost/none]
+- Forretress (Shadow) BBi+ST/RT 5/15/13 [bug/steel]
+
+Team Analysis
+- bulk score: 236.60 (team avg def*hp/atk; pool min/mean/max 190.96/226.82/274.02)
+- safety score: 81.72 (PvPoke switch score avg; pool min/mean/max 62.30/82.99/92.70)
+- safety target: medium priority | avg >= 78.00 | members >= 90.00: 1
+- consistency score: 767.17 (internal matchup stability metric; not PvPoke bait-dependency consistency) = mean 710.92 + dominate bonus - overwhelming penalty
+- redundancy (2+ winners): 21/24 (87.5%)
+- redundancy (3+ winners): 21/24 (87.5%)
+- single-coverage pairs: 3/24 (12.5%)
+- no-coverage pairs: 0/24 (0.0%)
+- dominate: 18/24 (75.0%) where score > 650
+- overwhelming: 0/24 (0.0%) where score < 350
+
+Coverage
+- 0-shield: W 8 | D 0 | L 0 | weighted wins 1.000
+- 1-shield: W 8 | D 0 | L 0 | weighted wins 1.000
+- 2-shield: W 8 | D 0 | L 0 | weighted wins 1.000
+
+Safe Cores
+- #1 ABC: Lead Diggersby MS+FiP/ScS 4/15/14 | Switch Forretress (Shadow) BBi+ST/RT 5/15/13 | Closer Grumpig Psy+DyP/SB 4/15/15
+- #2 ABC: Lead Corsola (Galarian) A+NSh/PG 4/15/14 | Switch Forretress (Shadow) BBi+ST/RT 5/15/13 | Closer Grumpig Psy+DyP/SB 4/15/15
+- #3 ABC: Lead Diggersby MS+FiP/ScS 4/15/14 | Switch Lickilicky RO+BS/SB 4/15/8 | Closer Grumpig Psy+DyP/SB 4/15/15
+- #4 ABC: Lead Togekiss Pk+Psh/AuS 4/15/15 | Switch Forretress (Shadow) BBi+ST/RT 5/15/13 | Closer Grumpig Psy+DyP/SB 4/15/15
+- #5 ABC: Lead Togekiss Pk+Psh/AuS 4/15/15 | Switch Forretress (Shadow) BBi+ST/RT 5/15/13 | Closer Diggersby MS+FiP/ScS 4/15/14
+- #6 ABC: Lead Diggersby MS+FiP/ScS 4/15/14 | Switch Forretress (Shadow) BBi+ST/RT 5/15/13 | Closer Lickilicky RO+BS/SB 4/15/8
+- #7 ABC: Lead Corsola (Galarian) A+NSh/PG 4/15/14 | Switch Forretress (Shadow) BBi+ST/RT 5/15/13 | Closer Lickilicky RO+BS/SB 4/15/8
+- #8 ABC: Lead Corsola (Galarian) A+NSh/PG 4/15/14 | Switch Togekiss Pk+Psh/AuS 4/15/15 | Closer Grumpig Psy+DyP/SB 4/15/15
+- #9 ABC: Lead Corsola (Galarian) A+NSh/PG 4/15/14 | Switch Togekiss Pk+Psh/AuS 4/15/15 | Closer Forretress (Shadow) BBi+ST/RT 5/15/13
+- #10 ABC: Lead Corsola (Galarian) A+NSh/PG 4/15/14 | Switch Lickilicky RO+BS/SB 4/15/8 | Closer Grumpig Psy+DyP/SB 4/15/15
+
+Potential Threats
+- Togekiss Pk+Psh/AuS 4/15/15 | single-coverage: 1 | no-coverage: 0
+  - 2-shield: only answer Grumpig Psy+DyP/SB 4/15/15 (553)
+- Piloswine (Shadow) PS+ISp/SE 4/14/11 | single-coverage: 1 | no-coverage: 0
+  - 2-shield: only answer Forretress (Shadow) BBi+ST/RT 5/15/13 (789)
+- Forretress (Shadow) VS+ST/RT 5/15/13 | single-coverage: 1 | no-coverage: 0
+  - 2-shield: only answer Diggersby MS+FiP/ScS 4/15/14 (704)

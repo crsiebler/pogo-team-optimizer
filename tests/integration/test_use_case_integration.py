@@ -34,6 +34,12 @@ def test_use_case_returns_required_sections() -> None:
     assert len(result["coverage"]) == 3
     assert 0 < len(result["threats"]) <= 5
     assert len(result["safe_cores"]) == 3
+    assert result["safe_cores"][0]["strategy"] in {"ABC", "ABB", "ABA"}
+    assert [item["role"] for item in result["safe_cores"][0]["recommended_order"]] == [
+        "lead",
+        "switch",
+        "closer",
+    ]
     assert len(result["target_map"]) > 0
     assert "safety_score" in result["recommended_team"]["metrics"]
     assert "safety_pool_mean" in result["recommended_team"]["metrics"]
@@ -74,17 +80,19 @@ def test_bfmaster_use_case_returns_legal_team() -> None:
 
 
 def test_bfmaster_points_schedule_marks_known_19_point_team_illegal() -> None:
-    simulation_repository = CsvSimulationMatrixRepository(
-        [
-            "data/simulations/bfmaster_0-shield.csv",
-            "data/simulations/bfmaster_1-shield.csv",
-            "data/simulations/bfmaster_2-shield.csv",
-        ]
-    )
     points_repository = CsvBattleFrontierPointsRepository(
         "data/battle_frontier/bfmaster_cycle_points.csv"
     )
-    row_labels, col_labels, matrices = simulation_repository.load()
+    row_labels = [
+        "Tyranitar 15/15/15",
+        "Kyurem (White) 15/15/15",
+        "Meloetta (Aria) 15/15/15",
+        "Charizard (Mega Y) 15/15/15",
+        "Metagross 15/15/15",
+        "Groudon 15/15/15",
+    ]
+    col_labels = ["Kyogre 15/15/15"]
+    matrices = [[[500] for _ in row_labels]]
     optimizer = TeamOptimizer(
         row_labels=row_labels,
         col_labels=col_labels,
@@ -96,22 +104,7 @@ def test_bfmaster_points_schedule_marks_known_19_point_team_illegal() -> None:
         seed=7,
     )
 
-    species_by_row = [parse_species(label) for label in row_labels]
-
-    def find_species_index(*candidates: str) -> int:
-        for candidate in candidates:
-            if candidate in species_by_row:
-                return species_by_row.index(candidate)
-        raise AssertionError(f"Missing expected Battle Frontier species from dataset: {candidates}")
-
-    illegal_team_indices = [
-        find_species_index("Tyranitar", "Tyranitar (Shadow)"),
-        find_species_index("Kyurem (White)"),
-        find_species_index("Meloetta (Aria)"),
-        find_species_index("Charizard (Mega Y)"),
-        find_species_index("Metagross", "Metagross (Shadow)"),
-        find_species_index("Groudon", "Groudon (Shadow)"),
-    ]
+    illegal_team_indices = list(range(len(row_labels)))
 
     assert len(illegal_team_indices) == 6
     assert sum(optimizer.battle_frontier_points_by_row[idx] for idx in illegal_team_indices) == 19

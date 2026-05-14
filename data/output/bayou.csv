@@ -1,15 +1,26 @@
 section,key,value
-recommended_team,member,Zoroark (Hisuian) SC+SB/FoP 0/15/11
-recommended_team,member,Dartrix Pk+BrB/SeB 6/15/15
-recommended_team,member,Galvantula VS+D/Lu 0/15/15
-recommended_team,member,Golbat WA+PF/SB 0/12/12
-recommended_team,member,Blastoise RO+HC/SkB 1/15/15
-recommended_team,member,Doublade SC+SSw/GB 12/11/15
-recommended_team,bulk_score,154.51
-recommended_team,bulk_pool_min_mean_max,58.75/175.88/305.36
-recommended_team,consistency,score=809.29;mean=743.67;dominate=84/96;overwhelming=0/96
-recommended_team,redundancy,2plus=96/96;3plus=78/96;single=0/96;none=0/96
-coverage,0-shield,32/0/0
-coverage,1-shield,32/0/0
-coverage,2-shield,32/0/0
-threat,Skuntank (Shadow) PJ+Cr/TBl 0/15/15,single=0;none=0;details=n/a
+recommended_team,member,Sealeo (Shadow) PS+S/BS 5/15/12
+recommended_team,member,Lokix SkP+XS/TBl 4/15/13
+recommended_team,member,Amoonguss A+GK/FoP 4/15/9
+recommended_team,member,Blastoise RO+HC/SkB 4/8/15
+recommended_team,member,Seaking Pk+DR/IW 4/13/14
+recommended_team,member,Skuntank PJ+Cr/TBl 4/15/14
+recommended_team,bulk_score,183.47
+recommended_team,bulk_pool_min_mean_max,125.91/189.77/227.58
+recommended_team,consistency,score=761.05;mean=703.90;dominate=16/21;overwhelming=0/21
+recommended_team,redundancy,2plus=19/21;3plus=16/21;single=2/21;none=0/21
+coverage,0-shield,7/0/0
+coverage,1-shield,7/0/0
+coverage,2-shield,7/0/0
+safe_core,#1 ABC,lead=Seaking Pk+DR/IW 4/13/14;switch=Blastoise RO+HC/SkB 4/8/15;closer=Lokix SkP+XS/TBl 4/15/13
+safe_core,#2 ABC,lead=Sealeo (Shadow) PS+S/BS 5/15/12;switch=Amoonguss A+GK/FoP 4/15/9;closer=Lokix SkP+XS/TBl 4/15/13
+safe_core,#3 ABC,lead=Sealeo (Shadow) PS+S/BS 5/15/12;switch=Seaking Pk+DR/IW 4/13/14;closer=Amoonguss A+GK/FoP 4/15/9
+safe_core,#4 ABC,lead=Skuntank PJ+Cr/TBl 4/15/14;switch=Seaking Pk+DR/IW 4/13/14;closer=Blastoise RO+HC/SkB 4/8/15
+safe_core,#5 ABC,lead=Seaking Pk+DR/IW 4/13/14;switch=Blastoise RO+HC/SkB 4/8/15;closer=Amoonguss A+GK/FoP 4/15/9
+safe_core,#6 ABC,lead=Blastoise RO+HC/SkB 4/8/15;switch=Amoonguss A+GK/FoP 4/15/9;closer=Lokix SkP+XS/TBl 4/15/13
+safe_core,#7 ABC,lead=Skuntank PJ+Cr/TBl 4/15/14;switch=Sealeo (Shadow) PS+S/BS 5/15/12;closer=Amoonguss A+GK/FoP 4/15/9
+safe_core,#8 ABC,lead=Skuntank PJ+Cr/TBl 4/15/14;switch=Seaking Pk+DR/IW 4/13/14;closer=Amoonguss A+GK/FoP 4/15/9
+safe_core,#9 ABC,lead=Seaking Pk+DR/IW 4/13/14;switch=Amoonguss A+GK/FoP 4/15/9;closer=Lokix SkP+XS/TBl 4/15/13
+safe_core,#10 ABC,lead=Skuntank PJ+Cr/TBl 4/15/14;switch=Blastoise RO+HC/SkB 4/8/15;closer=Amoonguss A+GK/FoP 4/15/9
+threat,Blastoise RO+HC/SkB 4/8/15,single=1;none=0;details=2-shield only Amoonguss A+GK/FoP 4/15/9
+threat,Skuntank (Shadow) PJ+Cr/TBl 4/15/14,single=1;none=0;details=0-shield only Seaking Pk+DR/IW 4/13/14

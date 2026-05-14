@@ -1,15 +1,33 @@
 section,key,value
-recommended_team,member,Blastoise RO+SkB/HC 1/12/15
-recommended_team,member,Kingdra DB+Sw/O 1/13/15
-recommended_team,member,Kommo-o DT+UH/ClS 3/15/13
+recommended_team,member,Venusaur (Shadow) VW+Sl/FP 4/14/15
+recommended_team,member,Kommo-o DT+UH/ClS 4/12/13
+recommended_team,member,Articuno PS+IW/Hu 14/13/14
+recommended_team,member,Kyurem DB+G/DC 5/8/14
+recommended_team,member,Raikou TS+WC/AuS 5/13/13
 recommended_team,member,Grumpig Psy+SB/DyP 6/14/13
-recommended_team,member,Skeledirge I+TSo/SB 0/15/15
-recommended_team,member,Golisopod FC+XS/AJ 1/14/15
-recommended_team,bulk_score,200.05
-recommended_team,bulk_pool_min_mean_max,181.00/197.91/227.58
-recommended_team,consistency,score=819.28;mean=752.61;dominate=16/18;overwhelming=0/18
-recommended_team,redundancy,2plus=16/18;3plus=11/18;single=2/18;none=0/18
-coverage,0-shield,6/0/0
-coverage,1-shield,6/0/0
-coverage,2-shield,6/0/0
-threat,Kommo-o DT+ClS/UH 4/12/13,single=2;none=0;details=0-shield only Grumpig Psy+SB/DyP 6/14/13 | 1-shield only Grumpig Psy+SB/DyP 6/14/13
+recommended_team,bulk_score,196.19
+recommended_team,bulk_pool_min_mean_max,167.49/189.02/254.44
+recommended_team,consistency,score=843.67;mean=782.56;dominate=22/27;overwhelming=0/27
+recommended_team,redundancy,2plus=27/27;3plus=21/27;single=0/27;none=0/27
+coverage,0-shield,9/0/0
+coverage,1-shield,9/0/0
+coverage,2-shield,9/0/0
+safe_core,#1 ABC,lead=Grumpig Psy+SB/DyP 6/14/13;switch=Kommo-o DT+UH/ClS 4/12/13;closer=Kyurem DB+G/DC 5/8/14
+safe_core,#2 ABC,lead=Grumpig Psy+SB/DyP 6/14/13;switch=Kommo-o DT+UH/ClS 4/12/13;closer=Articuno PS+IW/Hu 14/13/14
+safe_core,#3 ABC,lead=Grumpig Psy+SB/DyP 6/14/13;switch=Raikou TS+WC/AuS 5/13/13;closer=Articuno PS+IW/Hu 14/13/14
+safe_core,#4 ABC,lead=Kommo-o DT+UH/ClS 4/12/13;switch=Raikou TS+WC/AuS 5/13/13;closer=Articuno PS+IW/Hu 14/13/14
+safe_core,#5 ABC,lead=Grumpig Psy+SB/DyP 6/14/13;switch=Venusaur (Shadow) VW+Sl/FP 4/14/15;closer=Kyurem DB+G/DC 5/8/14
+safe_core,#6 ABC,lead=Grumpig Psy+SB/DyP 6/14/13;switch=Raikou TS+WC/AuS 5/13/13;closer=Kyurem DB+G/DC 5/8/14
+safe_core,#7 ABC,lead=Kommo-o DT+UH/ClS 4/12/13;switch=Raikou TS+WC/AuS 5/13/13;closer=Kyurem DB+G/DC 5/8/14
+safe_core,#8 ABC,lead=Grumpig Psy+SB/DyP 6/14/13;switch=Venusaur (Shadow) VW+Sl/FP 4/14/15;closer=Articuno PS+IW/Hu 14/13/14
+safe_core,#9 ABB,lead=Grumpig Psy+SB/DyP 6/14/13;switch=Kyurem DB+G/DC 5/8/14;closer=Articuno PS+IW/Hu 14/13/14
+safe_core,#10 ABA,lead=Articuno PS+IW/Hu 14/13/14;switch=Raikou TS+WC/AuS 5/13/13;closer=Kyurem DB+G/DC 5/8/14
+threat,Kingdra DB+Sw/O 0/15/15,single=0;none=0;details=n/a
+threat,Cetitan PS+ISp/SP 4/15/15,single=0;none=0;details=n/a
+threat,Toucannon Pk+BBl/DrlP 2/15/14,single=0;none=0;details=n/a
+threat,Virizion DK+LB/SSw 1/15/12,single=0;none=0;details=n/a
+threat,Blastoise RO+HC/SkB 5/15/15,single=0;none=0;details=n/a
+threat,Gliscor (Shadow) WA+ST/NS 0/14/15,single=0;none=0;details=n/a
+threat,Gliscor (Shadow) WA+Acr/ST 0/14/15,single=0;none=0;details=n/a
+threat,Blastoise RO+HC/IB 5/15/15,single=0;none=0;details=n/a
+threat,Gliscor (Shadow) WA+Acr/NS 0/14/15,single=0;none=0;details=n/a

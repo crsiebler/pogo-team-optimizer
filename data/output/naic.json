@@ -1,0 +1,1186 @@
+{
+  "recommended_team": {
+    "members": [
+      {
+        "index": 2,
+        "label": "Weezing (Galarian) FW+Sl/BrS 4/14/13",
+        "species": "Weezing (Galarian)",
+        "base_species": "Weezing (Galarian)",
+        "types": [
+          "poison",
+          "fairy"
+        ]
+      },
+      {
+        "index": 1,
+        "label": "Raichu (Alolan) TS+WC/TBl 6/14/15",
+        "species": "Raichu (Alolan)",
+        "base_species": "Raichu (Alolan)",
+        "types": [
+          "electric",
+          "psychic"
+        ]
+      },
+      {
+        "index": 3,
+        "label": "Grumpig Psy+DyP/SB 4/15/15",
+        "species": "Grumpig",
+        "base_species": "Grumpig",
+        "types": [
+          "psychic",
+          "none"
+        ]
+      },
+      {
+        "index": 5,
+        "label": "Castform H+WBR/EB 4/15/14",
+        "species": "Castform",
+        "base_species": "Castform",
+        "types": [
+          "normal",
+          "none"
+        ]
+      },
+      {
+        "index": 0,
+        "label": "Hypno Cf+SB/TP 5/13/14",
+        "species": "Hypno",
+        "base_species": "Hypno",
+        "types": [
+          "psychic",
+          "none"
+        ]
+      },
+      {
+        "index": 4,
+        "label": "Dubwool DK+BS/Pbk 5/14/14",
+        "species": "Dubwool",
+        "base_species": "Dubwool",
+        "types": [
+          "normal",
+          "none"
+        ]
+      }
+    ],
+    "score": [
+      18.0,
+      6.0,
+      0.0,
+      -3.0,
+      669.6666666666667,
+      194.78931602110174,
+      88.5,
+      812.2222222222222,
+      15.0,
+      10.0,
+      745.5555555555555,
+      16.0,
+      0.0
+    ],
+    "bulk_score": 194.78931602110174,
+    "safety_score": 88.5,
+    "metrics": {
+      "pair_coverage": 18,
+      "full_col_coverage": 6,
+      "redundant_coverage_2plus": 15,
+      "redundant_coverage_3plus": 10,
+      "single_cover_pairs": 3,
+      "single_cover_rate": 0.16666666666666666,
+      "no_cover_pairs": 0,
+      "no_cover_rate": 0.0,
+      "bulk_score": 194.78931602110174,
+      "safety_score": 88.5,
+      "consistency_score": 812.2222222222222,
+      "weighted_worst_best_score": 669.6666666666667,
+      "mean_best_score": 745.5555555555555,
+      "dominate_count": 16,
+      "dominate_rate": 0.8888888888888888,
+      "overwhelming_count": 0,
+      "overwhelming_rate": 0.0,
+      "total_pairs": 18,
+      "bulk_pool_min": 118.75621890547264,
+      "bulk_pool_max": 265.375,
+      "bulk_pool_mean": 194.78931602110174,
+      "safety_pool_min": 79.7,
+      "safety_pool_max": 97.6,
+      "safety_pool_mean": 88.5,
+      "safety_priority": "medium",
+      "safety_floor_target": 78.0,
+      "safe_member_floor": 90.0,
+      "safe_member_target": 1
+    },
+    "shadow_count": 0
+  },
+  "coverage": [
+    {
+      "shield": 0,
+      "wins": 6,
+      "draws": 0,
+      "losses": 0,
+      "weighted_wins": 1.0
+    },
+    {
+      "shield": 1,
+      "wins": 6,
+      "draws": 0,
+      "losses": 0,
+      "weighted_wins": 1.0
+    },
+    {
+      "shield": 2,
+      "wins": 6,
+      "draws": 0,
+      "losses": 0,
+      "weighted_wins": 1.0
+    }
+  ],
+  "threats": [
+    {
+      "opponent_label": "Hypno Cf+SB/TP 5/13/14",
+      "min_best_score": 578,
+      "avg_best_score": 661.0,
+      "shield_best_scores": [
+        652,
+        578,
+        753
+      ],
+      "shield_best_members": [
+        "Dubwool DK+BS/Pbk 5/14/14",
+        "Castform H+WBR/EB 4/15/14",
+        "Grumpig Psy+DyP/SB 4/15/15"
+      ],
+      "single_cover_count": 1,
+      "no_cover_count": 0,
+      "fragile_shields": [
+        {
+          "shield": 1,
+          "winner_count": 1,
+          "only_answer": "Castform H+WBR/EB 4/15/14",
+          "only_answer_score": 578,
+          "best_loser": null,
+          "best_loser_score": null
+        }
+      ]
+    },
+    {
+      "opponent_label": "Kingdra DB+Sw/O 5/15/12",
+      "min_best_score": 646,
+      "avg_best_score": 757.0,
+      "shield_best_scores": [
+        646,
+        750,
+        875
+      ],
+      "shield_best_members": [
+        "Weezing (Galarian) FW+Sl/BrS 4/14/13",
+        "Weezing (Galarian) FW+Sl/BrS 4/14/13",
+        "Weezing (Galarian) FW+Sl/BrS 4/14/13"
+      ],
+      "single_cover_count": 1,
+      "no_cover_count": 0,
+      "fragile_shields": [
+        {
+          "shield": 2,
+          "winner_count": 1,
+          "only_answer": "Weezing (Galarian) FW+Sl/BrS 4/14/13",
+          "only_answer_score": 875,
+          "best_loser": null,
+          "best_loser_score": null
+        }
+      ]
+    },
+    {
+      "opponent_label": "Raichu (Alolan) TS+WC/TBl 6/14/15",
+      "min_best_score": 700,
+      "avg_best_score": 772.3333333333334,
+      "shield_best_scores": [
+        844,
+        700,
+        773
+      ],
+      "shield_best_members": [
+        "Weezing (Galarian) FW+Sl/BrS 4/14/13",
+        "Hypno Cf+SB/TP 5/13/14",
+        "Castform H+WBR/EB 4/15/14"
+      ],
+      "single_cover_count": 1,
+      "no_cover_count": 0,
+      "fragile_shields": [
+        {
+          "shield": 1,
+          "winner_count": 1,
+          "only_answer": "Hypno Cf+SB/TP 5/13/14",
+          "only_answer_score": 700,
+          "best_loser": null,
+          "best_loser_score": null
+        }
+      ]
+    }
+  ],
+  "safe_cores": [
+    {
+      "members": [
+        {
+          "index": 2,
+          "label": "Weezing (Galarian) FW+Sl/BrS 4/14/13",
+          "species": "Weezing (Galarian)",
+          "base_species": "Weezing (Galarian)",
+          "types": [
+            "poison",
+            "fairy"
+          ]
+        },
+        {
+          "index": 5,
+          "label": "Castform H+WBR/EB 4/15/14",
+          "species": "Castform",
+          "base_species": "Castform",
+          "types": [
+            "normal",
+            "none"
+          ]
+        },
+        {
+          "index": 0,
+          "label": "Hypno Cf+SB/TP 5/13/14",
+          "species": "Hypno",
+          "base_species": "Hypno",
+          "types": [
+            "psychic",
+            "none"
+          ]
+        }
+      ],
+      "score": [
+        18.0,
+        6.0,
+        0.0,
+        -9.0,
+        639.5,
+        207.30699233716473,
+        88.26666666666667,
+        763.3333333333333,
+        9.0,
+        4.0,
+        709.1666666666666,
+        13.0,
+        0.0
+      ],
+      "strategy": "ABB",
+      "recommended_order": [
+        {
+          "role": "lead",
+          "label": "Castform H+WBR/EB 4/15/14",
+          "index": 5
+        },
+        {
+          "role": "switch",
+          "label": "Weezing (Galarian) FW+Sl/BrS 4/14/13",
+          "index": 2
+        },
+        {
+          "role": "closer",
+          "label": "Hypno Cf+SB/TP 5/13/14",
+          "index": 0
+        }
+      ],
+      "role_scores": {
+        "Weezing (Galarian) FW+Sl/BrS 4/14/13": {
+          "lead": 542.333,
+          "switch": 697.544,
+          "closer": 640.167
+        },
+        "Castform H+WBR/EB 4/15/14": {
+          "lead": 506.333,
+          "switch": 592.9,
+          "closer": 482.0
+        },
+        "Hypno Cf+SB/TP 5/13/14": {
+          "lead": 543.333,
+          "switch": 654.578,
+          "closer": 602.167
+        }
+      },
+      "shared_weaknesses": [],
+      "shared_strengths": [
+        "Raichu (Alolan) TS+WC/TBl 6/14/15",
+        "Gyarados (Shadow) DB+AT/Tw 4/14/7"
+      ]
+    },
+    {
+      "members": [
+        {
+          "index": 2,
+          "label": "Weezing (Galarian) FW+Sl/BrS 4/14/13",
+          "species": "Weezing (Galarian)",
+          "base_species": "Weezing (Galarian)",
+          "types": [
+            "poison",
+            "fairy"
+          ]
+        },
+        {
+          "index": 3,
+          "label": "Grumpig Psy+DyP/SB 4/15/15",
+          "species": "Grumpig",
+          "base_species": "Grumpig",
+          "types": [
+            "psychic",
+            "none"
+          ]
+        },
+        {
+          "index": 0,
+          "label": "Hypno Cf+SB/TP 5/13/14",
+          "species": "Hypno",
+          "base_species": "Hypno",
+          "types": [
+            "psychic",
+            "none"
+          ]
+        }
+      ],
+      "score": [
+        17.0,
+        5.0,
+        -1.0,
+        -7.0,
+        633.3333333333334,
+        219.60328863346103,
+        93.66666666666667,
+        762.4444444444445,
+        10.0,
+        4.0,
+        708.2777777777778,
+        13.0,
+        0.0
+      ],
+      "strategy": "ABC",
+      "recommended_order": [
+        {
+          "role": "lead",
+          "label": "Hypno Cf+SB/TP 5/13/14",
+          "index": 0
+        },
+        {
+          "role": "switch",
+          "label": "Weezing (Galarian) FW+Sl/BrS 4/14/13",
+          "index": 2
+        },
+        {
+          "role": "closer",
+          "label": "Grumpig Psy+DyP/SB 4/15/15",
+          "index": 3
+        }
+      ],
+      "role_scores": {
+        "Weezing (Galarian) FW+Sl/BrS 4/14/13": {
+          "lead": 542.333,
+          "switch": 697.544,
+          "closer": 640.167
+        },
+        "Grumpig Psy+DyP/SB 4/15/15": {
+          "lead": 447.667,
+          "switch": 588.1,
+          "closer": 566.833
+        },
+        "Hypno Cf+SB/TP 5/13/14": {
+          "lead": 543.333,
+          "switch": 654.578,
+          "closer": 602.167
+        }
+      },
+      "shared_weaknesses": [],
+      "shared_strengths": []
+    },
+    {
+      "members": [
+        {
+          "index": 2,
+          "label": "Weezing (Galarian) FW+Sl/BrS 4/14/13",
+          "species": "Weezing (Galarian)",
+          "base_species": "Weezing (Galarian)",
+          "types": [
+            "poison",
+            "fairy"
+          ]
+        },
+        {
+          "index": 3,
+          "label": "Grumpig Psy+DyP/SB 4/15/15",
+          "species": "Grumpig",
+          "base_species": "Grumpig",
+          "types": [
+            "psychic",
+            "none"
+          ]
+        },
+        {
+          "index": 5,
+          "label": "Castform H+WBR/EB 4/15/14",
+          "species": "Castform",
+          "base_species": "Castform",
+          "types": [
+            "normal",
+            "none"
+          ]
+        }
+      ],
+      "score": [
+        17.0,
+        5.0,
+        -1.0,
+        -7.0,
+        582.1666666666666,
+        188.47828863346103,
+        88.53333333333335,
+        732.6111111111112,
+        10.0,
+        2.0,
+        686.7777777777778,
+        11.0,
+        0.0
+      ],
+      "strategy": "ABC",
+      "recommended_order": [
+        {
+          "role": "lead",
+          "label": "Castform H+WBR/EB 4/15/14",
+          "index": 5
+        },
+        {
+          "role": "switch",
+          "label": "Weezing (Galarian) FW+Sl/BrS 4/14/13",
+          "index": 2
+        },
+        {
+          "role": "closer",
+          "label": "Grumpig Psy+DyP/SB 4/15/15",
+          "index": 3
+        }
+      ],
+      "role_scores": {
+        "Weezing (Galarian) FW+Sl/BrS 4/14/13": {
+          "lead": 542.333,
+          "switch": 697.544,
+          "closer": 640.167
+        },
+        "Grumpig Psy+DyP/SB 4/15/15": {
+          "lead": 447.667,
+          "switch": 588.1,
+          "closer": 566.833
+        },
+        "Castform H+WBR/EB 4/15/14": {
+          "lead": 506.333,
+          "switch": 592.9,
+          "closer": 482.0
+        }
+      },
+      "shared_weaknesses": [],
+      "shared_strengths": []
+    },
+    {
+      "members": [
+        {
+          "index": 5,
+          "label": "Castform H+WBR/EB 4/15/14",
+          "species": "Castform",
+          "base_species": "Castform",
+          "types": [
+            "normal",
+            "none"
+          ]
+        },
+        {
+          "index": 0,
+          "label": "Hypno Cf+SB/TP 5/13/14",
+          "species": "Hypno",
+          "base_species": "Hypno",
+          "types": [
+            "psychic",
+            "none"
+          ]
+        },
+        {
+          "index": 4,
+          "label": "Dubwool DK+BS/Pbk 5/14/14",
+          "species": "Dubwool",
+          "base_species": "Dubwool",
+          "types": [
+            "normal",
+            "none"
+          ]
+        }
+      ],
+      "score": [
+        17.0,
+        5.0,
+        -1.0,
+        -11.0,
+        580.1666666666666,
+        218.84827044025155,
+        85.96666666666665,
+        700.1111111111112,
+        6.0,
+        2.0,
+        654.2777777777778,
+        11.0,
+        0.0
+      ],
+      "strategy": "ABA",
+      "recommended_order": [
+        {
+          "role": "lead",
+          "label": "Castform H+WBR/EB 4/15/14",
+          "index": 5
+        },
+        {
+          "role": "switch",
+          "label": "Hypno Cf+SB/TP 5/13/14",
+          "index": 0
+        },
+        {
+          "role": "closer",
+          "label": "Dubwool DK+BS/Pbk 5/14/14",
+          "index": 4
+        }
+      ],
+      "role_scores": {
+        "Castform H+WBR/EB 4/15/14": {
+          "lead": 506.333,
+          "switch": 592.9,
+          "closer": 482.0
+        },
+        "Hypno Cf+SB/TP 5/13/14": {
+          "lead": 543.333,
+          "switch": 654.578,
+          "closer": 602.167
+        },
+        "Dubwool DK+BS/Pbk 5/14/14": {
+          "lead": 394.167,
+          "switch": 491.644,
+          "closer": 460.5
+        }
+      },
+      "shared_weaknesses": [
+        "Kingdra DB+Sw/O 5/15/12",
+        "Weezing (Galarian) (Shadow) FW+Sl/BrS 4/14/13"
+      ],
+      "shared_strengths": []
+    },
+    {
+      "members": [
+        {
+          "index": 2,
+          "label": "Weezing (Galarian) FW+Sl/BrS 4/14/13",
+          "species": "Weezing (Galarian)",
+          "base_species": "Weezing (Galarian)",
+          "types": [
+            "poison",
+            "fairy"
+          ]
+        },
+        {
+          "index": 0,
+          "label": "Hypno Cf+SB/TP 5/13/14",
+          "species": "Hypno",
+          "base_species": "Hypno",
+          "types": [
+            "psychic",
+            "none"
+          ]
+        },
+        {
+          "index": 4,
+          "label": "Dubwool DK+BS/Pbk 5/14/14",
+          "species": "Dubwool",
+          "base_species": "Dubwool",
+          "types": [
+            "normal",
+            "none"
+          ]
+        }
+      ],
+      "score": [
+        16.0,
+        5.0,
+        -2.0,
+        -7.0,
+        638.3333333333334,
+        223.0302627774163,
+        87.7,
+        766.3888888888889,
+        9.0,
+        2.0,
+        708.0555555555555,
+        14.0,
+        0.0
+      ],
+      "strategy": "ABC",
+      "recommended_order": [
+        {
+          "role": "lead",
+          "label": "Hypno Cf+SB/TP 5/13/14",
+          "index": 0
+        },
+        {
+          "role": "switch",
+          "label": "Weezing (Galarian) FW+Sl/BrS 4/14/13",
+          "index": 2
+        },
+        {
+          "role": "closer",
+          "label": "Dubwool DK+BS/Pbk 5/14/14",
+          "index": 4
+        }
+      ],
+      "role_scores": {
+        "Weezing (Galarian) FW+Sl/BrS 4/14/13": {
+          "lead": 542.333,
+          "switch": 697.544,
+          "closer": 640.167
+        },
+        "Hypno Cf+SB/TP 5/13/14": {
+          "lead": 543.333,
+          "switch": 654.578,
+          "closer": 602.167
+        },
+        "Dubwool DK+BS/Pbk 5/14/14": {
+          "lead": 394.167,
+          "switch": 491.644,
+          "closer": 460.5
+        }
+      },
+      "shared_weaknesses": [],
+      "shared_strengths": []
+    },
+    {
+      "members": [
+        {
+          "index": 3,
+          "label": "Grumpig Psy+DyP/SB 4/15/15",
+          "species": "Grumpig",
+          "base_species": "Grumpig",
+          "types": [
+            "psychic",
+            "none"
+          ]
+        },
+        {
+          "index": 5,
+          "label": "Castform H+WBR/EB 4/15/14",
+          "species": "Castform",
+          "base_species": "Castform",
+          "types": [
+            "normal",
+            "none"
+          ]
+        },
+        {
+          "index": 0,
+          "label": "Hypno Cf+SB/TP 5/13/14",
+          "species": "Hypno",
+          "base_species": "Hypno",
+          "types": [
+            "psychic",
+            "none"
+          ]
+        }
+      ],
+      "score": [
+        16.0,
+        4.0,
+        -2.0,
+        -5.0,
+        547.5,
+        215.4212962962963,
+        91.93333333333334,
+        696.6111111111112,
+        11.0,
+        2.0,
+        650.7777777777778,
+        11.0,
+        0.0
+      ],
+      "strategy": "ABC",
+      "recommended_order": [
+        {
+          "role": "lead",
+          "label": "Castform H+WBR/EB 4/15/14",
+          "index": 5
+        },
+        {
+          "role": "switch",
+          "label": "Hypno Cf+SB/TP 5/13/14",
+          "index": 0
+        },
+        {
+          "role": "closer",
+          "label": "Grumpig Psy+DyP/SB 4/15/15",
+          "index": 3
+        }
+      ],
+      "role_scores": {
+        "Grumpig Psy+DyP/SB 4/15/15": {
+          "lead": 447.667,
+          "switch": 588.1,
+          "closer": 566.833
+        },
+        "Castform H+WBR/EB 4/15/14": {
+          "lead": 506.333,
+          "switch": 592.9,
+          "closer": 482.0
+        },
+        "Hypno Cf+SB/TP 5/13/14": {
+          "lead": 543.333,
+          "switch": 654.578,
+          "closer": 602.167
+        }
+      },
+      "shared_weaknesses": [],
+      "shared_strengths": []
+    },
+    {
+      "members": [
+        {
+          "index": 1,
+          "label": "Raichu (Alolan) TS+WC/TBl 6/14/15",
+          "species": "Raichu (Alolan)",
+          "base_species": "Raichu (Alolan)",
+          "types": [
+            "electric",
+            "psychic"
+          ]
+        },
+        {
+          "index": 5,
+          "label": "Castform H+WBR/EB 4/15/14",
+          "species": "Castform",
+          "base_species": "Castform",
+          "types": [
+            "normal",
+            "none"
+          ]
+        },
+        {
+          "index": 0,
+          "label": "Hypno Cf+SB/TP 5/13/14",
+          "species": "Hypno",
+          "base_species": "Hypno",
+          "types": [
+            "psychic",
+            "none"
+          ]
+        }
+      ],
+      "score": [
+        16.0,
+        4.0,
+        -2.0,
+        -7.0,
+        569.8333333333334,
+        185.3770729684909,
+        89.03333333333335,
+        700.3888888888889,
+        9.0,
+        2.0,
+        654.5555555555555,
+        11.0,
+        0.0
+      ],
+      "strategy": "ABA",
+      "recommended_order": [
+        {
+          "role": "lead",
+          "label": "Castform H+WBR/EB 4/15/14",
+          "index": 5
+        },
+        {
+          "role": "switch",
+          "label": "Hypno Cf+SB/TP 5/13/14",
+          "index": 0
+        },
+        {
+          "role": "closer",
+          "label": "Raichu (Alolan) TS+WC/TBl 6/14/15",
+          "index": 1
+        }
+      ],
+      "role_scores": {
+        "Raichu (Alolan) TS+WC/TBl 6/14/15": {
+          "lead": 472.667,
+          "switch": 571.289,
+          "closer": 527.833
+        },
+        "Castform H+WBR/EB 4/15/14": {
+          "lead": 506.333,
+          "switch": 592.9,
+          "closer": 482.0
+        },
+        "Hypno Cf+SB/TP 5/13/14": {
+          "lead": 543.333,
+          "switch": 654.578,
+          "closer": 602.167
+        }
+      },
+      "shared_weaknesses": [
+        "Kingdra DB+Sw/O 5/15/12",
+        "Weezing (Galarian) (Shadow) FW+Sl/BrS 4/14/13"
+      ],
+      "shared_strengths": []
+    },
+    {
+      "members": [
+        {
+          "index": 2,
+          "label": "Weezing (Galarian) FW+Sl/BrS 4/14/13",
+          "species": "Weezing (Galarian)",
+          "base_species": "Weezing (Galarian)",
+          "types": [
+            "poison",
+            "fairy"
+          ]
+        },
+        {
+          "index": 1,
+          "label": "Raichu (Alolan) TS+WC/TBl 6/14/15",
+          "species": "Raichu (Alolan)",
+          "base_species": "Raichu (Alolan)",
+          "types": [
+            "electric",
+            "psychic"
+          ]
+        },
+        {
+          "index": 3,
+          "label": "Grumpig Psy+DyP/SB 4/15/15",
+          "species": "Grumpig",
+          "base_species": "Grumpig",
+          "types": [
+            "psychic",
+            "none"
+          ]
+        }
+      ],
+      "score": [
+        16.0,
+        4.0,
+        -2.0,
+        -8.0,
+        582.6666666666666,
+        170.73036160195193,
+        91.03333333333335,
+        728.7777777777777,
+        8.0,
+        3.0,
+        687.1111111111111,
+        10.0,
+        0.0
+      ],
+      "strategy": "ABC",
+      "recommended_order": [
+        {
+          "role": "lead",
+          "label": "Raichu (Alolan) TS+WC/TBl 6/14/15",
+          "index": 1
+        },
+        {
+          "role": "switch",
+          "label": "Weezing (Galarian) FW+Sl/BrS 4/14/13",
+          "index": 2
+        },
+        {
+          "role": "closer",
+          "label": "Grumpig Psy+DyP/SB 4/15/15",
+          "index": 3
+        }
+      ],
+      "role_scores": {
+        "Weezing (Galarian) FW+Sl/BrS 4/14/13": {
+          "lead": 542.333,
+          "switch": 697.544,
+          "closer": 640.167
+        },
+        "Raichu (Alolan) TS+WC/TBl 6/14/15": {
+          "lead": 472.667,
+          "switch": 571.289,
+          "closer": 527.833
+        },
+        "Grumpig Psy+DyP/SB 4/15/15": {
+          "lead": 447.667,
+          "switch": 588.1,
+          "closer": 566.833
+        }
+      },
+      "shared_weaknesses": [],
+      "shared_strengths": []
+    },
+    {
+      "members": [
+        {
+          "index": 2,
+          "label": "Weezing (Galarian) FW+Sl/BrS 4/14/13",
+          "species": "Weezing (Galarian)",
+          "base_species": "Weezing (Galarian)",
+          "types": [
+            "poison",
+            "fairy"
+          ]
+        },
+        {
+          "index": 3,
+          "label": "Grumpig Psy+DyP/SB 4/15/15",
+          "species": "Grumpig",
+          "base_species": "Grumpig",
+          "types": [
+            "psychic",
+            "none"
+          ]
+        },
+        {
+          "index": 4,
+          "label": "Dubwool DK+BS/Pbk 5/14/14",
+          "species": "Dubwool",
+          "base_species": "Dubwool",
+          "types": [
+            "normal",
+            "none"
+          ]
+        }
+      ],
+      "score": [
+        16.0,
+        4.0,
+        -2.0,
+        -9.0,
+        576.3333333333333,
+        204.20155907371262,
+        87.96666666666665,
+        736.3888888888889,
+        7.0,
+        2.0,
+        686.3888888888889,
+        12.0,
+        0.0
+      ],
+      "strategy": "ABC",
+      "recommended_order": [
+        {
+          "role": "lead",
+          "label": "Dubwool DK+BS/Pbk 5/14/14",
+          "index": 4
+        },
+        {
+          "role": "switch",
+          "label": "Weezing (Galarian) FW+Sl/BrS 4/14/13",
+          "index": 2
+        },
+        {
+          "role": "closer",
+          "label": "Grumpig Psy+DyP/SB 4/15/15",
+          "index": 3
+        }
+      ],
+      "role_scores": {
+        "Weezing (Galarian) FW+Sl/BrS 4/14/13": {
+          "lead": 542.333,
+          "switch": 697.544,
+          "closer": 640.167
+        },
+        "Grumpig Psy+DyP/SB 4/15/15": {
+          "lead": 447.667,
+          "switch": 588.1,
+          "closer": 566.833
+        },
+        "Dubwool DK+BS/Pbk 5/14/14": {
+          "lead": 394.167,
+          "switch": 491.644,
+          "closer": 460.5
+        }
+      },
+      "shared_weaknesses": [],
+      "shared_strengths": []
+    },
+    {
+      "members": [
+        {
+          "index": 2,
+          "label": "Weezing (Galarian) FW+Sl/BrS 4/14/13",
+          "species": "Weezing (Galarian)",
+          "base_species": "Weezing (Galarian)",
+          "types": [
+            "poison",
+            "fairy"
+          ]
+        },
+        {
+          "index": 1,
+          "label": "Raichu (Alolan) TS+WC/TBl 6/14/15",
+          "species": "Raichu (Alolan)",
+          "base_species": "Raichu (Alolan)",
+          "types": [
+            "electric",
+            "psychic"
+          ]
+        },
+        {
+          "index": 0,
+          "label": "Hypno Cf+SB/TP 5/13/14",
+          "species": "Hypno",
+          "base_species": "Hypno",
+          "types": [
+            "psychic",
+            "none"
+          ]
+        }
+      ],
+      "score": [
+        15.0,
+        5.0,
+        -3.0,
+        -5.0,
+        635.5,
+        189.55906530565562,
+        90.76666666666667,
+        754.0555555555555,
+        10.0,
+        4.0,
+        704.0555555555555,
+        12.0,
+        0.0
+      ],
+      "strategy": "ABB",
+      "recommended_order": [
+        {
+          "role": "lead",
+          "label": "Raichu (Alolan) TS+WC/TBl 6/14/15",
+          "index": 1
+        },
+        {
+          "role": "switch",
+          "label": "Weezing (Galarian) FW+Sl/BrS 4/14/13",
+          "index": 2
+        },
+        {
+          "role": "closer",
+          "label": "Hypno Cf+SB/TP 5/13/14",
+          "index": 0
+        }
+      ],
+      "role_scores": {
+        "Weezing (Galarian) FW+Sl/BrS 4/14/13": {
+          "lead": 542.333,
+          "switch": 697.544,
+          "closer": 640.167
+        },
+        "Raichu (Alolan) TS+WC/TBl 6/14/15": {
+          "lead": 472.667,
+          "switch": 571.289,
+          "closer": 527.833
+        },
+        "Hypno Cf+SB/TP 5/13/14": {
+          "lead": 543.333,
+          "switch": 654.578,
+          "closer": 602.167
+        }
+      },
+      "shared_weaknesses": [],
+      "shared_strengths": [
+        "Raichu (Alolan) TS+WC/TBl 6/14/15",
+        "Gyarados (Shadow) DB+AT/Tw 4/14/7"
+      ]
+    }
+  ],
+  "target_map": [
+    {
+      "opponent_label": "Raichu (Alolan) TS+WC/TBl 6/14/15",
+      "shield_best_scores": [
+        844,
+        700,
+        773
+      ],
+      "shield_best_members": [
+        "Weezing (Galarian) FW+Sl/BrS 4/14/13",
+        "Hypno Cf+SB/TP 5/13/14",
+        "Castform H+WBR/EB 4/15/14"
+      ],
+      "confidence": "stable"
+    },
+    {
+      "opponent_label": "Samurott FC+HC/Mh 5/14/15",
+      "shield_best_scores": [
+        819,
+        770,
+        726
+      ],
+      "shield_best_members": [
+        "Raichu (Alolan) TS+WC/TBl 6/14/15",
+        "Castform H+WBR/EB 4/15/14",
+        "Dubwool DK+BS/Pbk 5/14/14"
+      ],
+      "confidence": "stable"
+    },
+    {
+      "opponent_label": "Kingdra DB+Sw/O 5/15/12",
+      "shield_best_scores": [
+        646,
+        750,
+        875
+      ],
+      "shield_best_members": [
+        "Weezing (Galarian) FW+Sl/BrS 4/14/13",
+        "Weezing (Galarian) FW+Sl/BrS 4/14/13",
+        "Weezing (Galarian) FW+Sl/BrS 4/14/13"
+      ],
+      "confidence": "swingy"
+    },
+    {
+      "opponent_label": "Gyarados (Shadow) DB+AT/Tw 4/14/7",
+      "shield_best_scores": [
+        715,
+        752,
+        875
+      ],
+      "shield_best_members": [
+        "Weezing (Galarian) FW+Sl/BrS 4/14/13",
+        "Raichu (Alolan) TS+WC/TBl 6/14/15",
+        "Weezing (Galarian) FW+Sl/BrS 4/14/13"
+      ],
+      "confidence": "stable"
+    },
+    {
+      "opponent_label": "Hypno Cf+SB/TP 5/13/14",
+      "shield_best_scores": [
+        652,
+        578,
+        753
+      ],
+      "shield_best_members": [
+        "Dubwool DK+BS/Pbk 5/14/14",
+        "Castform H+WBR/EB 4/15/14",
+        "Grumpig Psy+DyP/SB 4/15/15"
+      ],
+      "confidence": "fragile"
+    },
+    {
+      "opponent_label": "Weezing (Galarian) (Shadow) FW+Sl/BrS 4/14/13",
+      "shield_best_scores": [
+        710,
+        653,
+        829
+      ],
+      "shield_best_members": [
+        "Hypno Cf+SB/TP 5/13/14",
+        "Hypno Cf+SB/TP 5/13/14",
+        "Hypno Cf+SB/TP 5/13/14"
+      ],
+      "confidence": "swingy"
+    }
+  ],
+  "meta": "naic",
+  "matrix_files": [
+    "data/simulations/naic_0-shield.csv",
+    "data/simulations/naic_1-shield.csv",
+    "data/simulations/naic_2-shield.csv"
+  ]
+}

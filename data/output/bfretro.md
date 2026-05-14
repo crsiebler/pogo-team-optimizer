@@ -5,45 +5,53 @@
 ## Recommended Team
 | Pokemon | Types |
 |---|---|
-| Blastoise RO+SkB/HC 1/12/15 | water/none |
-| Kingdra DB+Sw/O 1/13/15 | water/dragon |
-| Kommo-o DT+UH/ClS 3/15/13 | dragon/fighting |
+| Venusaur (Shadow) VW+Sl/FP 4/14/15 | grass/poison |
+| Kommo-o DT+UH/ClS 4/12/13 | dragon/fighting |
+| Articuno PS+IW/Hu 14/13/14 | ice/flying |
+| Kyurem DB+G/DC 5/8/14 | dragon/ice |
+| Raikou TS+WC/AuS 5/13/13 | electric/none |
 | Grumpig Psy+SB/DyP 6/14/13 | psychic/none |
-| Skeledirge I+TSo/SB 0/15/15 | fire/ghost |
-| Golisopod FC+XS/AJ 1/14/15 | bug/water |
 
 ## Team Analysis
-- Bulk score: `200.05` (team avg `def*hp/atk`; pool min/mean/max `181.00/197.91/227.58`)
-- Safety score: `77.88` (PvPoke switch score avg; pool min/mean/max `66.90/80.25/88.60`)
+- Bulk score: `196.19` (team avg `def*hp/atk`; pool min/mean/max `167.49/189.02/254.44`)
+- Safety score: `66.32` (PvPoke switch score avg; pool min/mean/max `44.30/68.99/77.00`)
 - Safety target: `medium` priority, avg >= `78.00`; members >= `90.00`: `1`
-- Consistency score: `819.28` (internal matchup stability metric, not PvPoke bait dependency; mean `752.61` + dominate bonus - overwhelming penalty)
-- Redundancy (2+ winners): `16/18` (`88.9%`)
-- Redundancy (3+ winners): `11/18` (`61.1%`)
-- Single-coverage pairs: `2/18` (`11.1%`)
-- No-coverage pairs: `0/18` (`0.0%`)
-- Dominate: `16/18` (`88.9%`, score > 650)
-- Overwhelming: `0/18` (`0.0%`, score < 350)
+- Consistency score: `843.67` (internal matchup stability metric, not PvPoke bait dependency; mean `782.56` + dominate bonus - overwhelming penalty)
+- Redundancy (2+ winners): `27/27` (`100.0%`)
+- Redundancy (3+ winners): `21/27` (`77.8%`)
+- Single-coverage pairs: `0/27` (`0.0%`)
+- No-coverage pairs: `0/27` (`0.0%`)
+- Dominate: `22/27` (`81.5%`, score > 650)
+- Overwhelming: `0/27` (`0.0%`, score < 350)
 
 ## Coverage
 | Shield | Wins | Draws | Losses | Weighted Wins |
 |---:|---:|---:|---:|---:|
-| 0 | 6 | 0 | 0 | 1.000 |
-| 1 | 6 | 0 | 0 | 1.000 |
-| 2 | 6 | 0 | 0 | 1.000 |
+| 0 | 9 | 0 | 0 | 1.000 |
+| 1 | 9 | 0 | 0 | 1.000 |
+| 2 | 9 | 0 | 0 | 1.000 |
 
 ## Safe Cores
-- **#1** Blastoise RO+SkB/HC 1/12/15, Kommo-o DT+UH/ClS 3/15/13, Grumpig Psy+SB/DyP 6/14/13
-- **#2** Kommo-o DT+UH/ClS 3/15/13, Grumpig Psy+SB/DyP 6/14/13, Skeledirge I+TSo/SB 0/15/15
-- **#3** Blastoise RO+SkB/HC 1/12/15, Kingdra DB+Sw/O 1/13/15, Grumpig Psy+SB/DyP 6/14/13
-- **#4** Blastoise RO+SkB/HC 1/12/15, Grumpig Psy+SB/DyP 6/14/13, Golisopod FC+XS/AJ 1/14/15
-- **#5** Grumpig Psy+SB/DyP 6/14/13, Skeledirge I+TSo/SB 0/15/15, Golisopod FC+XS/AJ 1/14/15
-- **#6** Blastoise RO+SkB/HC 1/12/15, Kingdra DB+Sw/O 1/13/15, Kommo-o DT+UH/ClS 3/15/13
-- **#7** Kingdra DB+Sw/O 1/13/15, Kommo-o DT+UH/ClS 3/15/13, Grumpig Psy+SB/DyP 6/14/13
-- **#8** Kingdra DB+Sw/O 1/13/15, Kommo-o DT+UH/ClS 3/15/13, Skeledirge I+TSo/SB 0/15/15
-- **#9** Kommo-o DT+UH/ClS 3/15/13, Grumpig Psy+SB/DyP 6/14/13, Golisopod FC+XS/AJ 1/14/15
-- **#10** Blastoise RO+SkB/HC 1/12/15, Kingdra DB+Sw/O 1/13/15, Golisopod FC+XS/AJ 1/14/15
+- **#1 ABC** Lead `Grumpig Psy+SB/DyP 6/14/13` | Switch `Kommo-o DT+UH/ClS 4/12/13` | Closer `Kyurem DB+G/DC 5/8/14`
+- **#2 ABC** Lead `Grumpig Psy+SB/DyP 6/14/13` | Switch `Kommo-o DT+UH/ClS 4/12/13` | Closer `Articuno PS+IW/Hu 14/13/14`
+- **#3 ABC** Lead `Grumpig Psy+SB/DyP 6/14/13` | Switch `Raikou TS+WC/AuS 5/13/13` | Closer `Articuno PS+IW/Hu 14/13/14`
+- **#4 ABC** Lead `Kommo-o DT+UH/ClS 4/12/13` | Switch `Raikou TS+WC/AuS 5/13/13` | Closer `Articuno PS+IW/Hu 14/13/14`
+- **#5 ABC** Lead `Grumpig Psy+SB/DyP 6/14/13` | Switch `Venusaur (Shadow) VW+Sl/FP 4/14/15` | Closer `Kyurem DB+G/DC 5/8/14`
+- **#6 ABC** Lead `Grumpig Psy+SB/DyP 6/14/13` | Switch `Raikou TS+WC/AuS 5/13/13` | Closer `Kyurem DB+G/DC 5/8/14`
+- **#7 ABC** Lead `Kommo-o DT+UH/ClS 4/12/13` | Switch `Raikou TS+WC/AuS 5/13/13` | Closer `Kyurem DB+G/DC 5/8/14`
+- **#8 ABC** Lead `Grumpig Psy+SB/DyP 6/14/13` | Switch `Venusaur (Shadow) VW+Sl/FP 4/14/15` | Closer `Articuno PS+IW/Hu 14/13/14`
+- **#9 ABB** Lead `Grumpig Psy+SB/DyP 6/14/13` | Switch `Kyurem DB+G/DC 5/8/14` | Closer `Articuno PS+IW/Hu 14/13/14`
+- **#10 ABA** Lead `Articuno PS+IW/Hu 14/13/14` | Switch `Raikou TS+WC/AuS 5/13/13` | Closer `Kyurem DB+G/DC 5/8/14`
 
 ## Potential Threats
 | Opponent | Single-Coverage | No-Coverage | Details |
 |---|---:|---:|---|
-| Kommo-o DT+ClS/UH 4/12/13 | 2 | 0 | 0-shield: only Grumpig Psy+SB/DyP 6/14/13 (855); 1-shield: only Grumpig Psy+SB/DyP 6/14/13 (754) |
+| Kingdra DB+Sw/O 0/15/15 | 0 | 0 | closest 708/590/559 |
+| Cetitan PS+ISp/SP 4/15/15 | 0 | 0 | closest 622/627/609 |
+| Toucannon Pk+BBl/DrlP 2/15/14 | 0 | 0 | closest 933/728/672 |
+| Virizion DK+LB/SSw 1/15/12 | 0 | 0 | closest 765/751/724 |
+| Blastoise RO+HC/SkB 5/15/15 | 0 | 0 | closest 937/751/844 |
+| Gliscor (Shadow) WA+ST/NS 0/14/15 | 0 | 0 | closest 914/775/835 |
+| Gliscor (Shadow) WA+Acr/ST 0/14/15 | 0 | 0 | closest 914/844/800 |
+| Blastoise RO+HC/IB 5/15/15 | 0 | 0 | closest 937/880/820 |
+| Gliscor (Shadow) WA+Acr/NS 0/14/15 | 0 | 0 | closest 914/844/832 |

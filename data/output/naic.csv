@@ -1,0 +1,27 @@
+section,key,value
+recommended_team,member,Weezing (Galarian) FW+Sl/BrS 4/14/13
+recommended_team,member,Raichu (Alolan) TS+WC/TBl 6/14/15
+recommended_team,member,Grumpig Psy+DyP/SB 4/15/15
+recommended_team,member,Castform H+WBR/EB 4/15/14
+recommended_team,member,Hypno Cf+SB/TP 5/13/14
+recommended_team,member,Dubwool DK+BS/Pbk 5/14/14
+recommended_team,bulk_score,194.79
+recommended_team,bulk_pool_min_mean_max,118.76/194.79/265.38
+recommended_team,consistency,score=812.22;mean=745.56;dominate=16/18;overwhelming=0/18
+recommended_team,redundancy,2plus=15/18;3plus=10/18;single=3/18;none=0/18
+coverage,0-shield,6/0/0
+coverage,1-shield,6/0/0
+coverage,2-shield,6/0/0
+safe_core,#1 ABB,lead=Castform H+WBR/EB 4/15/14;switch=Weezing (Galarian) FW+Sl/BrS 4/14/13;closer=Hypno Cf+SB/TP 5/13/14
+safe_core,#2 ABC,lead=Hypno Cf+SB/TP 5/13/14;switch=Weezing (Galarian) FW+Sl/BrS 4/14/13;closer=Grumpig Psy+DyP/SB 4/15/15
+safe_core,#3 ABC,lead=Castform H+WBR/EB 4/15/14;switch=Weezing (Galarian) FW+Sl/BrS 4/14/13;closer=Grumpig Psy+DyP/SB 4/15/15
+safe_core,#4 ABA,lead=Castform H+WBR/EB 4/15/14;switch=Hypno Cf+SB/TP 5/13/14;closer=Dubwool DK+BS/Pbk 5/14/14
+safe_core,#5 ABC,lead=Hypno Cf+SB/TP 5/13/14;switch=Weezing (Galarian) FW+Sl/BrS 4/14/13;closer=Dubwool DK+BS/Pbk 5/14/14
+safe_core,#6 ABC,lead=Castform H+WBR/EB 4/15/14;switch=Hypno Cf+SB/TP 5/13/14;closer=Grumpig Psy+DyP/SB 4/15/15
+safe_core,#7 ABA,lead=Castform H+WBR/EB 4/15/14;switch=Hypno Cf+SB/TP 5/13/14;closer=Raichu (Alolan) TS+WC/TBl 6/14/15
+safe_core,#8 ABC,lead=Raichu (Alolan) TS+WC/TBl 6/14/15;switch=Weezing (Galarian) FW+Sl/BrS 4/14/13;closer=Grumpig Psy+DyP/SB 4/15/15
+safe_core,#9 ABC,lead=Dubwool DK+BS/Pbk 5/14/14;switch=Weezing (Galarian) FW+Sl/BrS 4/14/13;closer=Grumpig Psy+DyP/SB 4/15/15
+safe_core,#10 ABB,lead=Raichu (Alolan) TS+WC/TBl 6/14/15;switch=Weezing (Galarian) FW+Sl/BrS 4/14/13;closer=Hypno Cf+SB/TP 5/13/14
+threat,Hypno Cf+SB/TP 5/13/14,single=1;none=0;details=1-shield only Castform H+WBR/EB 4/15/14
+threat,Kingdra DB+Sw/O 5/15/12,single=1;none=0;details=2-shield only Weezing (Galarian) FW+Sl/BrS 4/14/13
+threat,Raichu (Alolan) TS+WC/TBl 6/14/15,single=1;none=0;details=1-shield only Hypno Cf+SB/TP 5/13/14
