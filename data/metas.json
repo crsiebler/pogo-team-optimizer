@@ -63,7 +63,8 @@
         "data/simulations/spellcraft_0-shield.csv",
         "data/simulations/spellcraft_1-shield.csv",
         "data/simulations/spellcraft_2-shield.csv"
-      ]
+      ],
+      "switch_rankings_path": "data/rankings/cp1500_spellcraft_switches_rankings.csv"
     },
     "bfmaster": {
       "matrix_files": [

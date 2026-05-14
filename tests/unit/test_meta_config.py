@@ -93,7 +93,7 @@ def test_load_meta_config_reads_optional_per_meta_fields(tmp_path) -> None:
                 "data/simulations/spellcraft_1-shield.csv",
                 "data/simulations/spellcraft_2-shield.csv",
             ),
-            None,
+            "data/rankings/cp1500_spellcraft_switches_rankings.csv",
         ),
     ],
 )
