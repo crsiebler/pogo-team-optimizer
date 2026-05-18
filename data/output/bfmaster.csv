@@ -1,26 +1,34 @@
 section,key,value
-recommended_team,member,Gholdengo A+SB/FB 15/15/15
-recommended_team,member,Lugia DT+A/Fl 15/15/15
-recommended_team,member,Yveltal SkP+DP/ObW 15/15/15
+recommended_team,member,Metagross SC+MM/Eq 15/15/15
+recommended_team,member,Gengar (Mega) SC+ShP/SlB 15/15/15
 recommended_team,member,Kyogre W+Av/OP 15/15/15
+recommended_team,member,Togekiss Pk+DG/AuS 15/15/15
 recommended_team,member,Tyranitar DB+BrS/SE 15/15/15
-recommended_team,member,Zacian (Hero) Sn+WC/CC 15/15/15
-recommended_team,bulk_score,208.14
-recommended_team,bulk_pool_min_mean_max,152.30/191.40/377.46
-recommended_team,consistency,score=768.61;mean=708.31;dominate=41/51;overwhelming=0/51
-recommended_team,redundancy,2plus=47/51;3plus=40/51;single=3/51;none=1/51
+recommended_team,member,Dragonite DB+TP/SP 15/15/15
+recommended_team,bulk_score,160.65
+recommended_team,bulk_pool_min_mean_max,78.32/166.56/377.46
+recommended_team,consistency,score=823.27;mean=758.57;dominate=44/51;overwhelming=0/51
+recommended_team,redundancy,2plus=51/51;3plus=35/51;single=0/51;none=0/51
 coverage,0-shield,17/0/0
-coverage,1-shield,16/0/1
+coverage,1-shield,17/0/0
 coverage,2-shield,17/0/0
-safe_core,#1 ABB,lead=Lugia DT+A/Fl 15/15/15;switch=Tyranitar DB+BrS/SE 15/15/15;closer=Gholdengo A+SB/FB 15/15/15
-safe_core,#2 ABB,lead=Lugia DT+A/Fl 15/15/15;switch=Zacian (Hero) Sn+WC/CC 15/15/15;closer=Tyranitar DB+BrS/SE 15/15/15
-safe_core,#3 ABB,lead=Kyogre W+Av/OP 15/15/15;switch=Lugia DT+A/Fl 15/15/15;closer=Gholdengo A+SB/FB 15/15/15
-safe_core,#4 ABB,lead=Kyogre W+Av/OP 15/15/15;switch=Zacian (Hero) Sn+WC/CC 15/15/15;closer=Lugia DT+A/Fl 15/15/15
-safe_core,#5 ABB,lead=Kyogre W+Av/OP 15/15/15;switch=Zacian (Hero) Sn+WC/CC 15/15/15;closer=Yveltal SkP+DP/ObW 15/15/15
-safe_core,#6 ABB,lead=Lugia DT+A/Fl 15/15/15;switch=Zacian (Hero) Sn+WC/CC 15/15/15;closer=Gholdengo A+SB/FB 15/15/15
-safe_core,#7 ABB,lead=Kyogre W+Av/OP 15/15/15;switch=Lugia DT+A/Fl 15/15/15;closer=Tyranitar DB+BrS/SE 15/15/15
-safe_core,#8 ABB,lead=Lugia DT+A/Fl 15/15/15;switch=Tyranitar DB+BrS/SE 15/15/15;closer=Yveltal SkP+DP/ObW 15/15/15
-safe_core,#9 ABB,lead=Lugia DT+A/Fl 15/15/15;switch=Yveltal SkP+DP/ObW 15/15/15;closer=Gholdengo A+SB/FB 15/15/15
-safe_core,#10 ABB,lead=Lugia DT+A/Fl 15/15/15;switch=Zacian (Hero) Sn+WC/CC 15/15/15;closer=Yveltal SkP+DP/ObW 15/15/15
-threat,Florges FW+TBl/CW 15/15/15,single=1;none=1;details=0-shield only Gholdengo A+SB/FB 15/15/15 | 1-shield no cover
-threat,Dialga (Origin) DB+ROT/IH 15/15/15,single=2;none=0;details=0-shield only Tyranitar DB+BrS/SE 15/15/15 | 1-shield only Zacian (Hero) Sn+WC/CC 15/15/15
+safe_core,#1 ABB,lead=Dragonite DB+TP/SP 15/15/15;switch=Tyranitar DB+BrS/SE 15/15/15;closer=Metagross SC+MM/Eq 15/15/15
+safe_core,#2 ABA,lead=Tyranitar DB+BrS/SE 15/15/15;switch=Togekiss Pk+DG/AuS 15/15/15;closer=Kyogre W+Av/OP 15/15/15
+safe_core,#3 ABB,lead=Tyranitar DB+BrS/SE 15/15/15;switch=Metagross SC+MM/Eq 15/15/15;closer=Kyogre W+Av/OP 15/15/15
+safe_core,#4 ABB,lead=Dragonite DB+TP/SP 15/15/15;switch=Metagross SC+MM/Eq 15/15/15;closer=Kyogre W+Av/OP 15/15/15
+safe_core,#5 ABB,lead=Gengar (Mega) SC+ShP/SlB 15/15/15;switch=Metagross SC+MM/Eq 15/15/15;closer=Kyogre W+Av/OP 15/15/15
+safe_core,#6 ABB,lead=Dragonite DB+TP/SP 15/15/15;switch=Gengar (Mega) SC+ShP/SlB 15/15/15;closer=Metagross SC+MM/Eq 15/15/15
+safe_core,#7 ABB,lead=Kyogre W+Av/OP 15/15/15;switch=Togekiss Pk+DG/AuS 15/15/15;closer=Metagross SC+MM/Eq 15/15/15
+safe_core,#8 ABB,lead=Tyranitar DB+BrS/SE 15/15/15;switch=Togekiss Pk+DG/AuS 15/15/15;closer=Metagross SC+MM/Eq 15/15/15
+safe_core,#9 ABB,lead=Dragonite DB+TP/SP 15/15/15;switch=Togekiss Pk+DG/AuS 15/15/15;closer=Metagross SC+MM/Eq 15/15/15
+safe_core,#10 ABB,lead=Dragonite DB+TP/SP 15/15/15;switch=Tyranitar DB+BrS/SE 15/15/15;closer=Kyogre W+Av/OP 15/15/15
+threat,Swampert (Mega) MS+HC/Eq 15/15/15,single=0;none=0;details=n/a
+threat,Ampharos (Mega) VS+TBl/BrS 15/15/15,single=0;none=0;details=n/a
+threat,Dragonite DB+TP/SP 15/15/15,single=0;none=0;details=n/a
+threat,Dialga (Origin) DB+ROT/IH 15/15/15,single=0;none=0;details=n/a
+threat,Lugia (Shadow) DT+A/Fl 15/15/15,single=0;none=0;details=n/a
+threat,Reshiram DB+FuF/SE 15/15/15,single=0;none=0;details=n/a
+threat,Dialga DB+IH/DM 15/15/15,single=0;none=0;details=n/a
+threat,Zamazenta (Crowned Shield) IF+CC/BB 15/15/15,single=0;none=0;details=n/a
+threat,Gyarados (Shadow) DB+AT/Tw 15/15/15,single=0;none=0;details=n/a
+threat,Gholdengo A+SB/DG 15/15/15,single=0;none=0;details=n/a
