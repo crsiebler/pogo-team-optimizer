@@ -2,27 +2,7 @@
   "recommended_team": {
     "members": [
       {
-        "index": 48,
-        "label": "Metagross SC+MM/Eq 15/15/15",
-        "species": "Metagross",
-        "base_species": "Metagross",
-        "types": [
-          "steel",
-          "psychic"
-        ]
-      },
-      {
-        "index": 24,
-        "label": "Gengar (Mega) SC+ShP/SlB 15/15/15",
-        "species": "Gengar (Mega)",
-        "base_species": "Gengar (Mega)",
-        "types": [
-          "ghost",
-          "poison"
-        ]
-      },
-      {
-        "index": 39,
+        "index": 4,
         "label": "Kyogre W+Av/OP 15/15/15",
         "species": "Kyogre",
         "base_species": "Kyogre",
@@ -32,8 +12,18 @@
         ]
       },
       {
-        "index": 64,
-        "label": "Togekiss Pk+DG/AuS 15/15/15",
+        "index": 3,
+        "label": "Gengar (Mega) SC+SB/ShP 15/15/15",
+        "species": "Gengar (Mega)",
+        "base_species": "Gengar (Mega)",
+        "types": [
+          "ghost",
+          "poison"
+        ]
+      },
+      {
+        "index": 10,
+        "label": "Togekiss Pk+Ft/AuS 15/15/15",
         "species": "Togekiss",
         "base_species": "Togekiss",
         "types": [
@@ -42,17 +32,7 @@
         ]
       },
       {
-        "index": 65,
-        "label": "Tyranitar DB+BrS/SE 15/15/15",
-        "species": "Tyranitar",
-        "base_species": "Tyranitar",
-        "types": [
-          "rock",
-          "dark"
-        ]
-      },
-      {
-        "index": 16,
+        "index": 13,
         "label": "Dragonite DB+TP/SP 15/15/15",
         "species": "Dragonite",
         "base_species": "Dragonite",
@@ -60,50 +40,70 @@
           "dragon",
           "flying"
         ]
+      },
+      {
+        "index": 0,
+        "label": "Metagross SC+MM/Eq 15/15/15",
+        "species": "Metagross",
+        "base_species": "Metagross",
+        "types": [
+          "steel",
+          "psychic"
+        ]
+      },
+      {
+        "index": 11,
+        "label": "Tyranitar DB+BrS/SE 15/15/15",
+        "species": "Tyranitar",
+        "base_species": "Tyranitar",
+        "types": [
+          "rock",
+          "dark"
+        ]
       }
     ],
     "score": [
-      51.0,
-      17.0,
+      63.0,
+      21.0,
       0.0,
-      0.0,
-      715.5294117647059,
+      -1.0,
+      686.8472222222224,
       160.65271462487303,
       78.11666666666667,
-      823.2745098039217,
-      51.0,
-      35.0,
-      758.5686274509804,
-      44.0,
+      822.1111111111111,
+      62.0,
+      48.0,
+      757.8253968253969,
+      54.0,
       0.0
     ],
     "bulk_score": 160.65271462487303,
     "safety_score": 78.11666666666667,
     "metrics": {
-      "pair_coverage": 51,
-      "full_col_coverage": 17,
-      "redundant_coverage_2plus": 51,
-      "redundant_coverage_3plus": 35,
-      "single_cover_pairs": 0,
-      "single_cover_rate": 0.0,
+      "pair_coverage": 63,
+      "full_col_coverage": 21,
+      "redundant_coverage_2plus": 62,
+      "redundant_coverage_3plus": 48,
+      "single_cover_pairs": 1,
+      "single_cover_rate": 0.015873015873015872,
       "no_cover_pairs": 0,
       "no_cover_rate": 0.0,
       "bulk_score": 160.65271462487303,
       "safety_score": 78.11666666666667,
-      "consistency_score": 823.2745098039217,
-      "weighted_worst_best_score": 715.5294117647059,
-      "mean_best_score": 758.5686274509804,
-      "dominate_count": 44,
-      "dominate_rate": 0.8627450980392157,
+      "consistency_score": 822.1111111111111,
+      "weighted_worst_best_score": 686.8472222222224,
+      "mean_best_score": 757.8253968253969,
+      "dominate_count": 54,
+      "dominate_rate": 0.8571428571428571,
       "overwhelming_count": 0,
       "overwhelming_rate": 0.0,
-      "total_pairs": 51,
-      "bulk_pool_min": 78.3219814241486,
-      "bulk_pool_max": 377.4611398963731,
-      "bulk_pool_mean": 166.55672080256633,
-      "safety_pool_min": 28.9,
-      "safety_pool_max": 100.0,
-      "safety_pool_mean": 63.757746478873244,
+      "total_pairs": 63,
+      "bulk_pool_min": 88.3810888252149,
+      "bulk_pool_max": 190.96,
+      "bulk_pool_mean": 162.7819947772733,
+      "safety_pool_min": 69.7,
+      "safety_pool_max": 93.3,
+      "safety_pool_mean": 76.7625,
       "safety_priority": "medium",
       "safety_floor_target": 78.0,
       "safe_member_floor": 90.0,
@@ -120,21 +120,21 @@
   "coverage": [
     {
       "shield": 0,
-      "wins": 17,
+      "wins": 21,
       "draws": 0,
       "losses": 0,
       "weighted_wins": 1.0
     },
     {
       "shield": 1,
-      "wins": 17,
+      "wins": 21,
       "draws": 0,
       "losses": 0,
       "weighted_wins": 1.0
     },
     {
       "shield": 2,
-      "wins": 17,
+      "wins": 21,
       "draws": 0,
       "losses": 0,
       "weighted_wins": 1.0
@@ -142,191 +142,139 @@
   ],
   "threats": [
     {
-      "opponent_label": "Swampert (Mega) MS+HC/Eq 15/15/15",
-      "min_best_score": 587,
-      "avg_best_score": 609.3333333333334,
+      "opponent_label": "Scizor (Mega) BP+TBl/NS 15/15/15",
+      "min_best_score": 532,
+      "avg_best_score": 618.0,
       "shield_best_scores": [
-        632,
-        609,
-        587
-      ],
-      "shield_best_members": [
-        "Dragonite DB+TP/SP 15/15/15",
-        "Dragonite DB+TP/SP 15/15/15",
-        "Dragonite DB+TP/SP 15/15/15"
-      ],
-      "single_cover_count": 0,
-      "no_cover_count": 0,
-      "fragile_shields": []
-    },
-    {
-      "opponent_label": "Ampharos (Mega) VS+TBl/BrS 15/15/15",
-      "min_best_score": 598,
-      "avg_best_score": 636.3333333333334,
-      "shield_best_scores": [
-        625,
-        686,
+        724,
+        532,
         598
       ],
       "shield_best_members": [
-        "Metagross SC+MM/Eq 15/15/15",
-        "Tyranitar DB+BrS/SE 15/15/15",
-        "Gengar (Mega) SC+ShP/SlB 15/15/15"
-      ],
-      "single_cover_count": 0,
-      "no_cover_count": 0,
-      "fragile_shields": []
-    },
-    {
-      "opponent_label": "Dragonite DB+TP/SP 15/15/15",
-      "min_best_score": 604,
-      "avg_best_score": 645.6666666666666,
-      "shield_best_scores": [
-        682,
-        651,
-        604
-      ],
-      "shield_best_members": [
+        "Togekiss Pk+Ft/AuS 15/15/15",
         "Kyogre W+Av/OP 15/15/15",
-        "Togekiss Pk+DG/AuS 15/15/15",
-        "Metagross SC+MM/Eq 15/15/15"
+        "Gengar (Mega) SC+SB/ShP 15/15/15"
       ],
-      "single_cover_count": 0,
+      "single_cover_count": 1,
       "no_cover_count": 0,
-      "fragile_shields": []
-    },
-    {
-      "opponent_label": "Dialga (Origin) DB+ROT/IH 15/15/15",
-      "min_best_score": 622,
-      "avg_best_score": 735.0,
-      "shield_best_scores": [
-        622,
-        828,
-        755
-      ],
-      "shield_best_members": [
-        "Metagross SC+MM/Eq 15/15/15",
-        "Metagross SC+MM/Eq 15/15/15",
-        "Metagross SC+MM/Eq 15/15/15"
-      ],
-      "single_cover_count": 0,
-      "no_cover_count": 0,
-      "fragile_shields": []
-    },
-    {
-      "opponent_label": "Lugia (Shadow) DT+A/Fl 15/15/15",
-      "min_best_score": 656,
-      "avg_best_score": 750.0,
-      "shield_best_scores": [
-        656,
-        823,
-        771
-      ],
-      "shield_best_members": [
-        "Metagross SC+MM/Eq 15/15/15",
-        "Gengar (Mega) SC+ShP/SlB 15/15/15",
-        "Gengar (Mega) SC+ShP/SlB 15/15/15"
-      ],
-      "single_cover_count": 0,
-      "no_cover_count": 0,
-      "fragile_shields": []
-    },
-    {
-      "opponent_label": "Reshiram DB+FuF/SE 15/15/15",
-      "min_best_score": 666,
-      "avg_best_score": 713.3333333333334,
-      "shield_best_scores": [
-        716,
-        758,
-        666
-      ],
-      "shield_best_members": [
-        "Tyranitar DB+BrS/SE 15/15/15",
-        "Tyranitar DB+BrS/SE 15/15/15",
-        "Tyranitar DB+BrS/SE 15/15/15"
-      ],
-      "single_cover_count": 0,
-      "no_cover_count": 0,
-      "fragile_shields": []
-    },
-    {
-      "opponent_label": "Dialga DB+IH/DM 15/15/15",
-      "min_best_score": 715,
-      "avg_best_score": 744.6666666666666,
-      "shield_best_scores": [
-        764,
-        715,
-        755
-      ],
-      "shield_best_members": [
-        "Metagross SC+MM/Eq 15/15/15",
-        "Metagross SC+MM/Eq 15/15/15",
-        "Metagross SC+MM/Eq 15/15/15"
-      ],
-      "single_cover_count": 0,
-      "no_cover_count": 0,
-      "fragile_shields": []
-    },
-    {
-      "opponent_label": "Zamazenta (Crowned Shield) IF+CC/BB 15/15/15",
-      "min_best_score": 717,
-      "avg_best_score": 732.6666666666666,
-      "shield_best_scores": [
-        720,
-        717,
-        761
-      ],
-      "shield_best_members": [
-        "Kyogre W+Av/OP 15/15/15",
-        "Kyogre W+Av/OP 15/15/15",
-        "Metagross SC+MM/Eq 15/15/15"
-      ],
-      "single_cover_count": 0,
-      "no_cover_count": 0,
-      "fragile_shields": []
-    },
-    {
-      "opponent_label": "Gyarados (Shadow) DB+AT/Tw 15/15/15",
-      "min_best_score": 741,
-      "avg_best_score": 770.0,
-      "shield_best_scores": [
-        763,
-        806,
-        741
-      ],
-      "shield_best_members": [
-        "Dragonite DB+TP/SP 15/15/15",
-        "Gengar (Mega) SC+ShP/SlB 15/15/15",
-        "Togekiss Pk+DG/AuS 15/15/15"
-      ],
-      "single_cover_count": 0,
-      "no_cover_count": 0,
-      "fragile_shields": []
-    },
-    {
-      "opponent_label": "Gholdengo A+SB/DG 15/15/15",
-      "min_best_score": 756,
-      "avg_best_score": 791.0,
-      "shield_best_scores": [
-        799,
-        818,
-        756
-      ],
-      "shield_best_members": [
-        "Gengar (Mega) SC+ShP/SlB 15/15/15",
-        "Tyranitar DB+BrS/SE 15/15/15",
-        "Tyranitar DB+BrS/SE 15/15/15"
-      ],
-      "single_cover_count": 0,
-      "no_cover_count": 0,
-      "fragile_shields": []
+      "fragile_shields": [
+        {
+          "shield": 1,
+          "winner_count": 1,
+          "only_answer": "Kyogre W+Av/OP 15/15/15",
+          "only_answer_score": 532,
+          "best_loser": null,
+          "best_loser_score": null
+        }
+      ]
     }
   ],
   "safe_cores": [
     {
       "members": [
         {
-          "index": 48,
+          "index": 4,
+          "label": "Kyogre W+Av/OP 15/15/15",
+          "species": "Kyogre",
+          "base_species": "Kyogre",
+          "types": [
+            "water",
+            "none"
+          ]
+        },
+        {
+          "index": 3,
+          "label": "Gengar (Mega) SC+SB/ShP 15/15/15",
+          "species": "Gengar (Mega)",
+          "base_species": "Gengar (Mega)",
+          "types": [
+            "ghost",
+            "poison"
+          ]
+        },
+        {
+          "index": 11,
+          "label": "Tyranitar DB+BrS/SE 15/15/15",
+          "species": "Tyranitar",
+          "base_species": "Tyranitar",
+          "types": [
+            "rock",
+            "dark"
+          ]
+        }
+      ],
+      "score": [
+        63.0,
+        21.0,
+        0.0,
+        -15.0,
+        645.9861111111111,
+        149.01665628687627,
+        77.89999999999999,
+        794.8571428571428,
+        48.0,
+        20.0,
+        734.1428571428571,
+        51.0,
+        0.0
+      ],
+      "strategy": "ABB",
+      "recommended_order": [
+        {
+          "role": "lead",
+          "label": "Gengar (Mega) SC+SB/ShP 15/15/15",
+          "index": 3
+        },
+        {
+          "role": "switch",
+          "label": "Tyranitar DB+BrS/SE 15/15/15",
+          "index": 11
+        },
+        {
+          "role": "closer",
+          "label": "Kyogre W+Av/OP 15/15/15",
+          "index": 4
+        }
+      ],
+      "role_scores": {
+        "Kyogre W+Av/OP 15/15/15": {
+          "lead": 513.238,
+          "switch": 601.383,
+          "closer": 633.286
+        },
+        "Gengar (Mega) SC+SB/ShP 15/15/15": {
+          "lead": 662.905,
+          "switch": 721.998,
+          "closer": 629.0
+        },
+        "Tyranitar DB+BrS/SE 15/15/15": {
+          "lead": 556.19,
+          "switch": 635.557,
+          "closer": 583.667
+        }
+      },
+      "shared_weaknesses": [],
+      "shared_strengths": [
+        "Scizor (Mega) BP+IH/NS 4/9/15",
+        "Scizor (Mega) FC+IH/NS 4/9/15",
+        "Scizor (Mega) FC+TBl/NS 4/9/15",
+        "Gholdengo H+SB/DG 15/15/15"
+      ]
+    },
+    {
+      "members": [
+        {
+          "index": 4,
+          "label": "Kyogre W+Av/OP 15/15/15",
+          "species": "Kyogre",
+          "base_species": "Kyogre",
+          "types": [
+            "water",
+            "none"
+          ]
+        },
+        {
+          "index": 0,
           "label": "Metagross SC+MM/Eq 15/15/15",
           "species": "Metagross",
           "base_species": "Metagross",
@@ -336,7 +284,7 @@
           ]
         },
         {
-          "index": 65,
+          "index": 11,
           "label": "Tyranitar DB+BrS/SE 15/15/15",
           "species": "Tyranitar",
           "base_species": "Tyranitar",
@@ -344,30 +292,298 @@
             "rock",
             "dark"
           ]
+        }
+      ],
+      "score": [
+        62.0,
+        20.0,
+        -1.0,
+        -14.0,
+        641.3611111111113,
+        175.74306377315352,
+        73.43333333333334,
+        754.5396825396826,
+        48.0,
+        13.0,
+        699.7777777777778,
+        46.0,
+        0.0
+      ],
+      "strategy": "ABB",
+      "recommended_order": [
+        {
+          "role": "lead",
+          "label": "Metagross SC+MM/Eq 15/15/15",
+          "index": 0
         },
         {
-          "index": 16,
-          "label": "Dragonite DB+TP/SP 15/15/15",
-          "species": "Dragonite",
-          "base_species": "Dragonite",
+          "role": "switch",
+          "label": "Tyranitar DB+BrS/SE 15/15/15",
+          "index": 11
+        },
+        {
+          "role": "closer",
+          "label": "Kyogre W+Av/OP 15/15/15",
+          "index": 4
+        }
+      ],
+      "role_scores": {
+        "Kyogre W+Av/OP 15/15/15": {
+          "lead": 513.238,
+          "switch": 601.383,
+          "closer": 633.286
+        },
+        "Metagross SC+MM/Eq 15/15/15": {
+          "lead": 584.048,
+          "switch": 656.186,
+          "closer": 563.0
+        },
+        "Tyranitar DB+BrS/SE 15/15/15": {
+          "lead": 556.19,
+          "switch": 635.557,
+          "closer": 583.667
+        }
+      },
+      "shared_weaknesses": [],
+      "shared_strengths": [
+        "Scizor (Mega) BP+IH/NS 4/9/15",
+        "Scizor (Mega) FC+IH/NS 4/9/15",
+        "Scizor (Mega) FC+TBl/NS 4/9/15",
+        "Gholdengo H+SB/DG 15/15/15"
+      ]
+    },
+    {
+      "members": [
+        {
+          "index": 4,
+          "label": "Kyogre W+Av/OP 15/15/15",
+          "species": "Kyogre",
+          "base_species": "Kyogre",
           "types": [
-            "dragon",
-            "flying"
+            "water",
+            "none"
+          ]
+        },
+        {
+          "index": 3,
+          "label": "Gengar (Mega) SC+SB/ShP 15/15/15",
+          "species": "Gengar (Mega)",
+          "base_species": "Gengar (Mega)",
+          "types": [
+            "ghost",
+            "poison"
+          ]
+        },
+        {
+          "index": 0,
+          "label": "Metagross SC+MM/Eq 15/15/15",
+          "species": "Metagross",
+          "base_species": "Metagross",
+          "types": [
+            "steel",
+            "psychic"
           ]
         }
       ],
       "score": [
-        50.0,
-        16.0,
+        62.0,
+        20.0,
         -1.0,
-        -27.0,
-        633.8823529411765,
-        170.48802927097074,
-        76.10000000000001,
-        760.2745098039217,
-        23.0,
-        3.0,
-        707.3333333333334,
+        -14.0,
+        634.8611111111111,
+        143.35083707345757,
+        81.3,
+        767.4444444444445,
+        48.0,
+        22.0,
+        715.063492063492,
+        44.0,
+        0.0
+      ],
+      "strategy": "ABB",
+      "recommended_order": [
+        {
+          "role": "lead",
+          "label": "Gengar (Mega) SC+SB/ShP 15/15/15",
+          "index": 3
+        },
+        {
+          "role": "switch",
+          "label": "Metagross SC+MM/Eq 15/15/15",
+          "index": 0
+        },
+        {
+          "role": "closer",
+          "label": "Kyogre W+Av/OP 15/15/15",
+          "index": 4
+        }
+      ],
+      "role_scores": {
+        "Kyogre W+Av/OP 15/15/15": {
+          "lead": 513.238,
+          "switch": 601.383,
+          "closer": 633.286
+        },
+        "Gengar (Mega) SC+SB/ShP 15/15/15": {
+          "lead": 662.905,
+          "switch": 721.998,
+          "closer": 629.0
+        },
+        "Metagross SC+MM/Eq 15/15/15": {
+          "lead": 584.048,
+          "switch": 656.186,
+          "closer": 563.0
+        }
+      },
+      "shared_weaknesses": [
+        "Kyurem (White) DB+FuF/IBu 15/15/15"
+      ],
+      "shared_strengths": [
+        "Scizor (Mega) BP+IH/NS 4/9/15",
+        "Scizor (Mega) FC+IH/NS 4/9/15",
+        "Scizor (Mega) FC+TBl/NS 4/9/15",
+        "Florges FW+M/CW 15/15/15"
+      ]
+    },
+    {
+      "members": [
+        {
+          "index": 3,
+          "label": "Gengar (Mega) SC+SB/ShP 15/15/15",
+          "species": "Gengar (Mega)",
+          "base_species": "Gengar (Mega)",
+          "types": [
+            "ghost",
+            "poison"
+          ]
+        },
+        {
+          "index": 10,
+          "label": "Togekiss Pk+Ft/AuS 15/15/15",
+          "species": "Togekiss",
+          "base_species": "Togekiss",
+          "types": [
+            "fairy",
+            "flying"
+          ]
+        },
+        {
+          "index": 11,
+          "label": "Tyranitar DB+BrS/SE 15/15/15",
+          "species": "Tyranitar",
+          "base_species": "Tyranitar",
+          "types": [
+            "rock",
+            "dark"
+          ]
+        }
+      ],
+      "score": [
+        62.0,
+        20.0,
+        -1.0,
+        -17.0,
+        639.4583333333333,
+        154.96628591650588,
+        79.8,
+        788.4920634920635,
+        45.0,
+        18.0,
+        730.1587301587301,
+        49.0,
+        0.0
+      ],
+      "strategy": "ABB",
+      "recommended_order": [
+        {
+          "role": "lead",
+          "label": "Gengar (Mega) SC+SB/ShP 15/15/15",
+          "index": 3
+        },
+        {
+          "role": "switch",
+          "label": "Togekiss Pk+Ft/AuS 15/15/15",
+          "index": 10
+        },
+        {
+          "role": "closer",
+          "label": "Tyranitar DB+BrS/SE 15/15/15",
+          "index": 11
+        }
+      ],
+      "role_scores": {
+        "Gengar (Mega) SC+SB/ShP 15/15/15": {
+          "lead": 662.905,
+          "switch": 721.998,
+          "closer": 629.0
+        },
+        "Togekiss Pk+Ft/AuS 15/15/15": {
+          "lead": 510.143,
+          "switch": 600.702,
+          "closer": 522.476
+        },
+        "Tyranitar DB+BrS/SE 15/15/15": {
+          "lead": 556.19,
+          "switch": 635.557,
+          "closer": 583.667
+        }
+      },
+      "shared_weaknesses": [
+        "Scizor (Mega) BP+TBl/NS 15/15/15",
+        "Florges FW+TBl/CW 15/15/15",
+        "Dragonite DB+TP/SP 15/15/15"
+      ],
+      "shared_strengths": [
+        "Scizor (Mega) BP+IH/NS 4/9/15",
+        "Scizor (Mega) FC+IH/NS 4/9/15",
+        "Scizor (Mega) FC+TBl/NS 4/9/15"
+      ]
+    },
+    {
+      "members": [
+        {
+          "index": 4,
+          "label": "Kyogre W+Av/OP 15/15/15",
+          "species": "Kyogre",
+          "base_species": "Kyogre",
+          "types": [
+            "water",
+            "none"
+          ]
+        },
+        {
+          "index": 10,
+          "label": "Togekiss Pk+Ft/AuS 15/15/15",
+          "species": "Togekiss",
+          "base_species": "Togekiss",
+          "types": [
+            "fairy",
+            "flying"
+          ]
+        },
+        {
+          "index": 0,
+          "label": "Metagross SC+MM/Eq 15/15/15",
+          "species": "Metagross",
+          "base_species": "Metagross",
+          "types": [
+            "steel",
+            "psychic"
+          ]
+        }
+      ],
+      "score": [
+        61.0,
+        20.0,
+        -2.0,
+        -25.0,
+        614.6111111111112,
+        177.54380746505262,
+        75.66666666666667,
+        721.3174603174604,
+        36.0,
+        16.0,
+        678.4603174603175,
         36.0,
         0.0
       ],
@@ -375,61 +591,158 @@
       "recommended_order": [
         {
           "role": "lead",
-          "label": "Dragonite DB+TP/SP 15/15/15",
-          "index": 16
+          "label": "Metagross SC+MM/Eq 15/15/15",
+          "index": 0
         },
         {
           "role": "switch",
-          "label": "Tyranitar DB+BrS/SE 15/15/15",
-          "index": 65
+          "label": "Togekiss Pk+Ft/AuS 15/15/15",
+          "index": 10
         },
         {
           "role": "closer",
-          "label": "Metagross SC+MM/Eq 15/15/15",
-          "index": 48
+          "label": "Kyogre W+Av/OP 15/15/15",
+          "index": 4
         }
       ],
       "role_scores": {
+        "Kyogre W+Av/OP 15/15/15": {
+          "lead": 513.238,
+          "switch": 601.383,
+          "closer": 633.286
+        },
+        "Togekiss Pk+Ft/AuS 15/15/15": {
+          "lead": 510.143,
+          "switch": 600.702,
+          "closer": 522.476
+        },
         "Metagross SC+MM/Eq 15/15/15": {
-          "lead": 509.471,
-          "switch": 614.645,
-          "closer": 588.118
-        },
-        "Tyranitar DB+BrS/SE 15/15/15": {
-          "lead": 492.118,
-          "switch": 573.857,
-          "closer": 449.412
-        },
-        "Dragonite DB+TP/SP 15/15/15": {
-          "lead": 456.0,
-          "switch": 522.994,
-          "closer": 440.059
+          "lead": 584.048,
+          "switch": 656.186,
+          "closer": 563.0
         }
       },
       "shared_weaknesses": [
-        "Swampert (Mega) MS+HC/Eq 15/15/15",
-        "Urshifu (Single Strike) SkP+DyP/Pbk 15/15/15"
+        "Kyurem (White) DB+FuF/IBu 15/15/15",
+        "Kyurem (White) DB+AP/IBu 15/15/15"
       ],
       "shared_strengths": [
-        "Meloetta (Aria) Cf+Psh/DG 15/15/15",
-        "Lugia (Shadow) DT+A/Fl 15/15/15"
+        "Scizor (Mega) BP+IH/NS 4/9/15",
+        "Scizor (Mega) FC+IH/NS 4/9/15",
+        "Scizor (Mega) FC+TBl/NS 4/9/15"
       ]
     },
     {
       "members": [
         {
-          "index": 39,
-          "label": "Kyogre W+Av/OP 15/15/15",
-          "species": "Kyogre",
-          "base_species": "Kyogre",
+          "index": 3,
+          "label": "Gengar (Mega) SC+SB/ShP 15/15/15",
+          "species": "Gengar (Mega)",
+          "base_species": "Gengar (Mega)",
           "types": [
-            "water",
-            "none"
+            "ghost",
+            "poison"
           ]
         },
         {
-          "index": 64,
-          "label": "Togekiss Pk+DG/AuS 15/15/15",
+          "index": 0,
+          "label": "Metagross SC+MM/Eq 15/15/15",
+          "species": "Metagross",
+          "base_species": "Metagross",
+          "types": [
+            "steel",
+            "psychic"
+          ]
+        },
+        {
+          "index": 11,
+          "label": "Tyranitar DB+BrS/SE 15/15/15",
+          "species": "Tyranitar",
+          "base_species": "Tyranitar",
+          "types": [
+            "rock",
+            "dark"
+          ]
+        }
+      ],
+      "score": [
+        61.0,
+        19.0,
+        -2.0,
+        -9.0,
+        672.7638888888889,
+        147.49972301118814,
+        80.96666666666667,
+        802.4761904761905,
+        52.0,
+        23.0,
+        740.5714285714286,
+        52.0,
+        0.0
+      ],
+      "strategy": "ABB",
+      "recommended_order": [
+        {
+          "role": "lead",
+          "label": "Gengar (Mega) SC+SB/ShP 15/15/15",
+          "index": 3
+        },
+        {
+          "role": "switch",
+          "label": "Metagross SC+MM/Eq 15/15/15",
+          "index": 0
+        },
+        {
+          "role": "closer",
+          "label": "Tyranitar DB+BrS/SE 15/15/15",
+          "index": 11
+        }
+      ],
+      "role_scores": {
+        "Gengar (Mega) SC+SB/ShP 15/15/15": {
+          "lead": 662.905,
+          "switch": 721.998,
+          "closer": 629.0
+        },
+        "Metagross SC+MM/Eq 15/15/15": {
+          "lead": 584.048,
+          "switch": 656.186,
+          "closer": 563.0
+        },
+        "Tyranitar DB+BrS/SE 15/15/15": {
+          "lead": 556.19,
+          "switch": 635.557,
+          "closer": 583.667
+        }
+      },
+      "shared_weaknesses": [
+        "Scizor (Mega) BP+XS/NS 15/15/15",
+        "Scizor (Mega) BP+TBl/NS 15/15/15"
+      ],
+      "shared_strengths": [
+        "Scizor (Mega) BP+IH/NS 4/9/15",
+        "Scizor (Mega) FC+IH/NS 4/9/15",
+        "Scizor (Mega) FC+TBl/NS 4/9/15",
+        "Kyurem (White) IF+FuF/IBu 15/15/15",
+        "Kyurem (White) DB+AP/IBu 15/15/15",
+        "Kyurem (White) DB+DgP/IBu 15/15/15"
+      ]
+    },
+    {
+      "members": [
+        {
+          "index": 3,
+          "label": "Gengar (Mega) SC+SB/ShP 15/15/15",
+          "species": "Gengar (Mega)",
+          "base_species": "Gengar (Mega)",
+          "types": [
+            "ghost",
+            "poison"
+          ]
+        },
+        {
+          "index": 10,
+          "label": "Togekiss Pk+Ft/AuS 15/15/15",
           "species": "Togekiss",
           "base_species": "Togekiss",
           "types": [
@@ -438,79 +751,7 @@
           ]
         },
         {
-          "index": 65,
-          "label": "Tyranitar DB+BrS/SE 15/15/15",
-          "species": "Tyranitar",
-          "base_species": "Tyranitar",
-          "types": [
-            "rock",
-            "dark"
-          ]
-        }
-      ],
-      "score": [
-        49.0,
-        16.0,
-        -2.0,
-        -30.0,
-        641.529411764706,
-        183.2096266784713,
-        72.26666666666667,
-        747.0784313725491,
-        19.0,
-        4.0,
-        697.0784313725491,
-        34.0,
-        0.0
-      ],
-      "strategy": "ABA",
-      "recommended_order": [
-        {
-          "role": "lead",
-          "label": "Tyranitar DB+BrS/SE 15/15/15",
-          "index": 65
-        },
-        {
-          "role": "switch",
-          "label": "Togekiss Pk+DG/AuS 15/15/15",
-          "index": 64
-        },
-        {
-          "role": "closer",
-          "label": "Kyogre W+Av/OP 15/15/15",
-          "index": 39
-        }
-      ],
-      "role_scores": {
-        "Kyogre W+Av/OP 15/15/15": {
-          "lead": 491.941,
-          "switch": 568.896,
-          "closer": 552.059
-        },
-        "Togekiss Pk+DG/AuS 15/15/15": {
-          "lead": 470.059,
-          "switch": 563.047,
-          "closer": 485.412
-        },
-        "Tyranitar DB+BrS/SE 15/15/15": {
-          "lead": 492.118,
-          "switch": 573.857,
-          "closer": 449.412
-        }
-      },
-      "shared_weaknesses": [
-        "Dialga (Origin) DB+ROT/IH 15/15/15",
-        "Kartana FC+LB/SSw 15/15/15",
-        "Dialga DB+IH/DM 15/15/15"
-      ],
-      "shared_strengths": [
-        "Yveltal SkP+DP/ObW 15/15/15"
-      ]
-    },
-    {
-      "members": [
-        {
-          "index": 48,
+          "index": 0,
           "label": "Metagross SC+MM/Eq 15/15/15",
           "species": "Metagross",
           "base_species": "Metagross",
@@ -518,111 +759,83 @@
             "steel",
             "psychic"
           ]
-        },
-        {
-          "index": 39,
-          "label": "Kyogre W+Av/OP 15/15/15",
-          "species": "Kyogre",
-          "base_species": "Kyogre",
-          "types": [
-            "water",
-            "none"
-          ]
-        },
-        {
-          "index": 65,
-          "label": "Tyranitar DB+BrS/SE 15/15/15",
-          "species": "Tyranitar",
-          "base_species": "Tyranitar",
-          "types": [
-            "rock",
-            "dark"
-          ]
         }
       ],
       "score": [
-        49.0,
-        15.0,
+        61.0,
+        19.0,
         -2.0,
-        -17.0,
-        634.9999999999999,
-        175.74306377315352,
-        73.43333333333334,
-        746.4705882352941,
-        32.0,
-        4.0,
-        696.4705882352941,
-        34.0,
+        -15.0,
+        635.0,
+        149.3004667030872,
+        83.2,
+        765.3492063492064,
+        46.0,
+        19.0,
+        712.968253968254,
+        44.0,
         0.0
       ],
       "strategy": "ABB",
       "recommended_order": [
         {
           "role": "lead",
-          "label": "Tyranitar DB+BrS/SE 15/15/15",
-          "index": 65
+          "label": "Gengar (Mega) SC+SB/ShP 15/15/15",
+          "index": 3
         },
         {
           "role": "switch",
           "label": "Metagross SC+MM/Eq 15/15/15",
-          "index": 48
+          "index": 0
         },
         {
           "role": "closer",
-          "label": "Kyogre W+Av/OP 15/15/15",
-          "index": 39
+          "label": "Togekiss Pk+Ft/AuS 15/15/15",
+          "index": 10
         }
       ],
       "role_scores": {
+        "Gengar (Mega) SC+SB/ShP 15/15/15": {
+          "lead": 662.905,
+          "switch": 721.998,
+          "closer": 629.0
+        },
+        "Togekiss Pk+Ft/AuS 15/15/15": {
+          "lead": 510.143,
+          "switch": 600.702,
+          "closer": 522.476
+        },
         "Metagross SC+MM/Eq 15/15/15": {
-          "lead": 509.471,
-          "switch": 614.645,
-          "closer": 588.118
-        },
-        "Kyogre W+Av/OP 15/15/15": {
-          "lead": 491.941,
-          "switch": 568.896,
-          "closer": 552.059
-        },
-        "Tyranitar DB+BrS/SE 15/15/15": {
-          "lead": 492.118,
-          "switch": 573.857,
-          "closer": 449.412
+          "lead": 584.048,
+          "switch": 656.186,
+          "closer": 563.0
         }
       },
       "shared_weaknesses": [
+        "Scizor (Mega) BP+TBl/NS 15/15/15",
         "Kyurem (White) DB+FuF/IBu 15/15/15"
       ],
       "shared_strengths": [
-        "Xerneas Geo+CC/M 15/15/15",
-        "Zamazenta (Crowned Shield) IF+CC/BB 15/15/15",
-        "Genesect MC+MgB/TBC 15/15/15"
+        "Scizor (Mega) BP+IH/NS 4/9/15",
+        "Scizor (Mega) FC+IH/NS 4/9/15",
+        "Scizor (Mega) FC+TBl/NS 4/9/15",
+        "Dragonite DB+DC/SP 15/15/15"
       ]
     },
     {
       "members": [
         {
-          "index": 48,
-          "label": "Metagross SC+MM/Eq 15/15/15",
-          "species": "Metagross",
-          "base_species": "Metagross",
+          "index": 3,
+          "label": "Gengar (Mega) SC+SB/ShP 15/15/15",
+          "species": "Gengar (Mega)",
+          "base_species": "Gengar (Mega)",
           "types": [
-            "steel",
-            "psychic"
+            "ghost",
+            "poison"
           ]
         },
         {
-          "index": 39,
-          "label": "Kyogre W+Av/OP 15/15/15",
-          "species": "Kyogre",
-          "base_species": "Kyogre",
-          "types": [
-            "water",
-            "none"
-          ]
-        },
-        {
-          "index": 16,
+          "index": 13,
           "label": "Dragonite DB+TP/SP 15/15/15",
           "species": "Dragonite",
           "base_species": "Dragonite",
@@ -630,670 +843,384 @@
             "dragon",
             "flying"
           ]
+        },
+        {
+          "index": 11,
+          "label": "Tyranitar DB+BrS/SE 15/15/15",
+          "species": "Tyranitar",
+          "base_species": "Tyranitar",
+          "types": [
+            "rock",
+            "dark"
+          ]
         }
       ],
       "score": [
-        49.0,
-        15.0,
+        61.0,
+        19.0,
         -2.0,
-        -21.0,
-        602.764705882353,
+        -25.0,
+        616.4027777777777,
+        143.7616217846935,
+        80.56666666666666,
+        775.5555555555557,
+        36.0,
+        15.0,
+        720.7936507936508,
+        46.0,
+        0.0
+      ],
+      "strategy": "ABB",
+      "recommended_order": [
+        {
+          "role": "lead",
+          "label": "Gengar (Mega) SC+SB/ShP 15/15/15",
+          "index": 3
+        },
+        {
+          "role": "switch",
+          "label": "Tyranitar DB+BrS/SE 15/15/15",
+          "index": 11
+        },
+        {
+          "role": "closer",
+          "label": "Dragonite DB+TP/SP 15/15/15",
+          "index": 13
+        }
+      ],
+      "role_scores": {
+        "Gengar (Mega) SC+SB/ShP 15/15/15": {
+          "lead": 662.905,
+          "switch": 721.998,
+          "closer": 629.0
+        },
+        "Dragonite DB+TP/SP 15/15/15": {
+          "lead": 467.0,
+          "switch": 551.51,
+          "closer": 507.905
+        },
+        "Tyranitar DB+BrS/SE 15/15/15": {
+          "lead": 556.19,
+          "switch": 635.557,
+          "closer": 583.667
+        }
+      },
+      "shared_weaknesses": [
+        "Scizor (Mega) BP+XS/NS 15/15/15",
+        "Scizor (Mega) BP+TBl/NS 15/15/15",
+        "Florges FW+M/CW 15/15/15",
+        "Florges FW+TBl/CW 15/15/15"
+      ],
+      "shared_strengths": [
+        "Scizor (Mega) BP+IH/NS 4/9/15",
+        "Scizor (Mega) FC+IH/NS 4/9/15",
+        "Scizor (Mega) FC+TBl/NS 4/9/15"
+      ]
+    },
+    {
+      "members": [
+        {
+          "index": 4,
+          "label": "Kyogre W+Av/OP 15/15/15",
+          "species": "Kyogre",
+          "base_species": "Kyogre",
+          "types": [
+            "water",
+            "none"
+          ]
+        },
+        {
+          "index": 13,
+          "label": "Dragonite DB+TP/SP 15/15/15",
+          "species": "Dragonite",
+          "base_species": "Dragonite",
+          "types": [
+            "dragon",
+            "flying"
+          ]
+        },
+        {
+          "index": 0,
+          "label": "Metagross SC+MM/Eq 15/15/15",
+          "species": "Metagross",
+          "base_species": "Metagross",
+          "types": [
+            "steel",
+            "psychic"
+          ]
+        }
+      ],
+      "score": [
+        61.0,
+        19.0,
+        -2.0,
+        -31.0,
+        604.6805555555557,
         166.33914333324017,
         76.43333333333334,
-        707.1176470588235,
-        28.0,
-        2.0,
-        667.4117647058823,
-        27.0,
-        0.0
-      ],
-      "strategy": "ABB",
-      "recommended_order": [
-        {
-          "role": "lead",
-          "label": "Dragonite DB+TP/SP 15/15/15",
-          "index": 16
-        },
-        {
-          "role": "switch",
-          "label": "Metagross SC+MM/Eq 15/15/15",
-          "index": 48
-        },
-        {
-          "role": "closer",
-          "label": "Kyogre W+Av/OP 15/15/15",
-          "index": 39
-        }
-      ],
-      "role_scores": {
-        "Metagross SC+MM/Eq 15/15/15": {
-          "lead": 509.471,
-          "switch": 614.645,
-          "closer": 588.118
-        },
-        "Kyogre W+Av/OP 15/15/15": {
-          "lead": 491.941,
-          "switch": 568.896,
-          "closer": 552.059
-        },
-        "Dragonite DB+TP/SP 15/15/15": {
-          "lead": 456.0,
-          "switch": 522.994,
-          "closer": 440.059
-        }
-      },
-      "shared_weaknesses": [
-        "Kyurem (White) DB+FuF/IBu 15/15/15"
-      ],
-      "shared_strengths": [
-        "Xerneas Geo+CC/M 15/15/15",
-        "Zamazenta (Crowned Shield) IF+CC/BB 15/15/15",
-        "Genesect MC+MgB/TBC 15/15/15"
-      ]
-    },
-    {
-      "members": [
-        {
-          "index": 48,
-          "label": "Metagross SC+MM/Eq 15/15/15",
-          "species": "Metagross",
-          "base_species": "Metagross",
-          "types": [
-            "steel",
-            "psychic"
-          ]
-        },
-        {
-          "index": 24,
-          "label": "Gengar (Mega) SC+ShP/SlB 15/15/15",
-          "species": "Gengar (Mega)",
-          "base_species": "Gengar (Mega)",
-          "types": [
-            "ghost",
-            "poison"
-          ]
-        },
-        {
-          "index": 39,
-          "label": "Kyogre W+Av/OP 15/15/15",
-          "species": "Kyogre",
-          "base_species": "Kyogre",
-          "types": [
-            "water",
-            "none"
-          ]
-        }
-      ],
-      "score": [
-        49.0,
-        15.0,
-        -2.0,
-        -22.0,
-        627.7647058823529,
-        143.35083707345757,
-        81.3,
-        724.156862745098,
-        27.0,
-        10.0,
-        682.9803921568628,
-        28.0,
-        0.0
-      ],
-      "strategy": "ABB",
-      "recommended_order": [
-        {
-          "role": "lead",
-          "label": "Gengar (Mega) SC+ShP/SlB 15/15/15",
-          "index": 24
-        },
-        {
-          "role": "switch",
-          "label": "Metagross SC+MM/Eq 15/15/15",
-          "index": 48
-        },
-        {
-          "role": "closer",
-          "label": "Kyogre W+Av/OP 15/15/15",
-          "index": 39
-        }
-      ],
-      "role_scores": {
-        "Metagross SC+MM/Eq 15/15/15": {
-          "lead": 509.471,
-          "switch": 614.645,
-          "closer": 588.118
-        },
-        "Gengar (Mega) SC+ShP/SlB 15/15/15": {
-          "lead": 536.118,
-          "switch": 604.888,
-          "closer": 477.471
-        },
-        "Kyogre W+Av/OP 15/15/15": {
-          "lead": 491.941,
-          "switch": 568.896,
-          "closer": 552.059
-        }
-      },
-      "shared_weaknesses": [
-        "Kyurem (White) DB+FuF/IBu 15/15/15"
-      ],
-      "shared_strengths": [
-        "Xerneas Geo+CC/M 15/15/15",
-        "Zamazenta (Crowned Shield) IF+CC/BB 15/15/15",
-        "Genesect MC+MgB/TBC 15/15/15"
-      ]
-    },
-    {
-      "members": [
-        {
-          "index": 48,
-          "label": "Metagross SC+MM/Eq 15/15/15",
-          "species": "Metagross",
-          "base_species": "Metagross",
-          "types": [
-            "steel",
-            "psychic"
-          ]
-        },
-        {
-          "index": 24,
-          "label": "Gengar (Mega) SC+ShP/SlB 15/15/15",
-          "species": "Gengar (Mega)",
-          "base_species": "Gengar (Mega)",
-          "types": [
-            "ghost",
-            "poison"
-          ]
-        },
-        {
-          "index": 16,
-          "label": "Dragonite DB+TP/SP 15/15/15",
-          "species": "Dragonite",
-          "base_species": "Dragonite",
-          "types": [
-            "dragon",
-            "flying"
-          ]
-        }
-      ],
-      "score": [
-        49.0,
-        15.0,
-        -2.0,
-        -26.0,
-        622.1176470588234,
-        138.0958025712748,
-        83.96666666666667,
-        731.9215686274509,
-        23.0,
-        5.0,
-        687.8039215686274,
+        714.2698412698412,
         30.0,
+        9.0,
+        670.2222222222222,
+        37.0,
         0.0
       ],
       "strategy": "ABB",
       "recommended_order": [
         {
           "role": "lead",
-          "label": "Dragonite DB+TP/SP 15/15/15",
-          "index": 16
+          "label": "Metagross SC+MM/Eq 15/15/15",
+          "index": 0
         },
         {
           "role": "switch",
-          "label": "Gengar (Mega) SC+ShP/SlB 15/15/15",
-          "index": 24
+          "label": "Dragonite DB+TP/SP 15/15/15",
+          "index": 13
         },
         {
           "role": "closer",
-          "label": "Metagross SC+MM/Eq 15/15/15",
-          "index": 48
+          "label": "Kyogre W+Av/OP 15/15/15",
+          "index": 4
         }
       ],
       "role_scores": {
-        "Metagross SC+MM/Eq 15/15/15": {
-          "lead": 509.471,
-          "switch": 614.645,
-          "closer": 588.118
-        },
-        "Gengar (Mega) SC+ShP/SlB 15/15/15": {
-          "lead": 536.118,
-          "switch": 604.888,
-          "closer": 477.471
+        "Kyogre W+Av/OP 15/15/15": {
+          "lead": 513.238,
+          "switch": 601.383,
+          "closer": 633.286
         },
         "Dragonite DB+TP/SP 15/15/15": {
-          "lead": 456.0,
-          "switch": 522.994,
-          "closer": 440.059
+          "lead": 467.0,
+          "switch": 551.51,
+          "closer": 507.905
+        },
+        "Metagross SC+MM/Eq 15/15/15": {
+          "lead": 584.048,
+          "switch": 656.186,
+          "closer": 563.0
         }
       },
       "shared_weaknesses": [
-        "Swampert (Mega) MS+HC/Eq 15/15/15",
-        "Urshifu (Single Strike) SkP+DyP/Pbk 15/15/15",
-        "Yveltal SkP+DP/ObW 15/15/15"
+        "Gyarados (Shadow) DB+AT/Tw 15/15/15"
       ],
       "shared_strengths": [
-        "Kartana FC+LB/SSw 15/15/15",
-        "Lugia (Shadow) DT+A/Fl 15/15/15",
-        "Xerneas Geo+CC/M 15/15/15",
-        "Genesect MC+MgB/TBC 15/15/15"
+        "Scizor (Mega) BP+IH/NS 4/9/15",
+        "Scizor (Mega) FC+IH/NS 4/9/15",
+        "Scizor (Mega) FC+TBl/NS 4/9/15"
       ]
     },
     {
       "members": [
         {
-          "index": 48,
-          "label": "Metagross SC+MM/Eq 15/15/15",
-          "species": "Metagross",
-          "base_species": "Metagross",
-          "types": [
-            "steel",
-            "psychic"
-          ]
-        },
-        {
-          "index": 39,
-          "label": "Kyogre W+Av/OP 15/15/15",
-          "species": "Kyogre",
-          "base_species": "Kyogre",
-          "types": [
-            "water",
-            "none"
-          ]
-        },
-        {
-          "index": 64,
-          "label": "Togekiss Pk+DG/AuS 15/15/15",
+          "index": 10,
+          "label": "Togekiss Pk+Ft/AuS 15/15/15",
           "species": "Togekiss",
           "base_species": "Togekiss",
           "types": [
             "fairy",
             "flying"
           ]
+        },
+        {
+          "index": 0,
+          "label": "Metagross SC+MM/Eq 15/15/15",
+          "species": "Metagross",
+          "base_species": "Metagross",
+          "types": [
+            "steel",
+            "psychic"
+          ]
+        },
+        {
+          "index": 11,
+          "label": "Tyranitar DB+BrS/SE 15/15/15",
+          "species": "Tyranitar",
+          "base_species": "Tyranitar",
+          "types": [
+            "rock",
+            "dark"
+          ]
         }
       ],
       "score": [
-        48.0,
-        14.0,
+        60.0,
+        18.0,
         -3.0,
         -19.0,
-        605.9411764705883,
-        177.54380746505262,
-        75.66666666666667,
-        721.5098039215686,
-        29.0,
-        2.0,
-        678.3725490196078,
-        31.0,
-        -1.0
-      ],
-      "strategy": "ABB",
-      "recommended_order": [
-        {
-          "role": "lead",
-          "label": "Kyogre W+Av/OP 15/15/15",
-          "index": 39
-        },
-        {
-          "role": "switch",
-          "label": "Togekiss Pk+DG/AuS 15/15/15",
-          "index": 64
-        },
-        {
-          "role": "closer",
-          "label": "Metagross SC+MM/Eq 15/15/15",
-          "index": 48
-        }
-      ],
-      "role_scores": {
-        "Metagross SC+MM/Eq 15/15/15": {
-          "lead": 509.471,
-          "switch": 614.645,
-          "closer": 588.118
-        },
-        "Kyogre W+Av/OP 15/15/15": {
-          "lead": 491.941,
-          "switch": 568.896,
-          "closer": 552.059
-        },
-        "Togekiss Pk+DG/AuS 15/15/15": {
-          "lead": 470.059,
-          "switch": 563.047,
-          "closer": 485.412
-        }
-      },
-      "shared_weaknesses": [
-        "Swampert (Mega) MS+HC/Eq 15/15/15",
-        "Reshiram DB+FuF/SE 15/15/15",
-        "Gholdengo A+SB/DG 15/15/15"
-      ],
-      "shared_strengths": [
-        "Kartana FC+LB/SSw 15/15/15"
-      ]
-    },
-    {
-      "members": [
-        {
-          "index": 48,
-          "label": "Metagross SC+MM/Eq 15/15/15",
-          "species": "Metagross",
-          "base_species": "Metagross",
-          "types": [
-            "steel",
-            "psychic"
-          ]
-        },
-        {
-          "index": 64,
-          "label": "Togekiss Pk+DG/AuS 15/15/15",
-          "species": "Togekiss",
-          "base_species": "Togekiss",
-          "types": [
-            "fairy",
-            "flying"
-          ]
-        },
-        {
-          "index": 65,
-          "label": "Tyranitar DB+BrS/SE 15/15/15",
-          "species": "Tyranitar",
-          "base_species": "Tyranitar",
-          "types": [
-            "rock",
-            "dark"
-          ]
-        }
-      ],
-      "score": [
-        47.0,
-        15.0,
-        -4.0,
-        -21.0,
-        646.8235294117648,
+        626.4861111111111,
         181.6926934027832,
         75.33333333333333,
-        769.6078431372548,
-        26.0,
-        3.0,
-        711.7647058823529,
+        761.2539682539682,
         41.0,
-        -1.0
-      ],
-      "strategy": "ABB",
-      "recommended_order": [
-        {
-          "role": "lead",
-          "label": "Tyranitar DB+BrS/SE 15/15/15",
-          "index": 65
-        },
-        {
-          "role": "switch",
-          "label": "Togekiss Pk+DG/AuS 15/15/15",
-          "index": 64
-        },
-        {
-          "role": "closer",
-          "label": "Metagross SC+MM/Eq 15/15/15",
-          "index": 48
-        }
-      ],
-      "role_scores": {
-        "Metagross SC+MM/Eq 15/15/15": {
-          "lead": 509.471,
-          "switch": 614.645,
-          "closer": 588.118
-        },
-        "Togekiss Pk+DG/AuS 15/15/15": {
-          "lead": 470.059,
-          "switch": 563.047,
-          "closer": 485.412
-        },
-        "Tyranitar DB+BrS/SE 15/15/15": {
-          "lead": 492.118,
-          "switch": 573.857,
-          "closer": 449.412
-        }
-      },
-      "shared_weaknesses": [
-        "Swampert (Mega) MS+HC/Eq 15/15/15",
-        "Reshiram DB+FuF/SE 15/15/15",
-        "Gholdengo A+SB/DG 15/15/15"
-      ],
-      "shared_strengths": [
-        "Kartana FC+LB/SSw 15/15/15"
-      ]
-    },
-    {
-      "members": [
-        {
-          "index": 48,
-          "label": "Metagross SC+MM/Eq 15/15/15",
-          "species": "Metagross",
-          "base_species": "Metagross",
-          "types": [
-            "steel",
-            "psychic"
-          ]
-        },
-        {
-          "index": 64,
-          "label": "Togekiss Pk+DG/AuS 15/15/15",
-          "species": "Togekiss",
-          "base_species": "Togekiss",
-          "types": [
-            "fairy",
-            "flying"
-          ]
-        },
-        {
-          "index": 16,
-          "label": "Dragonite DB+TP/SP 15/15/15",
-          "species": "Dragonite",
-          "base_species": "Dragonite",
-          "types": [
-            "dragon",
-            "flying"
-          ]
-        }
-      ],
-      "score": [
-        47.0,
-        15.0,
-        -4.0,
-        -30.0,
-        612.4705882352941,
-        172.28877296286979,
-        78.33333333333333,
-        721.529411764706,
-        17.0,
-        6.0,
-        675.9411764705883,
-        31.0,
+        16.0,
+        706.4920634920635,
+        46.0,
         0.0
       ],
       "strategy": "ABB",
       "recommended_order": [
         {
           "role": "lead",
-          "label": "Dragonite DB+TP/SP 15/15/15",
-          "index": 16
-        },
-        {
-          "role": "switch",
-          "label": "Togekiss Pk+DG/AuS 15/15/15",
-          "index": 64
-        },
-        {
-          "role": "closer",
           "label": "Metagross SC+MM/Eq 15/15/15",
-          "index": 48
-        }
-      ],
-      "role_scores": {
-        "Metagross SC+MM/Eq 15/15/15": {
-          "lead": 509.471,
-          "switch": 614.645,
-          "closer": 588.118
-        },
-        "Togekiss Pk+DG/AuS 15/15/15": {
-          "lead": 470.059,
-          "switch": 563.047,
-          "closer": 485.412
-        },
-        "Dragonite DB+TP/SP 15/15/15": {
-          "lead": 456.0,
-          "switch": 522.994,
-          "closer": 440.059
-        }
-      },
-      "shared_weaknesses": [
-        "Swampert (Mega) MS+HC/Eq 15/15/15",
-        "Reshiram DB+FuF/SE 15/15/15",
-        "Gholdengo A+SB/DG 15/15/15"
-      ],
-      "shared_strengths": [
-        "Kartana FC+LB/SSw 15/15/15"
-      ]
-    },
-    {
-      "members": [
-        {
-          "index": 39,
-          "label": "Kyogre W+Av/OP 15/15/15",
-          "species": "Kyogre",
-          "base_species": "Kyogre",
-          "types": [
-            "water",
-            "none"
-          ]
-        },
-        {
-          "index": 65,
-          "label": "Tyranitar DB+BrS/SE 15/15/15",
-          "species": "Tyranitar",
-          "base_species": "Tyranitar",
-          "types": [
-            "rock",
-            "dark"
-          ]
-        },
-        {
-          "index": 16,
-          "label": "Dragonite DB+TP/SP 15/15/15",
-          "species": "Dragonite",
-          "base_species": "Dragonite",
-          "types": [
-            "dragon",
-            "flying"
-          ]
-        }
-      ],
-      "score": [
-        47.0,
-        14.0,
-        -4.0,
-        -26.0,
-        604.6470588235293,
-        172.0049625466589,
-        73.03333333333335,
-        715.5490196078431,
-        21.0,
-        4.0,
-        672.9019607843137,
-        29.0,
-        0.0
-      ],
-      "strategy": "ABB",
-      "recommended_order": [
-        {
-          "role": "lead",
-          "label": "Dragonite DB+TP/SP 15/15/15",
-          "index": 16
+          "index": 0
         },
         {
           "role": "switch",
-          "label": "Tyranitar DB+BrS/SE 15/15/15",
-          "index": 65
+          "label": "Togekiss Pk+Ft/AuS 15/15/15",
+          "index": 10
         },
         {
           "role": "closer",
-          "label": "Kyogre W+Av/OP 15/15/15",
-          "index": 39
+          "label": "Tyranitar DB+BrS/SE 15/15/15",
+          "index": 11
         }
       ],
       "role_scores": {
-        "Kyogre W+Av/OP 15/15/15": {
-          "lead": 491.941,
-          "switch": 568.896,
-          "closer": 552.059
+        "Togekiss Pk+Ft/AuS 15/15/15": {
+          "lead": 510.143,
+          "switch": 600.702,
+          "closer": 522.476
+        },
+        "Metagross SC+MM/Eq 15/15/15": {
+          "lead": 584.048,
+          "switch": 656.186,
+          "closer": 563.0
         },
         "Tyranitar DB+BrS/SE 15/15/15": {
-          "lead": 492.118,
-          "switch": 573.857,
-          "closer": 449.412
-        },
-        "Dragonite DB+TP/SP 15/15/15": {
-          "lead": 456.0,
-          "switch": 522.994,
-          "closer": 440.059
+          "lead": 556.19,
+          "switch": 635.557,
+          "closer": 583.667
         }
       },
       "shared_weaknesses": [
-        "Dialga (Origin) DB+ROT/IH 15/15/15",
-        "Kartana FC+LB/SSw 15/15/15",
-        "Dialga DB+IH/DM 15/15/15"
+        "Scizor (Mega) BP+TBl/NS 15/15/15",
+        "Florges FW+TBl/CW 15/15/15",
+        "Dragonite DB+TP/SP 15/15/15"
       ],
       "shared_strengths": [
-        "Yveltal SkP+DP/ObW 15/15/15"
+        "Scizor (Mega) BP+IH/NS 4/9/15",
+        "Scizor (Mega) FC+IH/NS 4/9/15",
+        "Scizor (Mega) FC+TBl/NS 4/9/15"
       ]
     }
   ],
   "target_map": [
     {
-      "opponent_label": "Swampert (Mega) MS+HC/Eq 15/15/15",
+      "opponent_label": "Scizor (Mega) BP+XS/NS 15/15/15",
       "shield_best_scores": [
-        632,
-        609,
-        587
+        724,
+        553,
+        598
       ],
       "shield_best_members": [
-        "Dragonite DB+TP/SP 15/15/15",
-        "Dragonite DB+TP/SP 15/15/15",
-        "Dragonite DB+TP/SP 15/15/15"
+        "Togekiss Pk+Ft/AuS 15/15/15",
+        "Togekiss Pk+Ft/AuS 15/15/15",
+        "Gengar (Mega) SC+SB/ShP 15/15/15"
       ],
       "confidence": "fragile"
     },
     {
-      "opponent_label": "Dialga (Origin) DB+ROT/IH 15/15/15",
+      "opponent_label": "Scizor (Mega) BP+TBl/NS 15/15/15",
       "shield_best_scores": [
-        622,
-        828,
-        755
+        724,
+        532,
+        598
       ],
       "shield_best_members": [
-        "Metagross SC+MM/Eq 15/15/15",
-        "Metagross SC+MM/Eq 15/15/15",
-        "Metagross SC+MM/Eq 15/15/15"
+        "Togekiss Pk+Ft/AuS 15/15/15",
+        "Kyogre W+Av/OP 15/15/15",
+        "Gengar (Mega) SC+SB/ShP 15/15/15"
       ],
-      "confidence": "swingy"
+      "confidence": "fragile"
     },
     {
-      "opponent_label": "Gyarados (Shadow) DB+AT/Tw 15/15/15",
+      "opponent_label": "Scizor (Mega) BP+IH/NS 4/9/15",
       "shield_best_scores": [
-        763,
-        806,
-        741
+        894,
+        812,
+        888
       ],
       "shield_best_members": [
-        "Dragonite DB+TP/SP 15/15/15",
-        "Gengar (Mega) SC+ShP/SlB 15/15/15",
-        "Togekiss Pk+DG/AuS 15/15/15"
+        "Gengar (Mega) SC+SB/ShP 15/15/15",
+        "Kyogre W+Av/OP 15/15/15",
+        "Kyogre W+Av/OP 15/15/15"
       ],
       "confidence": "stable"
     },
     {
-      "opponent_label": "Reshiram DB+FuF/SE 15/15/15",
+      "opponent_label": "Scizor (Mega) FC+IH/NS 4/9/15",
       "shield_best_scores": [
-        716,
+        843,
+        938,
+        907
+      ],
+      "shield_best_members": [
+        "Dragonite DB+TP/SP 15/15/15",
+        "Togekiss Pk+Ft/AuS 15/15/15",
+        "Togekiss Pk+Ft/AuS 15/15/15"
+      ],
+      "confidence": "stable"
+    },
+    {
+      "opponent_label": "Scizor (Mega) FC+TBl/NS 4/9/15",
+      "shield_best_scores": [
+        890,
+        933,
+        904
+      ],
+      "shield_best_members": [
+        "Togekiss Pk+Ft/AuS 15/15/15",
+        "Gengar (Mega) SC+SB/ShP 15/15/15",
+        "Gengar (Mega) SC+SB/ShP 15/15/15"
+      ],
+      "confidence": "stable"
+    },
+    {
+      "opponent_label": "Scizor (Mega) FC+TBl/IH 15/15/15",
+      "shield_best_scores": [
+        659,
+        834,
+        797
+      ],
+      "shield_best_members": [
+        "Metagross SC+MM/Eq 15/15/15",
+        "Gengar (Mega) SC+SB/ShP 15/15/15",
+        "Togekiss Pk+Ft/AuS 15/15/15"
+      ],
+      "confidence": "swingy"
+    },
+    {
+      "opponent_label": "Florges FW+M/CW 15/15/15",
+      "shield_best_scores": [
+        720,
+        688,
+        676
+      ],
+      "shield_best_members": [
+        "Metagross SC+MM/Eq 15/15/15",
+        "Metagross SC+MM/Eq 15/15/15",
+        "Gengar (Mega) SC+SB/ShP 15/15/15"
+      ],
+      "confidence": "stable"
+    },
+    {
+      "opponent_label": "Florges FW+TBl/CW 15/15/15",
+      "shield_best_scores": [
+        747,
+        700,
+        676
+      ],
+      "shield_best_members": [
+        "Kyogre W+Av/OP 15/15/15",
+        "Gengar (Mega) SC+SB/ShP 15/15/15",
+        "Gengar (Mega) SC+SB/ShP 15/15/15"
+      ],
+      "confidence": "stable"
+    },
+    {
+      "opponent_label": "Kyurem (White) DB+FuF/IBu 15/15/15",
+      "shield_best_scores": [
+        850,
         758,
         666
       ],
@@ -1301,6 +1228,76 @@
         "Tyranitar DB+BrS/SE 15/15/15",
         "Tyranitar DB+BrS/SE 15/15/15",
         "Tyranitar DB+BrS/SE 15/15/15"
+      ],
+      "confidence": "swingy"
+    },
+    {
+      "opponent_label": "Kyurem (White) IF+FuF/IBu 15/15/15",
+      "shield_best_scores": [
+        825,
+        787,
+        697
+      ],
+      "shield_best_members": [
+        "Tyranitar DB+BrS/SE 15/15/15",
+        "Metagross SC+MM/Eq 15/15/15",
+        "Metagross SC+MM/Eq 15/15/15"
+      ],
+      "confidence": "stable"
+    },
+    {
+      "opponent_label": "Kyurem (White) DB+AP/IBu 15/15/15",
+      "shield_best_scores": [
+        850,
+        851,
+        790
+      ],
+      "shield_best_members": [
+        "Tyranitar DB+BrS/SE 15/15/15",
+        "Metagross SC+MM/Eq 15/15/15",
+        "Metagross SC+MM/Eq 15/15/15"
+      ],
+      "confidence": "stable"
+    },
+    {
+      "opponent_label": "Kyurem (White) DB+DgP/IBu 15/15/15",
+      "shield_best_scores": [
+        850,
+        851,
+        790
+      ],
+      "shield_best_members": [
+        "Tyranitar DB+BrS/SE 15/15/15",
+        "Metagross SC+MM/Eq 15/15/15",
+        "Metagross SC+MM/Eq 15/15/15"
+      ],
+      "confidence": "stable"
+    },
+    {
+      "opponent_label": "Gyarados (Shadow) DB+AT/Tw 15/15/15",
+      "shield_best_scores": [
+        763,
+        806,
+        639
+      ],
+      "shield_best_members": [
+        "Dragonite DB+TP/SP 15/15/15",
+        "Gengar (Mega) SC+SB/ShP 15/15/15",
+        "Metagross SC+MM/Eq 15/15/15"
+      ],
+      "confidence": "stable"
+    },
+    {
+      "opponent_label": "Gyarados (Shadow) DB+AT/Cr 15/15/15",
+      "shield_best_scores": [
+        763,
+        806,
+        639
+      ],
+      "shield_best_members": [
+        "Dragonite DB+TP/SP 15/15/15",
+        "Gengar (Mega) SC+SB/ShP 15/15/15",
+        "Metagross SC+MM/Eq 15/15/15"
       ],
       "confidence": "stable"
     },
@@ -1312,177 +1309,93 @@
         756
       ],
       "shield_best_members": [
-        "Gengar (Mega) SC+ShP/SlB 15/15/15",
+        "Gengar (Mega) SC+SB/ShP 15/15/15",
         "Tyranitar DB+BrS/SE 15/15/15",
         "Tyranitar DB+BrS/SE 15/15/15"
       ],
       "confidence": "stable"
     },
     {
-      "opponent_label": "Kartana FC+LB/SSw 15/15/15",
+      "opponent_label": "Gholdengo A+SB/FB 15/15/15",
       "shield_best_scores": [
-        843,
-        869,
-        802
+        799,
+        818,
+        756
       ],
       "shield_best_members": [
-        "Dragonite DB+TP/SP 15/15/15",
-        "Gengar (Mega) SC+ShP/SlB 15/15/15",
-        "Gengar (Mega) SC+ShP/SlB 15/15/15"
-      ],
-      "confidence": "stable"
-    },
-    {
-      "opponent_label": "Ampharos (Mega) VS+TBl/BrS 15/15/15",
-      "shield_best_scores": [
-        625,
-        686,
-        598
-      ],
-      "shield_best_members": [
-        "Metagross SC+MM/Eq 15/15/15",
-        "Tyranitar DB+BrS/SE 15/15/15",
-        "Gengar (Mega) SC+ShP/SlB 15/15/15"
-      ],
-      "confidence": "fragile"
-    },
-    {
-      "opponent_label": "Meloetta (Aria) Cf+Psh/DG 15/15/15",
-      "shield_best_scores": [
-        779,
-        893,
-        860
-      ],
-      "shield_best_members": [
-        "Metagross SC+MM/Eq 15/15/15",
+        "Gengar (Mega) SC+SB/ShP 15/15/15",
         "Tyranitar DB+BrS/SE 15/15/15",
         "Tyranitar DB+BrS/SE 15/15/15"
       ],
       "confidence": "stable"
     },
     {
-      "opponent_label": "Lugia (Shadow) DT+A/Fl 15/15/15",
+      "opponent_label": "Gholdengo H+SB/DG 15/15/15",
       "shield_best_scores": [
-        656,
-        823,
-        771
-      ],
-      "shield_best_members": [
-        "Metagross SC+MM/Eq 15/15/15",
-        "Gengar (Mega) SC+ShP/SlB 15/15/15",
-        "Gengar (Mega) SC+ShP/SlB 15/15/15"
-      ],
-      "confidence": "stable"
-    },
-    {
-      "opponent_label": "Urshifu (Single Strike) SkP+DyP/Pbk 15/15/15",
-      "shield_best_scores": [
-        901,
-        856,
-        783
-      ],
-      "shield_best_members": [
-        "Togekiss Pk+DG/AuS 15/15/15",
-        "Togekiss Pk+DG/AuS 15/15/15",
-        "Togekiss Pk+DG/AuS 15/15/15"
-      ],
-      "confidence": "stable"
-    },
-    {
-      "opponent_label": "Xerneas Geo+CC/M 15/15/15",
-      "shield_best_scores": [
-        859,
-        873,
-        834
-      ],
-      "shield_best_members": [
-        "Gengar (Mega) SC+ShP/SlB 15/15/15",
-        "Gengar (Mega) SC+ShP/SlB 15/15/15",
-        "Metagross SC+MM/Eq 15/15/15"
-      ],
-      "confidence": "stable"
-    },
-    {
-      "opponent_label": "Zamazenta (Crowned Shield) IF+CC/BB 15/15/15",
-      "shield_best_scores": [
-        720,
-        717,
-        761
-      ],
-      "shield_best_members": [
-        "Kyogre W+Av/OP 15/15/15",
-        "Kyogre W+Av/OP 15/15/15",
-        "Metagross SC+MM/Eq 15/15/15"
-      ],
-      "confidence": "stable"
-    },
-    {
-      "opponent_label": "Yveltal SkP+DP/ObW 15/15/15",
-      "shield_best_scores": [
-        763,
-        810,
-        758
-      ],
-      "shield_best_members": [
-        "Tyranitar DB+BrS/SE 15/15/15",
-        "Tyranitar DB+BrS/SE 15/15/15",
-        "Tyranitar DB+BrS/SE 15/15/15"
-      ],
-      "confidence": "stable"
-    },
-    {
-      "opponent_label": "Dialga DB+IH/DM 15/15/15",
-      "shield_best_scores": [
+        883,
         764,
-        715,
-        755
+        699
       ],
       "shield_best_members": [
-        "Metagross SC+MM/Eq 15/15/15",
-        "Metagross SC+MM/Eq 15/15/15",
-        "Metagross SC+MM/Eq 15/15/15"
+        "Gengar (Mega) SC+SB/ShP 15/15/15",
+        "Gengar (Mega) SC+SB/ShP 15/15/15",
+        "Tyranitar DB+BrS/SE 15/15/15"
       ],
-      "confidence": "stable"
+      "confidence": "swingy"
+    },
+    {
+      "opponent_label": "Gholdengo H+SB/FB 15/15/15",
+      "shield_best_scores": [
+        883,
+        764,
+        699
+      ],
+      "shield_best_members": [
+        "Gengar (Mega) SC+SB/ShP 15/15/15",
+        "Gengar (Mega) SC+SB/ShP 15/15/15",
+        "Tyranitar DB+BrS/SE 15/15/15"
+      ],
+      "confidence": "swingy"
     },
     {
       "opponent_label": "Dragonite DB+TP/SP 15/15/15",
       "shield_best_scores": [
         682,
-        651,
+        581,
         604
       ],
       "shield_best_members": [
         "Kyogre W+Av/OP 15/15/15",
-        "Togekiss Pk+DG/AuS 15/15/15",
+        "Kyogre W+Av/OP 15/15/15",
         "Metagross SC+MM/Eq 15/15/15"
       ],
       "confidence": "fragile"
     },
     {
-      "opponent_label": "Kyurem (White) DB+FuF/IBu 15/15/15",
+      "opponent_label": "Dragonite DB+DC/SP 15/15/15",
       "shield_best_scores": [
-        850,
-        758,
-        797
+        682,
+        674,
+        790
       ],
       "shield_best_members": [
-        "Tyranitar DB+BrS/SE 15/15/15",
-        "Tyranitar DB+BrS/SE 15/15/15",
-        "Togekiss Pk+DG/AuS 15/15/15"
+        "Kyogre W+Av/OP 15/15/15",
+        "Metagross SC+MM/Eq 15/15/15",
+        "Metagross SC+MM/Eq 15/15/15"
       ],
       "confidence": "stable"
     },
     {
-      "opponent_label": "Genesect MC+MgB/TBC 15/15/15",
+      "opponent_label": "Dragonite DB+DC/TP 15/15/15",
       "shield_best_scores": [
-        788,
-        788,
-        839
+        699,
+        629,
+        748
       ],
       "shield_best_members": [
-        "Kyogre W+Av/OP 15/15/15",
-        "Kyogre W+Av/OP 15/15/15",
-        "Kyogre W+Av/OP 15/15/15"
+        "Tyranitar DB+BrS/SE 15/15/15",
+        "Tyranitar DB+BrS/SE 15/15/15",
+        "Tyranitar DB+BrS/SE 15/15/15"
       ],
       "confidence": "stable"
     }

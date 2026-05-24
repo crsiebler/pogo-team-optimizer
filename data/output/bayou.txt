@@ -1,44 +1,44 @@
 Meta: bayou
 
 Recommended Team
-- Sealeo (Shadow) PS+S/BS 5/15/12 [ice/water]
-- Lokix SkP+XS/TBl 4/15/13 [bug/dark]
-- Amoonguss A+GK/FoP 4/15/9 [grass/poison]
 - Blastoise RO+HC/SkB 4/8/15 [water/none]
+- Doublade SC+SSw/GB 6/15/15 [steel/ghost]
+- Amoonguss A+FoP/GK 4/15/9 [grass/poison]
 - Seaking Pk+DR/IW 4/13/14 [water/none]
-- Skuntank PJ+Cr/TBl 4/15/14 [poison/dark]
+- Skuntank (Shadow) PJ+Cr/TBl 4/15/14 [poison/dark]
+- Galvantula VS+D/Lu 4/15/9 [bug/electric]
 
 Team Analysis
-- bulk score: 183.47 (team avg def*hp/atk; pool min/mean/max 125.91/189.77/227.58)
-- safety score: 87.90 (PvPoke switch score avg; pool min/mean/max 74.80/86.03/100.00)
+- bulk score: 175.44 (team avg def*hp/atk; pool min/mean/max 109.53/173.72/227.58)
+- safety score: 87.80 (PvPoke switch score avg; pool min/mean/max 73.20/86.79/100.00)
 - safety target: medium priority | avg >= 78.00 | members >= 90.00: 1
-- consistency score: 761.05 (internal matchup stability metric; not PvPoke bait-dependency consistency) = mean 703.90 + dominate bonus - overwhelming penalty
-- redundancy (2+ winners): 19/21 (90.5%)
-- redundancy (3+ winners): 16/21 (76.2%)
-- single-coverage pairs: 2/21 (9.5%)
-- no-coverage pairs: 0/21 (0.0%)
-- dominate: 16/21 (76.2%) where score > 650
-- overwhelming: 0/21 (0.0%) where score < 350
+- consistency score: 797.35 (internal matchup stability metric; not PvPoke bait-dependency consistency) = mean 733.29 + dominate bonus - overwhelming penalty
+- redundancy (2+ winners): 94/96 (97.9%)
+- redundancy (3+ winners): 69/96 (71.9%)
+- single-coverage pairs: 2/96 (2.1%)
+- no-coverage pairs: 0/96 (0.0%)
+- dominate: 82/96 (85.4%) where score > 650
+- overwhelming: 0/96 (0.0%) where score < 350
 
 Coverage
-- 0-shield: W 7 | D 0 | L 0 | weighted wins 1.000
-- 1-shield: W 7 | D 0 | L 0 | weighted wins 1.000
-- 2-shield: W 7 | D 0 | L 0 | weighted wins 1.000
+- 0-shield: W 32 | D 0 | L 0 | weighted wins 1.000
+- 1-shield: W 32 | D 0 | L 0 | weighted wins 1.000
+- 2-shield: W 32 | D 0 | L 0 | weighted wins 1.000
 
 Safe Cores
-- #1 ABC: Lead Seaking Pk+DR/IW 4/13/14 | Switch Blastoise RO+HC/SkB 4/8/15 | Closer Lokix SkP+XS/TBl 4/15/13
-- #2 ABC: Lead Sealeo (Shadow) PS+S/BS 5/15/12 | Switch Amoonguss A+GK/FoP 4/15/9 | Closer Lokix SkP+XS/TBl 4/15/13
-- #3 ABC: Lead Sealeo (Shadow) PS+S/BS 5/15/12 | Switch Seaking Pk+DR/IW 4/13/14 | Closer Amoonguss A+GK/FoP 4/15/9
-- #4 ABC: Lead Skuntank PJ+Cr/TBl 4/15/14 | Switch Seaking Pk+DR/IW 4/13/14 | Closer Blastoise RO+HC/SkB 4/8/15
-- #5 ABC: Lead Seaking Pk+DR/IW 4/13/14 | Switch Blastoise RO+HC/SkB 4/8/15 | Closer Amoonguss A+GK/FoP 4/15/9
-- #6 ABC: Lead Blastoise RO+HC/SkB 4/8/15 | Switch Amoonguss A+GK/FoP 4/15/9 | Closer Lokix SkP+XS/TBl 4/15/13
-- #7 ABC: Lead Skuntank PJ+Cr/TBl 4/15/14 | Switch Sealeo (Shadow) PS+S/BS 5/15/12 | Closer Amoonguss A+GK/FoP 4/15/9
-- #8 ABC: Lead Skuntank PJ+Cr/TBl 4/15/14 | Switch Seaking Pk+DR/IW 4/13/14 | Closer Amoonguss A+GK/FoP 4/15/9
-- #9 ABC: Lead Seaking Pk+DR/IW 4/13/14 | Switch Amoonguss A+GK/FoP 4/15/9 | Closer Lokix SkP+XS/TBl 4/15/13
-- #10 ABC: Lead Skuntank PJ+Cr/TBl 4/15/14 | Switch Blastoise RO+HC/SkB 4/8/15 | Closer Amoonguss A+GK/FoP 4/15/9
+- #1 ABB: Lead Galvantula VS+D/Lu 4/15/9 | Switch Doublade SC+SSw/GB 6/15/15 | Closer Seaking Pk+DR/IW 4/13/14
+- #2 ABB: Lead Galvantula VS+D/Lu 4/15/9 | Switch Doublade SC+SSw/GB 6/15/15 | Closer Skuntank (Shadow) PJ+Cr/TBl 4/15/14
+- #3 ABB: Lead Blastoise RO+HC/SkB 4/8/15 | Switch Doublade SC+SSw/GB 6/15/15 | Closer Skuntank (Shadow) PJ+Cr/TBl 4/15/14
+- #4 ABB: Lead Galvantula VS+D/Lu 4/15/9 | Switch Doublade SC+SSw/GB 6/15/15 | Closer Blastoise RO+HC/SkB 4/8/15
+- #5 ABB: Lead Seaking Pk+DR/IW 4/13/14 | Switch Doublade SC+SSw/GB 6/15/15 | Closer Skuntank (Shadow) PJ+Cr/TBl 4/15/14
+- #6 ABB: Lead Galvantula VS+D/Lu 4/15/9 | Switch Blastoise RO+HC/SkB 4/8/15 | Closer Skuntank (Shadow) PJ+Cr/TBl 4/15/14
+- #7 ABB: Lead Galvantula VS+D/Lu 4/15/9 | Switch Seaking Pk+DR/IW 4/13/14 | Closer Blastoise RO+HC/SkB 4/8/15
+- #8 ABB: Lead Seaking Pk+DR/IW 4/13/14 | Switch Doublade SC+SSw/GB 6/15/15 | Closer Blastoise RO+HC/SkB 4/8/15
+- #9 ABB: Lead Seaking Pk+DR/IW 4/13/14 | Switch Doublade SC+SSw/GB 6/15/15 | Closer Amoonguss A+FoP/GK 4/15/9
+- #10 ABA: Lead Galvantula VS+D/Lu 4/15/9 | Switch Seaking Pk+DR/IW 4/13/14 | Closer Amoonguss A+FoP/GK 4/15/9
 
 Potential Threats
-- Blastoise RO+HC/SkB 4/8/15 | single-coverage: 1 | no-coverage: 0
-  - 2-shield: only answer Amoonguss A+GK/FoP 4/15/9 (570)
+- Pelipper WA+WBW/Hu 6/15/14 | single-coverage: 1 | no-coverage: 0
+  - 1-shield: only answer Galvantula VS+D/Lu 4/15/9 (844)
 - Skuntank (Shadow) PJ+Cr/TBl 4/15/14 | single-coverage: 1 | no-coverage: 0
   - 0-shield: only answer Seaking Pk+DR/IW 4/13/14 (826)
