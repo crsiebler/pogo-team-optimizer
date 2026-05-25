@@ -1,12 +1,23 @@
 from __future__ import annotations
 
 import itertools
+import logging
 import random
 from collections import defaultdict
 from dataclasses import dataclass
 
-from pogo_team_optimizer.application.lineups import RosterLineupScore, score_roster_lineup_depth
+from pogo_team_optimizer.application.lineups import (
+    LINEUP_VIABILITY_THRESHOLD,
+    ROSTER_LINEUP_TOP_N,
+    OrderedLineup,
+    RosterLineupScore,
+    enumerate_ordered_lineups,
+    score_ordered_lineup,
+)
 from pogo_team_optimizer.application.normalization import parse_base_species, parse_species
+
+LOGGER = logging.getLogger(__name__)
+OPTIMIZER_PROGRESS_EVALUATIONS = 10000
 
 
 @dataclass(frozen=True)
@@ -53,6 +64,8 @@ class TeamOptimizer:
         self.battle_frontier_max_five_point_members = battle_frontier_max_five_point_members
         self.battle_frontier_max_mega_members = battle_frontier_max_mega_members
         self.random = random.Random(seed)
+        self._team_score_cache: dict[tuple[int, ...], tuple[float, ...]] = {}
+        self._lineup_mean_score_cache: dict[OrderedLineup, float] = {}
 
         self.row_species = [parse_species(label) for label in row_labels]
         self.row_base_species = [parse_base_species(s) for s in self.row_species]
@@ -81,10 +94,23 @@ class TeamOptimizer:
         min_safe_members: int = 0,
         safe_member_floor: float = 90.0,
     ) -> TeamSolution:
+        LOGGER.info(
+            "optimizer start rows=%s cols=%s shields=%s restarts=%s team_size=%s",
+            len(self.row_labels),
+            len(self.col_labels),
+            len(self.matrices),
+            restarts,
+            team_size,
+        )
         best: TeamSolution | None = None
-        for _ in range(restarts):
+        evaluated_candidates = 0
+        progress_interval = max(1, restarts // 10)
+        for restart_index in range(restarts):
+            if restart_index == 0 or (restart_index + 1) % progress_interval == 0:
+                LOGGER.info("optimizer restart %s/%s", restart_index + 1, restarts)
             candidate = self._random_team(team_size)
             score = self._score_team(candidate)
+            evaluated_candidates += 1
             key = self._comparison_key(
                 candidate,
                 score,
@@ -109,6 +135,15 @@ class TeamOptimizer:
                             if not self._is_team_legal(candidate):
                                 continue
                             next_score = self._score_team(candidate)
+                            evaluated_candidates += 1
+                            if evaluated_candidates % OPTIMIZER_PROGRESS_EVALUATIONS == 0:
+                                LOGGER.info(
+                                    "optimizer evaluated=%s restart=%s/%s candidate=%s",
+                                    evaluated_candidates,
+                                    restart_index + 1,
+                                    restarts,
+                                    ",".join(str(idx) for idx in candidate),
+                                )
                             next_key = self._comparison_key(
                                 candidate,
                                 next_score,
@@ -121,6 +156,13 @@ class TeamOptimizer:
                                 key = next_key
                                 current_bases = {self.row_base_species[i] for i in candidate}
                                 improved = True
+                                LOGGER.info(
+                                    "optimizer accepted swap restart=%s/%s score=%.2f team=%s",
+                                    restart_index + 1,
+                                    restarts,
+                                    score[13],
+                                    ",".join(str(idx) for idx in candidate),
+                                )
                                 break
                         if improved:
                             break
@@ -140,8 +182,21 @@ class TeamOptimizer:
             )
             if key > best_key:
                 best = candidate_solution
+                LOGGER.info(
+                    "optimizer new best restart=%s/%s score=%.2f team=%s",
+                    restart_index + 1,
+                    restarts,
+                    best.score[13],
+                    ",".join(str(idx) for idx in best.member_indices),
+                )
         if best is None:
             raise RuntimeError("Failed to optimize team")
+        LOGGER.info(
+            "optimizer complete evaluated=%s best_score=%.2f team=%s",
+            evaluated_candidates,
+            best.score[13],
+            ",".join(str(idx) for idx in best.member_indices),
+        )
         return best
 
     def rank_safe_cores(
@@ -185,6 +240,11 @@ class TeamOptimizer:
         return True
 
     def _score_team(self, team_indices: list[int]) -> tuple[float, ...]:
+        cache_key = tuple(sorted(team_indices))
+        cached = self._team_score_cache.get(cache_key)
+        if cached is not None:
+            return cached
+
         pair_coverage = 0
         full_col_coverage = 0
         redundant_coverage_2plus = 0
@@ -248,7 +308,7 @@ class TeamOptimizer:
         consistency_score = mean_best_score + (75.0 * dominate_rate) - (125.0 * overwhelming_rate)
         lineup_score = self._score_team_lineups(team_indices)
 
-        return (
+        score = (
             float(pair_coverage),
             float(full_col_coverage),
             float(-no_cover_pairs),
@@ -267,11 +327,46 @@ class TeamOptimizer:
             lineup_score.top_lineup_mean,
             float(lineup_score.viable_lineup_count),
         )
+        self._team_score_cache[cache_key] = score
+        return score
 
     def _score_team_lineups(self, team_indices: list[int]) -> RosterLineupScore:
         if len(team_indices) < 3 or len(self.matrices) < 3:
             return RosterLineupScore(0.0, 0.0, 0.0, 0)
-        return score_roster_lineup_depth(team_indices, self.matrices)
+
+        lineup_scores = sorted(
+            (self._lineup_mean_score(lineup) for lineup in enumerate_ordered_lineups(team_indices)),
+            reverse=True,
+        )
+        if not lineup_scores:
+            return RosterLineupScore(0.0, 0.0, 0.0, 0)
+
+        top_scores = lineup_scores[:ROSTER_LINEUP_TOP_N]
+        best_lineup_score = lineup_scores[0]
+        top_lineup_mean = sum(top_scores) / len(top_scores)
+        viable_lineup_count = sum(score >= LINEUP_VIABILITY_THRESHOLD for score in lineup_scores)
+        viable_lineup_rate = viable_lineup_count / len(lineup_scores)
+        objective_score = (
+            (0.45 * best_lineup_score)
+            + (0.40 * top_lineup_mean)
+            + (0.15 * viable_lineup_rate * 100.0)
+        )
+        return RosterLineupScore(
+            objective_score=objective_score,
+            best_lineup_score=best_lineup_score,
+            top_lineup_mean=top_lineup_mean,
+            viable_lineup_count=viable_lineup_count,
+        )
+
+    def _lineup_mean_score(self, lineup: OrderedLineup) -> float:
+        cached = self._lineup_mean_score_cache.get(lineup)
+        if cached is not None:
+            return cached
+
+        score = score_ordered_lineup(lineup, self.matrices)
+        mean_score = sum(path.mean_best_score for path in score.path_scores) / len(score.path_scores)
+        self._lineup_mean_score_cache[lineup] = mean_score
+        return mean_score
 
     def _comparison_key(
         self,

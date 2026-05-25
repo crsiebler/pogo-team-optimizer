@@ -238,7 +238,7 @@
         "Typecheck passes"
       ],
       "priority": 13,
-      "passes": false,
+      "passes": true,
       "notes": "Recommended agent: python-pro. This is the first performance story and should not change scoring semantics. Cache only deterministic pure score results derived from loaded matrices and team composition."
     },
     {

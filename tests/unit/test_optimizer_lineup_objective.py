@@ -1,3 +1,4 @@
+from pogo_team_optimizer.application.lineups import OrderedLineup, score_roster_lineup_depth
 from pogo_team_optimizer.application.optimizer import TeamOptimizer
 
 
@@ -154,3 +155,73 @@ def test_above_floor_teams_continue_to_compare_by_lineup_objective() -> None:
     assert _comparison_key(optimizer, stronger_lineup_team) > _comparison_key(
         optimizer, weaker_lineup_team
     )
+
+
+def test_team_score_cache_reuses_canonical_team_identity() -> None:
+    rows = [
+        [650, 620, 610, 600],
+        [610, 650, 620, 600],
+        [620, 610, 650, 600],
+        [600, 620, 610, 650],
+        [640, 640, 610, 610],
+        [610, 610, 640, 640],
+    ]
+    optimizer = _optimizer_with_rows(rows)
+
+    score = optimizer._score_team([0, 1, 2, 3, 4, 5])
+    reversed_score = optimizer._score_team([5, 4, 3, 2, 1, 0])
+
+    assert reversed_score == score
+    assert len(optimizer._team_score_cache) == 1
+
+
+def test_lineup_mean_score_cache_canonicalizes_back_pair_only() -> None:
+    rows = [
+        [650, 620, 610],
+        [610, 650, 620],
+        [620, 610, 650],
+    ]
+    optimizer = _optimizer_with_rows(rows)
+
+    score = optimizer._lineup_mean_score(OrderedLineup(0, (1, 2)))
+    canonical_back_pair_score = optimizer._lineup_mean_score(OrderedLineup(0, (2, 1)))
+    distinct_lead_score = optimizer._lineup_mean_score(OrderedLineup(1, (0, 2)))
+
+    assert canonical_back_pair_score == score
+    assert isinstance(distinct_lead_score, float)
+    assert len(optimizer._lineup_mean_score_cache) == 2
+
+
+def test_cached_optimizer_output_remains_deterministic_for_same_seed() -> None:
+    rows = [
+        [650, 620, 610, 600],
+        [610, 650, 620, 600],
+        [620, 610, 650, 600],
+        [600, 620, 610, 650],
+        [640, 640, 610, 610],
+        [610, 610, 640, 640],
+        [630, 610, 630, 610],
+        [610, 630, 610, 630],
+    ]
+    optimizer_a = _optimizer_with_rows(rows)
+    optimizer_b = _optimizer_with_rows(rows)
+
+    solution_a = optimizer_a.optimize(team_size=6, restarts=1)
+    solution_b = optimizer_b.optimize(team_size=6, restarts=1)
+
+    assert solution_b == solution_a
+
+
+def test_cached_lineup_depth_matches_canonical_lineup_scorer() -> None:
+    rows = [
+        [650, 620, 610, 600],
+        [610, 650, 620, 600],
+        [620, 610, 650, 600],
+        [600, 620, 610, 650],
+        [640, 640, 610, 610],
+        [610, 610, 640, 640],
+    ]
+    optimizer = _optimizer_with_rows(rows)
+    team = [0, 1, 2, 3, 4, 5]
+
+    assert optimizer._score_team_lineups(team) == score_roster_lineup_depth(team, optimizer.matrices)
