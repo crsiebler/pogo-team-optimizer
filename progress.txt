@@ -479,3 +479,37 @@
 - Next iteration start:
   - Implement `US-011` by running the final lint, typecheck, and test gate and checking for accidental CLI/exporter schema regressions.
 ---
+
+## 2026-05-25 00:46:02 MST - US-011
+- What was implemented
+  - Ran the final integration and regression gate for lineup-aware optimization, exporters, Battle Frontier diagnostics, and documentation.
+  - Verified CLI, exporter, Battle Frontier legality, and deterministic optimizer regression subsets in addition to the full suite.
+  - Confirmed no implementation cleanup was needed; this story remained verification-only.
+- Files changed: `prd.json`, `progress.txt`
+- Commit message: `feat: US-011 - Run final integration and regression gate`
+- Checks:
+  - `make lint` (pass)
+  - `conda run -n pogo-team-optimizer make typecheck` (pass)
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m mypy src` (pass)
+  - `make test` (pass)
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m pytest -k "cli or output or format"` (pass)
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m pytest -k "export or csv or excel or json or markdown"` (pass)
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m pytest -k "battle_frontier or bfmaster or legality or points"` (pass)
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m pytest -k "deterministic or optimizer"` (pass)
+- Implementation agents:
+  - Recommended: `refactoring-specialist`
+  - Used: `refactoring-specialist`
+- Specialist review:
+  - Agents used: `code-reviewer`, `qa-expert`, `security-engineer`, `documentation-engineer`
+  - Findings: fixed before commit; clarified the typecheck gate evidence to use the conda Makefile target and recorded the completed specialist review summary. Deferred low commit-message format suggestions because Ralph explicitly requires `feat: US-011 - Run final integration and regression gate`.
+- Decisions (why):
+  - Chose not to modify the Makefile or build configuration because the bare `make typecheck` failure is an environment issue already documented in prior iterations, while `conda run -n pogo-team-optimizer make typecheck` verifies the same Makefile target in the repository's intended environment.
+  - Chose targeted regression subsets for CLI, exporters, Battle Frontier legality, and optimizer determinism because those directly map to the story's no-regression acceptance criteria.
+- **Learnings for future iterations:**
+  - For this repository, run Makefile gates inside the `pogo-team-optimizer` conda environment when validating strict typecheck behavior; bare system Python may not include `mypy`.
+  - The full suite plus targeted `-k` subsets gives quick evidence for CLI/exporter/Battle Frontier/determinism acceptance criteria without changing feature code.
+- Known issues / follow-ups:
+  - Bare `make typecheck` still fails when invoked with system `/usr/local/bin/python3` because `mypy` is not installed there; conda-based Makefile typecheck passes.
+- Next iteration start:
+  - All PRD stories currently pass.
+---
