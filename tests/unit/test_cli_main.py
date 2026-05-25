@@ -22,6 +22,14 @@ def test_build_parser_defaults_to_five_top_lineups() -> None:
     assert args.top_lineups == 5
 
 
+def test_build_parser_defaults_to_one_worker() -> None:
+    parser = build_parser()
+
+    args = parser.parse_args([])
+
+    assert args.workers == 1
+
+
 def test_main_rejects_more_than_ten_top_lineups(monkeypatch) -> None:
     monkeypatch.setattr("sys.argv", ["prog", "--top-lineups", "11"])
 
@@ -31,6 +39,20 @@ def test_main_rejects_more_than_ten_top_lineups(monkeypatch) -> None:
 
 def test_main_rejects_negative_top_lineups(monkeypatch) -> None:
     monkeypatch.setattr("sys.argv", ["prog", "--top-lineups", "-1"])
+
+    with pytest.raises(SystemExit, match="2"):
+        main()
+
+
+def test_main_rejects_zero_workers(monkeypatch) -> None:
+    monkeypatch.setattr("sys.argv", ["prog", "--workers", "0"])
+
+    with pytest.raises(SystemExit, match="2"):
+        main()
+
+
+def test_main_rejects_too_many_workers(monkeypatch) -> None:
+    monkeypatch.setattr("sys.argv", ["prog", "--workers", "33"])
 
     with pytest.raises(SystemExit, match="2"):
         main()
@@ -363,6 +385,8 @@ def test_main_exports_all_formats_from_one_analysis_result(tmp_path, monkeypatch
             str(output_dir),
             "--top-lineups",
             "10",
+            "--workers",
+            "2",
         ],
     )
 
@@ -370,6 +394,7 @@ def test_main_exports_all_formats_from_one_analysis_result(tmp_path, monkeypatch
 
     assert execute_calls == 1
     assert execute_kwargs["top_lineups"] == 10
+    assert execute_kwargs["workers"] == 2
     assert capsys.readouterr().out == "text report\n"
     assert exports == [
         ("text", None, id(result)),

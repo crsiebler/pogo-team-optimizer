@@ -8,6 +8,7 @@ from pogo_team_optimizer.application.meta_config import (
     validate_matrix_files,
     validate_required_files,
 )
+from pogo_team_optimizer.application.optimizer import MAX_OPTIMIZER_WORKERS
 from pogo_team_optimizer.application.use_case import AnalyzeMetaUseCase
 from pogo_team_optimizer.infrastructure.exporters.factory import ExporterFactory
 from pogo_team_optimizer.infrastructure.repositories.battle_frontier_points_repository import (
@@ -101,6 +102,7 @@ def build_parser() -> argparse.ArgumentParser:
     )
     parser.add_argument("--seed", type=int, default=7)
     parser.add_argument("--restarts", type=int, default=250)
+    parser.add_argument("--workers", type=int, default=1)
     return parser
 
 
@@ -131,6 +133,10 @@ def main() -> int:
 
     if not 1 <= args.top_lineups <= 10:
         parser.error("--top-lineups must be between 1 and 10")
+    if args.workers < 1:
+        parser.error("--workers must be at least 1")
+    if args.workers > MAX_OPTIMIZER_WORKERS:
+        parser.error(f"--workers must be at most {MAX_OPTIMIZER_WORKERS}")
 
     if args.output is not None:
         parser.error("--output is deprecated; use --output-dir for generated artifacts")
@@ -184,6 +190,7 @@ def main() -> int:
         safety_priority=args.safety_priority,
         seed=args.seed,
         restarts=args.restarts,
+        workers=args.workers,
     )
     result["meta"] = args.meta
     result["matrix_files"] = list(meta_config.matrix_files)

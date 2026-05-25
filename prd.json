@@ -313,7 +313,7 @@
         "Typecheck passes"
       ],
       "priority": 17,
-      "passes": false,
+      "passes": true,
       "notes": "Recommended agent: python-pro. Use ProcessPoolExecutor, not threads. Parallelize restart chunks, not individual matchup cells or resource-path calculations. Preserve deterministic behavior for fixed seed and worker count."
     },
     {

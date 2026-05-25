@@ -1,6 +1,7 @@
 PYTHON ?= python3
 SRC := src
 META ?= bfmaster
+WORKERS ?= 1
 
 .PHONY: help lint typecheck test coverage run all
 
@@ -11,6 +12,7 @@ help:
 	@printf "  make test        Run pytest\n"
 	@printf "  make coverage    Run pytest with coverage\n"
 	@printf "  make run META=bayou         Run analysis and write all outputs\n"
+	@printf "  make run META=bayou WORKERS=2      Run analysis with process workers\n"
 	@printf "  make all         lint + typecheck + test\n"
 
 lint:
@@ -26,4 +28,4 @@ coverage:
 	PYTHONPATH=$(SRC) $(PYTHON) -m pytest --cov=src --cov-report=term-missing
 
 run:
-	PYTHONPATH=$(SRC) $(PYTHON) -m pogo_team_optimizer.cli.main --meta $(META) --top-threats 10 --top-lineups 10 --restarts 80
+	PYTHONPATH=$(SRC) $(PYTHON) -m pogo_team_optimizer.cli.main --meta $(META) --top-threats 10 --top-lineups 10 --restarts 80 --workers $(WORKERS)

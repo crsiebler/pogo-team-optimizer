@@ -50,6 +50,7 @@ class AnalyzeMetaUseCase:
         top_lineups: int = MAX_RECOMMENDED_LINEUPS,
         seed: int = 7,
         restarts: int = 250,
+        workers: int = 1,
         safety_priority: str = "medium",
     ) -> dict[str, Any]:
         row_labels, col_labels, matrices = self.simulation_repository.load()
@@ -117,6 +118,7 @@ class AnalyzeMetaUseCase:
             safety_floor=safety_floor,
             min_safe_members=min_safe_members,
             safe_member_floor=safe_member_floor,
+            workers=workers,
         )
 
         species_cache = {

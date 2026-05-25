@@ -1,3 +1,4 @@
+import pogo_team_optimizer.application.optimizer as optimizer_module
 from pogo_team_optimizer.application.lineups import OrderedLineup, score_roster_lineup_depth
 from pogo_team_optimizer.application.optimizer import TeamOptimizer
 
@@ -210,6 +211,99 @@ def test_cached_optimizer_output_remains_deterministic_for_same_seed() -> None:
     solution_b = optimizer_b.optimize(team_size=6, restarts=1)
 
     assert solution_b == solution_a
+
+
+def test_workers_one_preserves_deterministic_single_process_output() -> None:
+    rows = [
+        [650, 620, 610, 600],
+        [610, 650, 620, 600],
+        [620, 610, 650, 600],
+        [600, 620, 610, 650],
+        [640, 640, 610, 610],
+        [610, 610, 640, 640],
+        [630, 610, 630, 610],
+        [610, 630, 610, 630],
+    ]
+    optimizer_a = _optimizer_with_rows(rows)
+    optimizer_b = _optimizer_with_rows(rows)
+
+    solution_a = optimizer_a.optimize(team_size=6, restarts=4, workers=1)
+    solution_b = optimizer_b.optimize(team_size=6, restarts=4, workers=1)
+
+    assert solution_b == solution_a
+
+
+def test_workers_two_returns_deterministic_legal_result_for_fixed_inputs() -> None:
+    rows = [
+        [650, 620, 610, 600],
+        [610, 650, 620, 600],
+        [620, 610, 650, 600],
+        [600, 620, 610, 650],
+        [640, 640, 610, 610],
+        [610, 610, 640, 640],
+        [630, 610, 630, 610],
+        [610, 630, 610, 630],
+    ]
+    optimizer_a = _optimizer_with_rows(rows)
+    optimizer_b = _optimizer_with_rows(rows)
+
+    solution_a = optimizer_a.optimize(team_size=6, restarts=4, workers=2)
+    solution_b = optimizer_b.optimize(team_size=6, restarts=4, workers=2)
+
+    assert solution_b == solution_a
+    assert optimizer_a._is_team_legal(list(solution_a.member_indices))
+
+
+def test_workers_greater_than_one_uses_process_executor_batches(monkeypatch) -> None:
+    rows = [
+        [650, 620, 610, 600],
+        [610, 650, 620, 600],
+        [620, 610, 650, 600],
+        [600, 620, 610, 650],
+        [640, 640, 610, 610],
+        [610, 610, 640, 640],
+        [630, 610, 630, 610],
+        [610, 630, 610, 630],
+    ]
+    captured: dict[str, object] = {}
+
+    class FakeProcessPoolExecutor:
+        def __init__(self, max_workers: int) -> None:
+            captured["max_workers"] = max_workers
+
+        def __enter__(self) -> "FakeProcessPoolExecutor":
+            return self
+
+        def __exit__(self, *_: object) -> None:
+            return None
+
+        def map(self, func: object, batches: object) -> list[object]:
+            batch_list = list(batches)
+            captured["batch_restarts"] = [batch.restarts for batch in batch_list]
+            captured["batch_seeds"] = [batch.seed for batch in batch_list]
+            return [func(batch) for batch in batch_list]
+
+    monkeypatch.setattr(optimizer_module, "ProcessPoolExecutor", FakeProcessPoolExecutor)
+    optimizer = _optimizer_with_rows(rows)
+
+    solution = optimizer.optimize(team_size=6, restarts=5, workers=3)
+
+    assert captured["max_workers"] == 3
+    assert captured["batch_restarts"] == [2, 2, 1]
+    assert captured["batch_seeds"] == [7, 1_000_010, 2_000_013]
+    assert optimizer._is_team_legal(list(solution.member_indices))
+
+
+def test_optimizer_rejects_too_many_workers() -> None:
+    rows = [[600, 600]] * 6
+    optimizer = _optimizer_with_rows(rows)
+
+    try:
+        optimizer.optimize(team_size=6, restarts=1, workers=33)
+    except ValueError as exc:
+        assert str(exc) == "workers must be at most 32"
+    else:
+        raise AssertionError("expected workers cap validation")
 
 
 def test_cached_lineup_depth_matches_canonical_lineup_scorer() -> None:

@@ -4,6 +4,7 @@
 - Six-Pokemon roster objective scoring in `TeamOptimizer` should prioritize appended lineup-depth metrics before legacy full-roster coverage tie-breakers; keep score tuple indexes `0` through `12` compatible for existing metrics consumers.
 - `TeamOptimizer` derives a meta-relative bulk floor from the loaded candidate pool mean and applies any below-floor bulk deficit in `_comparison_key()` before lineup objective fields; this is a penalty, not a legality filter.
 - `TeamOptimizer` caches pure score results per optimizer instance: full team scores by sorted row-index identity and ordered lineup mean scores by `OrderedLineup`; comparison keys are not cached because safety and policy inputs vary per call.
+- Optimizer multiprocessing should use `ProcessPoolExecutor` over deterministic restart batches with worker seeds derived from the base seed, cap worker counts via `MAX_OPTIMIZER_WORKERS`, and avoid parallelizing matchup cells or lineup resource-path calculations.
 - Structured `recommended_lineups` assembly lives in `AnalyzeMetaUseCase`; rank by lineup score with row-index tie-breakers, source diagnostics from `application/lineups.py`, and keep CLI/exporters from computing lineup scores.
 - Bench utility diagnostics live in `application/lineups.py` and are exposed as structured `recommended_team.bench_utility`; keep them diagnostic-only and do not feed them into optimizer ranking.
 - Battle Frontier lineup point diagnostics are optional use-case result fields; compute usage rates and point-aware bench warnings from viable ordered lineups without rejecting individual pick-3 lineups.
@@ -677,4 +678,42 @@
   - Pre-existing unrelated worktree changes remain outside this story; only US-016-intended files should be staged.
 - Next iteration start:
   - Implement `US-017` by adding deterministic process-based restart batching behind `--workers`.
+---
+
+## 2026-05-25 03:41:00 MST - US-017
+- What was implemented
+  - Added `workers` support to `TeamOptimizer.optimize()` with the existing single-process restart loop preserved for `workers=1`.
+  - Added deterministic `ProcessPoolExecutor` restart batching for `workers>1`, with per-worker seeds derived from the optimizer base seed and parent-side best-solution reduction through the existing comparison key.
+  - Added a `32` worker cap in both CLI validation and optimizer API validation to avoid excessive local process creation.
+  - Wired `workers` through `AnalyzeMetaUseCase`, the CLI `--workers` argument, and the Makefile `WORKERS` variable.
+  - Added focused optimizer, Battle Frontier legality, and CLI tests for worker defaults, validation, determinism, and legal multi-process results.
+- Files changed: `AGENTS.md`, `Makefile`, `prd.json`, `progress.txt`, `src/pogo_team_optimizer/application/optimizer.py`, `src/pogo_team_optimizer/application/use_case.py`, `src/pogo_team_optimizer/cli/main.py`, `tests/unit/test_cli_main.py`, `tests/unit/test_optimizer_battle_frontier.py`, `tests/unit/test_optimizer_lineup_objective.py`
+- Commit message: `feat: US-017 - Add multiprocessing restart batching`
+- Checks:
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m pytest tests/unit/test_optimizer_lineup_objective.py -k workers tests/unit/test_optimizer_battle_frontier.py -k workers tests/unit/test_cli_main.py -k workers -q` (pass, 7 tests)
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m pytest tests/unit/test_optimizer_lineup_objective.py tests/unit/test_optimizer_battle_frontier.py tests/unit/test_cli_main.py -q` (pass, 33 tests)
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m mypy src` (pass)
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m ruff check src tests` (pass)
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m pytest` (pass, 126 tests)
+  - `make lint` (pass)
+  - `make typecheck` (pass)
+  - `make test` (pass)
+- Implementation agents:
+  - Recommended: `python-pro`
+  - Used: `python-pro`
+- Specialist review:
+  - Agents used: `code-reviewer`, `qa-expert`, `security-engineer`, `security-auditor`, `documentation-engineer`
+  - Findings: fixed before commit; added a process-executor batching test, Battle Frontier workers determinism assertion, and a 32-worker cap after QA and security review. Second review pass found no actionable findings.
+- Decisions (why):
+  - Chose `workers` as an `optimize()` execution option instead of constructor state because it controls one optimization run rather than optimizer data.
+  - Chose top-level batch dataclasses and worker functions so multiprocessing remains compatible with macOS spawn pickling.
+  - Chose deterministic chunk sizing and sorted parent reduction with `>` tie handling so worker completion order cannot affect results.
+  - Chose a fixed 32-worker cap because the optimizer copies matrix data into child processes and should reject accidental resource-exhausting values from both the CLI and direct API.
+- **Learnings for future iterations:**
+  - Process workers should receive `battle_frontier_points_by_row=None` for non-Battle-Frontier metas; passing a zero-filled list would incorrectly enable Mega-count legality rules.
+  - The single-process path should remain the exact execution path for `workers=1` to preserve existing deterministic behavior and test expectations.
+- Known issues / follow-ups:
+  - Pre-existing unrelated generated output/data changes remain outside this story and should not be staged.
+- Next iteration start:
+  - Implement `US-018` by documenting `--top-lineups`, `WORKERS`, `DIAGNOSTICS`, process batching, and simplified output semantics.
 ---

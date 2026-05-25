@@ -4,6 +4,7 @@ import itertools
 import logging
 import random
 from collections import defaultdict
+from concurrent.futures import ProcessPoolExecutor
 from dataclasses import dataclass
 
 from pogo_team_optimizer.application.lineups import (
@@ -18,12 +19,33 @@ from pogo_team_optimizer.application.normalization import parse_base_species, pa
 
 LOGGER = logging.getLogger(__name__)
 OPTIMIZER_PROGRESS_EVALUATIONS = 10000
+MAX_OPTIMIZER_WORKERS = 32
 
 
 @dataclass(frozen=True)
 class TeamSolution:
     member_indices: tuple[int, ...]
     score: tuple[float, ...]
+
+
+@dataclass(frozen=True)
+class OptimizerRestartBatch:
+    worker_index: int
+    restarts: int
+    seed: int
+    team_size: int
+    safety_floor: float | None
+    min_safe_members: int
+    safe_member_floor: float
+    row_labels: list[str]
+    col_labels: list[str]
+    matrices: list[list[list[int]]]
+    bulk_by_row: list[float]
+    safety_by_row: list[float]
+    battle_frontier_points_by_row: list[int] | None
+    battle_frontier_max_points: int
+    battle_frontier_max_five_point_members: int
+    battle_frontier_max_mega_members: int
 
 
 class TeamOptimizer:
@@ -63,6 +85,7 @@ class TeamOptimizer:
         self.battle_frontier_max_points = battle_frontier_max_points
         self.battle_frontier_max_five_point_members = battle_frontier_max_five_point_members
         self.battle_frontier_max_mega_members = battle_frontier_max_mega_members
+        self.seed = seed
         self.random = random.Random(seed)
         self._team_score_cache: dict[tuple[int, ...], tuple[float, ...]] = {}
         self._lineup_mean_score_cache: dict[OrderedLineup, float] = {}
@@ -93,6 +116,37 @@ class TeamOptimizer:
         safety_floor: float | None = None,
         min_safe_members: int = 0,
         safe_member_floor: float = 90.0,
+        workers: int = 1,
+    ) -> TeamSolution:
+        if workers < 1:
+            raise ValueError("workers must be at least 1")
+        if workers > MAX_OPTIMIZER_WORKERS:
+            raise ValueError(f"workers must be at most {MAX_OPTIMIZER_WORKERS}")
+        if workers == 1 or restarts <= 1:
+            return self._optimize_single_process(
+                team_size=team_size,
+                restarts=restarts,
+                safety_floor=safety_floor,
+                min_safe_members=min_safe_members,
+                safe_member_floor=safe_member_floor,
+            )
+
+        return self._optimize_parallel_processes(
+            team_size=team_size,
+            restarts=restarts,
+            safety_floor=safety_floor,
+            min_safe_members=min_safe_members,
+            safe_member_floor=safe_member_floor,
+            workers=workers,
+        )
+
+    def _optimize_single_process(
+        self,
+        team_size: int,
+        restarts: int,
+        safety_floor: float | None,
+        min_safe_members: int,
+        safe_member_floor: float,
     ) -> TeamSolution:
         LOGGER.info(
             "optimizer start rows=%s cols=%s shields=%s restarts=%s team_size=%s",
@@ -197,6 +251,77 @@ class TeamOptimizer:
             best.score[13],
             ",".join(str(idx) for idx in best.member_indices),
         )
+        return best
+
+    def _optimize_parallel_processes(
+        self,
+        team_size: int,
+        restarts: int,
+        safety_floor: float | None,
+        min_safe_members: int,
+        safe_member_floor: float,
+        workers: int,
+    ) -> TeamSolution:
+        active_workers = min(workers, restarts)
+        batch_sizes = _split_restart_batches(restarts, active_workers)
+        batches = [
+            OptimizerRestartBatch(
+                worker_index=worker_index,
+                restarts=batch_restarts,
+                seed=self.seed + (worker_index * 1_000_003),
+                team_size=team_size,
+                safety_floor=safety_floor,
+                min_safe_members=min_safe_members,
+                safe_member_floor=safe_member_floor,
+                row_labels=self.row_labels,
+                col_labels=self.col_labels,
+                matrices=self.matrices,
+                bulk_by_row=self.bulk_by_row,
+                safety_by_row=self.safety_by_row,
+                battle_frontier_points_by_row=(
+                    self.battle_frontier_points_by_row if self.has_battle_frontier_rules else None
+                ),
+                battle_frontier_max_points=self.battle_frontier_max_points,
+                battle_frontier_max_five_point_members=(
+                    self.battle_frontier_max_five_point_members
+                ),
+                battle_frontier_max_mega_members=self.battle_frontier_max_mega_members,
+            )
+            for worker_index, batch_restarts in enumerate(batch_sizes)
+        ]
+
+        LOGGER.info(
+            "optimizer process batches workers=%s restarts=%s chunks=%s",
+            active_workers,
+            restarts,
+            ",".join(str(size) for size in batch_sizes),
+        )
+        with ProcessPoolExecutor(max_workers=active_workers) as executor:
+            results = list(executor.map(_optimize_restart_batch, batches))
+
+        best: TeamSolution | None = None
+        for _, candidate in sorted(results, key=lambda item: item[0]):
+            if best is None:
+                best = candidate
+                continue
+            candidate_key = self._comparison_key(
+                list(candidate.member_indices),
+                candidate.score,
+                safety_floor=safety_floor,
+                min_safe_members=min_safe_members,
+                safe_member_floor=safe_member_floor,
+            )
+            best_key = self._comparison_key(
+                list(best.member_indices),
+                best.score,
+                safety_floor=safety_floor,
+                min_safe_members=min_safe_members,
+                safe_member_floor=safe_member_floor,
+            )
+            if candidate_key > best_key:
+                best = candidate
+        if best is None:
+            raise RuntimeError("Failed to optimize team")
         return best
 
     def rank_safe_cores(
@@ -412,3 +537,36 @@ class TeamOptimizer:
             score[11],
             score[12],
         )
+
+
+def _split_restart_batches(restarts: int, workers: int) -> list[int]:
+    base_restarts, extra_restarts = divmod(restarts, workers)
+    return [
+        base_restarts + (1 if worker_index < extra_restarts else 0)
+        for worker_index in range(workers)
+    ]
+
+
+def _optimize_restart_batch(batch: OptimizerRestartBatch) -> tuple[int, TeamSolution]:
+    optimizer = TeamOptimizer(
+        row_labels=batch.row_labels,
+        col_labels=batch.col_labels,
+        matrices=batch.matrices,
+        bulk_by_row=batch.bulk_by_row,
+        safety_by_row=batch.safety_by_row,
+        battle_frontier_points_by_row=batch.battle_frontier_points_by_row,
+        battle_frontier_max_points=batch.battle_frontier_max_points,
+        battle_frontier_max_five_point_members=batch.battle_frontier_max_five_point_members,
+        battle_frontier_max_mega_members=batch.battle_frontier_max_mega_members,
+        seed=batch.seed,
+    )
+    return (
+        batch.worker_index,
+        optimizer._optimize_single_process(
+            team_size=batch.team_size,
+            restarts=batch.restarts,
+            safety_floor=batch.safety_floor,
+            min_safe_members=batch.min_safe_members,
+            safe_member_floor=batch.safe_member_floor,
+        ),
+    )
