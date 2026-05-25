@@ -69,10 +69,10 @@ make run-pvpoke
 
 Direct invocation example:
 ```bash
-PYTHONPATH=src python -m pogo_team_optimizer.cli.main --meta crucible --format text
+PYTHONPATH=src python -m pogo_team_optimizer.cli.main --meta bayou --format text
 ```
 
-For `markdown`, `json`, `csv`, `excel`, and `pvpoke`, pass `--output`.
+Each CLI run emits all supported formats; use `--output-dir` to control the destination.
 
 ## Architecture and Boundaries
 Respect the existing layers:
@@ -143,12 +143,16 @@ make test
 ```
 
 ## Repository-Specific Notes
+- Project-agnostic Pokemon GO Battle League optimization guidance lives in `docs/pokemon-go-team-optimization.md`; read it before changing roster or lineup scoring strategy.
+- Detailed optimization subdocs live under `docs/team-optimization/`, including `scoring-model.md`, `lineup-structures.md`, `coverage-threat-pools.md`, `safety-consistency-bulk.md`, `type-effectiveness.md`, `role-scoring.md`, `data-inputs.md`, and `validation.md`.
+- OpenCode skill `gbl-optimizer` lives in `.opencode/skills/gbl-optimizer/SKILL.md`; use it when changing GBL optimizer scoring, show-6 pick-3 lineups, PvPoke ranking inputs, type effectiveness, coverage, safety, consistency, bulk, roles, or ABC/ABB/ABA strategy.
+- Type effectiveness implementation guidance is in `docs/team-optimization/type-effectiveness.md`, and the Pokemon GO type chart source data is `data/type-effectiveness.json`.
 - Matrix CSVs must align on row/column labels across shield scenarios.
 - `AnalyzeMetaUseCase` expects repository dependencies through interfaces.
 - `pvpoke` export requires both `pokemon.json` and `moves.json`.
-- Non-text outputs require explicit output file paths.
-- Meta-specific auxiliary inputs belong in `data/metas.json` via optional `switch_rankings_path` and `required_files`; validate them in the CLI before constructing repositories.
-- Switch rankings resolution in the CLI is ordered as explicit `--switch-rankings-path` override, then per-meta `switch_rankings_path`, then the legacy Great League default path.
+- CLI runs emit all supported output formats to `--output-dir`; do not use deprecated `--output`.
+- Meta-specific PvPoke ranking inputs belong in `data/metas.json` via typed `ranking_paths` and optional `full_meta_ranking_paths` keyed by `RankingCategory`; keep legacy `switch_rankings_path` as a compatibility shim only.
+- Validate all configured ranking paths in the CLI before constructing repositories; switch rankings resolution remains explicit `--switch-rankings-path`, then per-meta `ranking_paths.switches`, then the legacy Great League default path.
 - Battle Frontier point files should live under `data/battle_frontier/` with `species,points` headers, use names normalized like `parse_species()`, and rely on repository fallback-to-`0` for species omitted from the current cycle.
 - Battle Frontier legality belongs in `TeamOptimizer`; wire per-row point costs from the CLI/use case into the optimizer so both initial seeding and swap search share the same legality checks.
 - Battle Frontier output metrics belong in `recommended_team.metrics`; keep them optional and have human-readable exporters render a conditional legality section so non-`bfmaster` metas do not need placeholder fields.

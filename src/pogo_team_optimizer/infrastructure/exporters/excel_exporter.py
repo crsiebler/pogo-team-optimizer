@@ -274,7 +274,7 @@ class ExcelExporter(AnalysisExporter):
 
     def _cell_xml(self, column_name: str, row_index: int, value: object) -> str:
         cell_reference = f"{column_name}{row_index}"
-        if isinstance(value, int | float) and not isinstance(value, bool):
+        if isinstance(value, (int, float)) and not isinstance(value, bool):
             return f'<c r="{cell_reference}"><v>{value}</v></c>'
         return (
             f'<c r="{cell_reference}" t="inlineStr"><is><t>{escape(str(value))}</t></is></c>'

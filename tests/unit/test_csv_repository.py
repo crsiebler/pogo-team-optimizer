@@ -15,7 +15,7 @@ def test_csv_repository_loads_three_scenarios(tmp_path) -> None:
     ]
 
     for shield in [0, 1, 2]:
-        file_path = simulations / f"crucible_{shield}-shield.csv"
+        file_path = simulations / f"great_{shield}-shield.csv"
         with file_path.open("w", newline="", encoding="utf-8") as handle:
             writer = csv.writer(handle)
             writer.writerow(headers)
@@ -23,9 +23,9 @@ def test_csv_repository_loads_three_scenarios(tmp_path) -> None:
 
     repo = CsvSimulationMatrixRepository(
         [
-            str(simulations / "crucible_0-shield.csv"),
-            str(simulations / "crucible_1-shield.csv"),
-            str(simulations / "crucible_2-shield.csv"),
+            str(simulations / "great_0-shield.csv"),
+            str(simulations / "great_1-shield.csv"),
+            str(simulations / "great_2-shield.csv"),
         ]
     )
     row_labels, col_labels, matrices = repo.load()

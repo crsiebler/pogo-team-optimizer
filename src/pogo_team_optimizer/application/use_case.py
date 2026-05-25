@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import logging
+import re
 from collections import defaultdict
 from typing import Any
 
@@ -22,13 +24,16 @@ from pogo_team_optimizer.application.normalization import parse_species
 from pogo_team_optimizer.application.optimizer import TeamOptimizer
 from pogo_team_optimizer.domain.interfaces import (
     BattleFrontierPointsRepository,
+    MoveRepository,
     PokemonRepository,
     SimulationMatrixRepository,
     SwitchRankingsRepository,
+    TypeEffectivenessRepository,
 )
 
 
 MAX_RECOMMENDED_LINEUPS = 5
+LOGGER = logging.getLogger(__name__)
 
 
 class AnalyzeMetaUseCase:
@@ -38,11 +43,15 @@ class AnalyzeMetaUseCase:
         pokemon_repository: PokemonRepository,
         switch_rankings_repository: SwitchRankingsRepository | None = None,
         battle_frontier_points_repository: BattleFrontierPointsRepository | None = None,
+        move_repository: MoveRepository | None = None,
+        type_effectiveness_repository: TypeEffectivenessRepository | None = None,
     ) -> None:
         self.simulation_repository = simulation_repository
         self.pokemon_repository = pokemon_repository
         self.switch_rankings_repository = switch_rankings_repository
         self.battle_frontier_points_repository = battle_frontier_points_repository
+        self.move_repository = move_repository
+        self.type_effectiveness_repository = type_effectiveness_repository
 
     def execute(
         self,
@@ -53,7 +62,14 @@ class AnalyzeMetaUseCase:
         workers: int = 1,
         safety_priority: str = "medium",
     ) -> dict[str, Any]:
+        LOGGER.info("loading simulation matrices")
         row_labels, col_labels, matrices = self.simulation_repository.load()
+        LOGGER.info(
+            "loaded matrices rows=%s cols=%s shields=%s",
+            len(row_labels),
+            len(col_labels),
+            len(matrices),
+        )
         col_species = [parse_species(label) for label in col_labels]
         species_groups: dict[str, list[int]] = defaultdict(list)
         for col_idx, species in enumerate(col_species):
@@ -65,8 +81,21 @@ class AnalyzeMetaUseCase:
             for col_idx in indices:
                 weights[col_idx] = weight
 
+        species_cache = {
+            parse_species(label): self.pokemon_repository.get_types(parse_species(label))
+            for label in row_labels
+        }
+        pokemon_types_by_row = [species_cache[parse_species(label)] for label in row_labels]
+        move_types_by_row = [self._move_types_for_label(label) for label in row_labels]
+        type_effectiveness = (
+            self.type_effectiveness_repository.load()
+            if self.type_effectiveness_repository is not None
+            else {}
+        )
+
         bulk_by_row: list[float] = []
         safety_by_row: list[float] = []
+        LOGGER.info("building bulk and safety inputs rows=%s", len(row_labels))
         for label in row_labels:
             species = parse_species(label)
             stats = self.pokemon_repository.get_base_stats(species)
@@ -87,6 +116,7 @@ class AnalyzeMetaUseCase:
 
         battle_frontier_points_by_row: list[int] | None = None
         if self.battle_frontier_points_repository is not None:
+            LOGGER.info("building Battle Frontier point inputs")
             battle_frontier_points_by_row = [
                 self.battle_frontier_points_repository.get_points(parse_species(label))
                 for label in row_labels
@@ -110,9 +140,13 @@ class AnalyzeMetaUseCase:
             matrices,
             bulk_by_row=bulk_by_row,
             safety_by_row=safety_by_row,
+            pokemon_types_by_row=pokemon_types_by_row,
+            move_types_by_row=move_types_by_row,
+            type_effectiveness=type_effectiveness,
             battle_frontier_points_by_row=battle_frontier_points_by_row,
             seed=seed,
         )
+        LOGGER.info("starting optimizer restarts=%s safety_priority=%s", restarts, safety_priority)
         best_team = optimizer.optimize(
             restarts=restarts,
             safety_floor=safety_floor,
@@ -120,11 +154,7 @@ class AnalyzeMetaUseCase:
             safe_member_floor=safe_member_floor,
             workers=workers,
         )
-
-        species_cache = {
-            parse_species(label): self.pokemon_repository.get_types(parse_species(label))
-            for label in row_labels
-        }
+        LOGGER.info("optimizer complete team=%s", ",".join(str(idx) for idx in best_team.member_indices))
 
         total_pairs = len(col_labels) * len(matrices)
         score = best_team.score
@@ -167,6 +197,8 @@ class AnalyzeMetaUseCase:
             "lineup_best_score": float(score[14]),
             "lineup_top_n_mean_score": float(score[15]),
             "lineup_viable_count": int(score[16]),
+            "defensive_type_score": float(score[17]),
+            "offensive_move_score": float(score[18]),
             "legacy_full_roster_mean_best_score": float(score[10]),
             "legacy_full_roster_dominate_count": dominate_count,
             "legacy_full_roster_overwhelming_count": overwhelming_count,
@@ -203,6 +235,7 @@ class AnalyzeMetaUseCase:
                 }
             )
 
+        LOGGER.info("assembling lineup diagnostics")
         recommended_lineups = _build_recommended_lineups(
             row_labels=row_labels,
             matrices=matrices,
@@ -219,6 +252,7 @@ class AnalyzeMetaUseCase:
             battle_frontier_points_by_row=battle_frontier_points_by_row,
         )
 
+        LOGGER.info("assembling result payload")
         result = {
             "recommended_team": {
                 "members": to_team_members(best_team.member_indices, row_labels, species_cache),
@@ -247,7 +281,32 @@ class AnalyzeMetaUseCase:
             ),
             "recommended_lineups": recommended_lineups,
         }
+        LOGGER.info(
+            "result payload complete recommended_lineups=%s bench_utility=%s threats=%s",
+            len(recommended_lineups),
+            len(bench_utility),
+            len(result["threats"]),
+        )
         return result
+
+    def _move_types_for_label(self, label: str) -> tuple[str, ...]:
+        if self.move_repository is None:
+            return tuple()
+
+        match = re.search(
+            r"\s+(?P<fast>[A-Za-z0-9]+)\+(?P<charged_one>[A-Za-z0-9]+)/"
+            r"(?P<charged_two>[A-Za-z0-9]+)(?:\s+\d+/\d+/\d+)?$",
+            label,
+        )
+        if match is None:
+            return tuple()
+
+        move_types = []
+        for token in ("fast", "charged_one", "charged_two"):
+            move_type = self.move_repository.get_move_type(match.group(token))
+            if move_type is not None:
+                move_types.append(move_type)
+        return tuple(move_types)
 
 
 def _build_recommended_lineups(

@@ -71,12 +71,12 @@ class MarkdownExporter(AnalysisExporter):
             f"(`{metrics['no_cover_rate'] * 100:.1f}%`)"
         )
         lines.append(
-            "- Legacy full-roster dominate count: "
+            "- Full-roster dominate count: "
             f"`{metrics['dominate_count']}/{metrics['total_pairs']}` "
             f"(`{metrics['dominate_rate'] * 100:.1f}%`)"
         )
         lines.append(
-            "- Legacy full-roster overwhelming count: "
+            "- Full-roster overwhelming count: "
             f"`{metrics['overwhelming_count']}/{metrics['total_pairs']}` "
             f"(`{metrics['overwhelming_rate'] * 100:.1f}%`)"
         )
@@ -151,10 +151,9 @@ class MarkdownExporter(AnalysisExporter):
             back_pair = ", ".join(member["label"] for member in lineup["back_pair"])
             summary = lineup["score_summary"]
             points = lineup.get("battle_frontier_points_used", "")
-            resource_summary = "; ".join(
-                f"{path['name']} lead/back {path['lead_shield']}/{path['back_shield']} "
-                f"mean {path['mean_best_score']:.2f} dom {path['dominating_matchups']} "
-                f"overwhelm {path['overwhelming_matchups']}"
+            resource_summary = " | ".join(
+                f"{self._resource_path_label(path['name'])} mean {path['mean_best_score']:.2f} / "
+                f"dom {path['dominating_matchups']} overwhelm {path['overwhelming_matchups']}"
                 for path in lineup["resource_paths"]
             )
             lines.append(
@@ -164,6 +163,12 @@ class MarkdownExporter(AnalysisExporter):
                 f"{summary['overwhelming_matchups']} | {points} | "
                 f"{self._escape(resource_summary)} |"
             )
+
+    def _resource_path_label(self, name: str) -> str:
+        return {
+            "shield_spend": "spend",
+            "shield_save": "save",
+        }.get(name, name)
 
     def _append_bench_utility(self, lines: list[str], result: dict[str, Any]) -> None:
         utility = result["recommended_team"].get("bench_utility", [])

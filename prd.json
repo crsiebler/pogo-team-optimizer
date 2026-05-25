@@ -352,6 +352,279 @@
       "priority": 19,
       "passes": true,
       "notes": "Recommended agent: refactoring-specialist. Verification and cleanup only; do not add feature scope here. Capture any remaining output compatibility decisions as separate follow-up work."
+    },
+    {
+      "id": "US-020",
+      "title": "Remove Crucible meta support",
+      "description": "As a maintainer, I want Crucible-specific meta configuration and fixtures removed so the optimizer focuses on current supported GBL metas.",
+      "acceptanceCriteria": [
+        "crucible is removed from data/metas.json",
+        "crucible is removed from CLI-supported meta choices",
+        "CLI rejects --meta crucible with an actionable error",
+        "Crucible-specific docs, tests, and examples are removed or archived as historical data only",
+        "Tests that assumed Crucible availability are updated",
+        "Focused tests pass",
+        "Typecheck passes"
+      ],
+      "priority": 20,
+      "passes": true,
+      "notes": "Recommended agent: refactoring-specialist. Cleanup/config story only; do not preserve legacy Crucible behavior because the meta is outdated and no longer played."
+    },
+    {
+      "id": "US-021",
+      "title": "Add generic PvPoke ranking category models and repository",
+      "description": "As the optimizer, I need a generic ranking repository that loads PvPoke category rankings for overall, leads, switches, closers, attackers, chargers, and consistency so scoring can use role-specific category strength instead of only switch scores.",
+      "acceptanceCriteria": [
+        "Add a typed ranking category model for all supported PvPoke categories",
+        "Add immutable ranking row and profile structures for raw and normalized category scores",
+        "Add or replace repository interfaces so category ranking access is generic rather than switch-only",
+        "CSV repository loads PvPoke Pokemon,Score rows for all configured categories",
+        "Repository normalizes species names using existing normalization helpers",
+        "Missing species or category scores are handled by application-level policy, not infrastructure defaults",
+        "Existing switch-ranking behavior remains covered by compatibility tests or explicit migration tests",
+        "Focused tests pass",
+        "Typecheck passes"
+      ],
+      "priority": 21,
+      "passes": true,
+      "notes": "Recommended agent: python-pro. Likely files: domain/interfaces.py, domain/models.py, new infrastructure/repositories/csv_rankings_repository.py, compatibility tests for existing switch ranking behavior."
+    },
+    {
+      "id": "US-022",
+      "title": "Extend meta config with ranking paths for active metas",
+      "description": "As a maintainer, I want active metas to declare all available PvPoke category ranking CSV paths so ranking-aware optimization is configured explicitly and validated before execution.",
+      "acceptanceCriteria": [
+        "MetaConfig supports a typed ranking_paths mapping by category",
+        "Active metas declare available ranking paths for overall, leads, switches, closers, attackers, chargers, and consistency",
+        "Full-meta ranking paths can be associated with active metas for broad coverage pools",
+        "Config loading rejects unsupported ranking category keys",
+        "Missing configured ranking files are detected before repository construction",
+        "Legacy switch_rankings_path behavior is migrated or explicitly deprecated",
+        "CLI remains validation and wiring only",
+        "Focused tests pass",
+        "Typecheck passes"
+      ],
+      "priority": 22,
+      "passes": true,
+      "notes": "Recommended agent: refactoring-specialist. Likely files: data/metas.json, application/meta_config.py, cli/main.py, meta config tests, CLI tests."
+    },
+    {
+      "id": "US-023",
+      "title": "Build top-threat and full-meta scoring pools",
+      "description": "As the optimizer, I need explicit threat pools built from active-meta and full-meta ranking inputs so roster scoring can evaluate both practical top threats and broad meta robustness.",
+      "acceptanceCriteria": [
+        "Add an application-level pool builder that consumes ranking profiles and matrix labels",
+        "Builder produces an active-meta pool, a full-meta pool, and a weighted top-threat pool",
+        "Top-threat pool is derived primarily from configured overall rankings and matrix-aligned labels",
+        "Pool builder aligns ranking species to matrix row and column labels using existing normalization",
+        "Duplicate forms and base species are handled deterministically according to optimizer uniqueness rules",
+        "Missing ranking entries use deterministic fallback behavior and do not crash analysis",
+        "Tests cover label alignment, missing species, duplicate normalized names, and deterministic ordering",
+        "Focused tests pass",
+        "Typecheck passes"
+      ],
+      "priority": 23,
+      "passes": false,
+      "notes": "Recommended agent: python-pro. Likely files: new application/ranking_pools.py, application/use_case.py, application/normalization.py, ranking pool tests."
+    },
+    {
+      "id": "US-024",
+      "title": "Add weighted score structures for ranking-aware optimization",
+      "description": "As a contributor, I want ranking-derived score components represented by explicit structures so optimizer weighting is readable, testable, and explainable.",
+      "acceptanceCriteria": [
+        "Add immutable score structures for weighted components and score breakdowns",
+        "Add role-fit, threat-coverage, synergy, safety, consistency, bulk, defensive ratio, offensive ratio, and roster score structures",
+        "Score objects expose final numeric score and component diagnostics",
+        "Weight values are centralized as named constants or config dataclasses",
+        "Existing tuple score consumers are migrated safely or preserved until a dedicated migration story updates them",
+        "Infrastructure repository details do not leak into application scoring structures",
+        "Tests cover weighted sum calculation, missing component handling, and deterministic component ordering",
+        "Focused tests pass",
+        "Typecheck passes"
+      ],
+      "priority": 24,
+      "passes": false,
+      "notes": "Recommended agent: refactoring-specialist. Likely files: new application/scoring.py, application/lineups.py, application/optimizer.py, scoring tests. Keep scoring explainable and non-lexicographic."
+    },
+    {
+      "id": "US-025",
+      "title": "Normalize PvPoke category scores",
+      "description": "As the optimizer, I need PvPoke category scores normalized consistently so overall, leads, switches, closers, attackers, chargers, and consistency values can be combined without scale accidents.",
+      "acceptanceCriteria": [
+        "Add a normalization policy for PvPoke category scores",
+        "Policy handles PvPoke scores on the 0 to 100 scale",
+        "Policy handles degenerate categories where all scores are equal",
+        "Policy handles missing species or category values through explicit defaults",
+        "Raw scores remain available for diagnostics",
+        "Normalized score range and fallback behavior are documented",
+        "Tests cover high and low values, equal-value categories, missing scores, malformed rows, and deterministic output",
+        "Focused tests pass",
+        "Typecheck passes"
+      ],
+      "priority": 25,
+      "passes": false,
+      "notes": "Recommended agent: python-pro. Prefer score-based normalization over raw rank because PvPoke rank gaps are not uniform."
+    },
+    {
+      "id": "US-026",
+      "title": "Score ordered lineups with role fit",
+      "description": "As a competitive player, I want recommended lineups to account for PvPoke role fit so leads are evaluated as leads and backline Pokemon are evaluated by switch, closer, attacker, charger, and consistency utility.",
+      "acceptanceCriteria": [
+        "Ordered lineup scoring includes role-fit components in addition to matrix resource-path scores",
+        "Lead role fit uses the leads ranking category",
+        "Back pair role fit uses a deterministic blend of switches and closers",
+        "Secondary role modifiers can use attackers, chargers, and consistency",
+        "Role-fit scoring does not reorder an unordered back pair unless a future fully ordered switch/closer model is implemented",
+        "Role-fit weights are explicit and test-covered",
+        "Existing resource-path matchup scoring remains intact",
+        "Tests prove role fit can change ranking between otherwise similar lineups",
+        "Focused tests pass",
+        "Typecheck passes"
+      ],
+      "priority": 26,
+      "passes": false,
+      "notes": "Recommended agent: python-pro. Role is a lower-priority weighted component and must not dominate synergy, coverage, safety, consistency, or bulk."
+    },
+    {
+      "id": "US-027",
+      "title": "Implement synergy and ABC ABB ABA scoring",
+      "description": "As a competitive player, I want ABC, ABB, and ABA lineup strategy to contribute to weighted synergy scoring so recommended teams reflect real GBL alignment decisions.",
+      "acceptanceCriteria": [
+        "ABC, ABB, and ABA shape labels remain explainable diagnostics and also feed tested synergy components",
+        "ABC lineups are rewarded for complementary strengths and low shared weakness exposure",
+        "Valid ABB lineups are rewarded when the singleton covers the pair shared weakness or the pair covers the singleton weakness",
+        "Unsafe ABA shared weakness is penalized when the shared weakness can appear in the lead and the B Pokemon is the only reliable answer",
+        "ABA shared strength is rewarded when it creates redundant answers to important top threats",
+        "Tests cover ABC, intentional ABB, unsafe ABA shared weakness, and beneficial ABA shared strength",
+        "Focused tests pass",
+        "Typecheck passes"
+      ],
+      "priority": 27,
+      "passes": false,
+      "notes": "Recommended agent: refactoring-specialist. This is the highest-priority strategic score component; avoid making labels the only scoring basis."
+    },
+    {
+      "id": "US-028",
+      "title": "Add weighted coverage safety consistency bulk and type ratio components",
+      "description": "As a trainer, I want lineup and roster scoring to incorporate practical coverage, safety, consistency, bulk, defensive ratios, and offensive ratios so recommendations maximize all aspects of GBL play.",
+      "acceptanceCriteria": [
+        "Coverage scoring separates top-threat coverage from full-meta coverage",
+        "Top-threat misses carry higher weight than long-tail full-meta misses",
+        "Safety scoring accounts for overwhelming losses, no-answer threats, single-answer threats, safe-swap quality, and shield-path fragility",
+        "Consistency scoring uses PvPoke consistency ranking and proxies for bait dependence, move DPE, and shield stability where available",
+        "Bulk uses stat product or defense times hp divided by attack fallback and remains normalized to the candidate pool",
+        "Defensive ratios use data/type-effectiveness.json, dual-type multiplication, and meta-weighted shared weakness exposure",
+        "Offensive ratios use selected move types, type effectiveness, and top-threat/full-meta resistance pressure",
+        "Tests cover each component and weighted tradeoffs between components",
+        "Focused tests pass",
+        "Typecheck passes"
+      ],
+      "priority": 28,
+      "passes": false,
+      "notes": "Recommended agent: python-pro. Keep type/move calculations in application services and use data/type-effectiveness.json as source of truth."
+    },
+    {
+      "id": "US-029",
+      "title": "Preserve deterministic performance with ranking-aware scores",
+      "description": "As a user, I want ranking-aware optimization to remain deterministic and performant when caching and multiprocessing are enabled.",
+      "acceptanceCriteria": [
+        "Team score cache keys include all deterministic ranking-aware scoring inputs",
+        "Lineup score cache keys account for role-fit or ranking profile identity",
+        "Cached scores do not depend on mutable repository instances",
+        "Multiprocessing payloads contain picklable dataclasses or plain data only",
+        "workers=1 continues to use the existing single-process path",
+        "workers greater than 1 produces deterministic results for fixed seed, worker count, and input files",
+        "Parent process selects the best solution using the same weighted comparison result",
+        "Tests cover deterministic results for workers 1 and 2",
+        "Focused tests pass",
+        "Typecheck passes"
+      ],
+      "priority": 29,
+      "passes": false,
+      "notes": "Recommended agent: python-pro. Preserve process-based restart batching and avoid mutable repository objects in worker payloads."
+    },
+    {
+      "id": "US-030",
+      "title": "Add explainable ranking-aware output",
+      "description": "As a trainer, I want reports to explain why a bring-6 roster and its lineups were selected so I can understand tradeoffs and improve play.",
+      "acceptanceCriteria": [
+        "Result payload includes weighted component scores for the recommended roster",
+        "Result payload includes weighted component scores for recommended lineups",
+        "Output identifies key covered threats, remaining threats, no-answer threats, single-answer threats, shared weaknesses, and role assumptions",
+        "Output identifies when a roster is too dependent on one lineup",
+        "JSON includes structured ranking-aware diagnostics when available",
+        "Text and Markdown summarize only high-value ranking-aware diagnostics without reintroducing noisy legacy sections",
+        "CSV and Excel preserve stable schemas or update tests and docs intentionally",
+        "Exporters do not compute scores",
+        "Focused tests pass",
+        "Typecheck passes"
+      ],
+      "priority": 30,
+      "passes": false,
+      "notes": "Recommended agent: python-pro. Keep normal human-readable output focused; diagnostics should explain trainer-relevant tradeoffs without resurrecting Safe Cores or Coverage sections."
+    },
+    {
+      "id": "US-031",
+      "title": "Add deterministic regression fixtures for weighted GBL scoring",
+      "description": "As a maintainer, I want small deterministic fixtures for rankings, typing, moves, matrices, and meta pools so future scoring changes do not silently regress strategic quality.",
+      "acceptanceCriteria": [
+        "Add minimal ranking CSV fixtures for all PvPoke categories",
+        "Fixtures include overlapping species, missing species, duplicate normalized species, tied scores, and category gaps",
+        "Tests do not rely on large production ranking CSVs unless explicitly marked integration",
+        "Tests cover active-meta ranking profile loading and full-meta/top-threat pool construction",
+        "Tests cover weighted score ordering and multiple-lineup roster preference",
+        "Tests cover Crucible removal behavior",
+        "Optimizer tests use explicit seeds",
+        "Focused tests pass",
+        "Typecheck passes"
+      ],
+      "priority": 31,
+      "passes": false,
+      "notes": "Recommended agent: python-pro. Add deterministic fixtures before broad scoring rewrites so changes are testable and reviewable."
+    },
+    {
+      "id": "US-032",
+      "title": "Document ranking-aware optimization architecture",
+      "description": "As a contributor and future agent, I want documentation explaining category ranking inputs, meta config paths, pool construction, weighted score outputs, explainability metrics, validation, and architecture boundaries.",
+      "acceptanceCriteria": [
+        "README documents category ranking CSV inputs and current active meta behavior",
+        "README documents that Crucible is no longer supported",
+        "docs/pokemon-go-team-optimization.md and docs/team-optimization subdocs are updated to match implemented ranking-aware behavior",
+        ".opencode/skills/gbl-optimizer/SKILL.md is updated with any new implementation obligations",
+        "AGENTS.md records that repositories load rankings, application builds pools and scores, CLI wires dependencies only, and exporters render diagnostics only",
+        "Documentation explains deterministic testing expectations and multiprocessing/caching implications",
+        "Documentation distinguishes optimizer objectives from explainability-only diagnostics",
+        "Typecheck passes"
+      ],
+      "priority": 32,
+      "passes": false,
+      "notes": "Recommended agent: documentation-engineer. Documentation should stay aligned with scoring behavior and avoid reintroducing deprecated full-roster Coverage, Safe Cores, or Resource / Shield Safety sections."
+    },
+    {
+      "id": "US-033",
+      "title": "Add local PvPoke CSV data sync",
+      "description": "As a maintainer, I want a Makefile-backed sync workflow that reads from the local vendor/pvpoke source tree and reproduces the PvPoke rankings page CSV export so pokemon.json, moves.json, and flat ranking CSV files stay current without changing the optimizer to read ranking JSON.",
+      "acceptanceCriteria": [
+        "https://github.com/crsiebler/pvpoke is available as a git submodule at vendor/pvpoke",
+        "Makefile exposes a sync target, such as make sync, that runs the local data synchronization workflow",
+        "Sync reads gamemaster inputs from vendor/pvpoke/src/data/gamemaster/pokemon.json and vendor/pvpoke/src/data/gamemaster/moves.json",
+        "Sync uses PvPoke ranking source data only as an intermediate source and does not make ranking JSON a runtime optimizer input",
+        "Sync reproduces the PvPoke rankings page Export to CSV format from vendor/pvpoke/src/js/interface/RankingInterface.js, including the full header: Pokemon,Score,Dex,Type 1,Type 2,Attack,Defense,Stamina,Stat Product,Level,CP,Fast Move,Charged Move 1,Charged Move 2,Charged Move 1 Count,Charged Move 2 Count,Buddy Distance,Charged Move Cost",
+        "Sync writes deterministic outputs to this repository's data/pokemon.json, data/moves.json, and flat ranking CSV files under data/rankings/",
+        "Sync preserves the existing flat ranking filename convention: data/rankings/cp{cp}_{cup}_{category}_rankings.csv",
+        "Sync supports categories: overall, leads, switches, closers, attackers, chargers, and consistency",
+        "Sync maps PvPoke cup/category/league paths to the data/metas.json ranking paths introduced by ranking-aware meta configuration without requiring nested ranking directories",
+        "Sync validates generated rankings page-compatible CSVs before replacing existing files",
+        "Sync can skip missing optional ranking files with a clear warning while failing on missing required gamemaster files",
+        "Sync does not generate or overwrite simulation matrix CSVs; meta matrices remain manually supplied",
+        "README documents submodule setup, git submodule update --init --recursive, and the Makefile sync command",
+        "Tests cover path mapping, rankings page-compatible CSV generation, missing optional rankings, required gamemaster failures, flat filename preservation, and the no-simulation-sync guarantee",
+        "Focused tests pass",
+        "Typecheck passes"
+      ],
+      "priority": 33,
+      "passes": false,
+      "notes": "Recommended agent: refactoring-specialist. Use pogo-team-generator lib/sync as reference for local source resolution and gamemaster copying, but preserve this repository's CSV ranking contract. Replicate PvPoke rankings page CSV export fields and flat data/rankings/cp{cp}_{cup}_{category}_rankings.csv outputs. Do not refactor the optimizer to consume ranking JSON. Exclude simulation generation for this repository. Wire through Makefile and keep file I/O in scripts/infrastructure, not optimizer scoring."
     }
   ]
 }

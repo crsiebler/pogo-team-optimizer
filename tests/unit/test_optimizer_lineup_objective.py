@@ -25,6 +25,51 @@ def _optimizer_with_bulk(rows: list[list[int]], bulk_by_row: list[float]) -> Tea
     )
 
 
+def _type_optimizer(
+    pokemon_types_by_row: list[tuple[str, ...]],
+    move_types_by_row: list[tuple[str, ...]],
+) -> TeamOptimizer:
+    rows = [[720, 720, 720, 720]] * len(pokemon_types_by_row)
+    type_effectiveness = {
+        "fighting": {
+            "normal": 1.6,
+            "dark": 1.6,
+            "ice": 1.6,
+            "poison": 0.625,
+            "fairy": 0.625,
+            "ghost": 0.39,
+            "flying": 0.625,
+            "psychic": 0.625,
+        },
+        "fairy": {
+            "fighting": 1.6,
+            "dark": 1.6,
+            "dragon": 1.6,
+            "fire": 0.625,
+            "poison": 0.625,
+            "steel": 0.625,
+        },
+        "flying": {
+            "fighting": 1.6,
+            "grass": 1.6,
+            "bug": 1.6,
+            "electric": 0.625,
+            "rock": 0.625,
+            "steel": 0.625,
+        },
+    }
+    return TeamOptimizer(
+        row_labels=[f"Mon {index}" for index in range(len(rows))],
+        col_labels=["Opp 0", "Opp 1", "Opp 2", "Opp 3"],
+        matrices=[rows, rows, rows],
+        bulk_by_row=[220.0] * len(rows),
+        pokemon_types_by_row=pokemon_types_by_row,
+        move_types_by_row=move_types_by_row,
+        type_effectiveness=type_effectiveness,
+        seed=7,
+    )
+
+
 def _comparison_key(optimizer: TeamOptimizer, team: list[int]) -> tuple[float, ...]:
     return optimizer._comparison_key(
         team,
@@ -156,6 +201,58 @@ def test_above_floor_teams_continue_to_compare_by_lineup_objective() -> None:
     assert _comparison_key(optimizer, stronger_lineup_team) > _comparison_key(
         optimizer, weaker_lineup_team
     )
+
+
+def test_comparison_penalizes_shared_defensive_type_weakness() -> None:
+    optimizer = _type_optimizer(
+        pokemon_types_by_row=[
+            ("dark",),
+            ("ice",),
+            ("ice", "water"),
+            ("water", "ice"),
+            ("fire",),
+            ("grass",),
+            ("poison",),
+            ("fairy",),
+            ("ghost",),
+            ("flying",),
+            ("fire",),
+            ("grass",),
+        ],
+        move_types_by_row=[("fighting",)] * 12,
+    )
+    fighting_weak_team = [0, 1, 2, 3, 4, 5]
+    balanced_defense_team = [6, 7, 8, 9, 10, 11]
+
+    assert optimizer._score_team(fighting_weak_team)[17] < optimizer._score_team(
+        balanced_defense_team
+    )[17]
+
+
+def test_comparison_rewards_offensive_move_type_diversity() -> None:
+    optimizer = _type_optimizer(
+        pokemon_types_by_row=[("fire",)] * 12,
+        move_types_by_row=[
+            ("fighting",),
+            ("fighting",),
+            ("fighting",),
+            ("fighting",),
+            ("fighting",),
+            ("fighting",),
+            ("fighting",),
+            ("fairy",),
+            ("flying",),
+            ("fighting",),
+            ("fairy",),
+            ("flying",),
+        ],
+    )
+    narrow_moves_team = [0, 1, 2, 3, 4, 5]
+    diverse_moves_team = [6, 7, 8, 9, 10, 11]
+
+    assert optimizer._score_team(diverse_moves_team)[18] > optimizer._score_team(
+        narrow_moves_team
+    )[18]
 
 
 def test_team_score_cache_reuses_canonical_team_identity() -> None:

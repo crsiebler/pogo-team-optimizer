@@ -3,6 +3,8 @@ from __future__ import annotations
 from abc import ABC, abstractmethod
 from typing import Any
 
+from pogo_team_optimizer.domain.models import RankingProfile
+
 
 class SimulationMatrixRepository(ABC):
     @abstractmethod
@@ -20,10 +22,28 @@ class PokemonRepository(ABC):
         """Return (atk, def, hp) for a species when available."""
 
 
+class MoveRepository(ABC):
+    @abstractmethod
+    def get_move_type(self, move_token: str) -> str | None:
+        """Return move type by abbreviation or move id when available."""
+
+
+class TypeEffectivenessRepository(ABC):
+    @abstractmethod
+    def load(self) -> dict[str, dict[str, float]]:
+        """Return attack type to defender type effectiveness multipliers."""
+
+
 class SwitchRankingsRepository(ABC):
     @abstractmethod
     def get_switch_score(self, species_name: str) -> float | None:
         """Return PvPoke switch score for a species when available."""
+
+
+class RankingsRepository(ABC):
+    @abstractmethod
+    def load(self) -> RankingProfile:
+        """Return PvPoke ranking scores grouped by category."""
 
 
 class BattleFrontierPointsRepository(ABC):

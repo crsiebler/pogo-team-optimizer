@@ -16,10 +16,12 @@
 - Normal `AnalyzeMetaUseCase` execution keeps `recommended_team.bench_utility` as an empty list unless actionable Battle Frontier warnings are needed; preserve the key for exporter compatibility instead of emitting all-core rows.
 - CLI/report lineup count control is `--top-lineups` with a maximum of `10`; `AnalyzeMetaUseCase.execute(top_lineups=...)` limits `recommended_lineups`, and normal execution should not compute safe-core rankings.
 - README CLI/performance docs should keep `--top-lineups`, `WORKERS`, `DIAGNOSTICS`, process-based restart batching, and simplified human-readable output semantics together so user-facing controls stay aligned with Makefile and CLI behavior.
-- Register meta-specific auxiliary inputs in `data/metas.json` using `switch_rankings_path` and `required_files`, then validate those paths in the CLI before constructing repositories.
+- Register meta-specific auxiliary inputs in `data/metas.json` using typed ranking path mappings and `required_files`, then validate those paths in the CLI before constructing repositories.
 - Keep meta config changes in `application/meta_config.py`; the CLI should only consume `MetaConfig` and enforce startup validation.
 - Battle Frontier point data lives in `data/battle_frontier/` as `species,points` CSVs keyed by `parse_species()` names, and the repository should default missing species to `0`.
-- Resolve switch rankings in the CLI as explicit `--switch-rankings-path` override, then per-meta `switch_rankings_path`, then the legacy Great League default path.
+- Resolve switch rankings in the CLI as explicit `--switch-rankings-path` override, then per-meta `ranking_paths.switches`, then the legacy Great League default path.
+- Meta-specific PvPoke ranking inputs live in `data/metas.json` as typed `ranking_paths` plus optional `full_meta_ranking_paths` keyed by `RankingCategory`; keep `switch_rankings_path` as a compatibility shim only.
+- The CLI validates every configured category ranking path before constructing repositories; explicit `--switch-rankings-path` remains the highest-priority switch-only override.
 - Battle Frontier legality belongs in `TeamOptimizer`; pass per-row point costs from the use case so `_random_team()` and swap-based local search both share the same legality gate.
 - Battle Frontier output metrics belong in `recommended_team.metrics`; keep them optional and have human-readable exporters render a conditional legality section so non-`bfmaster` metas do not need placeholder fields.
 - For real-data integration coverage, instantiate the concrete CSV repositories directly in tests so `bfmaster` assertions exercise the checked-in matrices, switch rankings, and Battle Frontier points files together.
@@ -786,4 +788,41 @@
   - The main worktree still contains unstaged changes in `Makefile`, generated `data/output/*`, simulation CSVs and backups, `src/pogo_team_optimizer/application/analyzers.py`, `src/pogo_team_optimizer/application/lineups.py`, `src/pogo_team_optimizer/application/use_case.py`, `src/pogo_team_optimizer/cli/main.py`, `src/pogo_team_optimizer/infrastructure/exporters/excel_exporter.py`, `archive/`, `data/output-diagnostics-check/`, and `tasks/prd-bring-6-pick-3-lineup-optimization.md`; these were excluded from the story commit and from isolated final verification.
 - Next iteration start:
   - All PRD stories currently pass.
+---
+
+## 2026-05-25 16:26:53 MST - US-022
+- What was implemented
+  - Added typed `ranking_paths` and `full_meta_ranking_paths` support to `MetaConfig` using `RankingCategory` keys, including validation for unsupported categories and non-string path values.
+  - Migrated active meta configurations to declare PvPoke category rankings for overall, leads, switches, closers, attackers, chargers, and consistency, plus full-meta ranking pools where available.
+  - Added CLI fail-fast validation for all configured ranking paths before repository construction while preserving explicit `--switch-rankings-path` override behavior and the legacy switch-only compatibility shim.
+  - Added focused meta-config and CLI tests for typed ranking mappings, legacy switch migration, unsupported category rejection, missing ranking path validation, and default config path existence.
+- Files changed: `AGENTS.md`, `data/metas.json`, `data/rankings/*_attackers_rankings.csv`, `data/rankings/*_chargers_rankings.csv`, `data/rankings/*_consistency_rankings.csv`, `prd.json`, `progress.txt`, `src/pogo_team_optimizer/application/meta_config.py`, `src/pogo_team_optimizer/cli/main.py`, `tests/unit/test_meta_config.py`, `tests/unit/test_cli_main.py`
+- Commit message: `feat: US-022 - Extend meta config with ranking paths for active metas`
+- Checks:
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m pytest tests/unit/test_meta_config.py tests/unit/test_cli_main.py -q` (pass)
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m pytest tests/unit/test_meta_config.py tests/unit/test_cli_main.py tests/unit/test_optimizer_lineup_objective.py tests/unit/test_battle_frontier_exporters.py -q` (pass)
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m pytest tests/unit/test_lineups.py tests/unit/test_use_case_lineups.py tests/unit/test_core_ordering.py -q` (pass)
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m mypy src` (pass)
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m ruff check src tests` (pass)
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m pytest` (pass, 142 tests)
+- Implementation agents:
+  - Recommended: `refactoring-specialist`
+  - Used: `refactoring-specialist`
+- Specialist review:
+  - Agents used: `code-reviewer`, `qa-expert`, `security-engineer`, `security-auditor`, `documentation-engineer`
+  - Findings: fixed before commit; completed ranking path declarations for `majestic` and `euic`, made explicit switch overrides replace configured switch paths during validation, removed type-ratio metrics from optimizer comparison behavior for this story, fixed the human-readable `overwhelm` typo, restored `zip(..., strict=True)` fail-fast behavior in scoring/assembly paths, and corrected stale AGENTS CLI output guidance in both command and repository notes. Security reviewers found no actionable findings.
+- Decisions (why):
+  - Chose `RankingCategory`-keyed mappings in `MetaConfig` so unsupported category keys fail during config loading instead of later in infrastructure or scoring code.
+  - Chose a dedicated `full_meta_ranking_paths` field instead of overloading cup-specific `ranking_paths` so later pool-building code can distinguish active-cup rankings from broad meta coverage inputs.
+  - Kept `switch_rankings_path` as a compatibility shim because existing CLI wiring and switch-only repository behavior still depend on a resolved switch rankings file.
+  - Chose CLI validation for configured ranking file existence because the CLI already validates meta data dependencies before constructing repositories.
+  - Chose to keep newly exposed defensive/offensive type metrics diagnostic-only in this staged state because US-022 must not change optimizer ranking behavior.
+- **Learnings for future iterations:**
+  - Ranking-aware stories should read category path configuration from `MetaConfig.ranking_paths` and `MetaConfig.full_meta_ranking_paths`; do not parse raw `data/metas.json` in scoring code.
+  - Gotcha encountered: category ranking CSV files for attackers, chargers, and consistency must be present before adding them to `data/metas.json`, otherwise startup validation intentionally fails before repository construction.
+- Known issues / follow-ups:
+  - Ranking pool construction and ranking-aware scoring remain pending for later stories.
+  - Pre-existing unrelated worktree changes remain outside this story and should not be staged.
+- Next iteration start:
+  - Implement `US-023` by building active-meta, full-meta, and weighted top-threat pools from configured ranking profiles and matrix labels.
 ---

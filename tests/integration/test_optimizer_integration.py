@@ -8,9 +8,9 @@ from pogo_team_optimizer.infrastructure.repositories.csv_matrix_repository impor
 def test_optimizer_returns_legal_team() -> None:
     repo = CsvSimulationMatrixRepository(
         [
-            "data/simulations/crucible_0-shield.csv",
-            "data/simulations/crucible_1-shield.csv",
-            "data/simulations/crucible_2-shield.csv",
+            "data/simulations/great_0-shield.csv",
+            "data/simulations/great_1-shield.csv",
+            "data/simulations/great_2-shield.csv",
         ]
     )
     row_labels, col_labels, matrices = repo.load()

@@ -19,9 +19,9 @@ def test_use_case_returns_required_sections() -> None:
     use_case = AnalyzeMetaUseCase(
         simulation_repository=CsvSimulationMatrixRepository(
             [
-                "data/simulations/crucible_0-shield.csv",
-                "data/simulations/crucible_1-shield.csv",
-                "data/simulations/crucible_2-shield.csv",
+                "data/simulations/great_0-shield.csv",
+                "data/simulations/great_1-shield.csv",
+                "data/simulations/great_2-shield.csv",
             ]
         ),
         pokemon_repository=PokemonJsonRepository("data/pokemon.json"),

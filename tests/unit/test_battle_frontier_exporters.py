@@ -197,16 +197,19 @@ def test_text_exporter_renders_lineup_aware_sections() -> None:
     assert "Recommended Lineups" in rendered
     assert "Warnings" in rendered
     assert "#1: Lead Mewtwo | Back Gengar (Mega), Dialga | shape ABC | score 621.50" in rendered
-    assert "lineup dominating: 4 where score > 600" in rendered
-    assert "lineup overwhelming: 1 where score < 400" in rendered
-    assert "resources: balanced lead/back 1/1 mean 630.00 dom 2 overwhelm 0" in rendered
-    assert "shield_spend lead/back 2/0 mean 610.00 dom 1 overwhelm 1" in rendered
+    assert "lineup dominating: 4" in rendered
+    assert "lineup overwhelming: 1" in rendered
+    assert "lineup dominating: 4 where score > 600" not in rendered
+    assert "lineup overwhelming: 1 where score < 400" not in rendered
+    assert "resources: balanced mean 630.00 / dom 2 overwhelm 0" in rendered
+    assert "| spend mean 610.00 / dom 1 overwhelm 1" in rendered
     assert "expensive_bench [warning]: Expensive Pokemon appears in few viable lineups." in rendered
     assert "Resource / Shield Safety" not in rendered
     assert "\nCoverage\n" not in rendered
     assert "\nSafe Cores\n" not in rendered
     assert "Bench Utility" not in rendered
-    assert "legacy full-roster dominate count" in rendered
+    assert "full-roster dominate count" in rendered
+    assert "legacy full-roster dominate count" not in rendered
     assert "where score > 650" not in rendered
     assert "where score < 350" not in rendered
 
@@ -248,8 +251,8 @@ def test_markdown_exporter_renders_lineup_aware_sections() -> None:
     assert "## Recommended Bring-6 Roster" in rendered
     assert "## Recommended Lineups" in rendered
     assert "## Warnings" in rendered
-    assert "balanced lead/back 1/1 mean 630.00 dom 2 overwhelm 0" in rendered
-    assert "shield_spend lead/back 2/0 mean 610.00 dom 1 overwhelm 1" in rendered
+    assert "balanced mean 630.00 / dom 2 overwhelm 0" in rendered
+    assert "| spend mean 610.00 / dom 1 overwhelm 1" in rendered
     assert "Lineup dominating uses `score > 600`; lineup overwhelming uses `score < 400`." in rendered
     assert (
         "| Gengar (Mega) | battle_frontier | expensive_bench | warning | "
@@ -259,7 +262,8 @@ def test_markdown_exporter_renders_lineup_aware_sections() -> None:
     assert "## Coverage" not in rendered
     assert "## Safe Cores" not in rendered
     assert "## Bench Utility" not in rendered
-    assert "Legacy full-roster dominate count" in rendered
+    assert "Full-roster dominate count" in rendered
+    assert "Legacy full-roster dominate count" not in rendered
     assert "score > 650" not in rendered
     assert "score < 350" not in rendered
 

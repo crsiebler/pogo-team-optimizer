@@ -10,6 +10,34 @@ class ShieldScenario(int, Enum):
     TWO = 2
 
 
+class RankingCategory(str, Enum):
+    OVERALL = "overall"
+    LEADS = "leads"
+    SWITCHES = "switches"
+    CLOSERS = "closers"
+    ATTACKERS = "attackers"
+    CHARGERS = "chargers"
+    CONSISTENCY = "consistency"
+
+
+@dataclass(frozen=True)
+class RankingRow:
+    species: str
+    score: float
+    normalized_score: float | None = None
+
+
+@dataclass(frozen=True)
+class RankingProfile:
+    scores_by_category: dict[RankingCategory, dict[str, RankingRow]]
+
+    def get_score(self, category: RankingCategory, species_name: str) -> float | None:
+        row = self.scores_by_category.get(category, {}).get(species_name)
+        if row is None:
+            return None
+        return row.score
+
+
 @dataclass(frozen=True)
 class TeamMember:
     index: int

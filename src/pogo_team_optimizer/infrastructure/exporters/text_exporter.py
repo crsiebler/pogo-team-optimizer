@@ -58,11 +58,11 @@ class TextExporter(AnalysisExporter):
             f"({metrics['no_cover_rate'] * 100:.1f}%)"
         )
         lines.append(
-            f"- legacy full-roster dominate count: {metrics['dominate_count']}/"
+            f"- full-roster dominate count: {metrics['dominate_count']}/"
             f"{metrics['total_pairs']} ({metrics['dominate_rate'] * 100:.1f}%)"
         )
         lines.append(
-            f"- legacy full-roster overwhelming count: {metrics['overwhelming_count']}/"
+            f"- full-roster overwhelming count: {metrics['overwhelming_count']}/"
             f"{metrics['total_pairs']} ({metrics['overwhelming_rate'] * 100:.1f}%)"
         )
         if "battle_frontier_points_used" in metrics:
@@ -140,19 +140,20 @@ class TextExporter(AnalysisExporter):
                 f"shape {lineup.get('team_shape', 'unclassified')} | "
                 f"score {lineup['lineup_score']:.2f}{points_text}"
             )
-            lines.append(
-                f"  - lineup dominating: {summary['dominating_matchups']} where score > 600"
-            )
-            lines.append(
-                f"  - lineup overwhelming: {summary['overwhelming_matchups']} where score < 400"
-            )
-            resource_summary = "; ".join(
-                f"{path['name']} lead/back {path['lead_shield']}/{path['back_shield']} "
-                f"mean {path['mean_best_score']:.2f} dom {path['dominating_matchups']} "
-                f"overwhelm {path['overwhelming_matchups']}"
+            lines.append(f"  - lineup dominating: {summary['dominating_matchups']}")
+            lines.append(f"  - lineup overwhelming: {summary['overwhelming_matchups']}")
+            resource_summary = " | ".join(
+                f"{self._resource_path_label(path['name'])} mean {path['mean_best_score']:.2f} / "
+                f"dom {path['dominating_matchups']} overwhelm {path['overwhelming_matchups']}"
                 for path in lineup["resource_paths"]
             )
             lines.append(f"  - resources: {resource_summary}")
+
+    def _resource_path_label(self, name: str) -> str:
+        return {
+            "shield_spend": "spend",
+            "shield_save": "save",
+        }.get(name, name)
 
     def _append_bench_utility(self, lines: list[str], result: dict[str, Any]) -> None:
         utility = result["recommended_team"].get("bench_utility", [])

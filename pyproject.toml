@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "pogo-team-optimizer"
 version = "0.1.0"
-description = "Battle Frontier Crucible team analysis"
+description = "Pokemon GO PvP team analysis"
 requires-python = ">=3.12"
 
 [tool.pytest.ini_options]
