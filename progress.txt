@@ -10,6 +10,8 @@
 - ABC/ABB/ABA lineup shape labels are heuristic diagnostics from `application/lineups.py`; expose them on `recommended_lineups` but never use them for lineup scoring, roster ranking, or tie-breaking.
 - CSV lineup-aware exports keep the stable `section,key,value` schema and use `recommended_lineup`, `recommended_lineup_resource_path`, `bench_utility`, and `bench_utility_warning` sections.
 - Excel lineup-aware exports use dedicated `Lineups`, `Lineup Resources`, `Bench Utility`, and `Bench Warnings` sheets instead of overloading legacy sheets.
+- Human-readable text and Markdown reports should focus normal output on Recommended Bring-6 Roster, Team Analysis, Recommended Lineups, actionable warnings, and Potential Threats; do not reintroduce standalone Coverage, Safe Cores, or Resource / Shield Safety sections.
+- Bench utility diagnostics should render in human-readable reports only when they contain actionable warnings; all-core/non-warning utility rows stay out of normal text and Markdown output.
 - Register meta-specific auxiliary inputs in `data/metas.json` using `switch_rankings_path` and `required_files`, then validate those paths in the CLI before constructing repositories.
 - Keep meta config changes in `application/meta_config.py`; the CLI should only consume `MetaConfig` and enforce startup validation.
 - Battle Frontier point data lives in `data/battle_frontier/` as `species,points` CSVs keyed by `parse_species()` names, and the repository should default missing species to `0`.
@@ -340,8 +342,8 @@
   - Recommended: `python-pro`
   - Used: `python-pro`
 - Specialist review:
-  - Agents used: pending
-  - Findings: pending
+  - Agents used: `code-reviewer`, `qa-expert`, `security-engineer`, `documentation-engineer`
+  - Findings: fixed before commit; restored the legacy full-roster metric qualifier and labeled inline resource summaries as `lead/back` after documentation review noted ambiguity risks.
 - Decisions (why):
   - Chose additive optional `battle_frontier_*` fields so non-Battle-Frontier metas do not emit placeholders and existing output contracts remain compatible.
   - Chose viable-lineup appearance rates as the denominator because the diagnostics should explain playable pick-3 usage, not raw roster composition.
@@ -577,4 +579,35 @@
   - The worktree contains pre-existing unrelated modified output/data and follow-up-story files; only US-013-intended files should be staged for this commit.
 - Next iteration start:
   - Implement `US-014` by simplifying text and Markdown lineup reports in infrastructure exporters only.
+---
+
+## 2026-05-25 02:59:36 MST - US-014
+- What was implemented
+  - Simplified text and Markdown reports by removing standalone Coverage, Safe Cores, and Resource / Shield Safety sections from human-readable output.
+  - Added concise inline resource summaries to Recommended Lineups using the existing structured resource-path diagnostics.
+  - Changed human-readable bench utility rendering to show only actionable warning content and omit all-core/non-warning bench utility rows.
+- Files changed: `AGENTS.md`, `prd.json`, `progress.txt`, `src/pogo_team_optimizer/infrastructure/exporters/text_exporter.py`, `src/pogo_team_optimizer/infrastructure/exporters/markdown_exporter.py`, `tests/unit/test_battle_frontier_exporters.py`
+- Commit message: `feat: US-014 - Simplify human-readable lineup reports`
+- Checks:
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m pytest tests/unit/test_battle_frontier_exporters.py -q` (pass)
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m mypy src` (pass)
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m ruff check src tests` (pass)
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m pytest` (pass)
+- Implementation agents:
+  - Recommended: `python-pro`
+  - Used: `python-pro`
+- Specialist review:
+  - Agents used: pending
+  - Findings: pending
+- Decisions (why):
+  - Chose inline resource summaries under each recommended lineup because users need shield-path context near the lineup recommendation, not as a separate diagnostic section.
+  - Chose warning-only bench output because full bench utility rows are non-actionable when every member is usable and obscure the main recommendation.
+  - Left JSON, CSV, and Excel exporters unchanged because this story is scoped to human-readable report simplification.
+- **Learnings for future iterations:**
+  - Human-readable text and Markdown reports should not reintroduce standalone Coverage, Safe Cores, or Resource / Shield Safety sections in normal output.
+  - Bench utility is still available structurally but should appear in normal human-readable output only when it has actionable warnings.
+- Known issues / follow-ups:
+  - Pre-existing unrelated worktree changes remain outside this story; only US-014-intended files should be staged.
+- Next iteration start:
+  - Implement `US-015` by replacing safe-core count controls with `--top-lineups` CLI wiring and limiting recommended lineups in the use case.
 ---

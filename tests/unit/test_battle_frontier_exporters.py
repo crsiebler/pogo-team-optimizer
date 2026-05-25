@@ -1,4 +1,5 @@
 import json
+from copy import deepcopy
 from csv import reader
 from zipfile import ZipFile
 
@@ -194,25 +195,40 @@ def test_text_exporter_renders_lineup_aware_sections() -> None:
     assert rendered is not None
     assert "Recommended Bring-6 Roster" in rendered
     assert "Recommended Lineups" in rendered
-    assert "Bench Utility" in rendered
-    assert "Resource / Shield Safety" in rendered
     assert "Warnings" in rendered
     assert "#1: Lead Mewtwo | Back Gengar (Mega), Dialga | shape ABC | score 621.50" in rendered
     assert "lineup dominating: 4 where score > 600" in rendered
     assert "lineup overwhelming: 1 where score < 400" in rendered
-    assert "shield_spend: lead 2-shield | backs 0-shield | mean 610.00" in rendered
-    assert "Gengar (Mega): low_utility | used 1 lineups" in rendered
+    assert "resources: balanced lead/back 1/1 mean 630.00 dom 2 overwhelm 0" in rendered
+    assert "shield_spend lead/back 2/0 mean 610.00 dom 1 overwhelm 1" in rendered
     assert "expensive_bench [warning]: Expensive Pokemon appears in few viable lineups." in rendered
+    assert "Resource / Shield Safety" not in rendered
+    assert "\nCoverage\n" not in rendered
+    assert "\nSafe Cores\n" not in rendered
+    assert "Bench Utility" not in rendered
+    assert "legacy full-roster dominate count" in rendered
     assert "where score > 650" not in rendered
     assert "where score < 350" not in rendered
 
 
-def test_text_exporter_renders_ordered_core_roles() -> None:
+def test_text_exporter_keeps_potential_threats_visible() -> None:
     rendered = TextExporter().export(build_result())
 
     assert rendered is not None
-    assert "#1 ABC: Lead Mewtwo | Switch Gengar (Mega) | Closer Dialga" in rendered
-    assert "use standard alignment" not in rendered
+    assert "Potential Threats" in rendered
+    assert "Zygarde | single-coverage: 1 | no-coverage: 0" in rendered
+
+
+def test_text_exporter_omits_bench_utility_when_no_warnings() -> None:
+    result = deepcopy(build_result())
+    for entry in result["recommended_team"]["bench_utility"]:  # type: ignore[index]
+        entry["warnings"] = []
+
+    rendered = TextExporter().export(result)
+
+    assert rendered is not None
+    assert "Bench Utility" not in rendered
+    assert "Warnings" not in rendered
 
 
 def test_markdown_exporter_renders_battle_frontier_legality_metrics() -> None:
@@ -231,24 +247,41 @@ def test_markdown_exporter_renders_lineup_aware_sections() -> None:
     assert rendered is not None
     assert "## Recommended Bring-6 Roster" in rendered
     assert "## Recommended Lineups" in rendered
-    assert "## Bench Utility" in rendered
-    assert "## Resource / Shield Safety" in rendered
     assert "## Warnings" in rendered
-    assert "| 1 | Mewtwo | Gengar (Mega), Dialga | ABC | 621.50 | 4 | 1 | 8 |" in rendered
+    assert "balanced lead/back 1/1 mean 630.00 dom 2 overwhelm 0" in rendered
+    assert "shield_spend lead/back 2/0 mean 610.00 dom 1 overwhelm 1" in rendered
     assert "Lineup dominating uses `score > 600`; lineup overwhelming uses `score < 400`." in rendered
-    assert "| 1 | shield_spend | 2 | 0 | 610.00 | 1 | 1 |" in rendered
-    assert "| Gengar (Mega) | low_utility | 1 | 0 | 1 | 5.0% | 1.7% | 525.00 |" in rendered
-    assert "| Gengar (Mega) | battle_frontier | expensive_bench | warning | Expensive Pokemon appears in few viable lineups. |" in rendered
+    assert (
+        "| Gengar (Mega) | battle_frontier | expensive_bench | warning | "
+        "Expensive Pokemon appears in few viable lineups. |"
+    ) in rendered
+    assert "## Resource / Shield Safety" not in rendered
+    assert "## Coverage" not in rendered
+    assert "## Safe Cores" not in rendered
+    assert "## Bench Utility" not in rendered
+    assert "Legacy full-roster dominate count" in rendered
     assert "score > 650" not in rendered
     assert "score < 350" not in rendered
 
 
-def test_markdown_exporter_renders_ordered_core_roles() -> None:
+def test_markdown_exporter_keeps_potential_threats_visible() -> None:
     rendered = MarkdownExporter().export(build_result())
 
     assert rendered is not None
-    assert "**#1 ABC** Lead `Mewtwo` | Switch `Gengar (Mega)` | Closer `Dialga`" in rendered
-    assert "use standard alignment" not in rendered
+    assert "## Potential Threats" in rendered
+    assert "| Zygarde | 1 | 0 | 0-shield: only Mewtwo (601) |" in rendered
+
+
+def test_markdown_exporter_omits_bench_utility_when_no_warnings() -> None:
+    result = deepcopy(build_result())
+    for entry in result["recommended_team"]["bench_utility"]:  # type: ignore[index]
+        entry["warnings"] = []
+
+    rendered = MarkdownExporter().export(result)
+
+    assert rendered is not None
+    assert "## Bench Utility" not in rendered
+    assert "## Warnings" not in rendered
 
 
 def test_existing_exporters_accept_results_with_battle_frontier_metrics(tmp_path) -> None:

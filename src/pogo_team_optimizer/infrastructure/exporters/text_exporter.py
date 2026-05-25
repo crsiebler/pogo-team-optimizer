@@ -85,27 +85,6 @@ class TextExporter(AnalysisExporter):
         self._append_bench_utility(lines, result)
 
         lines.append("")
-        lines.append("Coverage")
-        for item in result["coverage"]:
-            lines.append(
-                f"- {item['shield']}-shield: W {item['wins']} | D {item['draws']} | "
-                f"L {item['losses']} | weighted wins {item['weighted_wins']:.3f}"
-            )
-
-        lines.append("")
-        lines.append("Safe Cores")
-        for idx, core in enumerate(result["safe_cores"], start=1):
-            if "recommended_order" in core:
-                roles = {item["role"]: item["label"] for item in core["recommended_order"]}
-                lines.append(
-                    f"- #{idx} {core['strategy']}: Lead {roles['lead']} | "
-                    f"Switch {roles['switch']} | Closer {roles['closer']}"
-                )
-            else:
-                names = ", ".join(member["label"] for member in core["members"])
-                lines.append(f"- #{idx}: {names}")
-
-        lines.append("")
         lines.append("Potential Threats")
         for threat in result["threats"]:
             if threat.get("no_cover_count", 0) == 0 and threat.get("single_cover_count", 0) == 0:
@@ -167,36 +146,22 @@ class TextExporter(AnalysisExporter):
             lines.append(
                 f"  - lineup overwhelming: {summary['overwhelming_matchups']} where score < 400"
             )
-
-        lines.append("")
-        lines.append("Resource / Shield Safety")
-        for idx, lineup in enumerate(lineups, start=1):
-            lines.append(f"- Lineup #{idx}")
-            for path in lineup["resource_paths"]:
-                lines.append(
-                    f"  - {path['name']}: lead {path['lead_shield']}-shield | "
-                    f"backs {path['back_shield']}-shield | mean {path['mean_best_score']:.2f} | "
-                    f"dominating {path['dominating_matchups']} | "
-                    f"overwhelming {path['overwhelming_matchups']}"
-                )
+            resource_summary = "; ".join(
+                f"{path['name']} lead/back {path['lead_shield']}/{path['back_shield']} "
+                f"mean {path['mean_best_score']:.2f} dom {path['dominating_matchups']} "
+                f"overwhelm {path['overwhelming_matchups']}"
+                for path in lineup["resource_paths"]
+            )
+            lines.append(f"  - resources: {resource_summary}")
 
     def _append_bench_utility(self, lines: list[str], result: dict[str, Any]) -> None:
         utility = result["recommended_team"].get("bench_utility", [])
         if not utility:
             return
 
-        lines.append("")
-        lines.append("Bench Utility")
         warnings: list[tuple[str, dict[str, Any]]] = []
         for entry in utility:
             member_label = entry["member"]["label"]
-            lines.append(
-                f"- {member_label}: {entry['tier']} | used {entry['lineups_used']} lineups | "
-                f"lead {entry['lead_lineups_used']} | back {entry['back_lineups_used']} | "
-                f"viable {entry['viable_lineup_rate'] * 100:.1f}% | "
-                f"all {entry['all_lineup_rate'] * 100:.1f}% | "
-                f"best {entry['best_lineup_score']:.2f}"
-            )
             for warning in entry.get("warnings", []):
                 warnings.append((member_label, warning))
 

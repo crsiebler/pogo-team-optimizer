@@ -163,6 +163,8 @@ make test
 - ABC/ABB/ABA lineup shape labels are heuristic diagnostics from `application/lineups.py`; expose them on `recommended_lineups` but never use them for lineup scoring, roster ranking, or tie-breaking.
 - CSV lineup-aware exports preserve the `section,key,value` schema using `recommended_lineup`, `recommended_lineup_resource_path`, `bench_utility`, and `bench_utility_warning` sections; Excel uses dedicated `Lineups`, `Lineup Resources`, `Bench Utility`, and `Bench Warnings` sheets.
 - Legacy full-six dominate and overwhelming metrics must not be presented as battle coverage; actual battle interpretation belongs to ordered pick-3 lineup diagnostics and their fixed resource paths.
+- Human-readable text and Markdown reports should keep normal output focused on Recommended Bring-6 Roster, Team Analysis, Recommended Lineups, actionable warnings, and Potential Threats; do not reintroduce standalone Coverage, Safe Cores, or Resource / Shield Safety sections.
+- Bench utility diagnostics remain structured data, but normal text and Markdown output should render them only when actionable warnings exist.
 
 ## Cursor / Copilot Rule Files
 Checked repository-local instruction files:

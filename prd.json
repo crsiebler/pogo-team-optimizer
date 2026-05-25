@@ -258,7 +258,7 @@
         "Typecheck passes"
       ],
       "priority": 14,
-      "passes": false,
+      "passes": true,
       "notes": "Recommended agent: python-pro. Keep formatting in infrastructure exporters. Do not move scoring, threat analysis, or lineup scoring into exporters. Machine-readable compatibility can be addressed separately if needed."
     },
     {

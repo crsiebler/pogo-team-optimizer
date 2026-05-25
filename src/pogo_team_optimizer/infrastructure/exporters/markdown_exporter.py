@@ -101,29 +101,6 @@ class MarkdownExporter(AnalysisExporter):
         self._append_bench_utility(lines, result)
 
         lines.append("")
-        lines.append("## Coverage")
-        lines.append("| Shield | Wins | Draws | Losses | Weighted Wins |")
-        lines.append("|---:|---:|---:|---:|---:|")
-        for item in result["coverage"]:
-            lines.append(
-                f"| {item['shield']} | {item['wins']} | {item['draws']} | "
-                f"{item['losses']} | {item['weighted_wins']:.3f} |"
-            )
-
-        lines.append("")
-        lines.append("## Safe Cores")
-        for idx, core in enumerate(result["safe_cores"], start=1):
-            if "recommended_order" in core:
-                roles = {item["role"]: item["label"] for item in core["recommended_order"]}
-                lines.append(
-                    f"- **#{idx} {core['strategy']}** Lead `{roles['lead']}` | "
-                    f"Switch `{roles['switch']}` | Closer `{roles['closer']}`"
-                )
-            else:
-                names = ", ".join(member["label"] for member in core["members"])
-                lines.append(f"- **#{idx}** {names}")
-
-        lines.append("")
         lines.append("## Potential Threats")
         lines.append("| Opponent | Single-Coverage | No-Coverage | Details |")
         lines.append("|---|---:|---:|---|")
@@ -165,49 +142,37 @@ class MarkdownExporter(AnalysisExporter):
         lines.append("## Recommended Lineups")
         lines.append("Lineup dominating uses `score > 600`; lineup overwhelming uses `score < 400`.")
         lines.append("")
-        lines.append("| # | Lead | Back Pair | Shape | Score | Dominating | Overwhelming | BF Points |")
-        lines.append("|---:|---|---|---|---:|---:|---:|---:|")
+        lines.append(
+            "| # | Lead | Back Pair | Shape | Score | Dominating | Overwhelming | "
+            "BF Points | Resources |"
+        )
+        lines.append("|---:|---|---|---|---:|---:|---:|---:|---|")
         for idx, lineup in enumerate(lineups, start=1):
             back_pair = ", ".join(member["label"] for member in lineup["back_pair"])
             summary = lineup["score_summary"]
             points = lineup.get("battle_frontier_points_used", "")
+            resource_summary = "; ".join(
+                f"{path['name']} lead/back {path['lead_shield']}/{path['back_shield']} "
+                f"mean {path['mean_best_score']:.2f} dom {path['dominating_matchups']} "
+                f"overwhelm {path['overwhelming_matchups']}"
+                for path in lineup["resource_paths"]
+            )
             lines.append(
                 f"| {idx} | {self._escape(lineup['lead']['label'])} | "
                 f"{self._escape(back_pair)} | {self._escape(lineup.get('team_shape', 'unclassified'))} | "
                 f"{lineup['lineup_score']:.2f} | {summary['dominating_matchups']} | "
-                f"{summary['overwhelming_matchups']} | {points} |"
+                f"{summary['overwhelming_matchups']} | {points} | "
+                f"{self._escape(resource_summary)} |"
             )
-
-        lines.append("")
-        lines.append("## Resource / Shield Safety")
-        lines.append("| Lineup | Path | Lead Shield | Back Shield | Mean Best Score | Dominating | Overwhelming |")
-        lines.append("|---:|---|---:|---:|---:|---:|---:|")
-        for idx, lineup in enumerate(lineups, start=1):
-            for path in lineup["resource_paths"]:
-                lines.append(
-                    f"| {idx} | {self._escape(path['name'])} | {path['lead_shield']} | "
-                    f"{path['back_shield']} | {path['mean_best_score']:.2f} | "
-                    f"{path['dominating_matchups']} | {path['overwhelming_matchups']} |"
-                )
 
     def _append_bench_utility(self, lines: list[str], result: dict[str, Any]) -> None:
         utility = result["recommended_team"].get("bench_utility", [])
         if not utility:
             return
 
-        lines.append("")
-        lines.append("## Bench Utility")
-        lines.append("| Pokemon | Tier | Used | Lead | Back | Viable Rate | All Rate | Best Score |")
-        lines.append("|---|---|---:|---:|---:|---:|---:|---:|")
         warnings: list[tuple[str, dict[str, Any]]] = []
         for entry in utility:
             member_label = entry["member"]["label"]
-            lines.append(
-                f"| {self._escape(member_label)} | {self._escape(entry['tier'])} | "
-                f"{entry['lineups_used']} | {entry['lead_lineups_used']} | "
-                f"{entry['back_lineups_used']} | {entry['viable_lineup_rate'] * 100:.1f}% | "
-                f"{entry['all_lineup_rate'] * 100:.1f}% | {entry['best_lineup_score']:.2f} |"
-            )
             for warning in entry.get("warnings", []):
                 warnings.append((member_label, warning))
 
