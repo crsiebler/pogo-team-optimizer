@@ -1,5 +1,6 @@
 from typing import Any
 
+from pogo_team_optimizer.application import use_case as use_case_module
 from pogo_team_optimizer.application.use_case import AnalyzeMetaUseCase
 
 
@@ -170,28 +171,34 @@ def test_lineup_metrics_are_distinguished_from_legacy_full_roster_metrics() -> N
     assert metrics["legacy_full_roster_overwhelming_count"] == metrics["overwhelming_count"]
 
 
-def test_use_case_exposes_bench_utility_diagnostics() -> None:
+def test_use_case_skips_non_actionable_bench_utility_diagnostics() -> None:
     result: dict[str, Any] = AnalyzeMetaUseCase(
         simulation_repository=LineupSimulationRepository(),
         pokemon_repository=FakePokemonRepository(),
     ).execute(seed=7, restarts=1)
 
-    bench_utility = result["recommended_team"]["bench_utility"]
-
-    assert len(bench_utility) == 6
-    first = bench_utility[0]
-    assert first["member"]["species"] in {"Amon", "Bmon", "Cmon", "Dmon", "Emon", "Fmon"}
-    assert first["lineups_used"] > 0
-    assert first["lead_lineups_used"] > 0
-    assert first["back_lineups_used"] > 0
-    assert first["viable_lineup_rate"] > 0
-    assert first["all_lineup_rate"] > 0
-    assert first["best_lineup_score"] >= 650.0
-    assert first["tier"] in {"core", "flexible", "specialist", "low_utility", "unbringable"}
-    assert isinstance(first["warnings"], list)
+    assert result["recommended_team"]["bench_utility"] == []
 
 
-def test_use_case_bench_utility_warnings_are_structured() -> None:
+def test_use_case_does_not_compute_normal_bench_utility(monkeypatch: Any) -> None:
+    def fail_bench_utility_scoring(*args: object, **kwargs: object) -> None:
+        raise AssertionError("bench utility scoring should be skipped for normal results")
+
+    monkeypatch.setattr(
+        use_case_module,
+        "score_roster_bench_utility",
+        fail_bench_utility_scoring,
+    )
+
+    result: dict[str, Any] = AnalyzeMetaUseCase(
+        simulation_repository=LineupSimulationRepository(),
+        pokemon_repository=FakePokemonRepository(),
+    ).execute(seed=7, restarts=1)
+
+    assert result["recommended_team"]["bench_utility"] == []
+
+
+def test_use_case_skips_normal_bench_utility_warnings() -> None:
     class WeakSimulationRepository:
         def load(self) -> tuple[list[str], list[str], list[list[list[int]]]]:
             rows = ["Amon", "Bmon", "Cmon", "Dmon", "Emon", "Fmon"]
@@ -204,14 +211,7 @@ def test_use_case_bench_utility_warnings_are_structured() -> None:
         pokemon_repository=FakePokemonRepository(),
     ).execute(seed=7, restarts=1)
 
-    warning = result["recommended_team"]["bench_utility"][0]["warnings"][0]
-
-    assert warning == {
-        "category": "bench_utility",
-        "code": "unbringable",
-        "severity": "high",
-        "message": "Roster member appears in no viable ordered lineups.",
-    }
+    assert result["recommended_team"]["bench_utility"] == []
 
 
 def test_non_battle_frontier_results_omit_battle_frontier_diagnostics() -> None:

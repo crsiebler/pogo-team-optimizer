@@ -184,3 +184,7 @@ def test_use_case_reports_battle_frontier_bench_warnings() -> None:
     }
     assert "expensive_mostly_bench" in warnings_by_species["Fmon"]
     assert "low_point_paper_coverage" in warnings_by_species["Emon"]
+    assert all(
+        any(warning["category"] == "battle_frontier" for warning in entry["warnings"])
+        for entry in result["recommended_team"]["bench_utility"]
+    )

@@ -12,6 +12,7 @@
 - Excel lineup-aware exports use dedicated `Lineups`, `Lineup Resources`, `Bench Utility`, and `Bench Warnings` sheets instead of overloading legacy sheets.
 - Human-readable text and Markdown reports should focus normal output on Recommended Bring-6 Roster, Team Analysis, Recommended Lineups, actionable warnings, and Potential Threats; do not reintroduce standalone Coverage, Safe Cores, or Resource / Shield Safety sections.
 - Bench utility diagnostics should render in human-readable reports only when they contain actionable warnings; all-core/non-warning utility rows stay out of normal text and Markdown output.
+- Normal `AnalyzeMetaUseCase` execution keeps `recommended_team.bench_utility` as an empty list unless actionable Battle Frontier warnings are needed; preserve the key for exporter compatibility instead of emitting all-core rows.
 - CLI/report lineup count control is `--top-lineups` with a maximum of `10`; `AnalyzeMetaUseCase.execute(top_lineups=...)` limits `recommended_lineups`, and normal execution should not compute safe-core rankings.
 - Register meta-specific auxiliary inputs in `data/metas.json` using `switch_rankings_path` and `required_files`, then validate those paths in the CLI before constructing repositories.
 - Keep meta config changes in `application/meta_config.py`; the CLI should only consume `MetaConfig` and enforce startup validation.
@@ -644,4 +645,36 @@
   - Pre-existing unrelated worktree changes remain outside this story; only US-015-intended files should be staged.
 - Next iteration start:
   - Implement `US-016` by removing or gating non-actionable bench utility computation from normal execution while preserving any required actionable warnings.
+---
+
+## 2026-05-25 03:25:22 MST - US-016
+- What was implemented
+  - Gated bench utility assembly in `AnalyzeMetaUseCase` so normal non-Battle-Frontier execution preserves `recommended_team.bench_utility` as an empty list instead of computing and emitting all-core diagnostics.
+  - Retained actionable Battle Frontier bench warnings by computing bench utility only when point diagnostics are present and filtering the result to warning-bearing entries.
+  - Updated focused use-case and Battle Frontier tests to verify normal empty bench utility output, skipped normal bench utility scoring, retained Battle Frontier warning diagnostics, and existing human-readable omission behavior.
+- Files changed: `AGENTS.md`, `prd.json`, `progress.txt`, `src/pogo_team_optimizer/application/use_case.py`, `tests/unit/test_use_case_battle_frontier.py`, `tests/unit/test_use_case_lineups.py`
+- Commit message: `feat: US-016 - Remove unused bench utility computation from normal execution`
+- Checks:
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m pytest tests/unit/test_use_case_lineups.py tests/unit/test_use_case_battle_frontier.py -q` (pass, 13 tests)
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m pytest tests/unit/test_battle_frontier_exporters.py -q` (pass)
+  - `make typecheck` (pass)
+  - `make lint` (pass)
+  - `make test` (pass)
+- Implementation agents:
+  - Recommended: `python-pro`
+  - Used: `python-pro`
+- Specialist review:
+  - Agents used: `code-reviewer`, `qa-expert`, `security-engineer`
+  - Findings: fixed before commit; tightened Battle Frontier filtering to require a `battle_frontier` warning category and added a regression test proving normal execution does not call bench utility scoring. Final review pass found no actionable findings.
+- Decisions (why):
+  - Chose to preserve the `bench_utility` key as an empty list instead of removing it so JSON, CSV, and Excel consumers retain a stable result shape.
+  - Chose to compute bench utility only for Battle Frontier point diagnostics because normal human-readable output no longer renders all-core utility rows, while Battle Frontier warning diagnostics remain actionable.
+  - Chose to filter Battle Frontier bench utility to entries with Battle Frontier warnings so tabular structured output no longer includes generic or all-core bench rows.
+- **Learnings for future iterations:**
+  - `recommended_team.bench_utility` is now a warning payload, not a full roster diagnostic payload, during normal use-case execution.
+  - Exporters should tolerate an empty `bench_utility` list and continue rendering warnings only when entries are present.
+- Known issues / follow-ups:
+  - Pre-existing unrelated worktree changes remain outside this story; only US-016-intended files should be staged.
+- Next iteration start:
+  - Implement `US-017` by adding deterministic process-based restart batching behind `--workers`.
 ---

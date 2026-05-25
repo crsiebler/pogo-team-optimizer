@@ -201,6 +201,22 @@ class AnalyzeMetaUseCase:
                 }
             )
 
+        recommended_lineups = _build_recommended_lineups(
+            row_labels=row_labels,
+            matrices=matrices,
+            team_indices=best_team.member_indices,
+            species_cache=species_cache,
+            battle_frontier_points_by_row=battle_frontier_points_by_row,
+            limit=top_lineups,
+        )
+        bench_utility = _build_actionable_bench_utility(
+            row_labels=row_labels,
+            matrices=matrices,
+            team_indices=best_team.member_indices,
+            species_cache=species_cache,
+            battle_frontier_points_by_row=battle_frontier_points_by_row,
+        )
+
         result = {
             "recommended_team": {
                 "members": to_team_members(best_team.member_indices, row_labels, species_cache),
@@ -210,13 +226,7 @@ class AnalyzeMetaUseCase:
                 "safety_score": sum(safety_by_row[idx] for idx in best_team.member_indices)
                 / len(best_team.member_indices),
                 "metrics": metrics,
-                "bench_utility": _build_bench_utility(
-                    row_labels=row_labels,
-                    matrices=matrices,
-                    team_indices=best_team.member_indices,
-                    species_cache=species_cache,
-                    battle_frontier_points_by_row=battle_frontier_points_by_row,
-                ),
+                "bench_utility": bench_utility,
                 "shadow_count": sum(
                     1 for idx in best_team.member_indices if "(Shadow)" in row_labels[idx]
                 ),
@@ -233,14 +243,7 @@ class AnalyzeMetaUseCase:
             "target_map": build_target_map(
                 row_labels, col_labels, matrices, best_team.member_indices
             ),
-            "recommended_lineups": _build_recommended_lineups(
-                row_labels=row_labels,
-                matrices=matrices,
-                team_indices=best_team.member_indices,
-                species_cache=species_cache,
-                battle_frontier_points_by_row=battle_frontier_points_by_row,
-                limit=top_lineups,
-            ),
+            "recommended_lineups": recommended_lineups,
         }
         return result
 
@@ -368,6 +371,30 @@ def _build_bench_utility(
             matrices,
             battle_frontier_points_by_row=battle_frontier_points_by_row,
         )
+    ]
+
+
+def _build_actionable_bench_utility(
+    *,
+    row_labels: list[str],
+    matrices: list[list[list[int]]],
+    team_indices: tuple[int, ...],
+    species_cache: dict[str, tuple[str, ...]],
+    battle_frontier_points_by_row: list[int] | None = None,
+) -> list[dict[str, Any]]:
+    if battle_frontier_points_by_row is None:
+        return []
+
+    return [
+        entry
+        for entry in _build_bench_utility(
+            row_labels=row_labels,
+            matrices=matrices,
+            team_indices=team_indices,
+            species_cache=species_cache,
+            battle_frontier_points_by_row=battle_frontier_points_by_row,
+        )
+        if any(warning["category"] == "battle_frontier" for warning in entry["warnings"])
     ]
 
 

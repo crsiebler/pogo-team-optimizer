@@ -293,7 +293,7 @@
         "Typecheck passes"
       ],
       "priority": 16,
-      "passes": false,
+      "passes": true,
       "notes": "Recommended agent: python-pro. Remove computation if no downstream output depends on it; otherwise gate it behind warnings or diagnostics. Keep resource path details inside recommended_lineups rather than a standalone human-readable section."
     },
     {
