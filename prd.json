@@ -1,110 +1,213 @@
 {
   "project": "pogo-team-optimizer",
-  "branchName": "ralph/battle-frontier-master",
-  "description": "Add support for the Battle Frontier (Master) meta with CSV-backed cycle point rules, optimizer legality enforcement, and output-visible legality metrics.",
+  "branchName": "ralph/bring-6-pick-3-lineup-optimization",
+  "description": "Add ordered bring-6-pick-3 lineup optimization with 60 lead/back-pair lineups, fixed shield resource paths, lineup-aware roster scoring, diagnostics, Battle Frontier support, and documentation updates.",
   "userStories": [
     {
       "id": "US-001",
-      "title": "Register the bfmaster meta and config fields",
-      "description": "As a CLI user, I want to choose the Battle Frontier (Master) meta so that I can analyze that league without editing code or config manually.",
+      "title": "Add ordered lineup models and enumeration",
+      "description": "As a team optimizer user, I want the system to evaluate each possible lead and back-pair choice so that roster scoring reflects the actual bring-6-pick-3 battle format.",
       "acceptanceCriteria": [
-        "--meta bfmaster is accepted by the CLI parser",
-        "bfmaster resolves to data/simulations/bfmaster_0-shield.csv, data/simulations/bfmaster_1-shield.csv, and data/simulations/bfmaster_2-shield.csv",
-        "Meta configuration supports optional per-meta fields needed for Battle Frontier rule files and switch rankings",
-        "Missing required Battle Frontier files raise a clear validation error before execution",
-        "Existing metas continue to load without behavior changes",
+        "Add immutable application-level structures for an ordered lineup with one lead and an unordered two-Pokemon back pair",
+        "A six-Pokemon roster produces exactly 60 ordered lineups",
+        "Each ordered lineup has one lead and two distinct back Pokemon",
+        "Back-pair order is canonicalized so Lead A plus B/C and Lead A plus C/B are treated as the same lineup",
+        "Lead order remains distinct so Lead A plus B/C and Lead B plus A/C are different lineups",
+        "Lineup enumeration is deterministic for the same input order",
+        "Focused tests pass",
         "Typecheck passes"
       ],
       "priority": 1,
       "passes": true,
-      "notes": ""
+      "notes": "Recommended agent: python-pro. Keep this story focused on typed lineup structures and enumeration only; do not implement scoring or exporters in this story. Keep new optimizer models in the application layer unless a stronger existing domain pattern applies."
     },
     {
       "id": "US-002",
-      "title": "Add Battle Frontier points CSV and repository",
-      "description": "As a developer, I want Battle Frontier point values stored in a CSV file so that the current cycle rules are easy to audit and update.",
+      "title": "Score ordered lineups with fixed resource paths",
+      "description": "As a competitive player, I want shield scenarios evaluated as connected resource paths so that a lead that spends shields is paired with backs that can function without shields.",
       "acceptanceCriteria": [
-        "Add a checked-in CSV file in data containing species-to-points mappings for the current Battle Frontier cycle",
-        "The CSV uses species names that match the normalized names produced by parse_species()",
-        "Add an infrastructure repository that loads point values by species name",
-        "Species not present in the point CSV are treated as 0 points for bfmaster",
-        "Add unit tests covering point CSV loading",
-        "Typecheck passes",
-        "Tests pass"
+        "Each ordered lineup is evaluated using fixed resource paths: balanced, shield-spend, and shield-save",
+        "Balanced path evaluates lead in 1-shield and backs in 1-shield",
+        "Shield-spend path evaluates lead in 2-shield and backs in 0-shield",
+        "Shield-save path evaluates lead in 0-shield and backs in 2-shield",
+        "Back-pair score for a shield state uses the better matchup result from either back Pokemon",
+        "Lineup metrics count dominating matchups where the best available score is greater than 600",
+        "Lineup metrics count overwhelming losses where the best available score is less than 400",
+        "Tests cover threshold behavior below, equal to, and above the 400 and 600 boundaries",
+        "Focused tests pass",
+        "Typecheck passes"
       ],
       "priority": 2,
       "passes": true,
-      "notes": ""
+      "notes": "Recommended agent: python-pro. Depends on US-001. Preserve deterministic scoring and keep resource-path scoring in application code, not CLI or exporters."
     },
     {
       "id": "US-003",
-      "title": "Use the correct bfmaster switch rankings",
-      "description": "As a user, I want Battle Frontier analysis to use the correct switch rankings file so that safety scoring reflects the selected meta.",
+      "title": "Refactor roster scoring to use lineup strength and depth",
+      "description": "As a team optimizer user, I want a six-Pokemon roster ranked by its best playable lineups and useful alternatives so that the recommendation is not one strong trio plus three dead roster slots.",
       "acceptanceCriteria": [
-        "bfmaster uses data/rankings/cp10000_battlefrontiermaster_switches_rankings.csv automatically",
-        "The application no longer relies on the Great League default switch rankings file for bfmaster unless the user explicitly overrides it",
-        "Existing metas continue to support their current switch ranking behavior",
-        "Typecheck passes",
-        "Tests pass"
+        "Candidate six-Pokemon rosters are primarily compared by lineup-aware score instead of full-roster best-answer coverage",
+        "Roster comparison uses a weighted combination of best lineup strength, top-N lineup quality, and viable lineup count",
+        "Roster scoring does not average all 60 lineups equally as the primary objective",
+        "Roster scoring does not optimize only the single best lineup as the primary objective",
+        "Existing base-species uniqueness rules remain enforced",
+        "Optimizer results remain deterministic for the same seed and input data",
+        "Tests cover a case where a roster with better full-six paper coverage loses to a roster with stronger ordered pick-3 lineups",
+        "Tests cover a case where one excellent lineup plus weak alternatives loses to a roster with comparable top-lineup strength and better depth",
+        "Focused tests pass",
+        "Typecheck passes"
       ],
       "priority": 3,
       "passes": true,
-      "notes": ""
+      "notes": "Recommended agent: refactoring-specialist. Depends on US-001 and US-002. This changes the optimizer objective, so keep the refactor minimal and preserve architectural boundaries."
     },
     {
       "id": "US-004",
-      "title": "Enforce Battle Frontier legality in optimizer",
-      "description": "As a user, I want every recommended Battle Frontier team to obey the league rules so that the optimizer never suggests an illegal team.",
+      "title": "Expose lineup-aware analysis results",
+      "description": "As a user, I want recommended ordered lineups included in analysis output so that I can see which lead/back-pair combinations to use across a multi-battle match.",
       "acceptanceCriteria": [
-        "The optimizer rejects any bfmaster candidate team whose total points exceed 11",
-        "The optimizer rejects any bfmaster candidate team containing more than one 5-point Pokemon",
-        "The optimizer rejects any bfmaster candidate team containing more than one Mega Pokemon",
-        "Existing duplicate-base-species prevention still applies",
-        "Randomly seeded starting teams for bfmaster are legal",
-        "Swap-based local search for bfmaster preserves legality after each accepted replacement",
-        "Add unit tests covering optimizer rejection of over-budget teams",
-        "Add unit tests covering optimizer rejection of teams with two 5-point Pokemon",
-        "Add unit tests covering optimizer rejection of teams with two Mega Pokemon",
-        "Typecheck passes",
-        "Tests pass"
+        "AnalyzeMetaUseCase result exposes structured recommended_lineups",
+        "Each recommended lineup includes lead, back pair, score summary, and key resource-path diagnostics",
+        "Recommended lineups are ranked by lineup score with deterministic tie-breaking",
+        "Output does not frame a single lineup as the only default or mandatory choice",
+        "Recommended lineups include enough viable alternatives for a typical three-battle match when available",
+        "Roster-level metrics clearly distinguish lineup-derived metrics from legacy full-roster diagnostics",
+        "CLI remains wiring and validation only and does not compute lineup scores",
+        "Focused tests pass",
+        "Typecheck passes"
       ],
       "priority": 4,
       "passes": true,
-      "notes": ""
+      "notes": "Recommended agent: refactoring-specialist. Depends on US-003. This touches use-case/result boundaries; do not add exporter formatting logic to the application layer."
     },
     {
       "id": "US-005",
-      "title": "Expose Battle Frontier legality metrics in results",
-      "description": "As a user, I want the output to show point usage and constraint summary so that I can verify the team is legal without recalculating it manually.",
+      "title": "Add bench utility and unbringable warnings",
+      "description": "As a player, I want to know whether each roster member is actually useful in viable pick-3 lineups so that I can identify paper-coverage picks and weak bench slots.",
       "acceptanceCriteria": [
-        "Result metrics include total points used for the recommended team",
-        "Result metrics include the number of 5-point members on the recommended team",
-        "Result metrics include the number of Mega members on the recommended team",
-        "Result metrics include the Battle Frontier team rule limits used for the analysis",
-        "Text and markdown outputs render the new legality metrics clearly",
-        "Existing output formats continue to work when the new metrics are present",
-        "Typecheck passes",
-        "Tests pass"
+        "Each roster member has usage metrics across viable lineups",
+        "Bench utility identifies whether a Pokemon is core, flexible, specialist, low utility, or unbringable",
+        "Warnings are generated when a roster member appears in few or no viable lineups",
+        "Warning model supports Battle Frontier-specific warnings even if point diagnostics are added separately",
+        "Tests cover utility classification for core, flexible, specialist, low utility, and unbringable members",
+        "Tests cover warning generation for low-usage and unbringable roster members",
+        "Focused tests pass",
+        "Typecheck passes"
       ],
       "priority": 5,
       "passes": true,
-      "notes": ""
+      "notes": "Recommended agent: python-pro. Depends on US-004. Keep bench utility as diagnostics; do not make it a new primary ranking input unless explicitly required by a later story."
     },
     {
       "id": "US-006",
-      "title": "Validate bfmaster end-to-end behavior",
-      "description": "As a developer, I want automated integration coverage for Battle Frontier so that future changes do not break format legality enforcement.",
+      "title": "Add Battle Frontier lineup diagnostics",
+      "description": "As a Battle Frontier player, I want point usage explained for recommended lineups so that I can tell whether points are concentrated in playable Pokemon or wasted on the bench.",
       "acceptanceCriteria": [
-        "Add integration coverage showing bfmaster produces a legal six-Pokemon team",
-        "The recommended bfmaster team always has total points less than or equal to 11",
-        "The recommended bfmaster team always contains at most one 5-point Pokemon",
-        "The recommended bfmaster team always contains at most one Mega Pokemon",
-        "Typecheck passes",
-        "Tests pass"
+        "Existing Battle Frontier legality remains enforced at the six-roster level",
+        "Individual pick-3 lineups are not rejected for point legality in this MVP",
+        "Result includes total roster points used for Battle Frontier metas",
+        "Each recommended lineup includes its point total for Battle Frontier metas",
+        "Result includes free or low-point Pokemon usage rate across viable lineups",
+        "Result includes high-point Pokemon usage rate across viable lineups",
+        "Warnings are generated for expensive mostly-bench members",
+        "Warnings are generated for free or low-point paper coverage that is rarely bringable",
+        "Non-Battle-Frontier metas do not emit placeholder Battle Frontier diagnostics",
+        "Focused tests pass",
+        "Typecheck passes"
       ],
       "priority": 6,
       "passes": true,
-      "notes": ""
+      "notes": "Recommended agent: python-pro. Depends on US-004 and US-005. Preserve the current Battle Frontier roster legality gate in TeamOptimizer and add lineup point data as diagnostics only."
+    },
+    {
+      "id": "US-007",
+      "title": "Add ABC ABB ABA diagnostic lineup labels",
+      "description": "As a competitive player, I want each ordered lineup labeled by team shape so that I can interpret whether it behaves like ABC, ABB, or ABA.",
+      "acceptanceCriteria": [
+        "Recommended lineup model includes an optional team-shape label",
+        "Labels can include ABC, ABB, ABA, or an unclassified value",
+        "ABC/ABB/ABA labels are diagnostic only and do not directly affect optimization scoring",
+        "Tests verify recommended lineups include the shape label field",
+        "Tests verify shape classification does not change lineup or roster score",
+        "Focused tests pass",
+        "Typecheck passes"
+      ],
+      "priority": 7,
+      "passes": true,
+      "notes": "Recommended agent: python-pro. Depends on US-004. Keep classification isolated and testable; do not let labels influence ranking in the MVP."
+    },
+    {
+      "id": "US-008",
+      "title": "Render lineup recommendations in JSON text and Markdown exporters",
+      "description": "As a user, I want JSON, text, and Markdown output to show recommended lineups and diagnostics so that the new optimizer results are usable from the CLI and reports.",
+      "acceptanceCriteria": [
+        "JSON output includes structured recommended_lineups",
+        "JSON output includes bench utility and warnings",
+        "Text output includes readable sections for Recommended Bring-6 Roster, Recommended Lineups, Bench Utility, Resource / Shield Safety, and Warnings",
+        "Markdown output renders equivalent lineup-aware sections",
+        "Lineup-aware dominating and overwhelming metrics are rendered with thresholds score greater than 600 and score less than 400",
+        "Legacy full-six dominate and overwhelming summaries are not presented as battle coverage",
+        "Exporter tests cover JSON, text, and Markdown lineup output",
+        "Focused tests pass",
+        "Typecheck passes"
+      ],
+      "priority": 8,
+      "passes": false,
+      "notes": "Recommended agent: python-pro. Depends on US-004 through US-007. Keep formatting in infrastructure exporters and avoid adding scoring logic to exporters."
+    },
+    {
+      "id": "US-009",
+      "title": "Render lineup-aware CSV and Excel exports",
+      "description": "As a user, I want CSV and Excel exports to include lineup-aware fields so that recommended lineups and diagnostics can be analyzed outside the text report.",
+      "acceptanceCriteria": [
+        "CSV output includes lineup-aware fields for recommended lineups using stable headers",
+        "CSV output includes bench utility fields or rows using stable headers",
+        "Excel output includes recommended lineups and bench utility in sheets or columns appropriate to the existing exporter design",
+        "Battle Frontier point diagnostics are included in CSV and Excel output when present",
+        "Tests verify generated CSV headers or rows for lineup output",
+        "Tests verify generated Excel sheets or columns for lineup output",
+        "Focused tests pass",
+        "Typecheck passes"
+      ],
+      "priority": 9,
+      "passes": false,
+      "notes": "Recommended agent: python-pro. Depends on US-004 through US-007. Keep this separate from human-readable exporters to keep the story one-iteration-sized."
+    },
+    {
+      "id": "US-010",
+      "title": "Update repository documentation for lineup-aware optimization",
+      "description": "As a user and contributor, I want README.md and AGENTS.md to explain lineup-aware optimization so that I can run, interpret, and maintain the feature correctly.",
+      "acceptanceCriteria": [
+        "README.md explains that bring-6 rosters are scored from ordered pick-3 lineups",
+        "README.md states that each six-Pokemon roster yields 60 ordered lead/back-pair lineups",
+        "README.md explains the fixed resource paths: lead 1/back 1, lead 2/back 0, and lead 0/back 2",
+        "README.md explains recommended lineups, bench utility, Battle Frontier diagnostics, and warnings",
+        "README.md states ABC/ABB/ABA labels are heuristic diagnostics and not scoring inputs in the MVP",
+        "AGENTS.md records architectural guidance for lineup scoring, diagnostics, exporter responsibilities, and Battle Frontier considerations",
+        "AGENTS.md warns that legacy full-six dominate and overwhelming output must not be presented as battle coverage",
+        "Documentation includes validation command guidance for make lint, make typecheck, and make test",
+        "Typecheck passes"
+      ],
+      "priority": 10,
+      "passes": false,
+      "notes": "Recommended agent: documentation-engineer. Depends on implementation/output contracts being stable. This story must update documentation only; do not implement optimizer behavior here."
+    },
+    {
+      "id": "US-011",
+      "title": "Run final integration and regression gate",
+      "description": "As a maintainer, I want a final integration pass so that lineup-aware optimization, exporters, Battle Frontier diagnostics, and documentation are verified together.",
+      "acceptanceCriteria": [
+        "make lint passes",
+        "make typecheck passes",
+        "make test passes",
+        "No accidental CLI behavior regressions remain beyond documented lineup-aware output changes",
+        "No accidental exporter schema regressions remain beyond documented lineup-aware output changes",
+        "Battle Frontier legality tests still pass",
+        "Deterministic optimizer tests still pass"
+      ],
+      "priority": 11,
+      "passes": false,
+      "notes": "Recommended agent: refactoring-specialist. Depends on all previous stories. This is a verification and cleanup story only; do not add new feature scope here."
     }
   ]
 }

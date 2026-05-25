@@ -10,6 +10,15 @@ from pogo_team_optimizer.application.analyzers import (
     coverage_by_shield,
     to_team_members,
 )
+from pogo_team_optimizer.application.lineups import (
+    LINEUP_RESOURCE_PATHS,
+    LINEUP_VIABILITY_THRESHOLD,
+    classify_lineup_shape,
+    enumerate_ordered_lineups,
+    score_battle_frontier_lineup_usage,
+    score_roster_bench_utility,
+    score_ordered_lineup,
+)
 from pogo_team_optimizer.application.normalization import parse_species
 from pogo_team_optimizer.application.optimizer import TeamOptimizer
 from pogo_team_optimizer.domain.interfaces import (
@@ -18,6 +27,9 @@ from pogo_team_optimizer.domain.interfaces import (
     SimulationMatrixRepository,
     SwitchRankingsRepository,
 )
+
+
+MAX_RECOMMENDED_LINEUPS = 5
 
 
 class AnalyzeMetaUseCase:
@@ -152,11 +164,23 @@ class AnalyzeMetaUseCase:
             "safety_floor_target": safety_floor if safety_floor is not None else 0.0,
             "safe_member_floor": safe_member_floor,
             "safe_member_target": min_safe_members,
+            "lineup_objective_score": float(score[13]),
+            "lineup_best_score": float(score[14]),
+            "lineup_top_n_mean_score": float(score[15]),
+            "lineup_viable_count": int(score[16]),
+            "legacy_full_roster_mean_best_score": float(score[10]),
+            "legacy_full_roster_dominate_count": dominate_count,
+            "legacy_full_roster_overwhelming_count": overwhelming_count,
         }
         if battle_frontier_points_by_row is not None:
             battle_frontier_team_points = [
                 battle_frontier_points_by_row[idx] for idx in best_team.member_indices
             ]
+            battle_frontier_lineup_usage = score_battle_frontier_lineup_usage(
+                best_team.member_indices,
+                matrices,
+                battle_frontier_points_by_row,
+            )
             metrics.update(
                 {
                     "battle_frontier_points_used": sum(battle_frontier_team_points),
@@ -171,6 +195,12 @@ class AnalyzeMetaUseCase:
                         optimizer.battle_frontier_max_five_point_members
                     ),
                     "battle_frontier_max_mega_members": optimizer.battle_frontier_max_mega_members,
+                    "battle_frontier_free_low_point_usage_rate": (
+                        battle_frontier_lineup_usage.free_low_point_usage_rate
+                    ),
+                    "battle_frontier_high_point_usage_rate": (
+                        battle_frontier_lineup_usage.high_point_usage_rate
+                    ),
                 }
             )
 
@@ -183,6 +213,13 @@ class AnalyzeMetaUseCase:
                 "safety_score": sum(safety_by_row[idx] for idx in best_team.member_indices)
                 / len(best_team.member_indices),
                 "metrics": metrics,
+                "bench_utility": _build_bench_utility(
+                    row_labels=row_labels,
+                    matrices=matrices,
+                    team_indices=best_team.member_indices,
+                    species_cache=species_cache,
+                    battle_frontier_points_by_row=battle_frontier_points_by_row,
+                ),
                 "shadow_count": sum(
                     1 for idx in best_team.member_indices if "(Shadow)" in row_labels[idx]
                 ),
@@ -212,5 +249,145 @@ class AnalyzeMetaUseCase:
             "target_map": build_target_map(
                 row_labels, col_labels, matrices, best_team.member_indices
             ),
+            "recommended_lineups": _build_recommended_lineups(
+                row_labels=row_labels,
+                matrices=matrices,
+                team_indices=best_team.member_indices,
+                species_cache=species_cache,
+                battle_frontier_points_by_row=battle_frontier_points_by_row,
+            ),
         }
         return result
+
+
+def _build_recommended_lineups(
+    *,
+    row_labels: list[str],
+    matrices: list[list[list[int]]],
+    team_indices: tuple[int, ...],
+    species_cache: dict[str, tuple[str, ...]],
+    battle_frontier_points_by_row: list[int] | None = None,
+) -> list[dict[str, Any]]:
+    if len(team_indices) < 3 or len(matrices) < 3:
+        return []
+
+    scored_lineups = []
+    for lineup in enumerate_ordered_lineups(team_indices):
+        score = score_ordered_lineup(lineup, matrices)
+        lineup_score = sum(path.mean_best_score for path in score.path_scores) / len(
+            score.path_scores
+        )
+        if lineup_score >= LINEUP_VIABILITY_THRESHOLD:
+            scored_lineups.append((lineup_score, score))
+
+    scored_lineups.sort(
+        key=lambda item: (
+            -item[0],
+            item[1].lineup.lead_index,
+            item[1].lineup.back_indices[0],
+            item[1].lineup.back_indices[1],
+        )
+    )
+
+    return [
+        _to_recommended_lineup(
+            row_labels,
+            species_cache,
+            lineup_score,
+            score,
+            battle_frontier_points_by_row,
+        )
+        for lineup_score, score in scored_lineups[:MAX_RECOMMENDED_LINEUPS]
+    ]
+
+
+def _to_recommended_lineup(
+    row_labels: list[str],
+    species_cache: dict[str, tuple[str, ...]],
+    lineup_score: float,
+    score: Any,
+    battle_frontier_points_by_row: list[int] | None = None,
+) -> dict[str, Any]:
+    dominating_matchups = sum(path.dominate_count for path in score.path_scores)
+    overwhelming_matchups = sum(path.overwhelming_count for path in score.path_scores)
+    lead = _to_team_member(score.lineup.lead_index, row_labels, species_cache)
+    back_pair = [
+        _to_team_member(index, row_labels, species_cache)
+        for index in score.lineup.back_indices
+    ]
+    result = {
+        "lead": lead,
+        "back_pair": back_pair,
+        "team_shape": classify_lineup_shape(
+            lead["types"],
+            back_pair[0]["types"],
+            back_pair[1]["types"],
+        ),
+        "lineup_score": lineup_score,
+        "score_summary": {
+            "mean_score": lineup_score,
+            "dominating_matchups": dominating_matchups,
+            "overwhelming_matchups": overwhelming_matchups,
+        },
+        "resource_paths": [
+            {
+                "name": path_score.path_name,
+                "lead_shield": path.lead_shield,
+                "back_shield": path.back_shield,
+                "mean_best_score": path_score.mean_best_score,
+                "dominating_matchups": path_score.dominate_count,
+                "overwhelming_matchups": path_score.overwhelming_count,
+            }
+            for path, path_score in zip(LINEUP_RESOURCE_PATHS, score.path_scores, strict=True)
+        ],
+    }
+    if battle_frontier_points_by_row is not None:
+        result["battle_frontier_points_used"] = sum(
+            battle_frontier_points_by_row[index]
+            for index in (score.lineup.lead_index, *score.lineup.back_indices)
+        )
+    return result
+
+
+def _build_bench_utility(
+    *,
+    row_labels: list[str],
+    matrices: list[list[list[int]]],
+    team_indices: tuple[int, ...],
+    species_cache: dict[str, tuple[str, ...]],
+    battle_frontier_points_by_row: list[int] | None = None,
+) -> list[dict[str, Any]]:
+    return [
+        {
+            "member": _to_team_member(usage.member_index, row_labels, species_cache),
+            "lineups_used": usage.lineups_used,
+            "lead_lineups_used": usage.lead_lineups_used,
+            "back_lineups_used": usage.back_lineups_used,
+            "viable_lineup_rate": usage.viable_lineup_rate,
+            "all_lineup_rate": usage.all_lineup_rate,
+            "best_lineup_score": usage.best_lineup_score,
+            "tier": usage.tier,
+            "warnings": [
+                {
+                    "category": warning.category,
+                    "code": warning.code,
+                    "severity": warning.severity,
+                    "message": warning.message,
+                }
+                for warning in usage.warnings
+            ],
+        }
+        for usage in score_roster_bench_utility(
+            team_indices,
+            matrices,
+            battle_frontier_points_by_row=battle_frontier_points_by_row,
+        )
+    ]
+
+
+def _to_team_member(
+    row_idx: int,
+    row_labels: list[str],
+    species_cache: dict[str, tuple[str, ...]],
+) -> dict[str, Any]:
+    return to_team_members((row_idx,), row_labels, species_cache)[0]

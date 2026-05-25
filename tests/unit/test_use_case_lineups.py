@@ -1,0 +1,224 @@
+from typing import Any
+
+from pogo_team_optimizer.application.use_case import AnalyzeMetaUseCase
+
+
+class FakePokemonRepository:
+    def get_types(self, species_name: str) -> tuple[str, ...]:
+        return ("normal",)
+
+    def get_base_stats(self, species_name: str) -> tuple[int, int, int] | None:
+        return (100, 100, 100)
+
+
+class ShapePokemonRepository:
+    def get_types(self, species_name: str) -> tuple[str, ...]:
+        return {
+            "Amon": ("water",),
+            "Bmon": ("grass",),
+            "Cmon": ("fire",),
+            "Dmon": ("grass",),
+            "Emon": ("water",),
+            "Fmon": ("fighting",),
+        }[species_name]
+
+    def get_base_stats(self, species_name: str) -> tuple[int, int, int] | None:
+        return (100, 100, 100)
+
+
+class LineupSimulationRepository:
+    def load(self) -> tuple[list[str], list[str], list[list[list[int]]]]:
+        rows = ["Amon", "Bmon", "Cmon", "Dmon", "Emon", "Fmon"]
+        cols = ["Opp1", "Opp2"]
+        matrix = [
+            [650, 650],
+            [640, 640],
+            [630, 630],
+            [620, 620],
+            [610, 610],
+            [600, 600],
+        ]
+        return rows, cols, [matrix, matrix, matrix]
+
+
+class TieBreakSimulationRepository:
+    def load(self) -> tuple[list[str], list[str], list[list[list[int]]]]:
+        rows = ["Zmon", "Amon", "Bmon", "Cmon", "Dmon", "Emon"]
+        cols = ["Opp1"]
+        matrix = [[600] for _ in rows]
+        return rows, cols, [matrix, matrix, matrix]
+
+
+def test_use_case_exposes_structured_recommended_lineups() -> None:
+    result = AnalyzeMetaUseCase(
+        simulation_repository=LineupSimulationRepository(),
+        pokemon_repository=FakePokemonRepository(),
+    ).execute(seed=7, restarts=1)
+
+    lineups = result["recommended_lineups"]
+
+    assert len(lineups) == 5
+    first = lineups[0]
+    assert first["lead"]["species"] == "Amon"
+    assert [member["species"] for member in first["back_pair"]] == ["Bmon", "Cmon"]
+    assert first["team_shape"] == "unclassified"
+    assert first["lineup_score"] == 650.0
+    assert first["score_summary"] == {
+        "mean_score": 650.0,
+        "dominating_matchups": 6,
+        "overwhelming_matchups": 0,
+    }
+    assert first["resource_paths"] == [
+        {
+            "name": "balanced",
+            "lead_shield": 1,
+            "back_shield": 1,
+            "mean_best_score": 650.0,
+            "dominating_matchups": 2,
+            "overwhelming_matchups": 0,
+        },
+        {
+            "name": "shield_spend",
+            "lead_shield": 2,
+            "back_shield": 0,
+            "mean_best_score": 650.0,
+            "dominating_matchups": 2,
+            "overwhelming_matchups": 0,
+        },
+        {
+            "name": "shield_save",
+            "lead_shield": 0,
+            "back_shield": 2,
+            "mean_best_score": 650.0,
+            "dominating_matchups": 2,
+            "overwhelming_matchups": 0,
+        },
+    ]
+
+
+def test_recommended_lineups_use_deterministic_index_tie_breaking() -> None:
+    result = AnalyzeMetaUseCase(
+        simulation_repository=TieBreakSimulationRepository(),
+        pokemon_repository=FakePokemonRepository(),
+    ).execute(seed=7, restarts=1)
+
+    actual_order = [
+        (lineup["lead"]["index"], tuple(member["index"] for member in lineup["back_pair"]))
+        for lineup in result["recommended_lineups"][:5]
+    ]
+
+    assert actual_order == [
+        (0, (1, 2)),
+        (0, (1, 3)),
+        (0, (1, 4)),
+        (0, (1, 5)),
+        (0, (2, 3)),
+    ]
+
+
+def test_shape_classification_does_not_change_lineup_score_or_order() -> None:
+    baseline_result = AnalyzeMetaUseCase(
+        simulation_repository=LineupSimulationRepository(),
+        pokemon_repository=FakePokemonRepository(),
+    ).execute(seed=7, restarts=1)
+    result = AnalyzeMetaUseCase(
+        simulation_repository=LineupSimulationRepository(),
+        pokemon_repository=ShapePokemonRepository(),
+    ).execute(seed=7, restarts=1)
+
+    baseline_lineups = baseline_result["recommended_lineups"]
+    lineups = result["recommended_lineups"]
+
+    assert [
+        (lineup["lead"]["index"], tuple(member["index"] for member in lineup["back_pair"]))
+        for lineup in lineups[:3]
+    ] == [
+        (lineup["lead"]["index"], tuple(member["index"] for member in lineup["back_pair"]))
+        for lineup in baseline_lineups[:3]
+    ]
+    assert [lineup["lineup_score"] for lineup in lineups[:3]] == [
+        lineup["lineup_score"] for lineup in baseline_lineups[:3]
+    ]
+    assert result["recommended_team"]["score"] == baseline_result["recommended_team"]["score"]
+    assert [lineup["team_shape"] for lineup in lineups[:3]] == ["ABC", "ABB", "ABA"]
+
+
+def test_lineup_metrics_are_distinguished_from_legacy_full_roster_metrics() -> None:
+    result: dict[str, Any] = AnalyzeMetaUseCase(
+        simulation_repository=LineupSimulationRepository(),
+        pokemon_repository=FakePokemonRepository(),
+    ).execute(seed=7, restarts=1)
+
+    metrics = result["recommended_team"]["metrics"]
+
+    assert metrics["lineup_objective_score"] > 0
+    assert metrics["lineup_best_score"] == 650.0
+    assert metrics["lineup_top_n_mean_score"] > 0
+    assert metrics["lineup_viable_count"] >= 3
+    assert metrics["legacy_full_roster_mean_best_score"] == metrics["mean_best_score"]
+    assert metrics["legacy_full_roster_dominate_count"] == metrics["dominate_count"]
+    assert metrics["legacy_full_roster_overwhelming_count"] == metrics["overwhelming_count"]
+
+
+def test_use_case_exposes_bench_utility_diagnostics() -> None:
+    result: dict[str, Any] = AnalyzeMetaUseCase(
+        simulation_repository=LineupSimulationRepository(),
+        pokemon_repository=FakePokemonRepository(),
+    ).execute(seed=7, restarts=1)
+
+    bench_utility = result["recommended_team"]["bench_utility"]
+
+    assert len(bench_utility) == 6
+    first = bench_utility[0]
+    assert first["member"]["species"] in {"Amon", "Bmon", "Cmon", "Dmon", "Emon", "Fmon"}
+    assert first["lineups_used"] > 0
+    assert first["lead_lineups_used"] > 0
+    assert first["back_lineups_used"] > 0
+    assert first["viable_lineup_rate"] > 0
+    assert first["all_lineup_rate"] > 0
+    assert first["best_lineup_score"] >= 650.0
+    assert first["tier"] in {"core", "flexible", "specialist", "low_utility", "unbringable"}
+    assert isinstance(first["warnings"], list)
+
+
+def test_use_case_bench_utility_warnings_are_structured() -> None:
+    class WeakSimulationRepository:
+        def load(self) -> tuple[list[str], list[str], list[list[list[int]]]]:
+            rows = ["Amon", "Bmon", "Cmon", "Dmon", "Emon", "Fmon"]
+            cols = ["Opp1"]
+            matrix = [[300] for _ in rows]
+            return rows, cols, [matrix, matrix, matrix]
+
+    result: dict[str, Any] = AnalyzeMetaUseCase(
+        simulation_repository=WeakSimulationRepository(),
+        pokemon_repository=FakePokemonRepository(),
+    ).execute(seed=7, restarts=1)
+
+    warning = result["recommended_team"]["bench_utility"][0]["warnings"][0]
+
+    assert warning == {
+        "category": "bench_utility",
+        "code": "unbringable",
+        "severity": "high",
+        "message": "Roster member appears in no viable ordered lineups.",
+    }
+
+
+def test_non_battle_frontier_results_omit_battle_frontier_diagnostics() -> None:
+    result: dict[str, Any] = AnalyzeMetaUseCase(
+        simulation_repository=LineupSimulationRepository(),
+        pokemon_repository=FakePokemonRepository(),
+    ).execute(seed=7, restarts=1)
+
+    metrics = result["recommended_team"]["metrics"]
+    first_lineup = result["recommended_lineups"][0]
+    warnings = [
+        warning
+        for entry in result["recommended_team"]["bench_utility"]
+        for warning in entry["warnings"]
+    ]
+
+    assert "battle_frontier_free_low_point_usage_rate" not in metrics
+    assert "battle_frontier_high_point_usage_rate" not in metrics
+    assert "battle_frontier_points_used" not in first_lineup
+    assert all(warning["category"] != "battle_frontier" for warning in warnings)

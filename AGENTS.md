@@ -152,6 +152,13 @@ make test
 - Battle Frontier point files should live under `data/battle_frontier/` with `species,points` headers, use names normalized like `parse_species()`, and rely on repository fallback-to-`0` for species omitted from the current cycle.
 - Battle Frontier legality belongs in `TeamOptimizer`; wire per-row point costs from the CLI/use case into the optimizer so both initial seeding and swap search share the same legality checks.
 - Battle Frontier output metrics belong in `recommended_team.metrics`; keep them optional and have human-readable exporters render a conditional legality section so non-`bfmaster` metas do not need placeholder fields.
+- Battle Frontier lineup point diagnostics are optional result fields assembled in `AnalyzeMetaUseCase` from `application/lineups.py`; do not reject individual pick-3 lineups for point totals in the MVP.
+- Ordered bring-6 pick-3 lineup enumeration belongs in `application/lineups.py`; keep lead order distinct and canonicalize the unordered back pair by sorted row index.
+- Ordered lineup resource-path scoring belongs in `application/lineups.py`; keep the fixed paths as lead 1/back 1, lead 2/back 0, and lead 0/back 2, with lineup thresholds of score greater than `600` for dominating and less than `400` for overwhelming losses.
+- Six-Pokemon roster objective scoring belongs in `TeamOptimizer` consuming lineup-depth metrics from `application/lineups.py`; append new optimizer score tuple fields instead of reordering existing indexes consumed by use-case metrics and exporters.
+- Structured `recommended_lineups` assembly belongs in `AnalyzeMetaUseCase`; keep ranking and diagnostics based on `application/lineups.py`, and keep CLI/exporters from computing lineup scores.
+- Bench utility diagnostics belong in `application/lineups.py` and should be exposed as structured `recommended_team.bench_utility`; keep them diagnostic-only unless a future story explicitly makes utility a ranking input.
+- ABC/ABB/ABA lineup shape labels are heuristic diagnostics from `application/lineups.py`; expose them on `recommended_lineups` but never use them for lineup scoring, roster ranking, or tie-breaking.
 
 ## Cursor / Copilot Rule Files
 Checked repository-local instruction files:

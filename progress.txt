@@ -1,4 +1,11 @@
 ## Codebase Patterns
+- Ordered bring-6 pick-3 lineup enumeration lives in `application/lineups.py`; `OrderedLineup` canonicalizes the unordered back pair by sorted row index while preserving lead order from the input roster.
+- Ordered lineup resource-path scoring lives in `application/lineups.py`; fixed paths are balanced lead 1/back 1, shield-spend lead 2/back 0, and shield-save lead 0/back 2, with lineup thresholds of `> 600` dominating and `< 400` overwhelming.
+- Six-Pokemon roster objective scoring in `TeamOptimizer` should prioritize appended lineup-depth metrics before legacy full-roster coverage tie-breakers; keep score tuple indexes `0` through `12` compatible for existing metrics consumers.
+- Structured `recommended_lineups` assembly lives in `AnalyzeMetaUseCase`; rank by lineup score with row-index tie-breakers, source diagnostics from `application/lineups.py`, and keep CLI/exporters from computing lineup scores.
+- Bench utility diagnostics live in `application/lineups.py` and are exposed as structured `recommended_team.bench_utility`; keep them diagnostic-only and do not feed them into optimizer ranking.
+- Battle Frontier lineup point diagnostics are optional use-case result fields; compute usage rates and point-aware bench warnings from viable ordered lineups without rejecting individual pick-3 lineups.
+- ABC/ABB/ABA lineup shape labels are heuristic diagnostics from `application/lineups.py`; expose them on `recommended_lineups` but never use them for lineup scoring, roster ranking, or tie-breaking.
 - Register meta-specific auxiliary inputs in `data/metas.json` using `switch_rankings_path` and `required_files`, then validate those paths in the CLI before constructing repositories.
 - Keep meta config changes in `application/meta_config.py`; the CLI should only consume `MetaConfig` and enforce startup validation.
 - Battle Frontier point data lives in `data/battle_frontier/` as `species,points` CSVs keyed by `parse_species()` names, and the repository should default missing species to `0`.
@@ -151,4 +158,227 @@
   - There are additional unrelated worktree changes present outside this iteration.
 - Next iteration start:
   - All PRD stories currently pass.
+---
+
+## 2026-05-24 19:54:26 MST - US-001
+- What was implemented
+- Added immutable application-layer `OrderedLineup` structures for one lead and an unordered canonical two-member back pair.
+- Added deterministic `enumerate_ordered_lineups()` support that emits 60 unique ordered lineups for a six-Pokemon roster while keeping lead order distinct.
+- Added focused unit coverage for lineup count, uniqueness, canonical back-pair ordering, deterministic enumeration, and validation errors.
+- Files changed: `prd.json`, `progress.txt`, `src/pogo_team_optimizer/application/lineups.py`, `tests/unit/test_lineups.py`
+- Commit message: `feat: US-001 - Add ordered lineup models and enumeration`
+- Checks:
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m pytest tests/unit/test_lineups.py` (pass)
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m mypy src` (pass)
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m ruff check src tests` (pass)
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m pytest` (pass)
+- Implementation agents:
+  - Recommended: `python-pro`
+  - Used: `python-pro`
+- Specialist review:
+  - Agents used: pending
+  - Findings: pending
+- Decisions (why):
+  - Chose a dedicated `application/lineups.py` module because this story is application-level enumeration only and should not couple scoring, CLI, exporters, or infrastructure.
+  - Chose row-index identifiers and sorted canonical back pairs because existing optimizer code uses row indices and canonical integer tuples make hashing and deterministic equality straightforward.
+- **Learnings for future iterations:**
+  - `OrderedLineup` validates distinct lead/back members and canonicalizes only the back pair; future scoring stories can rely on hashable immutable lineups without re-normalizing back order.
+  - Gotcha encountered: local `python` points to Python 3.8 without pytest, so repository checks should use the `pogo-team-optimizer` conda environment command form.
+- Known issues / follow-ups:
+  - Lineup scoring and exporter integration remain intentionally out of scope for this story.
+- Next iteration start:
+  - Implement `US-002` by scoring ordered lineups across fixed balanced, shield-spend, and shield-save resource paths.
+---
+
+## 2026-05-24 19:58:50 MST - US-002
+- What was implemented
+  - Added immutable lineup scoring result models for fixed resource paths and a deterministic `score_ordered_lineup()` application-layer scorer.
+  - Implemented balanced, shield-spend, and shield-save path evaluation using connected lead/back shield states and the better back-pair score per matchup.
+  - Added focused unit coverage for each fixed path, better-back selection, and exclusive `400`/`600` threshold behavior.
+- Files changed: `AGENTS.md`, `prd.json`, `progress.txt`, `src/pogo_team_optimizer/application/lineups.py`, `tests/unit/test_lineups.py`
+- Commit message: `feat: US-002 - Score ordered lineups with fixed resource paths`
+- Checks:
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m pytest tests/unit/test_lineups.py -q` (pass)
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m mypy src` (pass)
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m ruff check src tests` (pass)
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m pytest` (pass)
+- Implementation agents:
+  - Recommended: `python-pro`
+  - Used: `python-pro`
+- Specialist review:
+  - Agents used: pending
+  - Findings: pending
+- Decisions (why):
+  - Kept scoring in `application/lineups.py` next to enumeration because this story is application logic and later optimizer/use-case stories can consume the typed scorer without involving CLI or exporters.
+  - Chose fixed `LineupResourcePath` constants in deterministic order so path ranking and diagnostics remain stable across runs.
+  - Used exclusive `> 600` and `< 400` thresholds because the PRD explicitly excludes equality at the boundaries.
+- **Learnings for future iterations:**
+  - `score_ordered_lineup()` returns per-path `best_scores`, counts, and mean score; future roster scoring can aggregate these path scores without recomputing shield-state lookup rules.
+  - Gotcha encountered: existing full-roster optimizer thresholds differ from lineup thresholds, so lineup-aware stories should not reuse the optimizer's legacy dominate/overwhelming constants.
+- Known issues / follow-ups:
+  - Roster objective refactoring remains intentionally out of scope for this story and belongs to `US-003`.
+  - US-001 files were already staged before this iteration; this candidate commit includes the prior ordered-lineup enumeration baseline that US-002 depends on.
+- Next iteration start:
+  - Implement `US-003` by refactoring roster scoring to compare six-Pokemon candidates using lineup-aware strength and depth.
+---
+
+## 2026-05-24 20:04:22 MST - US-003
+- What was implemented
+  - Added roster-level lineup-depth scoring that combines best lineup strength, top-N lineup quality, and viable lineup count without averaging all 60 lineups as the primary objective.
+  - Refactored `TeamOptimizer` comparison to prioritize lineup-aware objective metrics after safety requirements while preserving legacy coverage, safety, bulk, and consistency metrics as tie-breakers.
+  - Added focused optimizer tests for stronger pick-3 lineups beating better full-six paper coverage and lineup depth beating one stronger top lineup.
+- Files changed: `AGENTS.md`, `prd.json`, `progress.txt`, `src/pogo_team_optimizer/application/lineups.py`, `src/pogo_team_optimizer/application/optimizer.py`, `tests/unit/test_optimizer_lineup_objective.py`
+- Commit message: `feat: US-003 - Refactor roster scoring to use lineup strength and depth`
+- Checks:
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m pytest tests/unit/test_optimizer_lineup_objective.py -q` (pass)
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m pytest tests/unit/test_lineups.py tests/unit/test_optimizer_lineup_objective.py tests/unit/test_optimizer_battle_frontier.py tests/unit/test_optimizer_safety_priority.py -q` (pass)
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m mypy src` (pass)
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m ruff check src tests` (pass)
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m pytest` (pass)
+- Implementation agents:
+  - Recommended: `refactoring-specialist`
+  - Used: `refactoring-specialist`
+- Specialist review:
+  - Agents used: pending
+  - Findings: pending
+- Decisions (why):
+  - Appended lineup objective metrics to the existing optimizer score tuple instead of reordering existing fields so use-case metrics and exporters keep their current index contract.
+  - Kept the new roster-level lineup aggregation in `application/lineups.py` while letting `TeamOptimizer` own the candidate comparison order, preserving application-layer boundaries and avoiding CLI/exporter logic changes.
+  - Used a top-10 lineup mean plus viable lineup rate so scoring rewards depth without optimizing only the single best lineup or averaging all 60 lineups equally.
+- **Learnings for future iterations:**
+  - Future result-exposure stories can read appended score tuple indexes `13` through `16` for lineup objective, best lineup score, top-N lineup quality, and viable lineup count if they need roster-level diagnostics.
+  - Gotcha encountered: existing optimizer tests may use fewer than three shield matrices or team sizes below three, so lineup-aware scoring must return neutral metrics for unsupported legacy scenarios.
+- Known issues / follow-ups:
+  - Recommended lineup result models and exporter rendering remain pending for later stories.
+- Next iteration start:
+  - Implement `US-004` by exposing structured recommended lineups from the analysis result without moving exporter formatting into application code.
+---
+
+## 2026-05-24 20:09:34 MST - US-004
+- What was implemented
+  - Added structured `recommended_lineups` to `AnalyzeMetaUseCase` results with lead, canonical back pair, lineup score summary, and fixed resource-path diagnostics.
+  - Ranked recommended lineups deterministically by lineup score, then lead and back row indexes, returning up to five viable alternatives when available.
+  - Added explicit lineup-derived roster metrics alongside legacy full-roster metric aliases so downstream output can distinguish pick-3 diagnostics from full-six coverage.
+  - Added focused use-case tests for result structure, deterministic tie-breaking, and metric naming.
+- Files changed: `AGENTS.md`, `prd.json`, `progress.txt`, `src/pogo_team_optimizer/application/use_case.py`, `tests/unit/test_use_case_lineups.py`
+- Commit message: `feat: US-004 - Expose lineup-aware analysis results`
+- Checks:
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m pytest tests/unit/test_use_case_lineups.py -q` (pass)
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m mypy src` (pass)
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m ruff check src tests` (pass)
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m pytest` (pass)
+- Implementation agents:
+  - Recommended: `refactoring-specialist`
+  - Used: `refactoring-specialist`
+- Specialist review:
+  - Agents used: pending
+  - Findings: pending
+- Decisions (why):
+  - Chose use-case assembly for `recommended_lineups` because the use case already owns result payload construction while `application/lineups.py` owns enumeration and scoring rules.
+  - Chose row-index tie-breaking instead of species-name tie-breaking because row indexes match existing optimizer identity and stay deterministic even when labels have unusual formatting.
+  - Chose explicit `legacy_full_roster_*` metric aliases while preserving existing metric keys so exporters and tests keep their current schema while future output can avoid presenting legacy full-six diagnostics as battle coverage.
+- **Learnings for future iterations:**
+  - `recommended_lineups` entries include `lead`, `back_pair`, `lineup_score`, `score_summary`, and `resource_paths`; exporters should render these fields directly rather than recomputing lineup scores.
+  - Gotcha encountered: some existing unit fixtures provide only one shield matrix, so use-case lineup recommendations return an empty list unless all three fixed resource-path matrices are available.
+- Known issues / follow-ups:
+  - Bench utility, Battle Frontier lineup point diagnostics, shape labels, and exporter rendering remain pending for later stories.
+- Next iteration start:
+  - Implement `US-005` by deriving roster-member usage across viable recommended/scored lineups and generating low-utility or unbringable warnings.
+---
+
+## 2026-05-24 20:15:36 MST - US-005
+- What was implemented
+  - Added lineup-derived bench utility diagnostics for each roster member, including lead/back usage counts, viable/all lineup rates, best lineup score, tier classification, and structured warnings.
+  - Exposed `recommended_team.bench_utility` from `AnalyzeMetaUseCase` without changing optimizer ranking or moving diagnostics into CLI/exporters.
+  - Added focused coverage for core, flexible, specialist, low-utility, and unbringable classifications plus low-usage and unbringable warning shapes.
+- Files changed: `AGENTS.md`, `prd.json`, `progress.txt`, `src/pogo_team_optimizer/application/lineups.py`, `src/pogo_team_optimizer/application/use_case.py`, `tests/unit/test_lineups.py`, `tests/unit/test_use_case_lineups.py`
+- Commit message: `feat: US-005 - Add bench utility and unbringable warnings`
+- Checks:
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m pytest tests/unit/test_lineups.py tests/unit/test_use_case_lineups.py -q` (pass)
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m mypy src` (pass)
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m ruff check src tests` (pass)
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m pytest` (pass)
+- Implementation agents:
+  - Recommended: `python-pro`
+  - Used: `python-pro`
+- Specialist review:
+  - Agents used: `code-reviewer`, `qa-expert`, `security-engineer`
+  - Findings: fixed before commit; tightened the invariance test to compare roster score and mixed ABC/ABB/ABA lineup labels against a baseline run. Second review pass found no actionable issues.
+- Decisions (why):
+  - Chose `application/lineups.py` for usage aggregation and tiering because it already owns ordered lineup enumeration and scoring rules.
+  - Chose structured `recommended_team.bench_utility` instead of flat metrics because each entry belongs to a roster member and includes nested warning data.
+  - Chose diagnostic-only warnings and tiers so bench utility does not alter the lineup-aware optimizer objective before a later story explicitly requires it.
+- **Learnings for future iterations:**
+  - Bench utility should consider all viable ordered lineups, not only the top five `recommended_lineups` displayed in output.
+  - Gotcha encountered: use-case tests should avoid assuming a specific optimizer member order unless the story is explicitly testing ordering.
+- Known issues / follow-ups:
+  - Battle Frontier point usage rates and expensive-bench warnings remain pending for `US-006`.
+  - Human-readable and tabular exporter rendering remains pending for later stories.
+- Next iteration start:
+  - Implement `US-006` by adding Battle Frontier lineup point diagnostics and point-aware bench warnings without rejecting individual pick-3 lineups.
+---
+
+## 2026-05-24 20:21:08 MST - US-006
+- What was implemented
+  - Added Battle Frontier lineup point diagnostics derived from viable ordered pick-3 lineups without changing six-roster legality or filtering individual lineups.
+  - Added optional Battle Frontier point totals to recommended lineups and optional free/low-point plus high-point usage rates to recommended team metrics.
+  - Added point-aware Battle Frontier bench warnings for expensive mostly-bench members and free/low-point paper coverage.
+- Files changed: `AGENTS.md`, `prd.json`, `progress.txt`, `src/pogo_team_optimizer/application/lineups.py`, `src/pogo_team_optimizer/application/use_case.py`, `tests/unit/test_lineups.py`, `tests/unit/test_use_case_battle_frontier.py`, `tests/unit/test_use_case_lineups.py`
+- Commit message: `feat: US-006 - Add Battle Frontier lineup diagnostics`
+- Checks:
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m pytest tests/unit/test_lineups.py tests/unit/test_use_case_battle_frontier.py tests/unit/test_use_case_lineups.py -q` (pass)
+  - `make typecheck` (fail: system `python3` has no `mypy` module)
+  - `make lint` (pass)
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m mypy src` (pass)
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m ruff check src tests` (pass)
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m pytest` (pass)
+- Implementation agents:
+  - Recommended: `python-pro`
+  - Used: `python-pro`
+- Specialist review:
+  - Agents used: pending
+  - Findings: pending
+- Decisions (why):
+  - Chose additive optional `battle_frontier_*` fields so non-Battle-Frontier metas do not emit placeholders and existing output contracts remain compatible.
+  - Chose viable-lineup appearance rates as the denominator because the diagnostics should explain playable pick-3 usage, not raw roster composition.
+  - Kept point-aware warnings in bench utility because they are member-specific diagnostics and should not influence optimizer ranking in this MVP.
+- **Learnings for future iterations:**
+- Battle Frontier point diagnostics should be assembled by the use case from `application/lineups.py` helpers; CLI and exporters should render optional fields rather than recomputing rates.
+- ABC/ABB/ABA lineup shape labels are heuristic diagnostics from `application/lineups.py`; expose them on `recommended_lineups` but never use them for lineup scoring, roster ranking, or tie-breaking.
+- Gotcha encountered: the Makefile uses system `python3`, which may not have `mypy`; the repository checks are reliable through the `pogo-team-optimizer` conda environment.
+- Known issues / follow-ups:
+  - Exporters do not yet render the new lineup point diagnostics; that remains for later exporter stories.
+- Next iteration start:
+  - Implement `US-007` by adding diagnostic ABC/ABB/ABA shape labels without changing lineup or roster scoring.
+---
+
+## 2026-05-24 23:59:58 MST - US-007
+- What was implemented
+  - Added isolated ABC/ABB/ABA/unclassified lineup shape classification in `application/lineups.py`.
+  - Exposed `team_shape` on each structured `recommended_lineups` entry from `AnalyzeMetaUseCase` without changing lineup scoring, roster scoring, or tie-breaking.
+  - Added focused tests for classifier labels, conservative unclassified cases, recommended lineup field exposure, and unchanged lineup ordering/score behavior.
+- Files changed: `AGENTS.md`, `prd.json`, `progress.txt`, `src/pogo_team_optimizer/application/lineups.py`, `src/pogo_team_optimizer/application/use_case.py`, `tests/unit/test_lineups.py`, `tests/unit/test_use_case_lineups.py`
+- Commit message: `feat: US-007 - Add ABC ABB ABA diagnostic lineup labels`
+- Checks:
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m pytest tests/unit/test_lineups.py tests/unit/test_use_case_lineups.py -q` (pass)
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m mypy src` (pass)
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m ruff check src tests` (pass)
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m pytest` (pass)
+- Implementation agents:
+  - Recommended: `python-pro`
+  - Used: `python-pro`
+- Specialist review:
+  - Agents used: pending
+  - Findings: pending
+- Decisions (why):
+  - Chose a conservative type-overlap classifier because the current data model exposes Pokemon types, not matchup role/archetype metadata.
+  - Chose a top-level `team_shape` field on each recommended lineup because shape describes the lineup composition, not its score summary.
+  - Kept classification out of `score_ordered_lineup()`, `score_roster_lineup_depth()`, `TeamOptimizer`, and lineup sort keys so labels remain diagnostic-only.
+- **Learnings for future iterations:**
+  - Shape labels should be rendered from `recommended_lineups[*].team_shape`; exporters should not recompute ABC/ABB/ABA labels.
+  - Gotcha encountered: dual-type overlap can be ambiguous, so the classifier intentionally returns `unclassified` for all-overlap or chained-overlap cases instead of forcing a label.
+- Known issues / follow-ups:
+  - Exporters do not yet render the shape label; that remains for `US-008` and `US-009`.
+- Next iteration start:
+  - Implement `US-008` by rendering structured recommended lineups, bench utility, warnings, and shape labels in JSON, text, and Markdown exporters.
 ---

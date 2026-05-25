@@ -5,6 +5,7 @@ import random
 from collections import defaultdict
 from dataclasses import dataclass
 
+from pogo_team_optimizer.application.lineups import RosterLineupScore, score_roster_lineup_depth
 from pogo_team_optimizer.application.normalization import parse_base_species, parse_species
 
 
@@ -243,6 +244,7 @@ class TeamOptimizer:
         dominate_rate = dominate_count / total_pairs
         overwhelming_rate = overwhelming_count / total_pairs
         consistency_score = mean_best_score + (75.0 * dominate_rate) - (125.0 * overwhelming_rate)
+        lineup_score = self._score_team_lineups(team_indices)
 
         return (
             float(pair_coverage),
@@ -258,7 +260,16 @@ class TeamOptimizer:
             mean_best_score,
             float(dominate_count),
             float(-overwhelming_count),
+            lineup_score.objective_score,
+            lineup_score.best_lineup_score,
+            lineup_score.top_lineup_mean,
+            float(lineup_score.viable_lineup_count),
         )
+
+    def _score_team_lineups(self, team_indices: list[int]) -> RosterLineupScore:
+        if len(team_indices) < 3 or len(self.matrices) < 3:
+            return RosterLineupScore(0.0, 0.0, 0.0, 0)
+        return score_roster_lineup_depth(team_indices, self.matrices)
 
     def _comparison_key(
         self,
@@ -282,6 +293,10 @@ class TeamOptimizer:
         return (
             -floor_deficit,
             -safe_member_deficit,
+            score[13],
+            score[15],
+            score[16],
+            score[14],
             score[2],
             score[3],
             score[4],
