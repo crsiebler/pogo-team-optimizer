@@ -350,7 +350,7 @@
         "Deterministic optimizer tests still pass"
       ],
       "priority": 19,
-      "passes": false,
+      "passes": true,
       "notes": "Recommended agent: refactoring-specialist. Verification and cleanup only; do not add feature scope here. Capture any remaining output compatibility decisions as separate follow-up work."
     }
   ]

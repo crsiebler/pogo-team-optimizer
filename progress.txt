@@ -748,3 +748,42 @@
 - Next iteration start:
   - Implement `US-019` by running the final performance and regression gate, including `make run` checks for `great`, `bfmaster`, and `great WORKERS=2`.
 ---
+
+## 2026-05-25 03:58:30 MST - US-019
+- What was implemented
+  - Ran the final performance and regression gate for output cleanup, multiprocessing, Battle Frontier legality, and optimizer correctness.
+  - Verified `great`, `bfmaster`, and `great WORKERS=2` CLI smoke runs complete successfully and regenerate text output with Recommended Lineups and Potential Threats.
+  - Confirmed freshly generated `great.txt` and `bfmaster.txt` omit Safe Cores, standalone Coverage, Resource / Shield Safety, and non-warning Bench Utility sections.
+  - Re-ran the gate in an isolated worktree containing only `HEAD` plus the staged `prd.json` and `progress.txt` changes, so the pass state is not dependent on unrelated dirty worktree files.
+- Files changed: `prd.json`, `progress.txt`
+- Commit message: `feat: US-019 - Run final performance and regression gate`
+- Checks:
+  - `conda run -n pogo-team-optimizer make lint` (pass, isolated staged-state worktree)
+  - `conda run -n pogo-team-optimizer make typecheck` (pass, isolated staged-state worktree)
+  - `conda run -n pogo-team-optimizer make test` (pass, isolated staged-state worktree)
+  - `conda run -n pogo-team-optimizer make run META=great` (pass, isolated staged-state worktree)
+  - `conda run -n pogo-team-optimizer make run META=bfmaster` (pass, isolated staged-state worktree)
+  - `conda run -n pogo-team-optimizer make run META=great WORKERS=2` (pass, isolated staged-state worktree)
+  - `/usr/bin/grep -F "Recommended Lineups" "data/output/great.txt" && /usr/bin/grep -F "Potential Threats" "data/output/great.txt" && /usr/bin/grep -F "Recommended Lineups" "data/output/bfmaster.txt" && /usr/bin/grep -F "Potential Threats" "data/output/bfmaster.txt" && ! /usr/bin/grep -E "Safe Cores|^Coverage$|Bench Utility|Resource / Shield Safety" "data/output/great.txt" "data/output/bfmaster.txt" && /usr/bin/grep -F "Battle Frontier legality" "data/output/bfmaster.txt" && /usr/bin/grep -E "points used: [0-9]+/11" "data/output/bfmaster.txt" && /usr/bin/grep -E "5-point members: [0-9]+/1" "data/output/bfmaster.txt" && /usr/bin/grep -E "Mega members: [0-9]+/1" "data/output/bfmaster.txt"` (pass, isolated staged-state worktree)
+  - `PYTHONPATH=src conda run -n pogo-team-optimizer python -m pytest -k "battle_frontier or bfmaster or legality or deterministic or optimizer"` (pass, isolated staged-state worktree)
+- Implementation agents:
+  - Recommended: `refactoring-specialist`
+  - Used: `refactoring-specialist`
+- Specialist review:
+  - Agents used: `code-reviewer`, `qa-expert`, `security-engineer`, `documentation-engineer`
+  - Findings: fixed before commit; re-ran checks in an isolated staged-state worktree and replaced the broad output grep with per-file/per-field assertions. Deferred low commit-message format suggestion because Ralph explicitly requires `feat: US-019 - Run final performance and regression gate`.
+- Decisions (why):
+  - Chose not to make code changes because all story acceptance criteria passed through the verification gate and this story is verification/cleanup-only.
+  - Chose to validate forbidden human-readable sections against freshly generated `great.txt` and `bfmaster.txt` only because other stale output files predate this gate and are outside the story scope.
+  - Chose not to stage regenerated `data/output` artifacts because the repository already had pre-existing generated-output changes and the story's durable changes are the Ralph metadata files.
+  - Chose an isolated worktree for final verification instead of reverting or staging unrelated files because those files were already modified before this iteration and the story is a final verification gate rather than a code-change story.
+- **Learnings for future iterations:**
+  - Final verification stories can rely on Makefile conda-backed targets plus focused `-k` subsets to prove Battle Frontier legality and optimizer determinism without changing feature code.
+  - Gotcha encountered: broad output-directory searches may match stale files from unrelated metas; assert output cleanup against the freshly generated meta files for the current gate.
+  - Gotcha encountered: when the main worktree is dirty, use an isolated `HEAD` plus staged-patch worktree to prove the committed state independently of unrelated local changes.
+- Known issues / follow-ups:
+  - Pre-existing unrelated generated output, data, source, archive, diagnostics, and task-file changes remain outside this story and should not be staged.
+  - The main worktree still contains unstaged changes in `Makefile`, generated `data/output/*`, simulation CSVs and backups, `src/pogo_team_optimizer/application/analyzers.py`, `src/pogo_team_optimizer/application/lineups.py`, `src/pogo_team_optimizer/application/use_case.py`, `src/pogo_team_optimizer/cli/main.py`, `src/pogo_team_optimizer/infrastructure/exporters/excel_exporter.py`, `archive/`, `data/output-diagnostics-check/`, and `tasks/prd-bring-6-pick-3-lineup-optimization.md`; these were excluded from the story commit and from isolated final verification.
+- Next iteration start:
+  - All PRD stories currently pass.
+---
