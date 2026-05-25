@@ -6,6 +6,8 @@
 - Bench utility diagnostics live in `application/lineups.py` and are exposed as structured `recommended_team.bench_utility`; keep them diagnostic-only and do not feed them into optimizer ranking.
 - Battle Frontier lineup point diagnostics are optional use-case result fields; compute usage rates and point-aware bench warnings from viable ordered lineups without rejecting individual pick-3 lineups.
 - ABC/ABB/ABA lineup shape labels are heuristic diagnostics from `application/lineups.py`; expose them on `recommended_lineups` but never use them for lineup scoring, roster ranking, or tie-breaking.
+- CSV lineup-aware exports keep the stable `section,key,value` schema and use `recommended_lineup`, `recommended_lineup_resource_path`, `bench_utility`, and `bench_utility_warning` sections.
+- Excel lineup-aware exports use dedicated `Lineups`, `Lineup Resources`, `Bench Utility`, and `Bench Warnings` sheets instead of overloading legacy sheets.
 - Register meta-specific auxiliary inputs in `data/metas.json` using `switch_rankings_path` and `required_files`, then validate those paths in the CLI before constructing repositories.
 - Keep meta config changes in `application/meta_config.py`; the CLI should only consume `MetaConfig` and enforce startup validation.
 - Battle Frontier point data lives in `data/battle_frontier/` as `species,points` CSVs keyed by `parse_species()` names, and the repository should default missing species to `0`.
@@ -271,8 +273,8 @@
   - Recommended: `refactoring-specialist`
   - Used: `refactoring-specialist`
 - Specialist review:
-  - Agents used: pending
-  - Findings: pending
+  - Agents used: `code-reviewer`, `qa-expert`, `security-engineer`, `security-auditor`, `documentation-engineer`
+  - Findings: fixed before commit; added CSV rows for Battle Frontier free/low-point and high-point usage rates, tightened CSV row ordering assertions, validated Excel content in dedicated sheets, made the Excel Battle Frontier lineup points column conditional, and sanitized new bench utility CSV key cells. Deferred low line-feed CSV sanitizer extension because no blocking critical/high/medium review finding remained after the final review pass.
 - Decisions (why):
   - Chose use-case assembly for `recommended_lineups` because the use case already owns result payload construction while `application/lineups.py` owns enumeration and scoring rules.
   - Chose row-index tie-breaking instead of species-name tie-breaking because row indexes match existing optimizer identity and stay deterministic even when labels have unusual formatting.
@@ -413,4 +415,36 @@
   - CSV and Excel lineup-aware exports remain pending for `US-009`.
 - Next iteration start:
   - Implement `US-009` by adding stable lineup, bench utility, and optional Battle Frontier diagnostic fields to CSV and Excel exports.
+---
+
+## 2026-05-25 00:20:15 MST - US-009
+- What was implemented
+  - Added lineup-aware CSV rows for recommended lineups, fixed resource-path diagnostics, bench utility, bench warnings, and optional Battle Frontier point metrics while preserving the existing `section,key,value` header.
+  - Added dedicated Excel sheets for recommended lineups, lineup resource paths, bench utility, and bench warnings.
+  - Added focused exporter tests that verify stable CSV rows and generated Excel sheets include lineup, bench utility, shape label, and Battle Frontier diagnostics.
+- Files changed: `AGENTS.md`, `prd.json`, `progress.txt`, `src/pogo_team_optimizer/infrastructure/exporters/csv_exporter.py`, `src/pogo_team_optimizer/infrastructure/exporters/excel_exporter.py`, `tests/unit/test_battle_frontier_exporters.py`
+- Commit message: `feat: US-009 - Render lineup-aware CSV and Excel exports`
+- Checks:
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m pytest tests/unit/test_battle_frontier_exporters.py -q` (pass)
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m mypy src` (pass)
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m ruff check src tests` (pass)
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m pytest` (pass)
+- Implementation agents:
+  - Recommended: `python-pro`
+  - Used: `python-pro`
+- Specialist review:
+  - Agents used: pending
+  - Findings: pending
+- Decisions (why):
+  - Chose additive CSV sections instead of widening the CSV schema so existing consumers that expect `section,key,value` remain compatible.
+  - Chose dedicated Excel sheets for lineup and bench diagnostics because the existing workbook already separates report domains by sheet.
+  - Rendered optional Battle Frontier point diagnostics only when fields are present so non-Battle-Frontier metas do not need placeholders.
+- **Learnings for future iterations:**
+  - CSV lineup-aware exports should use stable sections rather than new top-level headers: `recommended_lineup`, `recommended_lineup_resource_path`, `bench_utility`, and `bench_utility_warning`.
+  - Excel lineup-aware exports should keep tabular diagnostics in the dedicated `Lineups`, `Lineup Resources`, `Bench Utility`, and `Bench Warnings` sheets.
+  - Gotcha encountered: XML workbook tests can validate sheet names and inline-string cell values directly from the generated `.xlsx` zip without adding a parser dependency.
+- Known issues / follow-ups:
+  - Repository documentation for lineup-aware optimization remains pending for `US-010`.
+- Next iteration start:
+  - Implement `US-010` by updating README.md and AGENTS.md documentation only, with no optimizer or exporter behavior changes.
 ---

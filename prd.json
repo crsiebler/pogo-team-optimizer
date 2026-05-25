@@ -170,7 +170,7 @@
         "Typecheck passes"
       ],
       "priority": 9,
-      "passes": false,
+      "passes": true,
       "notes": "Recommended agent: python-pro. Depends on US-004 through US-007. Keep this separate from human-readable exporters to keep the story one-iteration-sized."
     },
     {

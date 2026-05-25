@@ -1,4 +1,5 @@
 import json
+from csv import reader
 from zipfile import ZipFile
 
 from pogo_team_optimizer.infrastructure.exporters.csv_exporter import CsvExporter
@@ -79,6 +80,8 @@ def build_result() -> dict[str, object]:
                 "battle_frontier_max_points": 11,
                 "battle_frontier_max_five_point_members": 1,
                 "battle_frontier_max_mega_members": 1,
+                "battle_frontier_free_low_point_usage_rate": 0.6666666667,
+                "battle_frontier_high_point_usage_rate": 0.1754385965,
             },
         },
         "coverage": [
@@ -253,6 +256,130 @@ def test_existing_exporters_accept_results_with_battle_frontier_metrics(tmp_path
 
     assert '"battle_frontier_points_used": 8' in JsonExporter().export(result)
     CsvExporter().export(result, output_path=str(tmp_path / "result.csv"))
+
+
+def test_csv_exporter_writes_lineup_and_bench_utility_rows(tmp_path) -> None:
+    output_path = tmp_path / "result.csv"
+
+    CsvExporter().export(build_result(), output_path=str(output_path))
+
+    with output_path.open(encoding="utf-8", newline="") as handle:
+        rows = list(reader(handle))
+
+    assert rows[0] == ["section", "key", "value"]
+    expected_rows = [
+        ["recommended_team", "battle_frontier_points_used", "8/11"],
+        ["recommended_team", "battle_frontier_five_point_members", "1/1"],
+        ["recommended_team", "battle_frontier_mega_members", "1/1"],
+        ["recommended_team", "battle_frontier_free_low_point_usage_rate", "0.6667"],
+        ["recommended_team", "battle_frontier_high_point_usage_rate", "0.1754"],
+        [
+            "recommended_lineup",
+            "#1",
+            "lead=Mewtwo;backs=Gengar (Mega), Dialga;shape=ABC;score=621.50;"
+            "mean=621.50;dominating=4;overwhelming=1;points=8",
+        ],
+        [
+            "recommended_lineup_resource_path",
+            "#1 balanced",
+            "lead_shield=1;back_shield=1;mean_best_score=630.00;"
+            "dominating=2;overwhelming=0",
+        ],
+        [
+            "recommended_lineup_resource_path",
+            "#1 shield_spend",
+            "lead_shield=2;back_shield=0;mean_best_score=610.00;"
+            "dominating=1;overwhelming=1",
+        ],
+        [
+            "recommended_lineup_resource_path",
+            "#1 shield_save",
+            "lead_shield=0;back_shield=2;mean_best_score=624.50;"
+            "dominating=1;overwhelming=0",
+        ],
+        [
+            "bench_utility",
+            "Mewtwo",
+            "tier=core;lineups_used=12;lead_lineups_used=5;back_lineups_used=7;"
+            "viable_lineup_rate=0.8000;all_lineup_rate=0.2000;best_lineup_score=640.00",
+        ],
+        [
+            "bench_utility",
+            "Gengar (Mega)",
+            "tier=low_utility;lineups_used=1;lead_lineups_used=0;back_lineups_used=1;"
+            "viable_lineup_rate=0.0500;all_lineup_rate=0.0167;best_lineup_score=525.00",
+        ],
+        [
+            "bench_utility_warning",
+            "Gengar (Mega)",
+            "category=battle_frontier;code=expensive_bench;severity=warning;"
+            "message=Expensive Pokemon appears in few viable lineups.",
+        ],
+    ]
+    section_rows = [
+        row
+        for row in rows
+        if row[0]
+        in {
+            "recommended_lineup",
+            "recommended_lineup_resource_path",
+            "bench_utility",
+            "bench_utility_warning",
+        }
+        or row[1].startswith("battle_frontier_")
+    ]
+    assert section_rows == expected_rows
+
+
+def test_csv_exporter_sanitizes_bench_utility_key_cells(tmp_path) -> None:
+    result = build_result()
+    result["recommended_team"]["bench_utility"][0]["member"]["label"] = "=Formula"  # type: ignore[index]
+    output_path = tmp_path / "result.csv"
+
+    CsvExporter().export(result, output_path=str(output_path))
+
+    with output_path.open(encoding="utf-8", newline="") as handle:
+        rows = list(reader(handle))
+
+    assert any(row[:2] == ["bench_utility", "'=Formula"] for row in rows)
+
+
+def test_excel_exporter_omits_battle_frontier_lineup_column_when_absent(tmp_path) -> None:
+    result = build_result()
+    result["recommended_lineups"][0].pop("battle_frontier_points_used")  # type: ignore[index]
+    output_path = tmp_path / "result.xlsx"
+
+    ExcelExporter().export(result, output_path=str(output_path))
+
+    with ZipFile(output_path) as workbook:
+        lineups_sheet = workbook.read("xl/worksheets/sheet6.xml").decode("utf-8")
+
+    assert "Team Shape" in lineups_sheet
+    assert "Battle Frontier Points Used" not in lineups_sheet
+
+
+def test_excel_exporter_writes_lineup_and_bench_utility_sheets(tmp_path) -> None:
+    output_path = tmp_path / "result.xlsx"
+
+    ExcelExporter().export(build_result(), output_path=str(output_path))
+
+    with ZipFile(output_path) as workbook:
+        workbook_xml = workbook.read("xl/workbook.xml").decode("utf-8")
+        lineups_sheet = workbook.read("xl/worksheets/sheet6.xml").decode("utf-8")
+        resources_sheet = workbook.read("xl/worksheets/sheet7.xml").decode("utf-8")
+        bench_sheet = workbook.read("xl/worksheets/sheet8.xml").decode("utf-8")
+        warnings_sheet = workbook.read("xl/worksheets/sheet9.xml").decode("utf-8")
+
+    assert "Lineups" in workbook_xml
+    assert "Lineup Resources" in workbook_xml
+    assert "Bench Utility" in workbook_xml
+    assert "Bench Warnings" in workbook_xml
+    assert "Team Shape" in lineups_sheet
+    assert "ABC" in lineups_sheet
+    assert "Battle Frontier Points Used" in lineups_sheet
+    assert "shield_spend" in resources_sheet
+    assert "Viable Lineup Rate" in bench_sheet
+    assert "expensive_bench" in warnings_sheet
 
 
 def test_excel_exporter_writes_xlsx_workbook(tmp_path) -> None:
