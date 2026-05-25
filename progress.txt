@@ -2,6 +2,7 @@
 - Ordered bring-6 pick-3 lineup enumeration lives in `application/lineups.py`; `OrderedLineup` canonicalizes the unordered back pair by sorted row index while preserving lead order from the input roster.
 - Ordered lineup resource-path scoring lives in `application/lineups.py`; fixed paths are balanced lead 1/back 1, shield-spend lead 2/back 0, and shield-save lead 0/back 2, with lineup thresholds of `> 600` dominating and `< 400` overwhelming.
 - Six-Pokemon roster objective scoring in `TeamOptimizer` should prioritize appended lineup-depth metrics before legacy full-roster coverage tie-breakers; keep score tuple indexes `0` through `12` compatible for existing metrics consumers.
+- `TeamOptimizer` derives a meta-relative bulk floor from the loaded candidate pool mean and applies any below-floor bulk deficit in `_comparison_key()` before lineup objective fields; this is a penalty, not a legality filter.
 - Structured `recommended_lineups` assembly lives in `AnalyzeMetaUseCase`; rank by lineup score with row-index tie-breakers, source diagnostics from `application/lineups.py`, and keep CLI/exporters from computing lineup scores.
 - Bench utility diagnostics live in `application/lineups.py` and are exposed as structured `recommended_team.bench_utility`; keep them diagnostic-only and do not feed them into optimizer ranking.
 - Battle Frontier lineup point diagnostics are optional use-case result fields; compute usage rates and point-aware bench warnings from viable ordered lineups without rejecting individual pick-3 lineups.
@@ -241,8 +242,8 @@
   - Recommended: `refactoring-specialist`
   - Used: `refactoring-specialist`
 - Specialist review:
-  - Agents used: pending
-  - Findings: pending
+  - Agents used: `code-reviewer`, `qa-expert`, `security-engineer`, `documentation-engineer`
+  - Findings: none
 - Decisions (why):
   - Appended lineup objective metrics to the existing optimizer score tuple instead of reordering existing fields so use-case metrics and exporters keep their current index contract.
   - Kept the new roster-level lineup aggregation in `application/lineups.py` while letting `TeamOptimizer` own the candidate comparison order, preserving application-layer boundaries and avoiding CLI/exporter logic changes.
@@ -512,4 +513,35 @@
   - Bare `make typecheck` still fails when invoked with system `/usr/local/bin/python3` because `mypy` is not installed there; conda-based Makefile typecheck passes.
 - Next iteration start:
   - All PRD stories currently pass.
+---
+
+## 2026-05-25 02:42:56 MST - US-012
+- What was implemented
+  - Added a meta-relative bulk viability guard in `TeamOptimizer` comparison by penalizing average roster bulk below the loaded candidate-pool mean before lineup objective fields.
+  - Documented the derived bulk floor in code and captured the reusable optimizer comparison pattern for future stories.
+  - Added focused optimizer tests for below-floor frail lineups losing to bulkier alternatives, candidate-pool floor derivation, and above-floor teams continuing to compare by lineup quality.
+- Files changed: `AGENTS.md`, `prd.json`, `progress.txt`, `src/pogo_team_optimizer/application/optimizer.py`, `tests/unit/test_optimizer_lineup_objective.py`
+- Commit message: `feat: US-012 - Add bulk viability guard to lineup-aware scoring`
+- Checks:
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m pytest tests/unit/test_optimizer_lineup_objective.py -q` (pass)
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m mypy src` (pass)
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m ruff check src tests` (pass)
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m pytest` (pass)
+- Implementation agents:
+  - Recommended: `refactoring-specialist`
+  - Used: `refactoring-specialist`
+- Specialist review:
+  - Agents used: pending
+  - Findings: pending
+- Decisions (why):
+  - Chose the candidate-pool mean as the floor because it is meta-relative, deterministic from loaded inputs, and avoids hard-coding meta-specific bulk thresholds.
+  - Chose a comparison penalty instead of rejecting teams because the story asks to penalize below-floor rosters while preserving optimizer legality rules.
+  - Kept above-floor teams on the existing lineup-first comparison path by making their bulk deficit zero.
+- **Learnings for future iterations:**
+  - Bulk viability belongs in `TeamOptimizer._comparison_key()` so raw score metrics remain interpretable and future performance work can cache pure score tuples independently of comparison policy.
+  - Gotcha encountered: when testing above-floor comparisons, include lower-bulk candidate-pool rows outside both compared teams so both teams can be above the pool-derived mean.
+- Known issues / follow-ups:
+  - The worktree contained pre-existing unrelated output/data and follow-up story changes; only US-012-intended files should be staged for this commit.
+- Next iteration start:
+  - Implement `US-013` by caching repeated team and lineup score computations without changing scoring semantics.
 ---

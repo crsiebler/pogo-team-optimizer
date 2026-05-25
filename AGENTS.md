@@ -156,6 +156,7 @@ make test
 - Ordered bring-6 pick-3 lineup enumeration belongs in `application/lineups.py`; keep lead order distinct and canonicalize the unordered back pair by sorted row index.
 - Ordered lineup resource-path scoring belongs in `application/lineups.py`; keep the fixed paths as lead 1/back 1, lead 2/back 0, and lead 0/back 2, with lineup thresholds of score greater than `600` for dominating and less than `400` for overwhelming losses.
 - Six-Pokemon roster objective scoring belongs in `TeamOptimizer` consuming lineup-depth metrics from `application/lineups.py`; append new optimizer score tuple fields instead of reordering existing indexes consumed by use-case metrics and exporters.
+- Meta-relative bulk viability belongs in `TeamOptimizer._comparison_key()` as a below-floor penalty before lineup objective fields; derive the floor from the loaded candidate pool and do not treat it as a legality filter.
 - Structured `recommended_lineups` assembly belongs in `AnalyzeMetaUseCase`; keep ranking and diagnostics based on `application/lineups.py`, and keep CLI/exporters from computing lineup scores.
 - Bench utility diagnostics belong in `application/lineups.py` and should be exposed as structured `recommended_team.bench_utility`; keep them diagnostic-only unless a future story explicitly makes utility a ranking input.
 - ABC/ABB/ABA lineup shape labels are heuristic diagnostics from `application/lineups.py`; expose them on `recommended_lineups` but never use them for lineup scoring, roster ranking, or tie-breaking.

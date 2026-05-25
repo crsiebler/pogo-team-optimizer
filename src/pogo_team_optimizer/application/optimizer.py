@@ -33,6 +33,8 @@ class TeamOptimizer:
         self.col_labels = col_labels
         self.matrices = matrices
         self.bulk_by_row = bulk_by_row
+        # Meta-relative viability guard: below-average roster bulk is penalized before lineup quality.
+        self.bulk_floor = sum(bulk_by_row) / len(bulk_by_row) if bulk_by_row else 0.0
         if safety_by_row is None:
             self.safety_by_row = [60.0] * len(row_labels)
         elif len(safety_by_row) != len(row_labels):
@@ -281,9 +283,12 @@ class TeamOptimizer:
         safe_member_floor: float,
     ) -> tuple[float, ...]:
         team_safety_score = score[6]
+        team_bulk_score = score[5]
         floor_deficit = 0.0
         if safety_floor is not None and team_safety_score < safety_floor:
             floor_deficit = safety_floor - team_safety_score
+
+        bulk_deficit = max(0.0, self.bulk_floor - team_bulk_score)
 
         safe_member_count = sum(
             1 for row_idx in team_indices if self.safety_by_row[row_idx] >= safe_member_floor
@@ -293,6 +298,7 @@ class TeamOptimizer:
         return (
             -floor_deficit,
             -safe_member_deficit,
+            -bulk_deficit,
             score[13],
             score[15],
             score[16],

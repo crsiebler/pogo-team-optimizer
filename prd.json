@@ -208,6 +208,150 @@
       "priority": 11,
       "passes": true,
       "notes": "Recommended agent: refactoring-specialist. Depends on all previous stories. This is a verification and cleanup story only; do not add new feature scope here."
+    },
+    {
+      "id": "US-012",
+      "title": "Add bulk viability guard to lineup-aware scoring",
+      "description": "As a team optimizer user, I want lineup-aware recommendations to preserve minimum team bulk so that strong coverage does not produce unusably frail rosters.",
+      "acceptanceCriteria": [
+        "Optimizer comparison penalizes teams below a meta-relative bulk floor before lineup objective",
+        "Bulk floor is derived from the loaded candidate pool and documented in code or metrics",
+        "Teams at or above the bulk floor continue to compete primarily on lineup quality",
+        "Add tests proving a below-floor frail high-lineup team loses to a viable bulkier alternative",
+        "Focused tests pass",
+        "Typecheck passes"
+      ],
+      "priority": 12,
+      "passes": true,
+      "notes": "Recommended agent: refactoring-specialist. Keep this in TeamOptimizer comparison logic and do not alter CLI/exporter layers. This follow-up was added after real great meta runs selected glass-cannon lineups with insufficient roster bulk."
+    },
+    {
+      "id": "US-013",
+      "title": "Cache repeated lineup and team scoring",
+      "description": "As a CLI user, I want lineup-aware optimization to complete faster by avoiding repeated scoring of identical teams and lineups.",
+      "acceptanceCriteria": [
+        "TeamOptimizer caches full candidate team score tuples by canonical team identity",
+        "TeamOptimizer caches ordered lineup mean scores by ordered lineup identity",
+        "Caching preserves deterministic optimizer output for the same seed",
+        "Runtime for a one-restart bfmaster diagnostic run improves compared to uncached scoring",
+        "Focused optimizer tests pass",
+        "Typecheck passes"
+      ],
+      "priority": 13,
+      "passes": false,
+      "notes": "Recommended agent: python-pro. This is the first performance story and should not change scoring semantics. Cache only deterministic pure score results derived from loaded matrices and team composition."
+    },
+    {
+      "id": "US-014",
+      "title": "Simplify human-readable lineup reports",
+      "description": "As a report reader, I want the text and Markdown output to focus on recommended lineups and threats so that noisy diagnostic sections do not obscure the team recommendation.",
+      "acceptanceCriteria": [
+        "Text output omits Bench Utility when there are no actionable warnings",
+        "Text output omits standalone Resource / Shield Safety section",
+        "Text output omits legacy Coverage section",
+        "Text output omits Safe Cores section",
+        "Markdown output follows the same simplified section policy",
+        "Recommended Lineups include concise inline resource summaries",
+        "Potential Threats remains visible",
+        "Exporter tests cover removed and retained sections",
+        "Focused tests pass",
+        "Typecheck passes"
+      ],
+      "priority": 14,
+      "passes": false,
+      "notes": "Recommended agent: python-pro. Keep formatting in infrastructure exporters. Do not move scoring, threat analysis, or lineup scoring into exporters. Machine-readable compatibility can be addressed separately if needed."
+    },
+    {
+      "id": "US-015",
+      "title": "Replace top cores with top lineups",
+      "description": "As a CLI user, I want to control the number of recommended ordered lineups instead of obsolete safe cores.",
+      "acceptanceCriteria": [
+        "CLI accepts --top-lineups with default 5",
+        "--top-lineups rejects values greater than 10",
+        "Makefile run target uses --top-lineups instead of --top-cores",
+        "AnalyzeMetaUseCase uses top_lineups to limit recommended_lineups",
+        "Safe core ranking is not computed for normal report output",
+        "CLI tests cover valid, capped, and invalid top-lineups behavior",
+        "Focused tests pass",
+        "Typecheck passes"
+      ],
+      "priority": 15,
+      "passes": false,
+      "notes": "Recommended agent: refactoring-specialist. This removes the older safe-core report path from normal execution. Keep CLI as validation and wiring only."
+    },
+    {
+      "id": "US-016",
+      "title": "Remove unused bench utility computation from normal execution",
+      "description": "As a CLI user, I want the optimizer to skip non-actionable bench utility diagnostics so report generation is cleaner and avoids unnecessary work.",
+      "acceptanceCriteria": [
+        "AnalyzeMetaUseCase does not compute bench_utility for normal non-warning output",
+        "Bench warning logic is retained only if actionable warnings are still required",
+        "Text and Markdown reports do not render all-core bench utility rows",
+        "JSON, CSV, and Excel schema changes are documented or tests are intentionally updated",
+        "Tests verify no Bench Utility section appears when all members are core",
+        "Focused tests pass",
+        "Typecheck passes"
+      ],
+      "priority": 16,
+      "passes": false,
+      "notes": "Recommended agent: python-pro. Remove computation if no downstream output depends on it; otherwise gate it behind warnings or diagnostics. Keep resource path details inside recommended_lineups rather than a standalone human-readable section."
+    },
+    {
+      "id": "US-017",
+      "title": "Add multiprocessing restart batching",
+      "description": "As a user with a multi-core CPU, I want optimizer restarts to run in separate processes so large metas complete faster.",
+      "acceptanceCriteria": [
+        "CLI accepts --workers with default 1",
+        "Makefile exposes WORKERS variable and passes it to the CLI",
+        "TeamOptimizer uses the existing single-process path when workers is 1",
+        "When workers is greater than 1, restarts are split into deterministic process batches",
+        "Each worker uses a deterministic seed derived from the base seed and worker index",
+        "Parent process selects the global best solution using the same comparison key",
+        "Tests verify workers=1 remains deterministic",
+        "Tests verify workers=2 returns a legal deterministic result for fixed inputs",
+        "Focused tests pass",
+        "Typecheck passes"
+      ],
+      "priority": 17,
+      "passes": false,
+      "notes": "Recommended agent: python-pro. Use ProcessPoolExecutor, not threads. Parallelize restart chunks, not individual matchup cells or resource-path calculations. Preserve deterministic behavior for fixed seed and worker count."
+    },
+    {
+      "id": "US-018",
+      "title": "Document performance and output controls",
+      "description": "As a contributor and CLI user, I want documentation for top-lineups, diagnostics, workers, Conda Makefile usage, and simplified output semantics.",
+      "acceptanceCriteria": [
+        "README documents --top-lineups and maximum 10",
+        "README documents WORKERS and DIAGNOSTICS Makefile variables",
+        "README explains that multiprocessing uses processes over restart batches",
+        "README explains omitted human-readable sections and where structured diagnostics remain if retained",
+        "AGENTS.md records that Safe Cores and full-roster Coverage should not be reintroduced into normal text output",
+        "AGENTS.md records that process-based parallelism is preferred over threads for CPU-bound optimizer work",
+        "Typecheck passes"
+      ],
+      "priority": 18,
+      "passes": false,
+      "notes": "Recommended agent: documentation-engineer. Documentation-only story after behavior stabilizes. Do not implement optimizer behavior in this story."
+    },
+    {
+      "id": "US-019",
+      "title": "Run final performance and regression gate",
+      "description": "As a maintainer, I want final validation that output cleanup and performance changes preserve optimizer correctness.",
+      "acceptanceCriteria": [
+        "make lint passes",
+        "make typecheck passes",
+        "make test passes",
+        "make run META=great completes successfully",
+        "make run META=bfmaster completes successfully",
+        "make run META=great WORKERS=2 completes successfully if workers are implemented",
+        "Text output contains Recommended Lineups and Potential Threats",
+        "Text output does not contain Safe Cores, Coverage, or non-warning Bench Utility",
+        "Battle Frontier legality remains enforced",
+        "Deterministic optimizer tests still pass"
+      ],
+      "priority": 19,
+      "passes": false,
+      "notes": "Recommended agent: refactoring-specialist. Verification and cleanup only; do not add feature scope here. Capture any remaining output compatibility decisions as separate follow-up work."
     }
   ]
 }
