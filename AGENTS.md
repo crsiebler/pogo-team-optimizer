@@ -153,6 +153,7 @@ make test
 - CLI runs emit all supported output formats to `--output-dir`; do not use deprecated `--output`.
 - Meta-specific PvPoke ranking inputs belong in `data/metas.json` via typed `ranking_paths` and optional `full_meta_ranking_paths` keyed by `RankingCategory`; keep legacy `switch_rankings_path` as a compatibility shim only.
 - Validate all configured ranking paths in the CLI before constructing repositories; switch rankings resolution remains explicit `--switch-rankings-path`, then per-meta `ranking_paths.switches`, then the legacy Great League default path.
+- Ranking threat pools belong in `application/ranking_pools.py`; align ranking profiles to normalized matrix opponent labels, deduplicate by `parse_base_species()` like the optimizer, and keep missing ranking entries deterministic instead of failing.
 - Battle Frontier point files should live under `data/battle_frontier/` with `species,points` headers, use names normalized like `parse_species()`, and rely on repository fallback-to-`0` for species omitted from the current cycle.
 - Battle Frontier legality belongs in `TeamOptimizer`; wire per-row point costs from the CLI/use case into the optimizer so both initial seeding and swap search share the same legality checks.
 - Battle Frontier output metrics belong in `recommended_team.metrics`; keep them optional and have human-readable exporters render a conditional legality section so non-`bfmaster` metas do not need placeholder fields.
