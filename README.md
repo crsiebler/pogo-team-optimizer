@@ -6,9 +6,10 @@ It evaluates matchup coverage across shield scenarios, identifies fragile matchu
 
 ## Features
 
-- Optimize a 6-Pokemon team from simulation matrix data
-- Rank safe 3-member cores from the recommended team
-- Report coverage by shield scenario
+- Optimize a 6-Pokemon team from simulation matrix data using ordered pick-3 lineups
+- Recommend playable lead/back-pair lineups from the selected bring-6 roster
+- Report lineup resource-path safety across shield scenarios
+- Explain bench utility, warnings, and Battle Frontier point diagnostics when available
 - Highlight threats with single-cover and no-cover fragility
 - Export as `text`, `markdown`, `json`, `csv`, `excel`, or `pvpoke`
 
@@ -78,6 +79,42 @@ make run META=bayou
 
 If `META` is omitted, Makefile run targets default to `bfmaster`.
 
+## Interpreting Lineup-Aware Results
+
+The optimizer recommends a bring-6 roster, but roster scoring is based on ordered pick-3
+lineups rather than treating all six Pokemon as simultaneously available in battle. Each
+six-Pokemon roster produces exactly `60` ordered lineups: `6` possible leads multiplied by
+`10` unordered back pairs from the remaining five Pokemon.
+
+Each ordered lineup has one lead and a canonical unordered back pair. Lead order remains
+meaningful, so `A` leading with `B/C` is different from `B` leading with `A/C`, while the
+back pair `B/C` is the same as `C/B` for the same lead.
+
+Lineup scoring uses fixed resource paths that connect the lead's shield use to the backs'
+remaining shields:
+
+- Balanced: lead `1` shield, backs `1` shield
+- Shield-spend: lead `2` shields, backs `0` shields
+- Shield-save: lead `0` shields, backs `2` shields
+
+For each matchup in a resource path, the back-pair result uses the better score from either
+back Pokemon. Lineup diagnostics count dominating matchups with score `> 600` and
+overwhelming losses with score `< 400`.
+
+The report includes recommended lineups as viable options for multi-battle play, not as a
+single mandatory default lineup. Bench utility explains how often each roster member appears
+in viable lineups and classifies members as core, flexible, specialist, low utility, or
+unbringable. Warnings call out low-usage or unbringable roster members and should be read as
+diagnostic caveats, not hard failures unless the output says otherwise.
+
+For Battle Frontier metas, optional diagnostics show roster point totals, lineup point totals,
+free or low-point usage rates, high-point usage rates, and point-aware bench warnings. The MVP
+keeps Battle Frontier legality at the six-roster level and does not reject individual pick-3
+lineups for point totals.
+
+ABC, ABB, and ABA lineup labels are heuristic diagnostics for interpreting team shape. They
+are not scoring inputs, ranking inputs, or tie-breakers in the MVP.
+
 ## Fast Test Iteration
 
 ```bash
@@ -92,14 +129,16 @@ PYTHONPATH=src python -m pytest tests/unit/test_normalization.py::test_parse_spe
 
 - Keep matrix CSV row/column labels aligned across all shield files for a meta.
 - `pvpoke` export requires both `data/pokemon.json` and `data/moves.json`.
+- Legacy full-six dominate and overwhelming diagnostics are not battle coverage for actual
+  pick-3 play; use the ordered lineup sections for battle interpretation.
 
 ## Contributing
 
 For code changes, follow this local quality gate before opening a PR:
 
 ```bash
-make typecheck
 make lint
+make typecheck
 make test
 ```
 

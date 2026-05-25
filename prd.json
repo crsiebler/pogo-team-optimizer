@@ -189,7 +189,7 @@
         "Typecheck passes"
       ],
       "priority": 10,
-      "passes": false,
+      "passes": true,
       "notes": "Recommended agent: documentation-engineer. Depends on implementation/output contracts being stable. This story must update documentation only; do not implement optimizer behavior here."
     },
     {

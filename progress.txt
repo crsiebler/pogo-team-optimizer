@@ -208,8 +208,8 @@
   - Recommended: `python-pro`
   - Used: `python-pro`
 - Specialist review:
-  - Agents used: pending
-  - Findings: pending
+  - Agents used: `code-reviewer`, `qa-expert`, `security-engineer`, `documentation-engineer`
+  - Findings: no critical/high/medium findings; deferred low commit-message format suggestion because Ralph explicitly requires `feat: US-010 - Update repository documentation for lineup-aware optimization`
 - Decisions (why):
   - Kept scoring in `application/lineups.py` next to enumeration because this story is application logic and later optimizer/use-case stories can consume the typed scorer without involving CLI or exporters.
   - Chose fixed `LineupResourcePath` constants in deterministic order so path ranking and diagnostics remain stable across runs.
@@ -447,4 +447,35 @@
   - Repository documentation for lineup-aware optimization remains pending for `US-010`.
 - Next iteration start:
   - Implement `US-010` by updating README.md and AGENTS.md documentation only, with no optimizer or exporter behavior changes.
+---
+
+## 2026-05-25 00:39:30 MST - US-010
+- What was implemented
+  - Updated README documentation to explain lineup-aware bring-6 roster scoring, 60 ordered pick-3 lineups, fixed shield resource paths, recommended lineups, bench utility, warnings, Battle Frontier diagnostics, and ABC/ABB/ABA diagnostic labels.
+  - Added AGENTS guidance warning that legacy full-six dominate and overwhelming metrics must not be presented as battle coverage.
+  - Kept the story documentation-only with no optimizer, use-case, exporter, or test behavior changes.
+- Files changed: `AGENTS.md`, `README.md`, `prd.json`, `progress.txt`
+- Commit message: `feat: US-010 - Update repository documentation for lineup-aware optimization`
+- Checks:
+  - `make lint` (pass)
+  - `make typecheck` (fail: system `python3` has no `mypy` module)
+  - `make test` (pass)
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m mypy src` (pass)
+- Implementation agents:
+  - Recommended: `documentation-engineer`
+  - Used: `documentation-engineer`
+- Specialist review:
+  - Agents used: pending
+  - Findings: pending
+- Decisions (why):
+  - Chose a new README interpretation section instead of scattering details through command docs so user-facing lineup concepts, resource paths, diagnostics, and Battle Frontier caveats stay together.
+  - Chose a small AGENTS addition because most reusable lineup architecture guidance already existed and the missing durable warning was about legacy full-six metrics not being battle coverage.
+  - Recorded both Makefile and conda typecheck results because the story asks for Makefile guidance, but this environment's reliable strict mypy path is the project conda environment.
+- **Learnings for future iterations:**
+  - Documentation for lineup-aware output should distinguish user interpretation guidance in README from architectural responsibilities in AGENTS.
+  - Gotcha encountered: `make typecheck` still uses system `python3`, which can fail if `mypy` is not installed even though conda-based typecheck passes.
+- Known issues / follow-ups:
+  - `US-011` remains for the final integration and regression gate.
+- Next iteration start:
+  - Implement `US-011` by running the final lint, typecheck, and test gate and checking for accidental CLI/exporter schema regressions.
 ---
