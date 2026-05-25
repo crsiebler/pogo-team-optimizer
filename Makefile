@@ -26,4 +26,4 @@ coverage:
 	PYTHONPATH=$(SRC) $(PYTHON) -m pytest --cov=src --cov-report=term-missing
 
 run:
-	PYTHONPATH=$(SRC) $(PYTHON) -m pogo_team_optimizer.cli.main --meta $(META) --top-threats 10 --top-cores 10 --restarts 80
+	PYTHONPATH=$(SRC) $(PYTHON) -m pogo_team_optimizer.cli.main --meta $(META) --top-threats 10 --top-lineups 10 --restarts 80

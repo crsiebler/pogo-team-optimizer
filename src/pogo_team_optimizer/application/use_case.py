@@ -4,7 +4,6 @@ from collections import defaultdict
 from typing import Any
 
 from pogo_team_optimizer.application.analyzers import (
-    build_core_role_recommendation,
     build_target_map,
     build_threats,
     coverage_by_shield,
@@ -48,7 +47,7 @@ class AnalyzeMetaUseCase:
     def execute(
         self,
         top_threats: int = 10,
-        top_cores: int = 5,
+        top_lineups: int = MAX_RECOMMENDED_LINEUPS,
         seed: int = 7,
         restarts: int = 250,
         safety_priority: str = "medium",
@@ -119,8 +118,6 @@ class AnalyzeMetaUseCase:
             min_safe_members=min_safe_members,
             safe_member_floor=safe_member_floor,
         )
-
-        safe_cores = optimizer.rank_safe_cores(best_team.member_indices, top_n=top_cores)
 
         species_cache = {
             parse_species(label): self.pokemon_repository.get_types(parse_species(label))
@@ -232,20 +229,7 @@ class AnalyzeMetaUseCase:
                 best_team.member_indices,
                 top_n=top_threats,
             ),
-            "safe_cores": [
-                {
-                    "members": to_team_members(core.member_indices, row_labels, species_cache),
-                    "score": core.score,
-                    **build_core_role_recommendation(
-                        row_labels=row_labels,
-                        col_labels=col_labels,
-                        matrices=matrices,
-                        core_indices=core.member_indices,
-                        safety_by_row=safety_by_row,
-                    ),
-                }
-                for core in safe_cores
-            ],
+            "safe_cores": [],
             "target_map": build_target_map(
                 row_labels, col_labels, matrices, best_team.member_indices
             ),
@@ -255,6 +239,7 @@ class AnalyzeMetaUseCase:
                 team_indices=best_team.member_indices,
                 species_cache=species_cache,
                 battle_frontier_points_by_row=battle_frontier_points_by_row,
+                limit=top_lineups,
             ),
         }
         return result
@@ -267,6 +252,7 @@ def _build_recommended_lineups(
     team_indices: tuple[int, ...],
     species_cache: dict[str, tuple[str, ...]],
     battle_frontier_points_by_row: list[int] | None = None,
+    limit: int = MAX_RECOMMENDED_LINEUPS,
 ) -> list[dict[str, Any]]:
     if len(team_indices) < 3 or len(matrices) < 3:
         return []
@@ -297,7 +283,7 @@ def _build_recommended_lineups(
             score,
             battle_frontier_points_by_row,
         )
-        for lineup_score, score in scored_lineups[:MAX_RECOMMENDED_LINEUPS]
+        for lineup_score, score in scored_lineups[:limit]
     ]
 
 

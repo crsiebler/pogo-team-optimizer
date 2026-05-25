@@ -96,6 +96,16 @@ def test_use_case_exposes_structured_recommended_lineups() -> None:
     ]
 
 
+def test_use_case_limits_recommended_lineups_from_argument() -> None:
+    result = AnalyzeMetaUseCase(
+        simulation_repository=LineupSimulationRepository(),
+        pokemon_repository=FakePokemonRepository(),
+    ).execute(seed=7, restarts=1, top_lineups=3)
+
+    assert len(result["recommended_lineups"]) == 3
+    assert result["safe_cores"] == []
+
+
 def test_recommended_lineups_use_deterministic_index_tie_breaking() -> None:
     result = AnalyzeMetaUseCase(
         simulation_repository=TieBreakSimulationRepository(),

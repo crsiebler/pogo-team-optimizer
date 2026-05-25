@@ -159,6 +159,7 @@ make test
 - Meta-relative bulk viability belongs in `TeamOptimizer._comparison_key()` as a below-floor penalty before lineup objective fields; derive the floor from the loaded candidate pool and do not treat it as a legality filter.
 - `TeamOptimizer` caches pure score results per optimizer instance: full team scores by sorted row-index identity and ordered lineup mean scores by `OrderedLineup`; do not cache comparison keys because safety and policy inputs vary per call.
 - Structured `recommended_lineups` assembly belongs in `AnalyzeMetaUseCase`; keep ranking and diagnostics based on `application/lineups.py`, and keep CLI/exporters from computing lineup scores.
+- CLI lineup count control is `--top-lineups` with a maximum of `10`; pass it as `top_lineups` to `AnalyzeMetaUseCase` and do not compute safe-core rankings during normal execution.
 - Bench utility diagnostics belong in `application/lineups.py` and should be exposed as structured `recommended_team.bench_utility`; keep them diagnostic-only unless a future story explicitly makes utility a ranking input.
 - ABC/ABB/ABA lineup shape labels are heuristic diagnostics from `application/lineups.py`; expose them on `recommended_lineups` but never use them for lineup scoring, roster ranking, or tie-breaking.
 - CSV lineup-aware exports preserve the `section,key,value` schema using `recommended_lineup`, `recommended_lineup_resource_path`, `bench_utility`, and `bench_utility_warning` sections; Excel uses dedicated `Lineups`, `Lineup Resources`, `Bench Utility`, and `Bench Warnings` sheets.

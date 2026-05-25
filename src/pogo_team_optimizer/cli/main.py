@@ -92,7 +92,7 @@ def build_parser() -> argparse.ArgumentParser:
         help="Directory for generated output files",
     )
     parser.add_argument("--top-threats", type=int, default=10)
-    parser.add_argument("--top-cores", type=int, default=5)
+    parser.add_argument("--top-lineups", type=int, default=5)
     parser.add_argument(
         "--safety-priority",
         default="medium",
@@ -128,6 +128,9 @@ def resolve_battle_frontier_points_path(
 def main() -> int:
     parser = build_parser()
     args = parser.parse_args()
+
+    if not 1 <= args.top_lineups <= 10:
+        parser.error("--top-lineups must be between 1 and 10")
 
     if args.output is not None:
         parser.error("--output is deprecated; use --output-dir for generated artifacts")
@@ -177,7 +180,7 @@ def main() -> int:
     )
     result = use_case.execute(
         top_threats=args.top_threats,
-        top_cores=args.top_cores,
+        top_lineups=args.top_lineups,
         safety_priority=args.safety_priority,
         seed=args.seed,
         restarts=args.restarts,

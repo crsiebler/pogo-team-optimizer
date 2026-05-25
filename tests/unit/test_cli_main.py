@@ -14,6 +14,28 @@ def test_build_parser_accepts_supported_metas(meta: str) -> None:
     assert args.meta == meta
 
 
+def test_build_parser_defaults_to_five_top_lineups() -> None:
+    parser = build_parser()
+
+    args = parser.parse_args([])
+
+    assert args.top_lineups == 5
+
+
+def test_main_rejects_more_than_ten_top_lineups(monkeypatch) -> None:
+    monkeypatch.setattr("sys.argv", ["prog", "--top-lineups", "11"])
+
+    with pytest.raises(SystemExit, match="2"):
+        main()
+
+
+def test_main_rejects_negative_top_lineups(monkeypatch) -> None:
+    monkeypatch.setattr("sys.argv", ["prog", "--top-lineups", "-1"])
+
+    with pytest.raises(SystemExit, match="2"):
+        main()
+
+
 def test_main_rejects_deprecated_output_argument(monkeypatch) -> None:
     monkeypatch.setattr("sys.argv", ["prog", "--output", "analysis.json"])
 
@@ -293,15 +315,17 @@ def test_main_exports_all_formats_from_one_analysis_result(tmp_path, monkeypatch
     )
 
     execute_calls = 0
+    execute_kwargs: dict[str, object] = {}
     result = {"recommended_team": {"members": [], "metrics": {}}, "coverage": [], "safe_cores": [], "threats": []}
 
     class FakeUseCase:
         def __init__(self, *_: object) -> None:
             pass
 
-        def execute(self, **_: object) -> dict[str, object]:
+        def execute(self, **kwargs: object) -> dict[str, object]:
             nonlocal execute_calls
             execute_calls += 1
+            execute_kwargs.update(kwargs)
             return result
 
     monkeypatch.setattr("pogo_team_optimizer.cli.main.AnalyzeMetaUseCase", FakeUseCase)
@@ -337,12 +361,15 @@ def test_main_exports_all_formats_from_one_analysis_result(tmp_path, monkeypatch
             str(moves_path),
             "--output-dir",
             str(output_dir),
+            "--top-lineups",
+            "10",
         ],
     )
 
     assert main() == 0
 
     assert execute_calls == 1
+    assert execute_kwargs["top_lineups"] == 10
     assert capsys.readouterr().out == "text report\n"
     assert exports == [
         ("text", None, id(result)),

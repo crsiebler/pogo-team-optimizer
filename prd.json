@@ -276,7 +276,7 @@
         "Typecheck passes"
       ],
       "priority": 15,
-      "passes": false,
+      "passes": true,
       "notes": "Recommended agent: refactoring-specialist. This removes the older safe-core report path from normal execution. Keep CLI as validation and wiring only."
     },
     {

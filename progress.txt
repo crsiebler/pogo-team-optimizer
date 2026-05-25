@@ -12,6 +12,7 @@
 - Excel lineup-aware exports use dedicated `Lineups`, `Lineup Resources`, `Bench Utility`, and `Bench Warnings` sheets instead of overloading legacy sheets.
 - Human-readable text and Markdown reports should focus normal output on Recommended Bring-6 Roster, Team Analysis, Recommended Lineups, actionable warnings, and Potential Threats; do not reintroduce standalone Coverage, Safe Cores, or Resource / Shield Safety sections.
 - Bench utility diagnostics should render in human-readable reports only when they contain actionable warnings; all-core/non-warning utility rows stay out of normal text and Markdown output.
+- CLI/report lineup count control is `--top-lineups` with a maximum of `10`; `AnalyzeMetaUseCase.execute(top_lineups=...)` limits `recommended_lineups`, and normal execution should not compute safe-core rankings.
 - Register meta-specific auxiliary inputs in `data/metas.json` using `switch_rankings_path` and `required_files`, then validate those paths in the CLI before constructing repositories.
 - Keep meta config changes in `application/meta_config.py`; the CLI should only consume `MetaConfig` and enforce startup validation.
 - Battle Frontier point data lives in `data/battle_frontier/` as `species,points` CSVs keyed by `parse_species()` names, and the repository should default missing species to `0`.
@@ -375,8 +376,8 @@
   - Recommended: `python-pro`
   - Used: `python-pro`
 - Specialist review:
-  - Agents used: pending
-  - Findings: pending
+  - Agents used: `code-reviewer`, `qa-expert`, `security-engineer`
+  - Findings: fixed before commit; added lower-bound validation and a negative-input CLI regression test after QA found negative `--top-lineups` values could bypass the intended lineup cap. Second review pass found no actionable findings.
 - Decisions (why):
   - Chose a conservative type-overlap classifier because the current data model exposes Pokemon types, not matchup role/archetype metadata.
   - Chose a top-level `team_shape` field on each recommended lineup because shape describes the lineup composition, not its score summary.
@@ -610,4 +611,37 @@
   - Pre-existing unrelated worktree changes remain outside this story; only US-014-intended files should be staged.
 - Next iteration start:
   - Implement `US-015` by replacing safe-core count controls with `--top-lineups` CLI wiring and limiting recommended lineups in the use case.
+---
+
+## 2026-05-25 03:11:32 MST - US-015
+- What was implemented
+  - Replaced normal CLI safe-core sizing with `--top-lineups`, defaulting to `5` and rejecting values above `10`.
+  - Wired `top_lineups` through `AnalyzeMetaUseCase.execute()` to limit structured `recommended_lineups` without moving scoring into the CLI.
+  - Stopped computing safe-core rankings for normal use-case execution while keeping an empty `safe_cores` key for exporter compatibility.
+  - Updated the Makefile run target to use `--top-lineups 10`.
+- Files changed: `AGENTS.md`, `Makefile`, `prd.json`, `progress.txt`, `src/pogo_team_optimizer/application/use_case.py`, `src/pogo_team_optimizer/cli/main.py`, `tests/integration/test_use_case_integration.py`, `tests/unit/test_cli_main.py`, `tests/unit/test_use_case_lineups.py`
+- Commit message: `feat: US-015 - Replace top cores with top lineups`
+- Checks:
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m pytest tests/unit/test_cli_main.py tests/unit/test_use_case_lineups.py tests/integration/test_use_case_integration.py -q` (pass)
+  - `make lint` (pass)
+  - `make typecheck` (pass)
+  - `make test` (pass)
+- Implementation agents:
+  - Recommended: `refactoring-specialist`
+  - Used: `refactoring-specialist`
+- Specialist review:
+  - Agents used: pending
+  - Findings: pending
+- Decisions (why):
+  - Chose to keep `safe_cores: []` in the result payload because CSV and Excel exporters still read the key, and this avoids an unrelated exporter compatibility change while satisfying the requirement not to compute safe-core rankings.
+  - Chose CLI validation for the maximum `--top-lineups` value because the CLI owns argument validation and the use case should only receive already-validated wiring inputs.
+  - Chose a minimum of `1` for `--top-lineups` because normal reports need at least one recommended lineup when viable lineups exist, and negative values would have Python slicing semantics rather than user-facing meaning.
+  - Chose a parameterized `_build_recommended_lineups(..., limit=...)` slice so ranking logic remains deterministic and centralized in the use case.
+- **Learnings for future iterations:**
+  - Use `top_lineups` rather than `top_cores` for report sizing; normal use-case execution should return structured `recommended_lineups` and leave `safe_cores` empty for compatibility.
+  - Gotcha encountered: tabular exporters still access `result["safe_cores"]` directly, so removing the key would break all-format CLI runs even though safe-core ranking is obsolete for normal output.
+- Known issues / follow-ups:
+  - Pre-existing unrelated worktree changes remain outside this story; only US-015-intended files should be staged.
+- Next iteration start:
+  - Implement `US-016` by removing or gating non-actionable bench utility computation from normal execution while preserving any required actionable warnings.
 ---
