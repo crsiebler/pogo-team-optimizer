@@ -330,7 +330,7 @@
         "Typecheck passes"
       ],
       "priority": 18,
-      "passes": false,
+      "passes": true,
       "notes": "Recommended agent: documentation-engineer. Documentation-only story after behavior stabilizes. Do not implement optimizer behavior in this story."
     },
     {

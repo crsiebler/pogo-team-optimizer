@@ -15,6 +15,7 @@
 - Bench utility diagnostics should render in human-readable reports only when they contain actionable warnings; all-core/non-warning utility rows stay out of normal text and Markdown output.
 - Normal `AnalyzeMetaUseCase` execution keeps `recommended_team.bench_utility` as an empty list unless actionable Battle Frontier warnings are needed; preserve the key for exporter compatibility instead of emitting all-core rows.
 - CLI/report lineup count control is `--top-lineups` with a maximum of `10`; `AnalyzeMetaUseCase.execute(top_lineups=...)` limits `recommended_lineups`, and normal execution should not compute safe-core rankings.
+- README CLI/performance docs should keep `--top-lineups`, `WORKERS`, `DIAGNOSTICS`, process-based restart batching, and simplified human-readable output semantics together so user-facing controls stay aligned with Makefile and CLI behavior.
 - Register meta-specific auxiliary inputs in `data/metas.json` using `switch_rankings_path` and `required_files`, then validate those paths in the CLI before constructing repositories.
 - Keep meta config changes in `application/meta_config.py`; the CLI should only consume `MetaConfig` and enforce startup validation.
 - Battle Frontier point data lives in `data/battle_frontier/` as `species,points` CSVs keyed by `parse_species()` names, and the repository should default missing species to `0`.
@@ -409,8 +410,8 @@
   - Recommended: `python-pro`
   - Used: `python-pro`
 - Specialist review:
-  - Agents used: pending
-  - Findings: pending
+  - Agents used: `code-reviewer`, `qa-expert`, `security-engineer`, `documentation-engineer`
+  - Findings: none
 - Decisions (why):
   - Chose to leave `JsonExporter` implementation unchanged because it already serializes the whole result; added tests to lock the structured fields instead.
   - Chose optional section rendering driven by `recommended_lineups` and `bench_utility` keys so older or minimal result payloads do not need placeholder fields.
@@ -716,4 +717,34 @@
   - Pre-existing unrelated generated output/data changes remain outside this story and should not be staged.
 - Next iteration start:
   - Implement `US-018` by documenting `--top-lineups`, `WORKERS`, `DIAGNOSTICS`, process batching, and simplified output semantics.
+---
+
+## 2026-05-25 03:51:36 MST - US-018
+- What was implemented
+  - Updated README CLI and development guidance for `--top-lineups`, the `10` lineup maximum, `WORKERS`, `DIAGNOSTICS`, Conda-backed Makefile commands, and process-based restart batching.
+  - Documented simplified human-readable output semantics and where structured diagnostics remain available in JSON, CSV, and Excel outputs.
+  - Clarified AGENTS guidance that normal text/Markdown output must not reintroduce Safe Cores or full-roster Coverage, and that process-based parallelism is preferred over threads for CPU-bound optimizer work.
+- Files changed: `AGENTS.md`, `README.md`, `prd.json`, `progress.txt`
+- Commit message: `feat: US-018 - Document performance and output controls`
+- Checks:
+  - `make typecheck` (pass)
+  - `make lint` (pass)
+  - `make test` (pass)
+- Implementation agents:
+  - Recommended: `documentation-engineer`
+  - Used: `documentation-engineer`
+- Specialist review:
+  - Agents used: pending
+  - Findings: pending
+- Decisions (why):
+  - Chose README updates over code changes because the story is documentation-only and the CLI, Makefile, and optimizer behavior already exist.
+  - Chose to document structured diagnostics by output format so users understand that simplified text/Markdown output does not remove machine-readable diagnostic data.
+  - Chose concise AGENTS edits because most reusable architecture guidance already existed; only the explicit thread preference and full-roster Coverage warning needed tightening.
+- **Learnings for future iterations:**
+  - Keep user-facing performance and output controls documented together in README when Makefile variables mirror CLI flags.
+  - Gotcha encountered: this worktree has pre-existing unrelated generated output, data, source, and task-file changes; stage only US-018 documentation and Ralph metadata files.
+- Known issues / follow-ups:
+  - Pre-existing unrelated worktree changes remain outside this story and should not be staged.
+- Next iteration start:
+  - Implement `US-019` by running the final performance and regression gate, including `make run` checks for `great`, `bfmaster`, and `great WORKERS=2`.
 ---

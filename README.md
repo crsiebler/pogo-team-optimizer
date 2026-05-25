@@ -33,6 +33,9 @@ All commands should run with `PYTHONPATH=src`.
 
 ## Development Commands
 
+The Makefile runs commands through the `pogo-team-optimizer` Conda environment by
+default. Use these targets for the local quality gate:
+
 ```bash
 make lint
 make typecheck
@@ -75,9 +78,27 @@ The Make target uses the same single-run workflow:
 
 ```bash
 make run META=bayou
+make run META=bayou WORKERS=2
+make run META=bayou DIAGNOSTICS=1
 ```
 
 If `META` is omitted, Makefile run targets default to `bfmaster`.
+
+Useful CLI controls:
+
+- `--top-lineups N` controls how many recommended ordered pick-3 lineups appear in
+  reports. The CLI accepts values from `1` through `10`; the Makefile run target uses
+  `--top-lineups 10`.
+- `--workers N` runs optimizer restarts across process workers. `WORKERS=N` passes the
+  same value through `make run`.
+- `--diagnostics` enables progress and diagnostic logging. `DIAGNOSTICS=1` passes this
+  flag through `make run`; the `POGO_TEAM_OPTIMIZER_DIAGNOSTICS` environment variable
+  enables the same logging for direct CLI invocations.
+
+Multiprocessing is process-based, not thread-based. Worker runs split optimizer restarts
+into deterministic batches and reduce the best result in the parent process, which keeps
+CPU-bound scoring work parallel without parallelizing individual matchup cells or lineup
+resource-path calculations.
 
 ## Interpreting Lineup-Aware Results
 
@@ -106,6 +127,17 @@ single mandatory default lineup. Bench utility explains how often each roster me
 in viable lineups and classifies members as core, flexible, specialist, low utility, or
 unbringable. Warnings call out low-usage or unbringable roster members and should be read as
 diagnostic caveats, not hard failures unless the output says otherwise.
+
+Normal text and Markdown reports intentionally focus on Recommended Bring-6 Roster, Team
+Analysis, Recommended Lineups, actionable warnings, and Potential Threats. They omit
+standalone Safe Cores, full-roster Coverage, and Resource / Shield Safety sections because
+actual battle interpretation belongs to ordered pick-3 lineup diagnostics. Bench utility
+appears in human-readable output only when there are actionable warnings.
+
+Structured diagnostics are retained where they remain useful for automation and analysis.
+JSON includes the full result payload, CSV keeps stable sections such as
+`recommended_lineup`, `recommended_lineup_resource_path`, `bench_utility`, and
+`bench_utility_warning`, and Excel uses dedicated sheets for lineup and bench diagnostics.
 
 For Battle Frontier metas, optional diagnostics show roster point totals, lineup point totals,
 free or low-point usage rates, high-point usage rates, and point-aware bench warnings. The MVP
