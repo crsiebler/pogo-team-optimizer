@@ -13,7 +13,7 @@ class TextExporter(AnalysisExporter):
             lines.append(f"Meta: {result['meta']}")
             lines.append("")
 
-        lines.append("Recommended Team")
+        lines.append("Recommended Bring-6 Roster")
         for member in result["recommended_team"]["members"]:
             type_text = "/".join(member["types"]) if member["types"] else "unknown"
             lines.append(f"- {member['label']} [{type_text}]")
@@ -58,12 +58,12 @@ class TextExporter(AnalysisExporter):
             f"({metrics['no_cover_rate'] * 100:.1f}%)"
         )
         lines.append(
-            f"- dominate: {metrics['dominate_count']}/{metrics['total_pairs']} "
-            f"({metrics['dominate_rate'] * 100:.1f}%) where score > 650"
+            f"- legacy full-roster dominate count: {metrics['dominate_count']}/"
+            f"{metrics['total_pairs']} ({metrics['dominate_rate'] * 100:.1f}%)"
         )
         lines.append(
-            f"- overwhelming: {metrics['overwhelming_count']}/{metrics['total_pairs']} "
-            f"({metrics['overwhelming_rate'] * 100:.1f}%) where score < 350"
+            f"- legacy full-roster overwhelming count: {metrics['overwhelming_count']}/"
+            f"{metrics['total_pairs']} ({metrics['overwhelming_rate'] * 100:.1f}%)"
         )
         if "battle_frontier_points_used" in metrics:
             lines.append("")
@@ -80,6 +80,9 @@ class TextExporter(AnalysisExporter):
                 f"- Mega members: {metrics['battle_frontier_mega_members']}/"
                 f"{metrics['battle_frontier_max_mega_members']}"
             )
+
+        self._append_recommended_lineups(lines, result)
+        self._append_bench_utility(lines, result)
 
         lines.append("")
         lines.append("Coverage")
@@ -137,3 +140,71 @@ class TextExporter(AnalysisExporter):
                 handle.write(rendered)
             return None
         return rendered
+
+    def _append_recommended_lineups(self, lines: list[str], result: dict[str, Any]) -> None:
+        lineups = result.get("recommended_lineups", [])
+        if not lineups:
+            return
+
+        lines.append("")
+        lines.append("Recommended Lineups")
+        lines.append("- lineup dominating uses score > 600")
+        lines.append("- lineup overwhelming uses score < 400")
+        for idx, lineup in enumerate(lineups, start=1):
+            back_pair = ", ".join(member["label"] for member in lineup["back_pair"])
+            summary = lineup["score_summary"]
+            points_text = ""
+            if "battle_frontier_points_used" in lineup:
+                points_text = f" | points {lineup['battle_frontier_points_used']}"
+            lines.append(
+                f"- #{idx}: Lead {lineup['lead']['label']} | Back {back_pair} | "
+                f"shape {lineup.get('team_shape', 'unclassified')} | "
+                f"score {lineup['lineup_score']:.2f}{points_text}"
+            )
+            lines.append(
+                f"  - lineup dominating: {summary['dominating_matchups']} where score > 600"
+            )
+            lines.append(
+                f"  - lineup overwhelming: {summary['overwhelming_matchups']} where score < 400"
+            )
+
+        lines.append("")
+        lines.append("Resource / Shield Safety")
+        for idx, lineup in enumerate(lineups, start=1):
+            lines.append(f"- Lineup #{idx}")
+            for path in lineup["resource_paths"]:
+                lines.append(
+                    f"  - {path['name']}: lead {path['lead_shield']}-shield | "
+                    f"backs {path['back_shield']}-shield | mean {path['mean_best_score']:.2f} | "
+                    f"dominating {path['dominating_matchups']} | "
+                    f"overwhelming {path['overwhelming_matchups']}"
+                )
+
+    def _append_bench_utility(self, lines: list[str], result: dict[str, Any]) -> None:
+        utility = result["recommended_team"].get("bench_utility", [])
+        if not utility:
+            return
+
+        lines.append("")
+        lines.append("Bench Utility")
+        warnings: list[tuple[str, dict[str, Any]]] = []
+        for entry in utility:
+            member_label = entry["member"]["label"]
+            lines.append(
+                f"- {member_label}: {entry['tier']} | used {entry['lineups_used']} lineups | "
+                f"lead {entry['lead_lineups_used']} | back {entry['back_lineups_used']} | "
+                f"viable {entry['viable_lineup_rate'] * 100:.1f}% | "
+                f"all {entry['all_lineup_rate'] * 100:.1f}% | "
+                f"best {entry['best_lineup_score']:.2f}"
+            )
+            for warning in entry.get("warnings", []):
+                warnings.append((member_label, warning))
+
+        if warnings:
+            lines.append("")
+            lines.append("Warnings")
+            for member_label, warning in warnings:
+                lines.append(
+                    f"- {member_label}: {warning['code']} [{warning['severity']}]: "
+                    f"{warning['message']}"
+                )

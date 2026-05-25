@@ -176,8 +176,8 @@
   - Recommended: `python-pro`
   - Used: `python-pro`
 - Specialist review:
-  - Agents used: pending
-  - Findings: pending
+  - Agents used: `code-reviewer`, `qa-expert`, `security-engineer`, `documentation-engineer`
+  - Findings: no critical/high/medium findings; deferred low commit-message format suggestion because Ralph explicitly requires `feat: US-008 - Render lineup recommendations in JSON text and Markdown exporters`
 - Decisions (why):
   - Chose a dedicated `application/lineups.py` module because this story is application-level enumeration only and should not couple scoring, CLI, exporters, or infrastructure.
   - Chose row-index identifiers and sorted canonical back pairs because existing optimizer code uses row indices and canonical integer tuples make hashing and deterministic equality straightforward.
@@ -345,6 +345,7 @@
 - **Learnings for future iterations:**
 - Battle Frontier point diagnostics should be assembled by the use case from `application/lineups.py` helpers; CLI and exporters should render optional fields rather than recomputing rates.
 - ABC/ABB/ABA lineup shape labels are heuristic diagnostics from `application/lineups.py`; expose them on `recommended_lineups` but never use them for lineup scoring, roster ranking, or tie-breaking.
+- Human-readable exporters should render lineup-aware sections from structured result fields and label legacy full-roster dominate/overwhelming counts as legacy diagnostics, not battle coverage.
 - Gotcha encountered: the Makefile uses system `python3`, which may not have `mypy`; the repository checks are reliable through the `pogo-team-optimizer` conda environment.
 - Known issues / follow-ups:
   - Exporters do not yet render the new lineup point diagnostics; that remains for later exporter stories.
@@ -381,4 +382,35 @@
   - Exporters do not yet render the shape label; that remains for `US-008` and `US-009`.
 - Next iteration start:
   - Implement `US-008` by rendering structured recommended lineups, bench utility, warnings, and shape labels in JSON, text, and Markdown exporters.
+---
+
+## 2026-05-25 00:12:28 MST - US-008
+- What was implemented
+  - Added JSON regression coverage proving structured `recommended_lineups`, resource paths, bench utility, and warnings remain serialized.
+  - Updated text and Markdown exporters to render Recommended Bring-6 Roster, Recommended Lineups, Bench Utility, Resource / Shield Safety, and Warnings sections from existing result payload fields.
+  - Re-labeled legacy full-roster dominate and overwhelming counts as legacy diagnostics and rendered lineup thresholds as `score > 600` and `score < 400`.
+- Files changed: `prd.json`, `progress.txt`, `src/pogo_team_optimizer/infrastructure/exporters/text_exporter.py`, `src/pogo_team_optimizer/infrastructure/exporters/markdown_exporter.py`, `tests/unit/test_battle_frontier_exporters.py`
+- Commit message: `feat: US-008 - Render lineup recommendations in JSON text and Markdown exporters`
+- Checks:
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m pytest tests/unit/test_battle_frontier_exporters.py -q` (pass)
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m mypy src` (pass)
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m ruff check src tests` (pass)
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m pytest` (pass)
+- Implementation agents:
+  - Recommended: `python-pro`
+  - Used: `python-pro`
+- Specialist review:
+  - Agents used: pending
+  - Findings: pending
+- Decisions (why):
+  - Chose to leave `JsonExporter` implementation unchanged because it already serializes the whole result; added tests to lock the structured fields instead.
+  - Chose optional section rendering driven by `recommended_lineups` and `bench_utility` keys so older or minimal result payloads do not need placeholder fields.
+  - Chose to label legacy dominate/overwhelming counts as full-roster diagnostics instead of removing them entirely so existing team-analysis context remains available without presenting it as pick-3 battle coverage.
+- **Learnings for future iterations:**
+  - Exporters should render `recommended_lineups[*].resource_paths`, `team_shape`, `score_summary`, optional `battle_frontier_points_used`, and `recommended_team.bench_utility` directly; do not recompute those diagnostics in infrastructure.
+  - Gotcha encountered: human-readable output previously embedded legacy thresholds `650` and `350`; lineup exporter stories must use the ordered-lineup thresholds `> 600` and `< 400`.
+- Known issues / follow-ups:
+  - CSV and Excel lineup-aware exports remain pending for `US-009`.
+- Next iteration start:
+  - Implement `US-009` by adding stable lineup, bench utility, and optional Battle Frontier diagnostic fields to CSV and Excel exports.
 ---

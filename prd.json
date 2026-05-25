@@ -152,7 +152,7 @@
         "Typecheck passes"
       ],
       "priority": 8,
-      "passes": false,
+      "passes": true,
       "notes": "Recommended agent: python-pro. Depends on US-004 through US-007. Keep formatting in infrastructure exporters and avoid adding scoring logic to exporters."
     },
     {

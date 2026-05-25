@@ -15,11 +15,14 @@ class MarkdownExporter(AnalysisExporter):
             lines.append(f"**Meta:** `{result['meta']}`")
             lines.append("")
 
-        lines.append("## Recommended Team")
+        lines.append("## Recommended Bring-6 Roster")
         lines.append("| Pokemon | Types |")
         lines.append("|---|---|")
         for member in result["recommended_team"]["members"]:
-            lines.append(f"| {member['label']} | {'/'.join(member['types']) or 'unknown'} |")
+            lines.append(
+                f"| {self._escape(member['label'])} | "
+                f"{self._escape('/'.join(member['types']) or 'unknown')} |"
+            )
         metrics = result["recommended_team"]["metrics"]
 
         lines.append("")
@@ -68,14 +71,14 @@ class MarkdownExporter(AnalysisExporter):
             f"(`{metrics['no_cover_rate'] * 100:.1f}%`)"
         )
         lines.append(
-            "- Dominate: "
+            "- Legacy full-roster dominate count: "
             f"`{metrics['dominate_count']}/{metrics['total_pairs']}` "
-            f"(`{metrics['dominate_rate'] * 100:.1f}%`, score > 650)"
+            f"(`{metrics['dominate_rate'] * 100:.1f}%`)"
         )
         lines.append(
-            "- Overwhelming: "
+            "- Legacy full-roster overwhelming count: "
             f"`{metrics['overwhelming_count']}/{metrics['total_pairs']}` "
-            f"(`{metrics['overwhelming_rate'] * 100:.1f}%`, score < 350)"
+            f"(`{metrics['overwhelming_rate'] * 100:.1f}%`)"
         )
         if "battle_frontier_points_used" in metrics:
             lines.append("")
@@ -93,6 +96,9 @@ class MarkdownExporter(AnalysisExporter):
                 "- Mega members: "
                 f"`{metrics['battle_frontier_mega_members']}/{metrics['battle_frontier_max_mega_members']}`"
             )
+
+        self._append_recommended_lineups(lines, result)
+        self._append_bench_utility(lines, result)
 
         lines.append("")
         lines.append("## Coverage")
@@ -149,3 +155,73 @@ class MarkdownExporter(AnalysisExporter):
                 handle.write(rendered)
             return None
         return rendered
+
+    def _append_recommended_lineups(self, lines: list[str], result: dict[str, Any]) -> None:
+        lineups = result.get("recommended_lineups", [])
+        if not lineups:
+            return
+
+        lines.append("")
+        lines.append("## Recommended Lineups")
+        lines.append("Lineup dominating uses `score > 600`; lineup overwhelming uses `score < 400`.")
+        lines.append("")
+        lines.append("| # | Lead | Back Pair | Shape | Score | Dominating | Overwhelming | BF Points |")
+        lines.append("|---:|---|---|---|---:|---:|---:|---:|")
+        for idx, lineup in enumerate(lineups, start=1):
+            back_pair = ", ".join(member["label"] for member in lineup["back_pair"])
+            summary = lineup["score_summary"]
+            points = lineup.get("battle_frontier_points_used", "")
+            lines.append(
+                f"| {idx} | {self._escape(lineup['lead']['label'])} | "
+                f"{self._escape(back_pair)} | {self._escape(lineup.get('team_shape', 'unclassified'))} | "
+                f"{lineup['lineup_score']:.2f} | {summary['dominating_matchups']} | "
+                f"{summary['overwhelming_matchups']} | {points} |"
+            )
+
+        lines.append("")
+        lines.append("## Resource / Shield Safety")
+        lines.append("| Lineup | Path | Lead Shield | Back Shield | Mean Best Score | Dominating | Overwhelming |")
+        lines.append("|---:|---|---:|---:|---:|---:|---:|")
+        for idx, lineup in enumerate(lineups, start=1):
+            for path in lineup["resource_paths"]:
+                lines.append(
+                    f"| {idx} | {self._escape(path['name'])} | {path['lead_shield']} | "
+                    f"{path['back_shield']} | {path['mean_best_score']:.2f} | "
+                    f"{path['dominating_matchups']} | {path['overwhelming_matchups']} |"
+                )
+
+    def _append_bench_utility(self, lines: list[str], result: dict[str, Any]) -> None:
+        utility = result["recommended_team"].get("bench_utility", [])
+        if not utility:
+            return
+
+        lines.append("")
+        lines.append("## Bench Utility")
+        lines.append("| Pokemon | Tier | Used | Lead | Back | Viable Rate | All Rate | Best Score |")
+        lines.append("|---|---|---:|---:|---:|---:|---:|---:|")
+        warnings: list[tuple[str, dict[str, Any]]] = []
+        for entry in utility:
+            member_label = entry["member"]["label"]
+            lines.append(
+                f"| {self._escape(member_label)} | {self._escape(entry['tier'])} | "
+                f"{entry['lineups_used']} | {entry['lead_lineups_used']} | "
+                f"{entry['back_lineups_used']} | {entry['viable_lineup_rate'] * 100:.1f}% | "
+                f"{entry['all_lineup_rate'] * 100:.1f}% | {entry['best_lineup_score']:.2f} |"
+            )
+            for warning in entry.get("warnings", []):
+                warnings.append((member_label, warning))
+
+        if warnings:
+            lines.append("")
+            lines.append("## Warnings")
+            lines.append("| Pokemon | Category | Code | Severity | Message |")
+            lines.append("|---|---|---|---|---|")
+            for member_label, warning in warnings:
+                lines.append(
+                    f"| {self._escape(member_label)} | {self._escape(warning['category'])} | "
+                    f"{self._escape(warning['code'])} | {self._escape(warning['severity'])} | "
+                    f"{self._escape(warning['message'])} |"
+                )
+
+    def _escape(self, value: object) -> str:
+        return str(value).replace("|", "\\|")
