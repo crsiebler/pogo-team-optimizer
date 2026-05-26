@@ -34,6 +34,7 @@
 - Ranking-aware roster component scoring lives in `application/scoring.py`; keep coverage, safety, consistency, bulk, defensive ratio, and offensive ratio normalized before combining them through `RosterScore`.
 - `TeamOptimizer._score_team()` appends the ranking-aware final score after existing tuple indexes; `_comparison_key()` consumes it after safety/bulk guards and the primary lineup objective without reordering legacy score fields.
 - Use ranking-pool matrix indices from `AnalyzeMetaUseCase` for top-threat weighting, normalized PvPoke consistency for ranking-aware consistency, shield-path stability as the bait-dependence proxy, and neutral move DPE fallback until move power/energy data is modeled.
+- `TeamOptimizer` snapshots caller-owned scoring inputs at construction and uses deterministic SHA-256 scoring-context fingerprints in team and lineup score cache keys so mutable inputs and large matrix keys do not affect cached scoring or integration-test runtime.
 
 ## 2026-04-14 11:49:44 MST - US-001
 - What was implemented
@@ -1116,4 +1117,42 @@
   - Explainable ranking-aware output remains pending for `US-030`.
 - Next iteration start:
   - Implement `US-029` by validating ranking-aware cache keys and multiprocessing payload determinism for workers `1` and `2`.
+---
+
+## 2026-05-25 20:00:16 MST - US-029
+- What was implemented
+  - Added deterministic scoring-context fingerprints to `TeamOptimizer` team and ordered-lineup score caches so cache entries include ranking-aware scoring inputs without re-hashing full matrices on every lookup.
+  - Snapshot caller-owned optimizer inputs at construction, including ranking-aware safety, consistency, type, move, threat-pool, matrix, and Battle Frontier data, so later external mutations cannot alter cached scoring behavior.
+  - Added focused tests for cache-context keys, caller mutation isolation, picklable multiprocessing restart payloads, and deterministic workers `1` and `2` behavior with ranking-aware inputs.
+- Files changed: `AGENTS.md`, `prd.json`, `progress.txt`, `src/pogo_team_optimizer/application/optimizer.py`, `tests/unit/test_optimizer_lineup_objective.py`
+- Commit message: `feat: US-029 - Preserve deterministic performance with ranking-aware scores`
+- Checks:
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m pytest tests/unit/test_optimizer_lineup_objective.py -k "snapshots or context or picklable or deterministic_with_ranking" -q` (pass)
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m pytest tests/unit/test_optimizer_lineup_objective.py -q` (pass)
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m mypy src` (pass)
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m ruff check src tests` (pass)
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m pytest tests/unit -q` (pass)
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m pytest tests/integration -q` (pass)
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m pytest` (pass, 208 tests)
+  - `make typecheck` (pass)
+  - `make lint` (pass)
+  - `make test` (pass, 208 tests)
+- Implementation agents:
+  - Recommended: `python-pro`
+  - Used: `python-pro`
+- Specialist review:
+  - Agents used: `code-reviewer`, `qa-expert`, `security-engineer`, `security-auditor`, `documentation-engineer`
+  - Findings: fixed before commit; added score-changing matrix alias mutation coverage and pickled the actual production restart batches in the process-executor batching test. Third review pass found no actionable findings.
+- Decisions (why):
+  - Chose construction-time snapshots rather than depending on caller-owned list and dict objects because optimizer cache correctness must not depend on mutable repository or use-case payload lifetimes.
+  - Chose SHA-256 context fingerprints instead of embedding full matrix/type tuples directly in cache keys because full tuple keys made integration tests spend time hashing large matrices on every cache lookup.
+  - Kept multiprocessing restart batches as plain dataclass payloads containing lists, tuples, dicts, and primitives so worker construction stays picklable and repository-free.
+- **Learnings for future iterations:**
+  - Include cache-relevant optimizer inputs in a stable context fingerprint, but avoid using giant nested matrices directly as dictionary key members in hot scoring paths.
+  - Gotcha encountered: full matrix tuples in cache keys can pass focused unit tests but make real-data integration optimizer runs exceed practical timeouts because dict lookup repeatedly hashes the entire matrix payload.
+- Known issues / follow-ups:
+  - Explainable ranking-aware output remains pending for `US-030`.
+  - Pre-existing unrelated worktree changes remain outside this story and should not be staged.
+- Next iteration start:
+  - Implement `US-030` by exposing ranking-aware score diagnostics in result payloads and rendering concise trainer-facing explanations without reintroducing deprecated noisy sections.
 ---

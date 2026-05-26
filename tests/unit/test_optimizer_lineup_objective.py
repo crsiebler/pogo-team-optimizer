@@ -1,4 +1,7 @@
+import pickle
+
 import pogo_team_optimizer.application.optimizer as optimizer_module
+from pogo_team_optimizer.application.optimizer import OptimizerRestartBatch
 from pogo_team_optimizer.application.lineups import OrderedLineup, score_roster_lineup_depth
 from pogo_team_optimizer.application.optimizer import TeamOptimizer
 
@@ -499,6 +502,7 @@ def test_workers_greater_than_one_uses_process_executor_batches(monkeypatch) -> 
 
         def map(self, func: object, batches: object) -> list[object]:
             batch_list = list(batches)
+            batch_list = [pickle.loads(pickle.dumps(batch)) for batch in batch_list]
             captured["batch_restarts"] = [batch.restarts for batch in batch_list]
             captured["batch_seeds"] = [batch.seed for batch in batch_list]
             return [func(batch) for batch in batch_list]
@@ -569,3 +573,157 @@ def test_lineup_depth_viability_requires_resource_and_blended_scores() -> None:
 
     assert score.best_lineup_score > 500.0
     assert score.viable_lineup_count == 0
+
+
+def test_optimizer_snapshots_ranking_aware_inputs_before_scoring() -> None:
+    rows = [[620, 300], [620, 620], [620, 620], [620, 620], [620, 620], [620, 620]]
+    expected_rows = [list(row) for row in rows]
+    safety_by_row = [0.9] * 6
+    consistency_by_row = [0.8] * 6
+    pokemon_types_by_row = [("water",)] * 6
+    opponent_types_by_col = [("fire",), ("rock",)]
+    move_types_by_row = [("water",)] * 6
+    type_effectiveness = {"water": {"fire": 1.6, "rock": 1.6}}
+    top_threat_indices = [1]
+    full_meta_indices = [0, 1]
+    expected_optimizer = TeamOptimizer(
+        row_labels=[f"Mon {index}" for index in range(6)],
+        col_labels=["Opp 0", "Opp 1"],
+        matrices=[expected_rows, expected_rows, expected_rows],
+        bulk_by_row=[200.0] * 6,
+        safety_by_row=list(safety_by_row),
+        consistency_by_row=list(consistency_by_row),
+        pokemon_types_by_row=list(pokemon_types_by_row),
+        opponent_types_by_col=list(opponent_types_by_col),
+        move_types_by_row=list(move_types_by_row),
+        type_effectiveness={"water": {"fire": 1.6, "rock": 1.6}},
+        top_threat_indices=list(top_threat_indices),
+        full_meta_indices=list(full_meta_indices),
+        seed=7,
+    )
+    optimizer = TeamOptimizer(
+        row_labels=[f"Mon {index}" for index in range(6)],
+        col_labels=["Opp 0", "Opp 1"],
+        matrices=[rows, rows, rows],
+        bulk_by_row=[200.0] * 6,
+        safety_by_row=safety_by_row,
+        consistency_by_row=consistency_by_row,
+        pokemon_types_by_row=pokemon_types_by_row,
+        opponent_types_by_col=opponent_types_by_col,
+        move_types_by_row=move_types_by_row,
+        type_effectiveness=type_effectiveness,
+        top_threat_indices=top_threat_indices,
+        full_meta_indices=full_meta_indices,
+        seed=7,
+    )
+
+    safety_by_row[:] = [0.1] * 6
+    consistency_by_row[:] = [0.1] * 6
+    pokemon_types_by_row[:] = [tuple() for _ in range(6)]
+    opponent_types_by_col[:] = [tuple(), tuple()]
+    move_types_by_row[:] = [tuple() for _ in range(6)]
+    for row in rows:
+        row[:] = [300] * len(row)
+    type_effectiveness["water"]["fire"] = 0.39
+    top_threat_indices[:] = [0]
+    full_meta_indices[:] = []
+
+    assert optimizer._score_team([0, 1, 2, 3, 4, 5]) == expected_optimizer._score_team(
+        [0, 1, 2, 3, 4, 5]
+    )
+
+
+def test_score_caches_include_optimizer_scoring_context() -> None:
+    rows = [[620, 620], [620, 620], [620, 620], [620, 620], [620, 620], [620, 620]]
+    optimizer = TeamOptimizer(
+        row_labels=[f"Mon {index}" for index in range(6)],
+        col_labels=["Opp 0", "Opp 1"],
+        matrices=[rows, rows, rows],
+        bulk_by_row=[200.0] * 6,
+        safety_by_row=[0.9] * 6,
+        consistency_by_row=[0.8] * 6,
+        pokemon_types_by_row=[("water",)] * 6,
+        opponent_types_by_col=[("fire",), ("rock",)],
+        move_types_by_row=[("water",)] * 6,
+        type_effectiveness={"water": {"fire": 1.6, "rock": 1.6}},
+        top_threat_indices=[1],
+        full_meta_indices=[0, 1],
+        seed=7,
+    )
+
+    optimizer._score_team([0, 1, 2, 3, 4, 5])
+    optimizer._lineup_mean_score(OrderedLineup(0, (1, 2)))
+
+    team_cache_key = next(iter(optimizer._team_score_cache))
+    lineup_cache_key = next(iter(optimizer._lineup_mean_score_cache))
+    assert team_cache_key == ((0, 1, 2, 3, 4, 5), optimizer._team_score_context_key)
+    assert lineup_cache_key == (OrderedLineup(0, (1, 2)), optimizer._lineup_score_context_key)
+
+
+def test_parallel_restart_batch_contains_picklable_plain_data() -> None:
+    batch = OptimizerRestartBatch(
+        worker_index=0,
+        restarts=1,
+        seed=7,
+        team_size=6,
+        safety_floor=None,
+        min_safe_members=0,
+        safe_member_floor=90.0,
+        row_labels=[f"Mon {index}" for index in range(6)],
+        col_labels=["Opp 0"],
+        matrices=[[[620] for _ in range(6)]] * 3,
+        bulk_by_row=[200.0] * 6,
+        safety_by_row=[0.9] * 6,
+        consistency_by_row=[0.8] * 6,
+        pokemon_types_by_row=[("water",)] * 6,
+        opponent_types_by_col=[("fire",)],
+        move_types_by_row=[("water",)] * 6,
+        type_effectiveness={"water": {"fire": 1.6}},
+        top_threat_indices=[0],
+        full_meta_indices=[0],
+        battle_frontier_points_by_row=None,
+        battle_frontier_max_points=11,
+        battle_frontier_max_five_point_members=1,
+        battle_frontier_max_mega_members=1,
+    )
+
+    assert pickle.loads(pickle.dumps(batch)) == batch
+
+
+def test_workers_one_and_two_are_deterministic_with_ranking_aware_inputs() -> None:
+    rows = [
+        [650, 620, 300, 300],
+        [650, 620, 300, 300],
+        [650, 620, 300, 300],
+        [300, 300, 650, 620],
+        [300, 300, 650, 620],
+        [300, 300, 650, 620],
+        [620, 300, 620, 300],
+        [620, 300, 620, 300],
+    ]
+    optimizer_kwargs = {
+        "row_labels": [f"Mon {index}" for index in range(8)],
+        "col_labels": ["Opp 0", "Opp 1", "Opp 2", "Opp 3"],
+        "matrices": [rows, rows, rows],
+        "bulk_by_row": [210.0, 205.0, 200.0, 195.0, 190.0, 185.0, 180.0, 175.0],
+        "safety_by_row": [0.9, 0.85, 0.8, 0.55, 0.5, 0.45, 0.7, 0.65],
+        "consistency_by_row": [0.8, 0.75, 0.7, 0.45, 0.4, 0.35, 0.6, 0.55],
+        "pokemon_types_by_row": [("water",), ("water",), ("water",), ("fire",), ("fire",), ("fire",), ("grass",), ("grass",)],
+        "opponent_types_by_col": [("fire",), ("rock",), ("grass",), ("water",)],
+        "move_types_by_row": [("water",), ("water",), ("water",), ("fire",), ("fire",), ("fire",), ("grass",), ("grass",)],
+        "type_effectiveness": {
+            "water": {"fire": 1.6, "rock": 1.6, "grass": 0.625, "water": 0.625},
+            "fire": {"fire": 0.625, "rock": 0.625, "grass": 1.6, "water": 0.625},
+            "grass": {"fire": 0.625, "rock": 1.6, "grass": 0.625, "water": 1.6},
+        },
+        "top_threat_indices": [0, 2],
+        "full_meta_indices": [0, 1, 2, 3],
+        "seed": 11,
+    }
+    workers_one_a = TeamOptimizer(**optimizer_kwargs).optimize(team_size=6, restarts=4, workers=1)
+    workers_one_b = TeamOptimizer(**optimizer_kwargs).optimize(team_size=6, restarts=4, workers=1)
+    workers_two_a = TeamOptimizer(**optimizer_kwargs).optimize(team_size=6, restarts=4, workers=2)
+    workers_two_b = TeamOptimizer(**optimizer_kwargs).optimize(team_size=6, restarts=4, workers=2)
+
+    assert workers_one_b == workers_one_a
+    assert workers_two_b == workers_two_a

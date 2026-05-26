@@ -540,7 +540,7 @@
         "Typecheck passes"
       ],
       "priority": 29,
-      "passes": false,
+      "passes": true,
       "notes": "Recommended agent: python-pro. Preserve process-based restart batching and avoid mutable repository objects in worker payloads."
     },
     {
