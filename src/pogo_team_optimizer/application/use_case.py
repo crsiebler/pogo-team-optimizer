@@ -22,6 +22,7 @@ from pogo_team_optimizer.application.lineups import (
 )
 from pogo_team_optimizer.application.normalization import parse_species
 from pogo_team_optimizer.application.optimizer import TeamOptimizer
+from pogo_team_optimizer.application.ranking_pools import build_ranking_pools
 from pogo_team_optimizer.application.scoring import PvPokeScoreNormalizationPolicy
 from pogo_team_optimizer.domain.interfaces import (
     BattleFrontierPointsRepository,
@@ -32,7 +33,7 @@ from pogo_team_optimizer.domain.interfaces import (
     SwitchRankingsRepository,
     TypeEffectivenessRepository,
 )
-from pogo_team_optimizer.domain.models import RankingProfile
+from pogo_team_optimizer.domain.models import RankingCategory, RankingProfile
 
 
 MAX_RECOMMENDED_LINEUPS = 5
@@ -92,6 +93,7 @@ class AnalyzeMetaUseCase:
         }
         row_species = [parse_species(label) for label in row_labels]
         pokemon_types_by_row = [species_cache[parse_species(label)] for label in row_labels]
+        opponent_types_by_col = [self._types_for_label(label) for label in col_labels]
         move_types_by_row = [self._move_types_for_label(label) for label in row_labels]
         type_effectiveness = (
             self.type_effectiveness_repository.load()
@@ -129,6 +131,19 @@ class AnalyzeMetaUseCase:
             ]
 
         ranking_profile = self._load_normalized_ranking_profile()
+        consistency_by_row = _normalized_category_scores_by_row(
+            row_species,
+            ranking_profile,
+            RankingCategory.CONSISTENCY,
+        )
+        ranking_pools = build_ranking_pools(
+            active_profile=ranking_profile,
+            full_meta_profile=None,
+            row_labels=row_labels,
+            col_labels=col_labels,
+            top_threat_count=top_threats,
+        )
+        top_threat_indices = [entry.matrix_index for entry in ranking_pools.top_threats]
 
         safety_priority_rules: dict[str, tuple[float | None, int, float]] = {
             "low": (72.0, 0, 90.0),
@@ -148,9 +163,13 @@ class AnalyzeMetaUseCase:
             matrices,
             bulk_by_row=bulk_by_row,
             safety_by_row=safety_by_row,
+            consistency_by_row=consistency_by_row,
             pokemon_types_by_row=pokemon_types_by_row,
+            opponent_types_by_col=opponent_types_by_col,
             move_types_by_row=move_types_by_row,
             type_effectiveness=type_effectiveness,
+            top_threat_indices=top_threat_indices,
+            full_meta_indices=list(range(len(col_labels))),
             battle_frontier_points_by_row=battle_frontier_points_by_row,
             seed=seed,
         )
@@ -207,6 +226,7 @@ class AnalyzeMetaUseCase:
             "lineup_viable_count": int(score[16]),
             "defensive_type_score": float(score[17]),
             "offensive_move_score": float(score[18]),
+            "ranking_aware_score": float(score[19]),
             "legacy_full_roster_mean_best_score": float(score[10]),
             "legacy_full_roster_dominate_count": dominate_count,
             "legacy_full_roster_overwhelming_count": overwhelming_count,
@@ -332,6 +352,12 @@ class AnalyzeMetaUseCase:
                 move_types.append(move_type)
         return tuple(move_types)
 
+    def _types_for_label(self, label: str) -> tuple[str, ...]:
+        try:
+            return self.pokemon_repository.get_types(parse_species(label))
+        except KeyError:
+            return tuple()
+
 
 def _build_recommended_lineups(
     *,
@@ -384,6 +410,21 @@ def _build_recommended_lineups(
         )
         for lineup_score, score in scored_lineups[:limit]
     ]
+
+
+def _normalized_category_scores_by_row(
+    row_species: list[str],
+    ranking_profile: RankingProfile | None,
+    category: RankingCategory,
+) -> list[float]:
+    if ranking_profile is None:
+        return [0.5] * len(row_species)
+    rows = ranking_profile.scores_by_category.get(category, {})
+    scores = []
+    for species in row_species:
+        row = rows.get(species)
+        scores.append(row.normalized_score if row is not None and row.normalized_score is not None else 0.5)
+    return scores
 
 
 def _to_recommended_lineup(

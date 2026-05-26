@@ -520,7 +520,7 @@
         "Typecheck passes"
       ],
       "priority": 28,
-      "passes": false,
+      "passes": true,
       "notes": "Recommended agent: python-pro. Keep type/move calculations in application services and use data/type-effectiveness.json as source of truth."
     },
     {

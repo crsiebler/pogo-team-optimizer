@@ -107,6 +107,128 @@ class SynergyTypeEffectivenessRepository:
         }
 
 
+class RankingAwareSimulationRepository:
+    def load(self) -> tuple[list[str], list[str], list[list[list[int]]]]:
+        rows = [
+            "Watermon WaterGun+Surf/HydroPump",
+            "Grassmon VineWhip+PowerWhip/LeafBlade",
+            "Firemon Ember+FlameCharge/BlastBurn",
+            "Electricmon ThunderShock+WildCharge/Thunderbolt",
+            "Flymon WingAttack+SkyAttack/BraveBird",
+            "Rockmon SmackDown+RockSlide/StoneEdge",
+        ]
+        cols = ["WaterOpp", "FlyingOpp"]
+        matrix = [[600, 600] for _ in rows]
+        return rows, cols, [matrix, matrix, matrix]
+
+
+class RankingAwarePokemonRepository:
+    def __init__(self) -> None:
+        self.type_queries: list[str] = []
+
+    def get_types(self, species_name: str) -> tuple[str, ...]:
+        self.type_queries.append(species_name)
+        return {
+            "Watermon": ("water",),
+            "Grassmon": ("grass",),
+            "Firemon": ("fire",),
+            "Electricmon": ("electric",),
+            "Flymon": ("flying",),
+            "Rockmon": ("rock",),
+            "WaterOpp": ("water",),
+            "FlyingOpp": ("flying",),
+        }[species_name]
+
+    def get_base_stats(self, species_name: str) -> tuple[int, int, int] | None:
+        return (100, 100, 100)
+
+
+class RankingAwarePokemonRepositoryWithoutOpponentTypes(RankingAwarePokemonRepository):
+    def get_types(self, species_name: str) -> tuple[str, ...]:
+        if species_name in {"WaterOpp", "FlyingOpp"}:
+            self.type_queries.append(species_name)
+            raise KeyError(species_name)
+        return super().get_types(species_name)
+
+
+class RankingAwareMoveRepository:
+    def get_move_type(self, move_name: str) -> str | None:
+        return {
+            "WaterGun": "water",
+            "Surf": "water",
+            "HydroPump": "water",
+            "VineWhip": "grass",
+            "PowerWhip": "grass",
+            "LeafBlade": "grass",
+            "Ember": "fire",
+            "FlameCharge": "fire",
+            "BlastBurn": "fire",
+            "ThunderShock": "electric",
+            "WildCharge": "electric",
+            "Thunderbolt": "electric",
+            "WingAttack": "flying",
+            "SkyAttack": "flying",
+            "BraveBird": "flying",
+            "SmackDown": "rock",
+            "RockSlide": "rock",
+            "StoneEdge": "rock",
+        }.get(move_name)
+
+
+class RankingAwareTypeEffectivenessRepository:
+    def load(self) -> dict[str, dict[str, float]]:
+        return {
+            "water": {
+                "water": 0.625,
+                "flying": 1.0,
+                "electric": 1.0,
+                "grass": 0.625,
+                "fire": 1.6,
+                "rock": 1.6,
+            },
+            "grass": {
+                "water": 1.6,
+                "flying": 0.625,
+                "electric": 1.0,
+                "grass": 0.625,
+                "fire": 0.625,
+                "rock": 1.6,
+            },
+            "fire": {
+                "water": 0.625,
+                "flying": 1.0,
+                "electric": 1.0,
+                "grass": 1.6,
+                "fire": 0.625,
+                "rock": 0.625,
+            },
+            "electric": {
+                "water": 1.6,
+                "flying": 1.6,
+                "electric": 0.625,
+                "grass": 0.625,
+                "fire": 1.0,
+                "rock": 1.0,
+            },
+            "flying": {
+                "water": 1.0,
+                "flying": 1.0,
+                "electric": 0.625,
+                "grass": 1.6,
+                "fire": 1.0,
+                "rock": 0.625,
+            },
+            "rock": {
+                "water": 1.0,
+                "flying": 1.6,
+                "electric": 1.0,
+                "grass": 1.0,
+                "fire": 1.6,
+                "rock": 1.0,
+            },
+        }
+
+
 def test_use_case_exposes_structured_recommended_lineups() -> None:
     result = AnalyzeMetaUseCase(
         simulation_repository=LineupSimulationRepository(),
@@ -352,3 +474,30 @@ def test_non_battle_frontier_results_omit_battle_frontier_diagnostics() -> None:
     assert "battle_frontier_high_point_usage_rate" not in metrics
     assert "battle_frontier_points_used" not in first_lineup
     assert all(warning["category"] != "battle_frontier" for warning in warnings)
+
+
+def test_use_case_wires_opponent_column_types_into_ranking_aware_score() -> None:
+    pokemon_repository = RankingAwarePokemonRepository()
+    baseline_repository = RankingAwarePokemonRepositoryWithoutOpponentTypes()
+
+    result: dict[str, Any] = AnalyzeMetaUseCase(
+        simulation_repository=RankingAwareSimulationRepository(),
+        pokemon_repository=pokemon_repository,
+        move_repository=RankingAwareMoveRepository(),
+        type_effectiveness_repository=RankingAwareTypeEffectivenessRepository(),
+    ).execute(seed=7, restarts=1)
+    baseline_result: dict[str, Any] = AnalyzeMetaUseCase(
+        simulation_repository=RankingAwareSimulationRepository(),
+        pokemon_repository=baseline_repository,
+        move_repository=RankingAwareMoveRepository(),
+        type_effectiveness_repository=RankingAwareTypeEffectivenessRepository(),
+    ).execute(seed=7, restarts=1)
+
+    metrics = result["recommended_team"]["metrics"]
+    baseline_metrics = baseline_result["recommended_team"]["metrics"]
+
+    assert {"WaterOpp", "FlyingOpp"}.issubset(set(pokemon_repository.type_queries))
+    assert {"WaterOpp", "FlyingOpp"}.issubset(set(baseline_repository.type_queries))
+    assert metrics["defensive_type_score"] != 0.0
+    assert metrics["offensive_move_score"] != 0.0
+    assert metrics["ranking_aware_score"] != baseline_metrics["ranking_aware_score"]

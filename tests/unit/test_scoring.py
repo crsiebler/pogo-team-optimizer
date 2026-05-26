@@ -17,6 +17,7 @@ from pogo_team_optimizer.application.scoring import (
     SafetyScore,
     SynergyScore,
     ThreatCoverageScore,
+    calculate_ranking_aware_roster_score,
 )
 from pogo_team_optimizer.domain.models import RankingCategory, RankingProfile, RankingRow
 
@@ -248,3 +249,210 @@ def test_pvpoke_normalization_output_order_is_deterministic() -> None:
 def test_pvpoke_normalization_rejects_invalid_fallback_scores(fallback_score: float) -> None:
     with pytest.raises(ValueError, match="fallback_score"):
         PvPokeScoreNormalizationPolicy(fallback_score=fallback_score)
+
+
+def test_ranking_aware_roster_score_weights_top_threat_misses_above_full_meta_misses() -> None:
+    matrices = [
+        [
+            [300, 700, 700, 700],
+            [300, 700, 700, 700],
+            [300, 700, 700, 700],
+        ],
+        [
+            [300, 700, 700, 700],
+            [300, 700, 700, 700],
+            [300, 700, 700, 700],
+        ],
+        [
+            [300, 700, 700, 700],
+            [300, 700, 700, 700],
+            [300, 700, 700, 700],
+        ],
+    ]
+
+    top_miss = calculate_ranking_aware_roster_score(
+        team_indices=[0, 1, 2],
+        matrices=matrices,
+        bulk_by_row=[100.0, 100.0, 100.0],
+        top_threat_indices=(0,),
+        full_meta_indices=(0, 1, 2, 3),
+    )
+    full_meta_only_miss = calculate_ranking_aware_roster_score(
+        team_indices=[0, 1, 2],
+        matrices=matrices,
+        bulk_by_row=[100.0, 100.0, 100.0],
+        top_threat_indices=(1,),
+        full_meta_indices=(0, 1, 2, 3),
+    )
+
+    top_coverage = next(
+        component for component in top_miss.components if component.name == "threat_coverage"
+    )
+    full_meta_coverage = next(
+        component for component in full_meta_only_miss.components if component.name == "threat_coverage"
+    )
+    assert top_coverage.raw_value < full_meta_coverage.raw_value
+    assert ("top_threat_no_answer", 1) in top_coverage.diagnostics
+    assert ("full_meta_no_answer", 1) in full_meta_coverage.diagnostics
+
+
+def test_ranking_aware_roster_score_honors_empty_explicit_threat_pools() -> None:
+    default_score = calculate_ranking_aware_roster_score(
+        team_indices=[0, 1, 2],
+        matrices=[[[300], [300], [300]]] * 3,
+        bulk_by_row=[100.0, 100.0, 100.0],
+    )
+    empty_pool_score = calculate_ranking_aware_roster_score(
+        team_indices=[0, 1, 2],
+        matrices=[[[300], [300], [300]]] * 3,
+        bulk_by_row=[100.0, 100.0, 100.0],
+        top_threat_indices=(),
+        full_meta_indices=(),
+    )
+
+    default_coverage = next(
+        component for component in default_score.components if component.name == "threat_coverage"
+    )
+    empty_pool_coverage = next(
+        component for component in empty_pool_score.components if component.name == "threat_coverage"
+    )
+    assert default_coverage.raw_value < empty_pool_coverage.raw_value
+    assert ("top_threat_no_answer", 0) in empty_pool_coverage.diagnostics
+    assert ("full_meta_no_answer", 0) in empty_pool_coverage.diagnostics
+
+
+def test_ranking_aware_roster_score_covers_safety_consistency_bulk_and_type_ratios() -> None:
+    matrices = [
+        [[620, 300], [520, 450], [480, 620]],
+        [[620, 300], [520, 450], [480, 620]],
+        [[620, 300], [520, 450], [480, 620]],
+    ]
+    type_effectiveness = {
+        "electric": {"water": 1.6, "flying": 1.6, "grass": 0.625},
+        "grass": {"water": 1.6, "flying": 0.625, "grass": 0.625},
+        "water": {"water": 0.625, "flying": 1.0, "grass": 0.625},
+    }
+
+    score = calculate_ranking_aware_roster_score(
+        team_indices=[0, 1, 2],
+        matrices=matrices,
+        bulk_by_row=[100.0, 150.0, 200.0],
+        safety_by_row=[0.8, 0.6, 0.4],
+        consistency_by_row=[0.9, 0.7, 0.5],
+        pokemon_types_by_row=[("water",), ("flying",), ("grass",)],
+        move_types_by_row=[("grass",), ("water",), ("electric",)],
+        opponent_types_by_col=[("water",), ("flying",)],
+        type_effectiveness=type_effectiveness,
+        top_threat_indices=(0,),
+        full_meta_indices=(0, 1),
+    )
+
+    components = {component.name: component for component in score.components}
+    assert components["safety"].raw_value == pytest.approx(0.8975)
+    assert components["consistency"].raw_value == pytest.approx(0.77)
+    assert components["bulk"].raw_value == pytest.approx(0.5)
+    assert components["defensive_ratio"].raw_value is not None
+    assert components["offensive_ratio"].raw_value is not None
+    assert components["synergy"].raw_value == NORMALIZED_PVPOKE_SCORE_FALLBACK
+    assert components["role_fit"].raw_value == NORMALIZED_PVPOKE_SCORE_FALLBACK
+    assert ("bait_dependence_proxy", 0.0) in components["consistency"].diagnostics
+    assert ("shield_fragility", 0.0) in components["safety"].diagnostics
+    assert ("pool_min", 100.0) in components["bulk"].diagnostics
+    assert ("neutral_fallback", True) in components["synergy"].diagnostics
+    assert ("neutral_fallback", True) in components["role_fit"].diagnostics
+
+
+def test_ranking_aware_roster_score_uses_type_ratio_multiplication_and_weighting() -> None:
+    type_effectiveness = {
+        "electric": {"water": 1.6, "flying": 1.6, "fire": 1.0, "grass": 0.625},
+        "flying": {"water": 1.0, "flying": 1.0, "fire": 1.0, "grass": 1.6},
+        "water": {"water": 0.625, "flying": 1.0, "fire": 1.6, "grass": 0.625},
+    }
+
+    score = calculate_ranking_aware_roster_score(
+        team_indices=[0, 1],
+        matrices=[[[620], [620]]] * 3,
+        bulk_by_row=[100.0, 100.0],
+        pokemon_types_by_row=[("fire",), ("grass",)],
+        move_types_by_row=[("electric",), ("water",)],
+        opponent_types_by_col=[("water", "flying")],
+        type_effectiveness=type_effectiveness,
+        top_threat_indices=(0,),
+        full_meta_indices=(0,),
+    )
+
+    components = {component.name: component for component in score.components}
+    assert components["defensive_ratio"].raw_value == pytest.approx(0.3)
+    assert components["offensive_ratio"].raw_value == pytest.approx(1.0)
+
+
+def test_ranking_aware_roster_score_rejects_invalid_threat_indices() -> None:
+    with pytest.raises(ValueError, match="threat indices"):
+        calculate_ranking_aware_roster_score(
+            team_indices=[0],
+            matrices=[[[620]]],
+            bulk_by_row=[100.0],
+            top_threat_indices=(-1,),
+            full_meta_indices=(0,),
+        )
+
+
+def test_ranking_aware_roster_score_treats_invalid_type_multipliers_as_neutral() -> None:
+    score = calculate_ranking_aware_roster_score(
+        team_indices=[0],
+        matrices=[[[620]]],
+        bulk_by_row=[100.0],
+        move_types_by_row=[("water",)],
+        opponent_types_by_col=[("fire",)],
+        type_effectiveness={"water": {"fire": float("nan")}},
+        top_threat_indices=(0,),
+        full_meta_indices=(0,),
+    )
+
+    components = {component.name: component for component in score.components}
+    assert components["offensive_ratio"].raw_value == pytest.approx((1.0 - 0.39) / (1.6 - 0.39))
+
+
+def test_ranking_aware_roster_score_uses_neutral_type_ratio_fallbacks() -> None:
+    score = calculate_ranking_aware_roster_score(
+        team_indices=[0, 1, 2],
+        matrices=[[[620], [620], [620]]] * 3,
+        bulk_by_row=[100.0, 100.0, 100.0],
+        top_threat_indices=(0,),
+        full_meta_indices=(0,),
+    )
+
+    components = {component.name: component for component in score.components}
+    assert components["defensive_ratio"].raw_value == 0.5
+    assert components["offensive_ratio"].raw_value == 0.5
+    assert ("missing_type_data", True) in components["defensive_ratio"].diagnostics
+    assert ("missing_move_or_type_data", True) in components["offensive_ratio"].diagnostics
+
+
+def test_weighted_roster_score_allows_component_tradeoffs() -> None:
+    matrices = [
+        [[620, 620], [620, 620], [620, 620], [620, 620], [620, 620], [620, 620]],
+        [[620, 620], [620, 620], [620, 620], [620, 620], [620, 620], [620, 620]],
+        [[620, 620], [620, 620], [620, 620], [620, 620], [620, 620], [620, 620]],
+    ]
+
+    safer_team = calculate_ranking_aware_roster_score(
+        team_indices=[0, 1, 2],
+        matrices=matrices,
+        bulk_by_row=[190.0, 190.0, 190.0, 100.0, 100.0, 100.0],
+        safety_by_row=[0.9, 0.9, 0.9, 0.2, 0.2, 0.2],
+        consistency_by_row=[0.9, 0.9, 0.9, 0.3, 0.3, 0.3],
+        top_threat_indices=(0,),
+        full_meta_indices=(0, 1),
+    )
+    fragile_team = calculate_ranking_aware_roster_score(
+        team_indices=[3, 4, 5],
+        matrices=matrices,
+        bulk_by_row=[190.0, 190.0, 190.0, 100.0, 100.0, 100.0],
+        safety_by_row=[0.9, 0.9, 0.9, 0.2, 0.2, 0.2],
+        consistency_by_row=[0.9, 0.9, 0.9, 0.3, 0.3, 0.3],
+        top_threat_indices=(0,),
+        full_meta_indices=(0, 1),
+    )
+
+    assert safer_team.final_score > fragile_team.final_score

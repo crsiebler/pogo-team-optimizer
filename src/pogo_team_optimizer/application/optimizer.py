@@ -16,6 +16,7 @@ from pogo_team_optimizer.application.lineups import (
     score_ordered_lineup,
 )
 from pogo_team_optimizer.application.normalization import parse_base_species, parse_species
+from pogo_team_optimizer.application.scoring import calculate_ranking_aware_roster_score
 
 LOGGER = logging.getLogger(__name__)
 OPTIMIZER_PROGRESS_EVALUATIONS = 10000
@@ -42,9 +43,13 @@ class OptimizerRestartBatch:
     matrices: list[list[list[int]]]
     bulk_by_row: list[float]
     safety_by_row: list[float]
+    consistency_by_row: list[float]
     pokemon_types_by_row: list[tuple[str, ...]]
+    opponent_types_by_col: list[tuple[str, ...]]
     move_types_by_row: list[tuple[str, ...]]
     type_effectiveness: dict[str, dict[str, float]]
+    top_threat_indices: list[int]
+    full_meta_indices: list[int]
     battle_frontier_points_by_row: list[int] | None
     battle_frontier_max_points: int
     battle_frontier_max_five_point_members: int
@@ -59,9 +64,13 @@ class TeamOptimizer:
         matrices: list[list[list[int]]],
         bulk_by_row: list[float],
         safety_by_row: list[float] | None = None,
+        consistency_by_row: list[float] | None = None,
         pokemon_types_by_row: list[tuple[str, ...]] | None = None,
+        opponent_types_by_col: list[tuple[str, ...]] | None = None,
         move_types_by_row: list[tuple[str, ...]] | None = None,
         type_effectiveness: dict[str, dict[str, float]] | None = None,
+        top_threat_indices: list[int] | None = None,
+        full_meta_indices: list[int] | None = None,
         battle_frontier_points_by_row: list[int] | None = None,
         battle_frontier_max_points: int = 11,
         battle_frontier_max_five_point_members: int = 1,
@@ -80,12 +89,24 @@ class TeamOptimizer:
             raise ValueError("safety_by_row length must match row labels")
         else:
             self.safety_by_row = safety_by_row
+        if consistency_by_row is None:
+            self.consistency_by_row = [0.5] * len(row_labels)
+        elif len(consistency_by_row) != len(row_labels):
+            raise ValueError("consistency_by_row length must match row labels")
+        else:
+            self.consistency_by_row = consistency_by_row
         if pokemon_types_by_row is None:
             self.pokemon_types_by_row: list[tuple[str, ...]] = [tuple() for _ in row_labels]
         elif len(pokemon_types_by_row) != len(row_labels):
             raise ValueError("pokemon_types_by_row length must match row labels")
         else:
             self.pokemon_types_by_row = pokemon_types_by_row
+        if opponent_types_by_col is None:
+            self.opponent_types_by_col: list[tuple[str, ...]] = [tuple() for _ in col_labels]
+        elif len(opponent_types_by_col) != len(col_labels):
+            raise ValueError("opponent_types_by_col length must match column labels")
+        else:
+            self.opponent_types_by_col = opponent_types_by_col
         if move_types_by_row is None:
             self.move_types_by_row: list[tuple[str, ...]] = [tuple() for _ in row_labels]
         elif len(move_types_by_row) != len(row_labels):
@@ -93,6 +114,14 @@ class TeamOptimizer:
         else:
             self.move_types_by_row = move_types_by_row
         self.type_effectiveness = type_effectiveness or {}
+        self.top_threat_indices = (
+            list(range(min(10, len(col_labels))))
+            if top_threat_indices is None
+            else list(top_threat_indices)
+        )
+        self.full_meta_indices = (
+            list(range(len(col_labels))) if full_meta_indices is None else list(full_meta_indices)
+        )
         if battle_frontier_points_by_row is None:
             self.battle_frontier_points_by_row = [0] * len(row_labels)
             self.has_battle_frontier_rules = False
@@ -114,7 +143,6 @@ class TeamOptimizer:
         self.row_base_species = [parse_base_species(s) for s in self.row_species]
         self.row_is_mega = ["(Mega" in species for species in self.row_species]
         self.col_species = [parse_species(label) for label in col_labels]
-
         self.base_to_rows: dict[str, list[int]] = defaultdict(list)
         for index, base in enumerate(self.row_base_species):
             self.base_to_rows[base].append(index)
@@ -298,9 +326,13 @@ class TeamOptimizer:
                 matrices=self.matrices,
                 bulk_by_row=self.bulk_by_row,
                 safety_by_row=self.safety_by_row,
+                consistency_by_row=self.consistency_by_row,
                 pokemon_types_by_row=self.pokemon_types_by_row,
+                opponent_types_by_col=self.opponent_types_by_col,
                 move_types_by_row=self.move_types_by_row,
                 type_effectiveness=self.type_effectiveness,
+                top_threat_indices=self.top_threat_indices,
+                full_meta_indices=self.full_meta_indices,
                 battle_frontier_points_by_row=(
                     self.battle_frontier_points_by_row if self.has_battle_frontier_rules else None
                 ),
@@ -457,6 +489,19 @@ class TeamOptimizer:
         lineup_score = self._score_team_lineups(team_indices)
         defensive_type_score = self._score_defensive_type_profile(team_indices)
         offensive_move_score = self._score_offensive_move_profile(team_indices)
+        ranking_aware_score = calculate_ranking_aware_roster_score(
+            team_indices=team_indices,
+            matrices=self.matrices,
+            bulk_by_row=self.bulk_by_row,
+            safety_by_row=self.safety_by_row,
+            consistency_by_row=self.consistency_by_row,
+            pokemon_types_by_row=self.pokemon_types_by_row,
+            move_types_by_row=self.move_types_by_row,
+            opponent_types_by_col=self.opponent_types_by_col,
+            type_effectiveness=self.type_effectiveness,
+            top_threat_indices=self.top_threat_indices,
+            full_meta_indices=self.full_meta_indices,
+        )
 
         score = (
             float(pair_coverage),
@@ -478,6 +523,7 @@ class TeamOptimizer:
             float(lineup_score.viable_lineup_count),
             defensive_type_score,
             offensive_move_score,
+            ranking_aware_score.final_score,
         )
         self._team_score_cache[cache_key] = score
         return score
@@ -619,6 +665,7 @@ class TeamOptimizer:
             -safe_member_deficit,
             -bulk_deficit,
             score[13],
+            score[19],
             score[15],
             score[16],
             score[14],
@@ -653,9 +700,13 @@ def _optimize_restart_batch(batch: OptimizerRestartBatch) -> tuple[int, TeamSolu
         matrices=batch.matrices,
         bulk_by_row=batch.bulk_by_row,
         safety_by_row=batch.safety_by_row,
+        consistency_by_row=batch.consistency_by_row,
         pokemon_types_by_row=batch.pokemon_types_by_row,
+        opponent_types_by_col=batch.opponent_types_by_col,
         move_types_by_row=batch.move_types_by_row,
         type_effectiveness=batch.type_effectiveness,
+        top_threat_indices=batch.top_threat_indices,
+        full_meta_indices=batch.full_meta_indices,
         battle_frontier_points_by_row=batch.battle_frontier_points_by_row,
         battle_frontier_max_points=batch.battle_frontier_max_points,
         battle_frontier_max_five_point_members=batch.battle_frontier_max_five_point_members,

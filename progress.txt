@@ -31,6 +31,9 @@
 - Ordered lineup role-fit scoring lives in `application/lineups.py`; use normalized PvPoke category scores, score leads from `leads`, average unordered backs across `switches`/`closers` plus secondary role categories, and keep role weight low (`0.03`) versus resource-path score.
 - Ordered lineup synergy scoring lives in `application/lineups.py`; derive ABC/ABB/ABA strategy score from type/matchup evidence, then have `TeamOptimizer._lineup_mean_score()` pass row types, type chart, and threat weights so synergy affects cached lineup objective scoring.
 - Skip ordered-lineup synergy when any lineup member has missing type data or incomplete type-effectiveness mappings; viability filters should require both resource-path mean and blended lineup score to meet `LINEUP_VIABILITY_THRESHOLD`.
+- Ranking-aware roster component scoring lives in `application/scoring.py`; keep coverage, safety, consistency, bulk, defensive ratio, and offensive ratio normalized before combining them through `RosterScore`.
+- `TeamOptimizer._score_team()` appends the ranking-aware final score after existing tuple indexes; `_comparison_key()` consumes it after safety/bulk guards and the primary lineup objective without reordering legacy score fields.
+- Use ranking-pool matrix indices from `AnalyzeMetaUseCase` for top-threat weighting, normalized PvPoke consistency for ranking-aware consistency, shield-path stability as the bait-dependence proxy, and neutral move DPE fallback until move power/energy data is modeled.
 
 ## 2026-04-14 11:49:44 MST - US-001
 - What was implemented
@@ -1041,4 +1044,76 @@
   - Broader coverage, safety, consistency, bulk, defensive ratio, and offensive ratio weighted components remain pending for `US-028`.
 - Next iteration start:
   - Implement `US-028` by adding weighted coverage, safety, consistency, bulk, defensive ratio, and offensive ratio components without moving scoring into CLI or exporters.
+---
+
+## 2026-05-25 18:34:15 MST - US-028
+- What was implemented
+  - Added application-layer ranking-aware roster component scoring for top-threat/full-meta coverage, safety, consistency, normalized bulk, defensive type ratios, and offensive move ratios.
+  - Wired the weighted ranking-aware final score into `TeamOptimizer` as an appended score tuple field and included it in comparison after safety/bulk guards and lineup objective fields.
+  - Passed ranking-pool top-threat indices, normalized PvPoke consistency category scores, and opponent type data from `AnalyzeMetaUseCase` into the optimizer while keeping CLI/exporters as wiring/rendering-only boundaries.
+  - Added focused tests for top-threat versus full-meta miss weighting, component diagnostics, type-ratio scoring, weighted tradeoffs, and optimizer comparison behavior.
+- Files changed: `AGENTS.md`, `prd.json`, `progress.txt`, `src/pogo_team_optimizer/application/scoring.py`, `src/pogo_team_optimizer/application/optimizer.py`, `src/pogo_team_optimizer/application/use_case.py`, `tests/unit/test_scoring.py`, `tests/unit/test_optimizer_lineup_objective.py`
+- Commit message: `feat: US-028 - Add weighted coverage safety consistency bulk and type ratio components`
+- Checks:
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m pytest tests/unit/test_scoring.py tests/unit/test_optimizer_lineup_objective.py -q` (pass)
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m mypy src` (pass)
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m ruff check src tests` (pass)
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m pytest` (pass, 200 tests)
+  - `make typecheck` (pass)
+  - `make lint` (pass)
+  - `make test` (pass, 200 tests)
+- Implementation agents:
+  - Recommended: `python-pro`
+  - Used: `python-pro`
+- Specialist review:
+  - Agents used: `code-reviewer`, `qa-expert`, `security-engineer`, `security-auditor`, `documentation-engineer`
+  - Findings: blocked after third review pass; fixed ranking-pool top-threat wiring, explicit opponent type data, neutral missing type/move ratio diagnostics, shield-path bait-dependence proxy diagnostics, explicit empty threat pools, and comparison-order wording, but QA still requires use-case-level regression coverage proving `AnalyzeMetaUseCase` wires opponent column type data into ranking-aware scoring.
+- Decisions (why):
+  - Chose a pure scoring helper in `application/scoring.py` so component math stays testable and independent of CLI, repositories, and exporters.
+  - Chose to append the weighted optimizer score instead of reordering existing tuple fields so use-case metrics and exporter compatibility remain stable.
+  - Chose a neutral move DPE diagnostic fallback because selected move type data is available today, but move power/energy/DPE data is not yet modeled in the scoring layer.
+  - Chose to derive top-threat matrix indices from ranking pools in the use case because simulation matrix columns are not guaranteed to be ranking ordered.
+  - Chose to derive opponent type pressure from matrix column species through the Pokemon repository, keeping missing type data neutral rather than failing optimization.
+- **Learnings for future iterations:**
+  - Ranking-aware broad component scoring should consume normalized inputs and emit `RosterScore` diagnostics from `application/scoring.py`; do not duplicate this math in optimizer, CLI, or exporters.
+  - Gotcha encountered: `TeamOptimizer` tuple fields are consumed by use-case metrics, so new optimizer scores must be appended and explicitly wired into `_comparison_key()`.
+- Known issues / follow-ups:
+  - Superseded by the 2026-05-25 19:10:06 MST US-028 entry, which added the focused use-case regression for opponent column type wiring before commit.
+  - Explainable ranking-aware output remains pending for `US-030`; this story exposes only the aggregate weighted score in current metrics.
+- Next iteration start:
+  - Implement `US-029` by validating ranking-aware cache keys and multiprocessing payload determinism for workers `1` and `2`.
+---
+
+## 2026-05-25 19:10:06 MST - US-028
+- What was implemented
+  - Added the missing use-case regression test proving `AnalyzeMetaUseCase` resolves matrix opponent column labels through the Pokemon repository and passes opponent type data into ranking-aware scoring.
+  - Verified opponent type and move type data produce non-neutral defensive, offensive, and aggregate ranking-aware metrics in the result payload.
+  - Corrected the staged PRD metadata so previously completed `US-001` remains passing while `US-028` is marked passing.
+- Files changed: `AGENTS.md`, `prd.json`, `progress.txt`, `src/pogo_team_optimizer/application/optimizer.py`, `src/pogo_team_optimizer/application/scoring.py`, `src/pogo_team_optimizer/application/use_case.py`, `tests/unit/test_optimizer_lineup_objective.py`, `tests/unit/test_scoring.py`, `tests/unit/test_use_case_lineups.py`
+- Commit message: `feat: US-028 - Add weighted coverage safety consistency bulk and type ratio components`
+- Checks:
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m pytest tests/unit/test_use_case_lineups.py::test_use_case_wires_opponent_column_types_into_ranking_aware_score -q` (pass)
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m pytest tests/unit/test_scoring.py tests/unit/test_use_case_lineups.py::test_use_case_wires_opponent_column_types_into_ranking_aware_score -q` (pass)
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m pytest tests/unit/test_scoring.py tests/unit/test_optimizer_lineup_objective.py tests/unit/test_use_case_lineups.py -q` (pass, 59 tests)
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m mypy src` (pass)
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m ruff check src tests` (pass)
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m pytest` (pass, 204 tests)
+- Implementation agents:
+  - Recommended: `python-pro`
+  - Used: `python-pro`, `refactoring-specialist`
+- Specialist review:
+  - Agents used: `code-reviewer`, `qa-expert`, `security-engineer`, `security-auditor`, `documentation-engineer`
+  - Findings: fixed before commit; added neutral synergy/role fallback components, strengthened the use-case regression to compare typed and missing opponent columns, added explicit dual-type ratio expectations, validated threat indices, and neutralized invalid type-effectiveness multipliers.
+- Decisions (why):
+  - Chose a use-case-level fake repository test because the blocker was orchestration coverage, not component scoring math.
+  - Chose to assert opponent column type lookups and non-neutral metrics instead of exact weighted values to avoid duplicating the scoring formula in the test.
+  - Chose to leave CLI/exporters untouched because opponent type derivation belongs in `AnalyzeMetaUseCase` and scoring belongs in application services.
+  - Chose neutral fallback components for currently unavailable roster-level synergy and role inputs so the weighted aggregate remains on the expected scale while retaining diagnostics.
+- **Learnings for future iterations:**
+  - Use-case ranking-aware wiring regressions should verify both dependency calls for matrix column labels and resulting metrics, while keeping detailed formula assertions in `tests/unit/test_scoring.py`.
+  - Gotcha encountered: `prd.json` had a staged metadata regression for `US-001`; inspect staged PRD diffs before committing story metadata.
+- Known issues / follow-ups:
+  - Explainable ranking-aware output remains pending for `US-030`.
+- Next iteration start:
+  - Implement `US-029` by validating ranking-aware cache keys and multiprocessing payload determinism for workers `1` and `2`.
 ---

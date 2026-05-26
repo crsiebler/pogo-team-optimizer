@@ -255,6 +255,77 @@ def test_comparison_rewards_offensive_move_type_diversity() -> None:
     )[18]
 
 
+def test_comparison_uses_weighted_ranking_aware_components_after_bulk_guard() -> None:
+    rows = [[620, 620]] * 12
+    optimizer = TeamOptimizer(
+        row_labels=[f"Mon {index}" for index in range(12)],
+        col_labels=["Opp 0", "Opp 1"],
+        matrices=[rows, rows, rows],
+        bulk_by_row=[210.0] * 6 + [205.0] * 6,
+        safety_by_row=[0.9] * 6 + [0.2] * 6,
+        consistency_by_row=[0.9] * 6 + [0.2] * 6,
+        seed=7,
+    )
+    safer_team = [0, 1, 2, 3, 4, 5]
+    less_safe_team = [6, 7, 8, 9, 10, 11]
+
+    assert optimizer._score_team(safer_team)[19] > optimizer._score_team(less_safe_team)[19]
+    assert _comparison_key(optimizer, safer_team) > _comparison_key(optimizer, less_safe_team)
+
+
+def test_optimizer_ranking_aware_score_honors_configured_top_threat_indices() -> None:
+    rows = [
+        [620, 300],
+        [620, 300],
+        [620, 300],
+        [620, 620],
+        [620, 620],
+        [620, 620],
+    ]
+    top_second_column = TeamOptimizer(
+        row_labels=[f"Mon {index}" for index in range(6)],
+        col_labels=["Long Tail", "Top Threat"],
+        matrices=[rows, rows, rows],
+        bulk_by_row=[200.0] * 6,
+        top_threat_indices=[1],
+        seed=7,
+    )
+    top_first_column = TeamOptimizer(
+        row_labels=[f"Mon {index}" for index in range(6)],
+        col_labels=["Long Tail", "Top Threat"],
+        matrices=[rows, rows, rows],
+        bulk_by_row=[200.0] * 6,
+        top_threat_indices=[0],
+        seed=7,
+    )
+
+    team = [0, 1, 2]
+    assert top_second_column._score_team(team)[19] < top_first_column._score_team(team)[19]
+
+
+def test_optimizer_honors_empty_explicit_top_threat_indices() -> None:
+    rows = [[300], [300], [300]]
+    default_optimizer = TeamOptimizer(
+        row_labels=[f"Mon {index}" for index in range(3)],
+        col_labels=["Opp 0"],
+        matrices=[rows, rows, rows],
+        bulk_by_row=[200.0] * 3,
+        seed=7,
+    )
+    empty_top_optimizer = TeamOptimizer(
+        row_labels=[f"Mon {index}" for index in range(3)],
+        col_labels=["Opp 0"],
+        matrices=[rows, rows, rows],
+        bulk_by_row=[200.0] * 3,
+        top_threat_indices=[],
+        full_meta_indices=[],
+        seed=7,
+    )
+
+    team = [0, 1, 2]
+    assert empty_top_optimizer._score_team(team)[19] > default_optimizer._score_team(team)[19]
+
+
 def test_lineup_objective_includes_shape_synergy_when_type_data_is_available() -> None:
     rows = [
         [650, 450, 450],
