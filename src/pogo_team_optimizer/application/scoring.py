@@ -1,7 +1,11 @@
 from __future__ import annotations
 
+import math
+from collections.abc import Mapping
 from dataclasses import dataclass
 from typing import ClassVar, Literal
+
+from pogo_team_optimizer.domain.models import RankingCategory, RankingProfile, RankingRow
 
 ScoreComponentName = Literal[
     "synergy",
@@ -14,6 +18,12 @@ ScoreComponentName = Literal[
     "role_fit",
 ]
 DiagnosticEntry = tuple[str, object]
+
+MIN_PVPOKE_RANKING_SCORE = 0.0
+MAX_PVPOKE_RANKING_SCORE = 100.0
+NORMALIZED_PVPOKE_SCORE_MIN = 0.0
+NORMALIZED_PVPOKE_SCORE_MAX = 1.0
+NORMALIZED_PVPOKE_SCORE_FALLBACK = 0.5
 
 ROSTER_COMPONENT_ORDER: tuple[ScoreComponentName, ...] = (
     "synergy",
@@ -52,6 +62,82 @@ class RosterScoreWeights:
 
 
 DEFAULT_ROSTER_SCORE_WEIGHTS = RosterScoreWeights()
+
+
+@dataclass(frozen=True)
+class PvPokeScoreNormalizationPolicy:
+    """Normalize raw PvPoke category scores for weighted scoring.
+
+    PvPoke category scores are finite values from 0 to 100. This policy keeps
+    raw scores available on `RankingRow.score` and stores normalized values in
+    `RankingRow.normalized_score` on a 0.0 to 1.0 scale. Invalid raw scores are
+    stored with `normalized_score=None` for diagnostics, and consumer lookups use
+    a neutral 0.5 fallback for missing, invalid, or degenerate category values.
+    """
+
+    fallback_score: float = NORMALIZED_PVPOKE_SCORE_FALLBACK
+
+    def __post_init__(self) -> None:
+        if (
+            not math.isfinite(self.fallback_score)
+            or self.fallback_score < NORMALIZED_PVPOKE_SCORE_MIN
+            or self.fallback_score > NORMALIZED_PVPOKE_SCORE_MAX
+        ):
+            raise ValueError("fallback_score must be finite and between 0.0 and 1.0")
+
+    def normalize_profile(self, profile: RankingProfile) -> RankingProfile:
+        return RankingProfile(
+            scores_by_category={
+                category: self.normalize_category(rows)
+                for category, rows in sorted(
+                    profile.scores_by_category.items(), key=lambda item: item[0].value
+                )
+            }
+        )
+
+    def normalize_category(
+        self,
+        rows: Mapping[str, RankingRow],
+    ) -> dict[str, RankingRow]:
+        valid_scores = [row.score for row in rows.values() if _is_valid_pvpoke_score(row.score)]
+        min_score = min(valid_scores) if valid_scores else None
+        max_score = max(valid_scores) if valid_scores else None
+        score_range = (
+            (max_score - min_score)
+            if min_score is not None and max_score is not None and max_score > min_score
+            else None
+        )
+
+        normalized_rows: dict[str, RankingRow] = {}
+        for species, row in sorted(rows.items(), key=lambda item: item[0]):
+            normalized_score: float | None
+            if not _is_valid_pvpoke_score(row.score):
+                normalized_score = None
+            elif score_range is None or min_score is None:
+                normalized_score = self.fallback_score
+            else:
+                normalized_score = (row.score - min_score) / score_range
+            normalized_rows[species] = RankingRow(
+                species=row.species,
+                score=row.score,
+                normalized_score=normalized_score,
+            )
+        return normalized_rows
+
+    def get_normalized_score(
+        self,
+        profile: RankingProfile,
+        category: RankingCategory,
+        species_name: str,
+    ) -> float:
+        rows = profile.scores_by_category.get(category)
+        if rows is None:
+            return self.fallback_score
+        normalized_rows = self.normalize_category(rows)
+        row = normalized_rows.get(species_name)
+        if row is None or row.normalized_score is None:
+            return self.fallback_score
+        return row.normalized_score
 
 
 @dataclass(frozen=True)
@@ -210,3 +296,10 @@ def _ordered_diagnostics(
     diagnostics: tuple[DiagnosticEntry, ...],
 ) -> tuple[DiagnosticEntry, ...]:
     return tuple(sorted(diagnostics, key=lambda item: item[0]))
+
+
+def _is_valid_pvpoke_score(score: float) -> bool:
+    return (
+        math.isfinite(score)
+        and MIN_PVPOKE_RANKING_SCORE <= score <= MAX_PVPOKE_RANKING_SCORE
+    )

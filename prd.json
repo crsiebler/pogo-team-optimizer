@@ -462,7 +462,7 @@
         "Typecheck passes"
       ],
       "priority": 25,
-      "passes": false,
+      "passes": true,
       "notes": "Recommended agent: python-pro. Prefer score-based normalization over raw rank because PvPoke rank gaps are not uniform."
     },
     {

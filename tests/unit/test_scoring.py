@@ -4,11 +4,13 @@ import pytest
 
 from pogo_team_optimizer.application.scoring import (
     DEFAULT_ROSTER_SCORE_WEIGHTS,
+    NORMALIZED_PVPOKE_SCORE_FALLBACK,
     ROSTER_COMPONENT_ORDER,
     BulkScore,
     ConsistencyScore,
     DefensiveRatioScore,
     OffensiveRatioScore,
+    PvPokeScoreNormalizationPolicy,
     RoleFitScore,
     RosterScore,
     RosterScoreWeights,
@@ -16,6 +18,7 @@ from pogo_team_optimizer.application.scoring import (
     SynergyScore,
     ThreatCoverageScore,
 )
+from pogo_team_optimizer.domain.models import RankingCategory, RankingProfile, RankingRow
 
 
 def test_roster_score_calculates_weighted_sum() -> None:
@@ -142,3 +145,106 @@ def test_default_roster_weights_cover_all_components() -> None:
         "offensive_ratio": 0.05,
         "role_fit": 0.03,
     }
+
+
+def test_pvpoke_normalization_scales_category_scores_between_zero_and_one() -> None:
+    profile = RankingProfile(
+        scores_by_category={
+            RankingCategory.LEADS: {
+                "Top": RankingRow("Top", 100.0),
+                "Middle": RankingRow("Middle", 50.0),
+                "Low": RankingRow("Low", 0.0),
+            }
+        }
+    )
+
+    normalized = PvPokeScoreNormalizationPolicy().normalize_profile(profile)
+
+    rows = normalized.scores_by_category[RankingCategory.LEADS]
+    assert rows["Top"].score == 100.0
+    assert rows["Top"].normalized_score == 1.0
+    assert rows["Middle"].normalized_score == 0.5
+    assert rows["Low"].normalized_score == 0.0
+
+
+def test_pvpoke_normalization_uses_neutral_fallback_for_equal_scores() -> None:
+    profile = RankingProfile(
+        scores_by_category={
+            RankingCategory.CONSISTENCY: {
+                "Stable": RankingRow("Stable", 80.0),
+                "Also Stable": RankingRow("Also Stable", 80.0),
+            }
+        }
+    )
+
+    normalized = PvPokeScoreNormalizationPolicy().normalize_profile(profile)
+
+    assert tuple(
+        row.normalized_score
+        for row in normalized.scores_by_category[RankingCategory.CONSISTENCY].values()
+    ) == (NORMALIZED_PVPOKE_SCORE_FALLBACK, NORMALIZED_PVPOKE_SCORE_FALLBACK)
+
+
+def test_pvpoke_normalization_getter_defaults_missing_species_and_categories() -> None:
+    profile = RankingProfile(scores_by_category={RankingCategory.SWITCHES: {}})
+    policy = PvPokeScoreNormalizationPolicy()
+
+    assert policy.get_normalized_score(profile, RankingCategory.SWITCHES, "Missing") == 0.5
+    assert policy.get_normalized_score(profile, RankingCategory.CLOSERS, "Missing") == 0.5
+
+
+def test_pvpoke_normalization_treats_invalid_scores_as_missing() -> None:
+    profile = RankingProfile(
+        scores_by_category={
+            RankingCategory.ATTACKERS: {
+                "Valid High": RankingRow("Valid High", 95.0),
+                "Valid Low": RankingRow("Valid Low", 85.0),
+                "NaN": RankingRow("NaN", float("nan")),
+                "Infinite": RankingRow("Infinite", float("inf")),
+                "Negative": RankingRow("Negative", -1.0),
+                "Too High": RankingRow("Too High", 101.0),
+            }
+        }
+    )
+
+    normalized = PvPokeScoreNormalizationPolicy().normalize_profile(profile)
+    rows = normalized.scores_by_category[RankingCategory.ATTACKERS]
+
+    assert rows["Valid High"].normalized_score == 1.0
+    assert rows["Valid Low"].normalized_score == 0.0
+    assert rows["NaN"].normalized_score is None
+    assert rows["Infinite"].normalized_score is None
+    assert rows["Negative"].normalized_score is None
+    assert rows["Too High"].normalized_score is None
+
+    policy = PvPokeScoreNormalizationPolicy()
+    assert policy.get_normalized_score(profile, RankingCategory.ATTACKERS, "NaN") == 0.5
+    assert policy.get_normalized_score(profile, RankingCategory.ATTACKERS, "Infinite") == 0.5
+    assert policy.get_normalized_score(profile, RankingCategory.ATTACKERS, "Negative") == 0.5
+    assert policy.get_normalized_score(profile, RankingCategory.ATTACKERS, "Too High") == 0.5
+
+
+def test_pvpoke_normalization_output_order_is_deterministic() -> None:
+    profile = RankingProfile(
+        scores_by_category={
+            RankingCategory.CHARGERS: {
+                "Zed": RankingRow("Zed", 70.0),
+                "Alpha": RankingRow("Alpha", 90.0),
+                "Middle": RankingRow("Middle", 80.0),
+            }
+        }
+    )
+
+    normalized = PvPokeScoreNormalizationPolicy().normalize_profile(profile)
+
+    assert tuple(normalized.scores_by_category[RankingCategory.CHARGERS]) == (
+        "Alpha",
+        "Middle",
+        "Zed",
+    )
+
+
+@pytest.mark.parametrize("fallback_score", [float("nan"), float("inf"), -0.1, 1.1])
+def test_pvpoke_normalization_rejects_invalid_fallback_scores(fallback_score: float) -> None:
+    with pytest.raises(ValueError, match="fallback_score"):
+        PvPokeScoreNormalizationPolicy(fallback_score=fallback_score)

@@ -27,6 +27,7 @@
 - For real-data integration coverage, instantiate the concrete CSV repositories directly in tests so `bfmaster` assertions exercise the checked-in matrices, switch rankings, and Battle Frontier points files together.
 - Ranking threat pool construction lives in `application/ranking_pools.py`; align ranking profiles to normalized matrix opponent labels, deduplicate by `parse_base_species()` like the optimizer, and use deterministic missing-score fallback weights/order.
 - Ranking-aware weighted score structures live in `application/scoring.py`; preserve deterministic component order, neutral missing-component handling, and centralized `RosterScoreWeights` defaults before wiring them into optimizer ranking.
+- PvPoke category score normalization lives in `application/scoring.py`; keep raw `RankingRow.score` values for diagnostics, store derived valid `normalized_score` values on a `0.0` to `1.0` scale, store invalid values as `None`, and use neutral `0.5` fallback for missing, invalid, or degenerate category lookups.
 
 ## 2026-04-14 11:49:44 MST - US-001
 - What was implemented
@@ -896,4 +897,38 @@
   - `US-025` remains pending to normalize PvPoke category scores before role-fit and broader ranking-aware scoring consume them.
 - Next iteration start:
   - Implement `US-025` by adding a normalization policy for PvPoke category scores while keeping raw scores available for diagnostics.
+---
+
+## 2026-05-25 17:11:17 MST - US-025
+- What was implemented
+  - Added `PvPokeScoreNormalizationPolicy` in the application scoring layer to normalize finite PvPoke category scores from raw `0` to `100` values into `0.0` to `1.0` values.
+  - Preserved raw `RankingRow.score` values for diagnostics while populating derived `RankingRow.normalized_score` values for future weighted scoring consumers.
+  - Added neutral `0.5` fallback behavior for missing species, missing categories, invalid scores, and degenerate equal-score categories.
+  - Added focused tests for high/low boundary normalization, equal-score categories, missing defaults, invalid/malformed values, raw-score preservation, fallback validation, and deterministic output ordering.
+- Files changed: `AGENTS.md`, `prd.json`, `progress.txt`, `src/pogo_team_optimizer/application/scoring.py`, `tests/unit/test_scoring.py`
+- Commit message: `feat: US-025 - Normalize PvPoke category scores`
+- Checks:
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m pytest tests/unit/test_scoring.py -q` (pass)
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m pytest tests/unit/test_csv_rankings_repository.py -q` (pass)
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m mypy src` (pass)
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m ruff check src tests` (pass)
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m pytest` (pass, 170 tests)
+- Implementation agents:
+  - Recommended: `python-pro`
+  - Used: `python-pro`
+- Specialist review:
+  - Agents used: `code-reviewer`, `qa-expert`, `security-engineer`, `security-auditor`, `documentation-engineer`
+  - Findings: fixed before commit; added lower-bound raw score coverage, public invalid-score fallback assertions, fallback-score validation, clarified stored invalid-score diagnostics versus consumer fallback behavior, and corrected the changed-files audit trail. Deferred low commit-message format suggestion because Ralph explicitly requires `feat: US-025 - Normalize PvPoke category scores`.
+- Decisions (why):
+  - Chose application-layer normalization in `scoring.py` instead of CSV parsing so repositories remain raw data adapters and scoring policy stays reusable.
+  - Chose score-based per-category min/max normalization because PvPoke score gaps carry more information than raw rank gaps.
+  - Chose neutral `0.5` fallback for missing, invalid, and equal-value categories so later weighted scoring can remain explicit and non-crashing when data is incomplete.
+- **Learnings for future iterations:**
+  - Future role-fit and ranking-aware scoring should consume `RankingRow.normalized_score` or `PvPokeScoreNormalizationPolicy.get_normalized_score()` rather than combining raw `0` to `100` category scores.
+  - Gotcha encountered: `RankingProfile.get_score()` intentionally remains a raw-score accessor; do not change it to return normalized values because ranking pools and diagnostics still rely on raw PvPoke scores.
+- Known issues / follow-ups:
+  - Normalized category scores are not yet wired into role-fit scoring; that belongs to `US-026`.
+  - Pre-existing unrelated worktree changes remain outside this story and should not be staged.
+- Next iteration start:
+  - Implement `US-026` by adding role-fit components to ordered lineup scoring using normalized category scores without letting role dominate higher-priority scoring components.
 ---
