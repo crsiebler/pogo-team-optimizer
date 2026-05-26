@@ -84,6 +84,41 @@ def build_result() -> dict[str, object]:
                 "battle_frontier_free_low_point_usage_rate": 0.6666666667,
                 "battle_frontier_high_point_usage_rate": 0.1754385965,
             },
+            "score_breakdown": {
+                "final_score": 0.74,
+                "components": [
+                    {
+                        "name": "threat_coverage",
+                        "raw_value": 0.8,
+                        "weight": 0.21,
+                        "weighted_score": 0.168,
+                        "diagnostics": [
+                            {"key": "top_threat_no_answer", "value": 0},
+                            {"key": "top_threat_single_answer", "value": 1},
+                        ],
+                    }
+                ],
+            },
+            "ranking_diagnostics": {
+                "key_covered_threats": ["Dialga"],
+                "remaining_threats": ["Zygarde"],
+                "no_answer_threats": [],
+                "single_answer_threats": ["Zygarde"],
+                "shared_weaknesses": [
+                    {"type": "dark", "members": ["Mewtwo", "Gengar (Mega)"]}
+                ],
+                "role_assumptions": [
+                    "Leads use PvPoke leads rankings when available.",
+                    "Back pairs use unordered PvPoke switches, closers, attackers, chargers, and consistency blends when available.",
+                ],
+                "lineup_dependency": {
+                    "dependent": True,
+                    "reason": "Only one viable ordered lineup is available.",
+                    "best_lineup_score": 621.5,
+                    "top_lineup_mean_score": 540.0,
+                    "viable_lineup_count": 1,
+                },
+            },
         },
         "coverage": [
             {"shield": 0, "wins": 1, "draws": 0, "losses": 1, "weighted_wins": 0.5},
@@ -101,6 +136,40 @@ def build_result() -> dict[str, object]:
                     "mean_score": 621.5,
                     "dominating_matchups": 4,
                     "overwhelming_matchups": 1,
+                    "resource_mean_score": 621.5,
+                    "role_fit_score": 0.8,
+                    "synergy_score": 0.7,
+                },
+                "score_breakdown": {
+                    "final_score": 621.5,
+                    "components": [
+                        {
+                            "name": "resource_path",
+                            "raw_value": 621.5,
+                            "weight": 0.9,
+                            "weighted_score": 559.35,
+                        },
+                        {
+                            "name": "role_fit",
+                            "raw_value": 800.0,
+                            "weight": 0.03,
+                            "weighted_score": 24.0,
+                        },
+                        {
+                            "name": "synergy",
+                            "raw_value": 700.0,
+                            "weight": 0.07,
+                            "weighted_score": 49.0,
+                        },
+                    ],
+                },
+                "ranking_diagnostics": {
+                    "role_assumptions": [
+                        "Lead uses PvPoke leads ranking; backs use unordered switch/closer support rankings."
+                    ],
+                    "shared_weaknesses": [
+                        {"type": "dark", "members": ["Mewtwo", "Gengar (Mega)"]}
+                    ],
                 },
                 "resource_paths": [
                     {
@@ -169,6 +238,9 @@ def test_json_exporter_includes_structured_lineups_and_bench_warnings() -> None:
     assert rendered is not None
     payload = json.loads(rendered)
     assert payload["recommended_lineups"][0]["team_shape"] == "ABC"
+    assert payload["recommended_team"]["score_breakdown"]["components"][0]["name"] == "threat_coverage"
+    assert payload["recommended_team"]["ranking_diagnostics"]["single_answer_threats"] == ["Zygarde"]
+    assert payload["recommended_lineups"][0]["score_breakdown"]["components"][1]["name"] == "role_fit"
     assert payload["recommended_lineups"][0]["resource_paths"][1]["name"] == "shield_spend"
     warning = payload["recommended_team"]["bench_utility"][1]["warnings"][0]
     assert warning == {
@@ -209,6 +281,14 @@ def test_text_exporter_renders_lineup_aware_sections() -> None:
     assert "\nSafe Cores\n" not in rendered
     assert "Bench Utility" not in rendered
     assert "full-roster dominate count" in rendered
+    assert "ranking-aware score: 0.740" in rendered
+    assert "key covered threats: Dialga" in rendered
+    assert "remaining threats: Zygarde" in rendered
+    assert "shared weaknesses: dark (Mewtwo, Gengar (Mega))" in rendered
+    assert "role assumptions: Leads use PvPoke leads rankings when available." in rendered
+    assert "lineup dependency [warning]: Only one viable ordered lineup is available." in rendered
+    assert "components: resource_path 559.35, role_fit 24.00, synergy 49.00" in rendered
+    assert "lineup notes: shared weaknesses dark (Mewtwo, Gengar (Mega))" in rendered
     assert "legacy full-roster dominate count" not in rendered
     assert "where score > 650" not in rendered
     assert "where score < 350" not in rendered
@@ -266,6 +346,14 @@ def test_markdown_exporter_renders_lineup_aware_sections() -> None:
     assert "## Safe Cores" not in rendered
     assert "## Bench Utility" not in rendered
     assert "Full-roster dominate count" in rendered
+    assert "Ranking-aware score: `0.740`" in rendered
+    assert "Key covered threats: Dialga" in rendered
+    assert "Remaining threats: Zygarde" in rendered
+    assert "Shared weaknesses: dark (Mewtwo, Gengar (Mega))" in rendered
+    assert "Role assumptions: Leads use PvPoke leads rankings when available." in rendered
+    assert "Lineup dependency: Only one viable ordered lineup is available." in rendered
+    assert "resource_path `559.35`; role_fit `24.00`; synergy `49.00`" in rendered
+    assert "shared weaknesses dark (Mewtwo, Gengar (Mega))" in rendered
     assert "Legacy full-roster dominate count" not in rendered
     assert "score > 650" not in rendered
     assert "score < 350" not in rendered

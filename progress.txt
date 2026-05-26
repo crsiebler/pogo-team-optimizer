@@ -35,6 +35,7 @@
 - `TeamOptimizer._score_team()` appends the ranking-aware final score after existing tuple indexes; `_comparison_key()` consumes it after safety/bulk guards and the primary lineup objective without reordering legacy score fields.
 - Use ranking-pool matrix indices from `AnalyzeMetaUseCase` for top-threat weighting, normalized PvPoke consistency for ranking-aware consistency, shield-path stability as the bait-dependence proxy, and neutral move DPE fallback until move power/energy data is modeled.
 - `TeamOptimizer` snapshots caller-owned scoring inputs at construction and uses deterministic SHA-256 scoring-context fingerprints in team and lineup score cache keys so mutable inputs and large matrix keys do not affect cached scoring or integration-test runtime.
+- Ranking-aware explainability payloads are assembled in `AnalyzeMetaUseCase` from application score objects and structured threat/lineup diagnostics; exporters should render those fields without recomputing scoring, coverage, role, or shared-weakness logic.
 
 ## 2026-04-14 11:49:44 MST - US-001
 - What was implemented
@@ -1155,4 +1156,38 @@
   - Pre-existing unrelated worktree changes remain outside this story and should not be staged.
 - Next iteration start:
   - Implement `US-030` by exposing ranking-aware score diagnostics in result payloads and rendering concise trainer-facing explanations without reintroducing deprecated noisy sections.
+---
+
+## 2026-05-25 20:36:24 MST - US-030
+- What was implemented
+  - Added structured `recommended_team.score_breakdown` and `recommended_team.ranking_diagnostics` payloads for ranking-aware component scores, key covered threats, remaining/no-answer/single-answer threats, shared weaknesses, role assumptions, and lineup dependency.
+  - Added structured `recommended_lineups[*].score_breakdown` and concise lineup diagnostics for resource-path, role-fit, synergy components, role assumptions, and shared weaknesses.
+  - Updated text and Markdown exporters to summarize only high-value ranking-aware explanations inside existing Team Analysis, Recommended Lineups, and Warnings-style output without reintroducing Safe Cores, Coverage, or Resource / Shield Safety sections.
+  - Added focused use-case and exporter regression coverage; JSON naturally serializes the new structured diagnostics while CSV and Excel schemas remain unchanged.
+- Files changed: `AGENTS.md`, `prd.json`, `progress.txt`, `src/pogo_team_optimizer/application/use_case.py`, `src/pogo_team_optimizer/infrastructure/exporters/text_exporter.py`, `src/pogo_team_optimizer/infrastructure/exporters/markdown_exporter.py`, `tests/unit/test_use_case_lineups.py`, `tests/unit/test_battle_frontier_exporters.py`
+- Commit message: `feat: US-030 - Add explainable ranking-aware output`
+- Checks:
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m pytest tests/unit/test_use_case_lineups.py tests/unit/test_battle_frontier_exporters.py -q` (pass, 33 tests after review fix)
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m mypy src` (pass)
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m ruff check src tests` (pass)
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m pytest` (pass, 212 tests)
+- Implementation agents:
+  - Recommended: `python-pro`
+  - Used: `python-pro`
+- Specialist review:
+  - Agents used: `code-reviewer`, `qa-expert`, `security-engineer`
+  - Findings: fixed before commit; changed covered/no-answer/single-answer ranking diagnostics to classify threat-level answer counts from all matrix opponents instead of relying on filtered Potential Threats output or shield-specific fragile counts, and added the missing Markdown role-assumption summary. Deferred low Markdown sanitizer hardening and low lineup role-assumption wording expansion because no critical/high/medium finding remained after the final review pass.
+- Decisions (why):
+  - Chose to recompute the existing application `RosterScore` once in the use case for payload diagnostics instead of exposing optimizer internals or adding exporter scoring logic.
+  - Chose additive JSON/result fields while leaving CSV and Excel schemas unchanged because the story requires explainability in structured JSON and concise human-readable output, and existing tabular schemas remain stable.
+  - Chose to render ranking-aware details inside existing sections so text and Markdown reports stay focused and do not resurrect deprecated noisy sections.
+  - Chose threat-level answer counts across all shield matrices for ranking diagnostics so no-answer and single-answer labels describe opponent-level risk rather than shield-path fragility.
+- **Learnings for future iterations:**
+  - Ranking-aware explanations should be sourced from `recommended_team.score_breakdown`, `recommended_team.ranking_diagnostics`, and `recommended_lineups[*].score_breakdown`; exporters should not infer these details from raw matrices.
+  - Gotcha encountered: lineup component weights are conditional on whether role-fit and synergy are available, so result payloads should expose weighted components instead of making exporters derive weights.
+- Known issues / follow-ups:
+  - Deterministic regression fixtures and architecture documentation remain pending for `US-031` and `US-032`.
+  - Pre-existing unrelated worktree changes remain outside this story and should not be staged.
+- Next iteration start:
+  - Implement `US-031` by adding deterministic ranking, typing, moves, matrices, and meta-pool fixtures for weighted GBL scoring regressions.
 ---

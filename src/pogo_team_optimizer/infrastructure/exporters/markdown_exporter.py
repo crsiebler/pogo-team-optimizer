@@ -80,6 +80,7 @@ class MarkdownExporter(AnalysisExporter):
             f"`{metrics['overwhelming_count']}/{metrics['total_pairs']}` "
             f"(`{metrics['overwhelming_rate'] * 100:.1f}%`)"
         )
+        self._append_ranking_diagnostics(lines, result)
         if "battle_frontier_points_used" in metrics:
             lines.append("")
             lines.append("## Battle Frontier Legality")
@@ -159,6 +160,12 @@ class MarkdownExporter(AnalysisExporter):
                 f"dom {path['dominating_matchups']} overwhelm {path['overwhelming_matchups']}"
                 for path in lineup["resource_paths"]
             )
+            component_summary = self._score_component_summary(lineup.get("score_breakdown", {}))
+            if component_summary:
+                resource_summary = f"{resource_summary}; components {component_summary}"
+            lineup_notes = self._lineup_notes(lineup)
+            if lineup_notes:
+                resource_summary = f"{resource_summary}; {lineup_notes}"
             lines.append(
                 f"| {idx} | {self._escape(lineup['lead']['label'])} | "
                 f"{self._escape(back_pair)} | {self._escape(lineup.get('team_shape', 'unclassified'))} | "
@@ -166,6 +173,66 @@ class MarkdownExporter(AnalysisExporter):
                 f"{summary['overwhelming_matchups']} | {points} | "
                 f"{self._escape(resource_summary)} |"
             )
+
+    def _append_ranking_diagnostics(self, lines: list[str], result: dict[str, Any]) -> None:
+        team = result["recommended_team"]
+        score_breakdown = team.get("score_breakdown")
+        diagnostics = team.get("ranking_diagnostics")
+        if not score_breakdown and not diagnostics:
+            return
+
+        if score_breakdown:
+            lines.append(f"- Ranking-aware score: `{score_breakdown['final_score']:.3f}`")
+        if not diagnostics:
+            return
+        if diagnostics.get("key_covered_threats"):
+            lines.append(
+                "- Key covered threats: "
+                + self._escape(", ".join(diagnostics["key_covered_threats"][:5]))
+            )
+        if diagnostics.get("remaining_threats"):
+            lines.append(
+                "- Remaining threats: "
+                + self._escape(", ".join(diagnostics["remaining_threats"][:5]))
+            )
+        if diagnostics.get("shared_weaknesses"):
+            lines.append(
+                "- Shared weaknesses: "
+                + self._escape(self._format_shared_weaknesses(diagnostics["shared_weaknesses"][:3]))
+            )
+        if diagnostics.get("role_assumptions"):
+            lines.append(
+                "- Role assumptions: "
+                + self._escape(diagnostics["role_assumptions"][0])
+            )
+        dependency = diagnostics.get("lineup_dependency", {})
+        if dependency.get("dependent"):
+            lines.append(f"- Lineup dependency: {self._escape(dependency['reason'])}")
+
+    def _score_component_summary(self, score_breakdown: dict[str, Any]) -> str:
+        components = score_breakdown.get("components", [])
+        return "; ".join(
+            f"{component['name']} `{component['weighted_score']:.2f}`"
+            for component in components
+        )
+
+    def _lineup_notes(self, lineup: dict[str, Any]) -> str:
+        diagnostics = lineup.get("ranking_diagnostics", {})
+        notes = []
+        if diagnostics.get("shared_weaknesses"):
+            notes.append(
+                "shared weaknesses "
+                + self._format_shared_weaknesses(diagnostics["shared_weaknesses"][:3])
+            )
+        if diagnostics.get("role_assumptions"):
+            notes.append(diagnostics["role_assumptions"][0])
+        return "; ".join(notes)
+
+    def _format_shared_weaknesses(self, weaknesses: list[dict[str, Any]]) -> str:
+        return ", ".join(
+            f"{weakness['type']} ({', '.join(weakness['members'])})"
+            for weakness in weaknesses
+        )
 
     def _resource_path_label(self, name: str) -> str:
         return {

@@ -65,6 +65,7 @@ class TextExporter(AnalysisExporter):
             f"- full-roster overwhelming count: {metrics['overwhelming_count']}/"
             f"{metrics['total_pairs']} ({metrics['overwhelming_rate'] * 100:.1f}%)"
         )
+        self._append_ranking_diagnostics(lines, result)
         if "battle_frontier_points_used" in metrics:
             lines.append("")
             lines.append("Battle Frontier legality")
@@ -148,6 +149,70 @@ class TextExporter(AnalysisExporter):
                 for path in lineup["resource_paths"]
             )
             lines.append(f"  - resources: {resource_summary}")
+            component_summary = self._score_component_summary(lineup.get("score_breakdown", {}))
+            if component_summary:
+                lines.append(f"  - components: {component_summary}")
+            lineup_notes = self._lineup_notes(lineup)
+            if lineup_notes:
+                lines.append(f"  - lineup notes: {lineup_notes}")
+
+    def _append_ranking_diagnostics(self, lines: list[str], result: dict[str, Any]) -> None:
+        team = result["recommended_team"]
+        score_breakdown = team.get("score_breakdown")
+        diagnostics = team.get("ranking_diagnostics")
+        if not score_breakdown and not diagnostics:
+            return
+
+        if score_breakdown:
+            lines.append(f"- ranking-aware score: {score_breakdown['final_score']:.3f}")
+        if not diagnostics:
+            return
+
+        if diagnostics.get("key_covered_threats"):
+            lines.append(
+                "- key covered threats: "
+                + ", ".join(diagnostics["key_covered_threats"][:5])
+            )
+        if diagnostics.get("remaining_threats"):
+            lines.append(
+                "- remaining threats: "
+                + ", ".join(diagnostics["remaining_threats"][:5])
+            )
+        if diagnostics.get("shared_weaknesses"):
+            lines.append(
+                "- shared weaknesses: "
+                + self._format_shared_weaknesses(diagnostics["shared_weaknesses"][:3])
+            )
+        if diagnostics.get("role_assumptions"):
+            lines.append("- role assumptions: " + diagnostics["role_assumptions"][0])
+        dependency = diagnostics.get("lineup_dependency", {})
+        if dependency.get("dependent"):
+            lines.append(f"- lineup dependency [warning]: {dependency['reason']}")
+
+    def _score_component_summary(self, score_breakdown: dict[str, Any]) -> str:
+        components = score_breakdown.get("components", [])
+        return ", ".join(
+            f"{component['name']} {component['weighted_score']:.2f}"
+            for component in components
+        )
+
+    def _lineup_notes(self, lineup: dict[str, Any]) -> str:
+        diagnostics = lineup.get("ranking_diagnostics", {})
+        notes = []
+        if diagnostics.get("shared_weaknesses"):
+            notes.append(
+                "shared weaknesses "
+                + self._format_shared_weaknesses(diagnostics["shared_weaknesses"][:3])
+            )
+        if diagnostics.get("role_assumptions"):
+            notes.append(diagnostics["role_assumptions"][0])
+        return "; ".join(notes)
+
+    def _format_shared_weaknesses(self, weaknesses: list[dict[str, Any]]) -> str:
+        return ", ".join(
+            f"{weakness['type']} ({', '.join(weakness['members'])})"
+            for weakness in weaknesses
+        )
 
     def _resource_path_label(self, name: str) -> str:
         return {

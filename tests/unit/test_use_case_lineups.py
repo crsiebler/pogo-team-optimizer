@@ -501,3 +501,146 @@ def test_use_case_wires_opponent_column_types_into_ranking_aware_score() -> None
     assert metrics["defensive_type_score"] != 0.0
     assert metrics["offensive_move_score"] != 0.0
     assert metrics["ranking_aware_score"] != baseline_metrics["ranking_aware_score"]
+
+
+def test_use_case_exposes_ranking_aware_score_breakdown_and_diagnostics() -> None:
+    result: dict[str, Any] = AnalyzeMetaUseCase(
+        simulation_repository=RankingAwareSimulationRepository(),
+        pokemon_repository=RankingAwarePokemonRepository(),
+        move_repository=RankingAwareMoveRepository(),
+        type_effectiveness_repository=RankingAwareTypeEffectivenessRepository(),
+    ).execute(seed=7, restarts=1)
+
+    team = result["recommended_team"]
+    score_breakdown = team["score_breakdown"]
+    diagnostics = team["ranking_diagnostics"]
+
+    assert score_breakdown["final_score"] == team["metrics"]["ranking_aware_score"]
+    assert [component["name"] for component in score_breakdown["components"]] == [
+        "synergy",
+        "threat_coverage",
+        "safety",
+        "consistency",
+        "bulk",
+        "defensive_ratio",
+        "offensive_ratio",
+        "role_fit",
+    ]
+    assert diagnostics["key_covered_threats"]
+    assert diagnostics["remaining_threats"] == []
+    assert diagnostics["no_answer_threats"] == []
+    assert diagnostics["single_answer_threats"] == []
+    assert diagnostics["role_assumptions"] == [
+        "Leads use PvPoke leads rankings when available.",
+        "Back pairs use unordered PvPoke switches, closers, attackers, chargers, and consistency blends when available.",
+    ]
+    assert diagnostics["lineup_dependency"]["dependent"] is False
+
+
+def test_recommended_lineups_expose_weighted_components_and_shared_weaknesses() -> None:
+    result: dict[str, Any] = AnalyzeMetaUseCase(
+        simulation_repository=EqualResourceSimulationRepository(),
+        pokemon_repository=ShapePokemonRepository(),
+        rankings_repository=FakeRankingsRepository(),
+        type_effectiveness_repository=SynergyTypeEffectivenessRepository(),
+    ).execute(seed=7, restarts=1)
+
+    first = result["recommended_lineups"][0]
+
+    assert first["score_breakdown"] == {
+        "final_score": first["lineup_score"],
+        "components": [
+            {
+                "name": "resource_path",
+                "raw_value": first["score_summary"]["resource_mean_score"],
+                "weight": 0.9,
+                "weighted_score": first["score_summary"]["resource_mean_score"] * 0.9,
+            },
+            {
+                "name": "role_fit",
+                "raw_value": first["score_summary"]["role_fit_score"] * 1000.0,
+                "weight": 0.03,
+                "weighted_score": first["score_summary"]["role_fit_score"] * 30.0,
+            },
+            {
+                "name": "synergy",
+                "raw_value": first["score_summary"]["synergy_score"] * 1000.0,
+                "weight": 0.07,
+                "weighted_score": first["score_summary"]["synergy_score"] * 1000.0 * 0.07,
+            },
+        ],
+    }
+    assert first["ranking_diagnostics"]["role_assumptions"]
+    assert any(
+        lineup["ranking_diagnostics"]["shared_weaknesses"]
+        for lineup in result["recommended_lineups"]
+    )
+
+
+def test_ranking_diagnostics_identify_lineup_dependency() -> None:
+    row_labels = ["Amon", "Bmon", "Cmon", "Dmon", "Emon", "Fmon"]
+
+    diagnostics = use_case_module._build_ranking_diagnostics(
+        row_labels=row_labels,
+        col_labels=["Opp1"],
+        matrices=[
+            [[620], [620], [620], [450], [450], [450]],
+            [[620], [620], [620], [450], [450], [450]],
+            [[620], [620], [620], [450], [450], [450]],
+        ],
+        metrics={
+            "lineup_best_score": 620.0,
+            "lineup_top_n_mean_score": 512.0,
+            "lineup_viable_count": 1,
+        },
+        team_indices=(0, 1, 2, 3, 4, 5),
+        pokemon_types_by_row=[("water",), ("grass",), ("fire",), ("normal",), ("normal",), ("normal",)],
+        type_effectiveness=SynergyTypeEffectivenessRepository().load(),
+        ranking_profile=None,
+    )
+
+    assert diagnostics["lineup_dependency"] == {
+        "dependent": True,
+        "reason": "Only one viable ordered lineup is available.",
+        "best_lineup_score": 620.0,
+        "top_lineup_mean_score": 512.0,
+        "viable_lineup_count": 1,
+    }
+
+
+def test_ranking_diagnostics_classify_threat_level_answers_from_all_opponents() -> None:
+    diagnostics = use_case_module._build_ranking_diagnostics(
+        row_labels=["Amon", "Bmon", "Cmon"],
+        col_labels=["CoveredOpp", "SingleOpp", "NoAnswerOpp"],
+        matrices=[
+            [
+                [620, 620, 450],
+                [610, 450, 450],
+                [450, 450, 450],
+            ],
+            [
+                [620, 450, 450],
+                [610, 450, 450],
+                [450, 450, 450],
+            ],
+            [
+                [620, 450, 450],
+                [610, 450, 450],
+                [450, 450, 450],
+            ],
+        ],
+        metrics={
+            "lineup_best_score": 620.0,
+            "lineup_top_n_mean_score": 620.0,
+            "lineup_viable_count": 3,
+        },
+        team_indices=(0, 1, 2),
+        pokemon_types_by_row=[("water",), ("grass",), ("fire",)],
+        type_effectiveness=SynergyTypeEffectivenessRepository().load(),
+        ranking_profile=None,
+    )
+
+    assert diagnostics["key_covered_threats"] == ["CoveredOpp"]
+    assert diagnostics["single_answer_threats"] == ["SingleOpp"]
+    assert diagnostics["no_answer_threats"] == ["NoAnswerOpp"]
+    assert diagnostics["remaining_threats"] == ["NoAnswerOpp", "SingleOpp"]

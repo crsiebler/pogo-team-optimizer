@@ -560,7 +560,7 @@
         "Typecheck passes"
       ],
       "priority": 30,
-      "passes": false,
+      "passes": true,
       "notes": "Recommended agent: python-pro. Keep normal human-readable output focused; diagnostics should explain trainer-relevant tradeoffs without resurrecting Safe Cores or Coverage sections."
     },
     {

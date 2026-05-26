@@ -13,6 +13,11 @@ from pogo_team_optimizer.application.analyzers import (
 )
 from pogo_team_optimizer.application.lineups import (
     LINEUP_RESOURCE_PATHS,
+    LINEUP_RESOURCE_SCORE_WEIGHT,
+    LINEUP_RESOURCE_WITHOUT_ROLE_SYNERGY_SCORE_WEIGHT,
+    LINEUP_RESOURCE_WITH_SYNERGY_SCORE_WEIGHT,
+    LINEUP_ROLE_FIT_SCORE_WEIGHT,
+    LINEUP_SYNERGY_SCORE_WEIGHT,
     LINEUP_VIABILITY_THRESHOLD,
     classify_lineup_shape,
     enumerate_ordered_lineups,
@@ -23,7 +28,12 @@ from pogo_team_optimizer.application.lineups import (
 from pogo_team_optimizer.application.normalization import parse_species
 from pogo_team_optimizer.application.optimizer import TeamOptimizer
 from pogo_team_optimizer.application.ranking_pools import build_ranking_pools
-from pogo_team_optimizer.application.scoring import PvPokeScoreNormalizationPolicy
+from pogo_team_optimizer.application.scoring import (
+    PvPokeScoreNormalizationPolicy,
+    RosterScore,
+    WeightedScoreComponent,
+    calculate_ranking_aware_roster_score,
+)
 from pogo_team_optimizer.domain.interfaces import (
     BattleFrontierPointsRepository,
     MoveRepository,
@@ -280,6 +290,19 @@ class AnalyzeMetaUseCase:
             battle_frontier_points_by_row=battle_frontier_points_by_row,
             limit=top_lineups,
         )
+        roster_score = calculate_ranking_aware_roster_score(
+            team_indices=best_team.member_indices,
+            matrices=matrices,
+            bulk_by_row=bulk_by_row,
+            safety_by_row=safety_by_row,
+            consistency_by_row=consistency_by_row,
+            pokemon_types_by_row=pokemon_types_by_row,
+            move_types_by_row=move_types_by_row,
+            opponent_types_by_col=opponent_types_by_col,
+            type_effectiveness=type_effectiveness,
+            top_threat_indices=top_threat_indices,
+            full_meta_indices=list(range(len(col_labels))),
+        )
         bench_utility = _build_actionable_bench_utility(
             row_labels=row_labels,
             matrices=matrices,
@@ -289,6 +312,13 @@ class AnalyzeMetaUseCase:
             pokemon_types_by_row=pokemon_types_by_row,
             type_effectiveness=type_effectiveness,
             threat_weights=weights,
+        )
+        threats = build_threats(
+            row_labels,
+            col_labels,
+            matrices,
+            best_team.member_indices,
+            top_n=top_threats,
         )
 
         LOGGER.info("assembling result payload")
@@ -301,19 +331,24 @@ class AnalyzeMetaUseCase:
                 "safety_score": sum(safety_by_row[idx] for idx in best_team.member_indices)
                 / len(best_team.member_indices),
                 "metrics": metrics,
+                "score_breakdown": _roster_score_breakdown_payload(roster_score),
+                "ranking_diagnostics": _build_ranking_diagnostics(
+                    row_labels=row_labels,
+                    col_labels=col_labels,
+                    matrices=matrices,
+                    metrics=metrics,
+                    team_indices=best_team.member_indices,
+                    pokemon_types_by_row=pokemon_types_by_row,
+                    type_effectiveness=type_effectiveness,
+                    ranking_profile=ranking_profile,
+                ),
                 "bench_utility": bench_utility,
                 "shadow_count": sum(
                     1 for idx in best_team.member_indices if "(Shadow)" in row_labels[idx]
                 ),
             },
             "coverage": coverage_by_shield(matrices, best_team.member_indices, weights),
-            "threats": build_threats(
-                row_labels,
-                col_labels,
-                matrices,
-                best_team.member_indices,
-                top_n=top_threats,
-            ),
+            "threats": threats,
             "safe_cores": [],
             "target_map": build_target_map(
                 row_labels, col_labels, matrices, best_team.member_indices
@@ -407,6 +442,7 @@ def _build_recommended_lineups(
             lineup_score,
             score,
             battle_frontier_points_by_row,
+            type_effectiveness,
         )
         for lineup_score, score in scored_lineups[:limit]
     ]
@@ -433,6 +469,7 @@ def _to_recommended_lineup(
     lineup_score: float,
     score: Any,
     battle_frontier_points_by_row: list[int] | None = None,
+    type_effectiveness: dict[str, dict[str, float]] | None = None,
 ) -> dict[str, Any]:
     dominating_matchups = sum(path.dominate_count for path in score.path_scores)
     overwhelming_matchups = sum(path.overwhelming_count for path in score.path_scores)
@@ -481,12 +518,208 @@ def _to_recommended_lineup(
                 "synergy_score": score.synergy_score,
             }
         )
+    result["score_breakdown"] = _lineup_score_breakdown_payload(score, lineup_score)
+    result["ranking_diagnostics"] = {
+        "role_assumptions": _lineup_role_assumptions(score),
+        "shared_weaknesses": _shared_weaknesses(
+            labels=[lead["label"], back_pair[0]["label"], back_pair[1]["label"]],
+            member_types=[lead["types"], back_pair[0]["types"], back_pair[1]["types"]],
+            type_effectiveness=type_effectiveness,
+        ),
+    }
     if battle_frontier_points_by_row is not None:
         result["battle_frontier_points_used"] = sum(
             battle_frontier_points_by_row[index]
             for index in (score.lineup.lead_index, *score.lineup.back_indices)
         )
     return result
+
+
+def _roster_score_breakdown_payload(score: RosterScore) -> dict[str, Any]:
+    return {
+        "final_score": score.final_score,
+        "components": [_weighted_component_payload(component) for component in score.components],
+    }
+
+
+def _weighted_component_payload(component: WeightedScoreComponent) -> dict[str, Any]:
+    return {
+        "name": component.name,
+        "raw_value": component.raw_value,
+        "weight": component.weight,
+        "weighted_score": component.weighted_score,
+        "diagnostics": [
+            {"key": key, "value": value}
+            for key, value in component.diagnostics
+        ],
+    }
+
+
+def _lineup_score_breakdown_payload(score: Any, final_score: float) -> dict[str, Any]:
+    components: list[dict[str, Any]] = []
+    if score.synergy_score is not None:
+        resource_weight = (
+            LINEUP_RESOURCE_WITH_SYNERGY_SCORE_WEIGHT
+            if score.role_fit_score is not None
+            else LINEUP_RESOURCE_WITHOUT_ROLE_SYNERGY_SCORE_WEIGHT
+        )
+    elif score.role_fit_score is not None:
+        resource_weight = LINEUP_RESOURCE_SCORE_WEIGHT
+    else:
+        resource_weight = 1.0
+
+    components.append(
+        _lineup_component_payload("resource_path", score.resource_mean_score, resource_weight)
+    )
+    if score.role_fit_score is not None:
+        components.append(
+            _lineup_component_payload(
+                "role_fit",
+                score.role_fit_score * 1000.0,
+                LINEUP_ROLE_FIT_SCORE_WEIGHT,
+            )
+        )
+    if score.synergy_score is not None:
+        components.append(
+            _lineup_component_payload(
+                "synergy",
+                score.synergy_score * 1000.0,
+                LINEUP_SYNERGY_SCORE_WEIGHT,
+            )
+        )
+    return {"final_score": final_score, "components": components}
+
+
+def _lineup_component_payload(name: str, raw_value: float, weight: float) -> dict[str, Any]:
+    return {
+        "name": name,
+        "raw_value": raw_value,
+        "weight": weight,
+        "weighted_score": raw_value * weight,
+    }
+
+
+def _lineup_role_assumptions(score: Any) -> list[str]:
+    if score.role_fit_score is None:
+        return []
+    return [
+        "Lead uses PvPoke leads ranking; backs use unordered switch/closer support rankings."
+    ]
+
+
+def _build_ranking_diagnostics(
+    *,
+    row_labels: list[str],
+    col_labels: list[str],
+    matrices: list[list[list[int]]],
+    metrics: dict[str, Any],
+    team_indices: tuple[int, ...],
+    pokemon_types_by_row: list[tuple[str, ...]],
+    type_effectiveness: dict[str, dict[str, float]],
+    ranking_profile: RankingProfile | None,
+) -> dict[str, Any]:
+    key_covered_threats: list[str] = []
+    no_answer_threats: list[str] = []
+    single_answer_threats: list[str] = []
+    for col_idx, label in enumerate(col_labels):
+        answer_count = _threat_answer_count(team_indices, matrices, col_idx)
+        if answer_count == 0:
+            no_answer_threats.append(label)
+        elif answer_count == 1:
+            single_answer_threats.append(label)
+        else:
+            key_covered_threats.append(label)
+
+    remaining_threats = list(dict.fromkeys(no_answer_threats + single_answer_threats))
+    member_labels = [row_labels[index] for index in team_indices]
+    member_types = [pokemon_types_by_row[index] for index in team_indices]
+
+    return {
+        "key_covered_threats": key_covered_threats[:5],
+        "remaining_threats": remaining_threats,
+        "no_answer_threats": no_answer_threats,
+        "single_answer_threats": single_answer_threats,
+        "shared_weaknesses": _shared_weaknesses(
+            labels=member_labels,
+            member_types=member_types,
+            type_effectiveness=type_effectiveness,
+        ),
+        "role_assumptions": _role_assumptions(ranking_profile),
+        "lineup_dependency": _lineup_dependency(metrics),
+    }
+
+
+def _threat_answer_count(
+    team_indices: tuple[int, ...],
+    matrices: list[list[list[int]]],
+    col_idx: int,
+) -> int:
+    return sum(
+        max(matrix[row_idx][col_idx] for matrix in matrices) > 500
+        for row_idx in team_indices
+    )
+
+
+def _role_assumptions(ranking_profile: RankingProfile | None) -> list[str]:
+    assumptions = [
+        "Leads use PvPoke leads rankings when available.",
+        "Back pairs use unordered PvPoke switches, closers, attackers, chargers, and consistency blends when available.",
+    ]
+    if ranking_profile is None:
+        return assumptions
+    return assumptions
+
+
+def _lineup_dependency(metrics: dict[str, Any]) -> dict[str, Any]:
+    best_score = float(metrics.get("lineup_best_score", 0.0))
+    top_mean = float(metrics.get("lineup_top_n_mean_score", 0.0))
+    viable_count = int(metrics.get("lineup_viable_count", 0))
+    dependent = viable_count <= 1 or (best_score - top_mean) >= 100.0
+    if viable_count <= 1:
+        reason = "Only one viable ordered lineup is available."
+    elif dependent:
+        reason = "Best lineup is much stronger than the recommended alternatives."
+    else:
+        reason = "Recommended roster has multiple viable ordered lineups."
+    return {
+        "dependent": dependent,
+        "reason": reason,
+        "best_lineup_score": best_score,
+        "top_lineup_mean_score": top_mean,
+        "viable_lineup_count": viable_count,
+    }
+
+
+def _shared_weaknesses(
+    *,
+    labels: list[str],
+    member_types: list[tuple[str, ...]] | list[list[str]],
+    type_effectiveness: dict[str, dict[str, float]] | None,
+) -> list[dict[str, Any]]:
+    if not type_effectiveness:
+        return []
+    shared = []
+    for attack_type in sorted(type_effectiveness):
+        weak_members = [
+            label
+            for label, types in zip(labels, member_types, strict=True)
+            if _defensive_multiplier(attack_type, tuple(types), type_effectiveness) > 1.0
+        ]
+        if len(weak_members) >= 2:
+            shared.append({"type": attack_type, "members": weak_members})
+    return shared
+
+
+def _defensive_multiplier(
+    attack_type: str,
+    defender_types: tuple[str, ...],
+    type_effectiveness: dict[str, dict[str, float]],
+) -> float:
+    multiplier = 1.0
+    effectiveness_by_defender = type_effectiveness.get(attack_type, {})
+    for defender_type in defender_types:
+        multiplier *= effectiveness_by_defender.get(defender_type, 1.0)
+    return multiplier
 
 
 def _build_bench_utility(
