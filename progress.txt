@@ -36,6 +36,7 @@
 - Use ranking-pool matrix indices from `AnalyzeMetaUseCase` for top-threat weighting, normalized PvPoke consistency for ranking-aware consistency, shield-path stability as the bait-dependence proxy, and neutral move DPE fallback until move power/energy data is modeled.
 - `TeamOptimizer` snapshots caller-owned scoring inputs at construction and uses deterministic SHA-256 scoring-context fingerprints in team and lineup score cache keys so mutable inputs and large matrix keys do not affect cached scoring or integration-test runtime.
 - Ranking-aware explainability payloads are assembled in `AnalyzeMetaUseCase` from application score objects and structured threat/lineup diagnostics; exporters should render those fields without recomputing scoring, coverage, role, or shared-weakness logic.
+- Deterministic weighted GBL regression fixtures live under `tests/fixtures/us031_weighted_scoring/`; use them for small ranking, matrix, Pokemon, move, top-threat, full-meta, and Crucible-removal coverage instead of production ranking CSVs in unit tests.
 
 ## 2026-04-14 11:49:44 MST - US-001
 - What was implemented
@@ -486,8 +487,8 @@
   - Recommended: `documentation-engineer`
   - Used: `documentation-engineer`
 - Specialist review:
-  - Agents used: pending
-  - Findings: pending
+  - Agents used: `code-reviewer`, `qa-expert`, `security-engineer`
+  - Findings: fixed before commit; replaced the optimizer best-lineup assertion with the named `_score_team_lineups(...).best_lineup_score` helper after QA flagged the private tuple index as brittle.
 - Decisions (why):
   - Chose a new README interpretation section instead of scattering details through command docs so user-facing lineup concepts, resource paths, diagnostics, and Battle Frontier caveats stay together.
   - Chose a small AGENTS addition because most reusable lineup architecture guidance already existed and the missing durable warning was about legacy full-six metrics not being battle coverage.
@@ -1190,4 +1191,37 @@
   - Pre-existing unrelated worktree changes remain outside this story and should not be staged.
 - Next iteration start:
   - Implement `US-031` by adding deterministic ranking, typing, moves, matrices, and meta-pool fixtures for weighted GBL scoring regressions.
+---
+
+## 2026-05-25 20:58:05 MST - US-031
+- What was implemented
+  - Added a small deterministic weighted GBL fixture set with PvPoke ranking CSVs for every supported category, aligned three-shield simulation matrices, Pokemon typing/stat data, move data, and type effectiveness data.
+  - Added fixture-backed regression tests for category ranking loading, duplicate normalized species handling, missing category gaps, tied scores, active/full-meta/top-threat pool construction, weighted score ordering, explicit-seed multiple-lineup roster preference, and Crucible removal.
+  - Kept optimizer and scoring behavior unchanged; this story adds durable regression inputs and coverage only.
+- Files changed: `AGENTS.md`, `prd.json`, `progress.txt`, `tests/fixtures/us031_weighted_scoring/matrices/weighted_fixture_0-shield.csv`, `tests/fixtures/us031_weighted_scoring/matrices/weighted_fixture_1-shield.csv`, `tests/fixtures/us031_weighted_scoring/matrices/weighted_fixture_2-shield.csv`, `tests/fixtures/us031_weighted_scoring/moves.json`, `tests/fixtures/us031_weighted_scoring/pokemon.json`, `tests/fixtures/us031_weighted_scoring/rankings/active_attackers.csv`, `tests/fixtures/us031_weighted_scoring/rankings/active_chargers.csv`, `tests/fixtures/us031_weighted_scoring/rankings/active_closers.csv`, `tests/fixtures/us031_weighted_scoring/rankings/active_consistency.csv`, `tests/fixtures/us031_weighted_scoring/rankings/active_leads.csv`, `tests/fixtures/us031_weighted_scoring/rankings/active_overall.csv`, `tests/fixtures/us031_weighted_scoring/rankings/active_switches.csv`, `tests/fixtures/us031_weighted_scoring/rankings/full_meta_overall.csv`, `tests/fixtures/us031_weighted_scoring/type-effectiveness.json`, `tests/unit/test_us031_weighted_scoring_fixtures.py`
+- Commit message: `feat: US-031 - Add deterministic regression fixtures for weighted GBL scoring`
+- Checks:
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m pytest tests/unit/test_us031_weighted_scoring_fixtures.py -q` (pass)
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m pytest tests/unit/test_us031_weighted_scoring_fixtures.py tests/unit/test_csv_rankings_repository.py tests/unit/test_ranking_pools.py tests/unit/test_scoring.py tests/unit/test_optimizer_lineup_objective.py tests/unit/test_cli_main.py -q` (pass)
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m mypy src` (pass)
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m ruff check src tests` (pass)
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m pytest` (pass, 218 tests)
+- Implementation agents:
+  - Recommended: `python-pro`
+  - Used: `python-pro`
+- Specialist review:
+  - Agents used: pending
+  - Findings: pending
+- Decisions (why):
+  - Chose a dedicated `tests/fixtures/us031_weighted_scoring/` fixture tree so unit tests can exercise ranking-aware behavior without reading large production ranking CSVs.
+  - Chose fixture-backed repository tests rather than new production abstractions because the story is regression fixture coverage and existing loaders already support the required data shapes.
+  - Chose to keep the multiple-lineup roster preference assertion at the optimizer comparison layer with `seed=31` so the fixture proves deterministic strategic ordering without invoking stochastic search.
+- **Learnings for future iterations:**
+  - Use the US-031 fixture set for small ranking-aware regression tests that need all PvPoke categories, top-threat/full-meta pool construction, or matrix-backed optimizer ordering.
+  - Gotcha encountered: for multiple-lineup roster preference fixtures, one excellent trio must have a higher best lineup but lower lineup-depth objective than the depth roster; otherwise the primary lineup objective will correctly prefer the single-trio roster.
+- Known issues / follow-ups:
+  - Documentation for ranking-aware architecture remains pending for `US-032`.
+  - Pre-existing unrelated worktree changes remain outside this story and should not be staged.
+- Next iteration start:
+  - Implement `US-032` by documenting category ranking inputs, pool construction, weighted score outputs, deterministic fixtures, and architecture boundaries.
 ---

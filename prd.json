@@ -579,7 +579,7 @@
         "Typecheck passes"
       ],
       "priority": 31,
-      "passes": false,
+      "passes": true,
       "notes": "Recommended agent: python-pro. Add deterministic fixtures before broad scoring rewrites so changes are testable and reviewable."
     },
     {

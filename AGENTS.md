@@ -134,6 +134,7 @@ Boundary rules:
 - Integration tests live in `tests/integration`.
 - Keep optimizer-related tests deterministic with explicit seeds.
 - Cover parsing edge cases and matrix label alignment behavior.
+- Use `tests/fixtures/us031_weighted_scoring/` for small ranking-aware unit regressions instead of production ranking CSVs when testing category rankings, top-threat/full-meta pools, type/move inputs, and weighted optimizer ordering.
 
 Recommended local gate before completion:
 ```bash
