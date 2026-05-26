@@ -144,8 +144,10 @@ free or low-point usage rates, high-point usage rates, and point-aware bench war
 keeps Battle Frontier legality at the six-roster level and does not reject individual pick-3
 lineups for point totals.
 
-ABC, ABB, and ABA lineup labels are heuristic diagnostics for interpreting team shape. They
-are not scoring inputs, ranking inputs, or tie-breakers in the MVP.
+ABC, ABB, and ABA lineup labels remain heuristic diagnostics for interpreting team shape. When
+complete type and matchup data are available, evidence-derived synergy can affect `lineup_score`
+and is surfaced in the structured result payload as `score_summary.synergy_score`; labels alone
+are not tie-breakers or scoring inputs.
 
 ## Fast Test Iteration
 

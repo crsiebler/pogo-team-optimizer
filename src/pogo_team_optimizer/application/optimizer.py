@@ -108,6 +108,7 @@ class TeamOptimizer:
         self.random = random.Random(seed)
         self._team_score_cache: dict[tuple[int, ...], tuple[float, ...]] = {}
         self._lineup_mean_score_cache: dict[OrderedLineup, float] = {}
+        self._lineup_resource_mean_score_cache: dict[OrderedLineup, float] = {}
 
         self.row_species = [parse_species(label) for label in row_labels]
         self.row_base_species = [parse_base_species(s) for s in self.row_species]
@@ -486,17 +487,23 @@ class TeamOptimizer:
             return RosterLineupScore(0.0, 0.0, 0.0, 0)
 
         lineup_scores = sorted(
-            (self._lineup_mean_score(lineup) for lineup in enumerate_ordered_lineups(team_indices)),
+            (self._lineup_resource_and_mean_score(lineup) for lineup in enumerate_ordered_lineups(team_indices)),
+            key=lambda score: score[1],
             reverse=True,
         )
         if not lineup_scores:
             return RosterLineupScore(0.0, 0.0, 0.0, 0)
 
-        top_scores = lineup_scores[:ROSTER_LINEUP_TOP_N]
-        best_lineup_score = lineup_scores[0]
+        lineup_mean_scores = [mean_score for _, mean_score in lineup_scores]
+        top_scores = lineup_mean_scores[:ROSTER_LINEUP_TOP_N]
+        best_lineup_score = lineup_mean_scores[0]
         top_lineup_mean = sum(top_scores) / len(top_scores)
-        viable_lineup_count = sum(score >= LINEUP_VIABILITY_THRESHOLD for score in lineup_scores)
-        viable_lineup_rate = viable_lineup_count / len(lineup_scores)
+        viable_lineup_count = sum(
+            resource_mean_score >= LINEUP_VIABILITY_THRESHOLD
+            and mean_score >= LINEUP_VIABILITY_THRESHOLD
+            for resource_mean_score, mean_score in lineup_scores
+        )
+        viable_lineup_rate = viable_lineup_count / len(lineup_mean_scores)
         objective_score = (
             (0.45 * best_lineup_score)
             + (0.40 * top_lineup_mean)
@@ -510,14 +517,25 @@ class TeamOptimizer:
         )
 
     def _lineup_mean_score(self, lineup: OrderedLineup) -> float:
-        cached = self._lineup_mean_score_cache.get(lineup)
-        if cached is not None:
-            return cached
+        return self._lineup_resource_and_mean_score(lineup)[1]
 
-        score = score_ordered_lineup(lineup, self.matrices)
-        mean_score = sum(path.mean_best_score for path in score.path_scores) / len(score.path_scores)
+    def _lineup_resource_and_mean_score(self, lineup: OrderedLineup) -> tuple[float, float]:
+        cached = self._lineup_mean_score_cache.get(lineup)
+        cached_resource = self._lineup_resource_mean_score_cache.get(lineup)
+        if cached is not None and cached_resource is not None:
+            return cached_resource, cached
+
+        score = score_ordered_lineup(
+            lineup,
+            self.matrices,
+            pokemon_types_by_row=self.pokemon_types_by_row,
+            type_effectiveness=self.type_effectiveness,
+            threat_weights=self.weights,
+        )
+        mean_score = score.lineup_score if score.lineup_score is not None else score.resource_mean_score
+        self._lineup_resource_mean_score_cache[lineup] = score.resource_mean_score
         self._lineup_mean_score_cache[lineup] = mean_score
-        return mean_score
+        return score.resource_mean_score, mean_score
 
     def _score_defensive_type_profile(self, team_indices: list[int]) -> float:
         if not self.type_effectiveness:

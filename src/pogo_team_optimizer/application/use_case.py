@@ -219,6 +219,9 @@ class AnalyzeMetaUseCase:
                 best_team.member_indices,
                 matrices,
                 battle_frontier_points_by_row,
+                pokemon_types_by_row=pokemon_types_by_row,
+                type_effectiveness=type_effectiveness,
+                threat_weights=weights,
             )
             metrics.update(
                 {
@@ -251,6 +254,9 @@ class AnalyzeMetaUseCase:
             species_cache=species_cache,
             ranking_profile=ranking_profile,
             species_by_row=row_species,
+            pokemon_types_by_row=pokemon_types_by_row,
+            type_effectiveness=type_effectiveness,
+            threat_weights=weights,
             battle_frontier_points_by_row=battle_frontier_points_by_row,
             limit=top_lineups,
         )
@@ -260,6 +266,9 @@ class AnalyzeMetaUseCase:
             team_indices=best_team.member_indices,
             species_cache=species_cache,
             battle_frontier_points_by_row=battle_frontier_points_by_row,
+            pokemon_types_by_row=pokemon_types_by_row,
+            type_effectiveness=type_effectiveness,
+            threat_weights=weights,
         )
 
         LOGGER.info("assembling result payload")
@@ -332,6 +341,9 @@ def _build_recommended_lineups(
     species_cache: dict[str, tuple[str, ...]],
     ranking_profile: RankingProfile | None = None,
     species_by_row: list[str] | None = None,
+    pokemon_types_by_row: list[tuple[str, ...]] | None = None,
+    type_effectiveness: dict[str, dict[str, float]] | None = None,
+    threat_weights: list[float] | None = None,
     battle_frontier_points_by_row: list[int] | None = None,
     limit: int = MAX_RECOMMENDED_LINEUPS,
 ) -> list[dict[str, Any]]:
@@ -345,9 +357,12 @@ def _build_recommended_lineups(
             matrices,
             species_by_row=species_by_row,
             ranking_profile=ranking_profile,
+            pokemon_types_by_row=pokemon_types_by_row,
+            type_effectiveness=type_effectiveness,
+            threat_weights=threat_weights,
         )
         lineup_score = score.lineup_score if score.lineup_score is not None else score.resource_mean_score
-        if score.resource_mean_score >= LINEUP_VIABILITY_THRESHOLD:
+        if score.resource_mean_score >= LINEUP_VIABILITY_THRESHOLD and lineup_score >= LINEUP_VIABILITY_THRESHOLD:
             scored_lineups.append((lineup_score, score))
 
     scored_lineups.sort(
@@ -418,6 +433,13 @@ def _to_recommended_lineup(
                 "role_fit_score": score.role_fit_score,
             }
         )
+    if score.synergy_score is not None:
+        result["score_summary"].update(
+            {
+                "resource_mean_score": score.resource_mean_score,
+                "synergy_score": score.synergy_score,
+            }
+        )
     if battle_frontier_points_by_row is not None:
         result["battle_frontier_points_used"] = sum(
             battle_frontier_points_by_row[index]
@@ -433,6 +455,9 @@ def _build_bench_utility(
     team_indices: tuple[int, ...],
     species_cache: dict[str, tuple[str, ...]],
     battle_frontier_points_by_row: list[int] | None = None,
+    pokemon_types_by_row: list[tuple[str, ...]] | None = None,
+    type_effectiveness: dict[str, dict[str, float]] | None = None,
+    threat_weights: list[float] | None = None,
 ) -> list[dict[str, Any]]:
     return [
         {
@@ -458,6 +483,9 @@ def _build_bench_utility(
             team_indices,
             matrices,
             battle_frontier_points_by_row=battle_frontier_points_by_row,
+            pokemon_types_by_row=pokemon_types_by_row,
+            type_effectiveness=type_effectiveness,
+            threat_weights=threat_weights,
         )
     ]
 
@@ -469,6 +497,9 @@ def _build_actionable_bench_utility(
     team_indices: tuple[int, ...],
     species_cache: dict[str, tuple[str, ...]],
     battle_frontier_points_by_row: list[int] | None = None,
+    pokemon_types_by_row: list[tuple[str, ...]] | None = None,
+    type_effectiveness: dict[str, dict[str, float]] | None = None,
+    threat_weights: list[float] | None = None,
 ) -> list[dict[str, Any]]:
     if battle_frontier_points_by_row is None:
         return []
@@ -481,6 +512,9 @@ def _build_actionable_bench_utility(
             team_indices=team_indices,
             species_cache=species_cache,
             battle_frontier_points_by_row=battle_frontier_points_by_row,
+            pokemon_types_by_row=pokemon_types_by_row,
+            type_effectiveness=type_effectiveness,
+            threat_weights=threat_weights,
         )
         if any(warning["category"] == "battle_frontier" for warning in entry["warnings"])
     ]

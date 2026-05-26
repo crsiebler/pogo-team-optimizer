@@ -96,6 +96,17 @@ class FakeRankingsRepository:
         )
 
 
+class SynergyTypeEffectivenessRepository:
+    def load(self) -> dict[str, dict[str, float]]:
+        return {
+            "electric": {"water": 1.6, "flying": 1.6, "grass": 0.625, "fire": 1.0},
+            "grass": {"water": 1.6, "flying": 0.625, "grass": 0.625, "fire": 0.625},
+            "water": {"water": 0.625, "flying": 1.0, "grass": 0.625, "fire": 1.6},
+            "fire": {"water": 0.625, "flying": 1.0, "grass": 1.6, "fire": 0.625},
+            "flying": {"water": 1.0, "flying": 1.0, "grass": 1.6, "fire": 1.0},
+        }
+
+
 def test_use_case_exposes_structured_recommended_lineups() -> None:
     result = AnalyzeMetaUseCase(
         simulation_repository=LineupSimulationRepository(),
@@ -197,6 +208,43 @@ def test_role_fit_does_not_make_resource_poor_lineups_viable() -> None:
     ).execute(seed=7, restarts=1)
 
     assert result["recommended_lineups"] == []
+
+
+def test_recommended_lineups_include_synergy_score_when_type_data_is_available() -> None:
+    result = AnalyzeMetaUseCase(
+        simulation_repository=EqualResourceSimulationRepository(),
+        pokemon_repository=ShapePokemonRepository(),
+        type_effectiveness_repository=SynergyTypeEffectivenessRepository(),
+    ).execute(seed=7, restarts=1)
+
+    first = result["recommended_lineups"][0]
+
+    assert first["score_summary"]["resource_mean_score"] == 600.0
+    assert first["score_summary"]["synergy_score"] > 0.0
+    assert first["lineup_score"] != first["score_summary"]["resource_mean_score"]
+
+
+def test_recommended_lineups_filter_below_threshold_blended_synergy_scores() -> None:
+    row_labels = ["Amon", "Bmon", "Cmon"]
+    matrices = [
+        [[350], [501], [350]],
+        [[350], [501], [350]],
+        [[350], [501], [350]],
+    ]
+
+    lineups = use_case_module._build_recommended_lineups(
+        row_labels=row_labels,
+        matrices=matrices,
+        team_indices=(0, 1, 2),
+        species_cache={"Amon": ("water",), "Bmon": ("grass",), "Cmon": ("water", "flying")},
+        species_by_row=row_labels,
+        pokemon_types_by_row=[("water",), ("grass",), ("water", "flying")],
+        type_effectiveness=SynergyTypeEffectivenessRepository().load(),
+        threat_weights=[1.0],
+    )
+
+    assert [lineup["lead"]["index"] for lineup in lineups] == [1]
+    assert all(lineup["lineup_score"] >= 500.0 for lineup in lineups)
 
 
 def test_shape_classification_does_not_change_lineup_score_or_order() -> None:

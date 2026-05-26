@@ -255,6 +255,58 @@ def test_comparison_rewards_offensive_move_type_diversity() -> None:
     )[18]
 
 
+def test_lineup_objective_includes_shape_synergy_when_type_data_is_available() -> None:
+    rows = [
+        [650, 450, 450],
+        [450, 650, 450],
+        [450, 450, 650],
+        [650, 450, 450],
+        [450, 650, 450],
+        [450, 450, 650],
+        [650, 450, 450],
+        [450, 650, 450],
+        [450, 450, 650],
+        [650, 450, 450],
+        [450, 650, 450],
+        [450, 450, 650],
+    ]
+    type_effectiveness = {
+        "electric": {"water": 1.6, "flying": 1.6, "grass": 0.625, "fire": 1.0},
+        "grass": {"water": 1.6, "flying": 0.625, "grass": 0.625, "fire": 0.625},
+        "water": {"water": 0.625, "flying": 1.0, "grass": 0.625, "fire": 1.6},
+        "fire": {"water": 0.625, "flying": 1.0, "grass": 1.6, "fire": 0.625},
+        "flying": {"water": 1.0, "flying": 1.0, "grass": 1.6, "fire": 1.0},
+    }
+    optimizer = TeamOptimizer(
+        row_labels=[f"Mon {index}" for index in range(len(rows))],
+        col_labels=["Opp 0", "Opp 1", "Opp 2"],
+        matrices=[rows, rows, rows],
+        bulk_by_row=[220.0] * len(rows),
+        pokemon_types_by_row=[
+            ("water",),
+            ("fire",),
+            ("grass",),
+            ("water",),
+            ("fire",),
+            ("grass",),
+            ("water",),
+            ("water", "flying"),
+            ("water",),
+            ("water",),
+            ("water", "flying"),
+            ("water",),
+        ],
+        move_types_by_row=[tuple()] * len(rows),
+        type_effectiveness=type_effectiveness,
+        seed=7,
+    )
+    abc_team = [0, 1, 2, 3, 4, 5]
+    aba_weakness_team = [6, 7, 8, 9, 10, 11]
+
+    assert optimizer._score_team(abc_team)[13] > optimizer._score_team(aba_weakness_team)[13]
+    assert _comparison_key(optimizer, abc_team) > _comparison_key(optimizer, aba_weakness_team)
+
+
 def test_team_score_cache_reuses_canonical_team_identity() -> None:
     rows = [
         [650, 620, 610, 600],
@@ -416,3 +468,33 @@ def test_cached_lineup_depth_matches_canonical_lineup_scorer() -> None:
     team = [0, 1, 2, 3, 4, 5]
 
     assert optimizer._score_team_lineups(team) == score_roster_lineup_depth(team, optimizer.matrices)
+
+
+def test_lineup_depth_viability_requires_resource_and_blended_scores() -> None:
+    rows = [[499] for _ in range(6)]
+    optimizer = TeamOptimizer(
+        row_labels=[f"Mon {index}" for index in range(6)],
+        col_labels=["Opp 0"],
+        matrices=[rows, rows, rows],
+        bulk_by_row=[200.0] * 6,
+        pokemon_types_by_row=[
+            ("water",),
+            ("grass",),
+            ("water", "flying"),
+            ("water",),
+            ("grass",),
+            ("water", "flying"),
+        ],
+        type_effectiveness={
+            "grass": {"water": 1.6, "flying": 0.625, "grass": 0.625},
+            "electric": {"water": 1.6, "flying": 1.6, "grass": 0.625},
+            "water": {"water": 0.625, "flying": 1.0, "grass": 0.625},
+            "flying": {"water": 1.0, "flying": 1.0, "grass": 1.6},
+        },
+        seed=7,
+    )
+
+    score = optimizer._score_team_lineups([0, 1, 2, 3, 4, 5])
+
+    assert score.best_lineup_score > 500.0
+    assert score.viable_lineup_count == 0

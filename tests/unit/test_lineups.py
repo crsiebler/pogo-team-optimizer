@@ -3,6 +3,7 @@ import pytest
 from pogo_team_optimizer.application.lineups import (
     OrderedLineup,
     bench_utility_warnings,
+    calculate_lineup_synergy,
     calculate_lineup_role_fit,
     score_battle_frontier_lineup_usage,
     classify_lineup_shape,
@@ -19,6 +20,27 @@ def _matrix_with_rows(rows: dict[int, list[int]]) -> list[list[int]]:
     for row_index, values in rows.items():
         matrix[row_index] = values
     return matrix
+
+
+def _synergy_type_chart() -> dict[str, dict[str, float]]:
+    return {
+        "electric": {"water": 1.6, "flying": 1.6, "grass": 0.625, "ground": 0.39},
+        "grass": {"water": 1.6, "ground": 1.6, "fire": 0.625, "flying": 0.625},
+        "water": {"fire": 1.6, "ground": 1.6, "grass": 0.625, "water": 0.625},
+        "fire": {"grass": 1.6, "steel": 1.6, "water": 0.625, "fire": 0.625},
+        "rock": {"fire": 1.6, "flying": 1.6, "water": 0.625, "ground": 0.625},
+        "ground": {"electric": 1.6, "fire": 1.6, "grass": 0.625, "flying": 0.39},
+        "ice": {"grass": 1.6, "flying": 1.6, "water": 0.625, "fire": 0.625},
+    }
+
+
+def _complete_water_grass_flying_chart() -> dict[str, dict[str, float]]:
+    return {
+        "electric": {"water": 1.6, "flying": 1.6, "grass": 0.625},
+        "grass": {"water": 1.6, "flying": 0.625, "grass": 0.625},
+        "water": {"water": 0.625, "flying": 1.0, "grass": 0.625},
+        "flying": {"water": 1.0, "flying": 1.0, "grass": 1.6},
+    }
 
 
 def test_six_member_roster_produces_sixty_ordered_lineups() -> None:
@@ -308,6 +330,210 @@ def test_score_ordered_lineup_blends_role_fit_without_changing_resource_paths() 
     assert score.lineup_score == 515.0
 
 
+def test_abc_synergy_rewards_complementary_strengths_and_low_shared_weakness() -> None:
+    lineup = OrderedLineup(lead_index=0, back_indices=(1, 2))
+    matrices = (
+        _matrix_with_rows({0: [650, 450, 450], 1: [450, 650, 450], 2: [450, 450, 650]}),
+        _matrix_with_rows({0: [650, 450, 450], 1: [450, 650, 450], 2: [450, 450, 650]}),
+        _matrix_with_rows({0: [650, 450, 450], 1: [450, 650, 450], 2: [450, 450, 650]}),
+    )
+
+    synergy = calculate_lineup_synergy(
+        lineup,
+        matrices,
+        pokemon_types_by_row=(("water",), ("fire",), ("grass",)),
+        type_effectiveness=_synergy_type_chart(),
+    )
+
+    assert synergy.components["shape"] == "ABC"
+    assert synergy.components["shared_weakness_pressure"] == 0.0
+    assert synergy.components["winner_diversity"] == 1.0
+    assert synergy.score > 0.75
+
+
+def test_abb_synergy_rewards_singleton_covering_back_pair_shared_weakness() -> None:
+    covered = calculate_lineup_synergy(
+        OrderedLineup(lead_index=0, back_indices=(1, 2)),
+        (
+            _matrix_with_rows({0: [650], 1: [450], 2: [450]}),
+            _matrix_with_rows({0: [650], 1: [450], 2: [450]}),
+            _matrix_with_rows({0: [650], 1: [450], 2: [450]}),
+        ),
+        pokemon_types_by_row=(("grass",), ("water",), ("water", "flying")),
+        type_effectiveness=_synergy_type_chart(),
+    )
+    uncovered = calculate_lineup_synergy(
+        OrderedLineup(lead_index=0, back_indices=(1, 2)),
+        (
+            _matrix_with_rows({0: [450], 1: [450], 2: [450]}),
+            _matrix_with_rows({0: [450], 1: [450], 2: [450]}),
+            _matrix_with_rows({0: [450], 1: [450], 2: [450]}),
+        ),
+        pokemon_types_by_row=(("fire",), ("water",), ("water", "flying")),
+        type_effectiveness=_synergy_type_chart(),
+    )
+
+    assert covered.components["shape"] == "ABB"
+    assert covered.components["singleton_covers_pair_weakness"] > 0.0
+    assert covered.score > uncovered.score
+
+
+def test_abb_synergy_rewards_combined_back_pair_coverage() -> None:
+    synergy = calculate_lineup_synergy(
+        OrderedLineup(lead_index=0, back_indices=(1, 2)),
+        (
+            _matrix_with_rows({0: [450], 1: [450], 2: [450]}),
+            _matrix_with_rows({0: [450], 1: [450], 2: [450]}),
+            _matrix_with_rows({0: [450], 1: [450], 2: [450]}),
+        ),
+        pokemon_types_by_row=(
+            ("lead",),
+            ("shared_back", "x_resist"),
+            ("shared_back", "y_resist"),
+        ),
+        type_effectiveness={
+            "x": {"lead": 1.6, "shared_back": 1.0, "x_resist": 0.625, "y_resist": 1.0},
+            "y": {"lead": 1.6, "shared_back": 1.0, "x_resist": 1.0, "y_resist": 0.625},
+        },
+    )
+
+    assert synergy.components["shape"] == "ABB"
+    assert synergy.components["pair_covers_singleton_weakness"] == 1.0
+
+
+def test_aba_synergy_penalizes_lead_shared_weakness_with_only_b_answer() -> None:
+    unsafe = calculate_lineup_synergy(
+        OrderedLineup(lead_index=0, back_indices=(1, 2)),
+        (
+            _matrix_with_rows({0: [350], 1: [650], 2: [350]}),
+            _matrix_with_rows({0: [350], 1: [650], 2: [350]}),
+            _matrix_with_rows({0: [350], 1: [650], 2: [350]}),
+        ),
+        pokemon_types_by_row=(("water",), ("grass",), ("water", "flying")),
+        type_effectiveness=_synergy_type_chart(),
+    )
+    safer = calculate_lineup_synergy(
+        OrderedLineup(lead_index=0, back_indices=(1, 2)),
+        (
+            _matrix_with_rows({0: [350], 1: [650], 2: [650]}),
+            _matrix_with_rows({0: [350], 1: [650], 2: [650]}),
+            _matrix_with_rows({0: [350], 1: [650], 2: [650]}),
+        ),
+        pokemon_types_by_row=(("water",), ("grass",), ("water", "flying")),
+        type_effectiveness=_synergy_type_chart(),
+    )
+
+    assert unsafe.components["shape"] == "ABA"
+    assert unsafe.components["unsafe_aba_shared_weakness"] > 0.0
+    assert unsafe.score < safer.score
+
+
+def test_aba_synergy_penalizes_uncovered_shared_weakness() -> None:
+    synergy = calculate_lineup_synergy(
+        OrderedLineup(lead_index=0, back_indices=(1, 2)),
+        (
+            _matrix_with_rows({0: [450], 1: [450], 2: [450]}),
+            _matrix_with_rows({0: [450], 1: [450], 2: [450]}),
+            _matrix_with_rows({0: [450], 1: [450], 2: [450]}),
+        ),
+        pokemon_types_by_row=(("water",), ("fire",), ("water", "flying")),
+        type_effectiveness=_synergy_type_chart(),
+    )
+
+    assert synergy.components["shape"] == "ABA"
+    assert synergy.components["unsafe_aba_shared_weakness"] > 0.0
+    assert synergy.score < 0.5
+
+
+def test_aba_synergy_rewards_redundant_answers_to_weighted_top_threats() -> None:
+    beneficial = calculate_lineup_synergy(
+        OrderedLineup(lead_index=0, back_indices=(1, 2)),
+        (
+            _matrix_with_rows({0: [650, 450], 1: [450, 450], 2: [650, 450]}),
+            _matrix_with_rows({0: [650, 450], 1: [450, 450], 2: [650, 450]}),
+            _matrix_with_rows({0: [650, 450], 1: [450, 450], 2: [650, 450]}),
+        ),
+        pokemon_types_by_row=(("water",), ("grass",), ("water", "flying")),
+        type_effectiveness=_synergy_type_chart(),
+        threat_weights=(0.9, 0.1),
+    )
+    neutral = calculate_lineup_synergy(
+        OrderedLineup(lead_index=0, back_indices=(1, 2)),
+        (
+            _matrix_with_rows({0: [450, 450], 1: [450, 450], 2: [450, 450]}),
+            _matrix_with_rows({0: [450, 450], 1: [450, 450], 2: [450, 450]}),
+            _matrix_with_rows({0: [450, 450], 1: [450, 450], 2: [450, 450]}),
+        ),
+        pokemon_types_by_row=(("water",), ("grass",), ("water", "flying")),
+        type_effectiveness=_synergy_type_chart(),
+        threat_weights=(0.9, 0.1),
+    )
+
+    assert beneficial.components["shape"] == "ABA"
+    assert beneficial.components["aba_redundant_strength"] == 0.9
+    assert beneficial.score > neutral.score
+
+
+def test_score_ordered_lineup_skips_synergy_when_lineup_member_types_are_missing() -> None:
+    lineup = OrderedLineup(lead_index=0, back_indices=(1, 2))
+    matrices = (
+        _matrix_with_rows({0: [600], 1: [600], 2: [600]}),
+        _matrix_with_rows({0: [600], 1: [600], 2: [600]}),
+        _matrix_with_rows({0: [600], 1: [600], 2: [600]}),
+    )
+
+    score = score_ordered_lineup(
+        lineup,
+        matrices,
+        pokemon_types_by_row=((), ("grass",), ("water",)),
+        type_effectiveness=_synergy_type_chart(),
+    )
+
+    assert score.resource_mean_score == 600.0
+    assert score.synergy_score is None
+    assert score.lineup_score == 600.0
+
+
+def test_score_ordered_lineup_skips_synergy_when_type_chart_is_incomplete() -> None:
+    lineup = OrderedLineup(lead_index=0, back_indices=(1, 2))
+    matrices = (
+        _matrix_with_rows({0: [600], 1: [600], 2: [600]}),
+        _matrix_with_rows({0: [600], 1: [600], 2: [600]}),
+        _matrix_with_rows({0: [600], 1: [600], 2: [600]}),
+    )
+
+    score = score_ordered_lineup(
+        lineup,
+        matrices,
+        pokemon_types_by_row=(("water",), ("fire",), ("grass",)),
+        type_effectiveness={"electric": {"water": 1.6}},
+    )
+
+    assert score.resource_mean_score == 600.0
+    assert score.synergy_score is None
+    assert score.lineup_score == 600.0
+
+
+def test_score_ordered_lineup_skips_synergy_when_type_chart_attack_rows_are_incomplete() -> None:
+    lineup = OrderedLineup(lead_index=0, back_indices=(1, 2))
+    matrices = (
+        _matrix_with_rows({0: [600], 1: [600], 2: [600]}),
+        _matrix_with_rows({0: [600], 1: [600], 2: [600]}),
+        _matrix_with_rows({0: [600], 1: [600], 2: [600]}),
+    )
+
+    score = score_ordered_lineup(
+        lineup,
+        matrices,
+        pokemon_types_by_row=(("water",), ("fire",), ("grass",)),
+        type_effectiveness={"electric": {"water": 1.6, "fire": 1.0, "grass": 0.625}},
+    )
+
+    assert score.resource_mean_score == 600.0
+    assert score.synergy_score is None
+    assert score.lineup_score == 600.0
+
+
 def test_lineup_role_fit_keeps_back_pair_unordered() -> None:
     profile = RankingProfile(
         scores_by_category={
@@ -457,6 +683,25 @@ def test_battle_frontier_lineup_usage_counts_point_groups_across_viable_lineups(
     assert diagnostics.viable_lineup_count == 57
     assert diagnostics.free_low_point_usage_rate == 87 / (57 * 3)
     assert diagnostics.high_point_usage_rate == 84 / (57 * 3)
+
+
+def test_battle_frontier_lineup_usage_uses_blended_synergy_viability() -> None:
+    matrices = (
+        _matrix_with_rows({0: [350], 1: [501], 2: [350]}),
+        _matrix_with_rows({0: [350], 1: [501], 2: [350]}),
+        _matrix_with_rows({0: [350], 1: [501], 2: [350]}),
+    )
+
+    diagnostics = score_battle_frontier_lineup_usage(
+        (0, 1, 2),
+        matrices,
+        (0, 1, 3),
+        pokemon_types_by_row=(("water",), ("grass",), ("water", "flying")),
+        type_effectiveness=_complete_water_grass_flying_chart(),
+        threat_weights=(1.0,),
+    )
+
+    assert diagnostics.viable_lineup_count == 1
 
 
 def test_roster_bench_utility_adds_battle_frontier_warnings_for_point_usage() -> None:

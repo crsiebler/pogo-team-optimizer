@@ -500,7 +500,7 @@
         "Typecheck passes"
       ],
       "priority": 27,
-      "passes": false,
+      "passes": true,
       "notes": "Recommended agent: refactoring-specialist. This is the highest-priority strategic score component; avoid making labels the only scoring basis."
     },
     {

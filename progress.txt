@@ -29,6 +29,8 @@
 - Ranking-aware weighted score structures live in `application/scoring.py`; preserve deterministic component order, neutral missing-component handling, and centralized `RosterScoreWeights` defaults before wiring them into optimizer ranking.
 - PvPoke category score normalization lives in `application/scoring.py`; keep raw `RankingRow.score` values for diagnostics, store derived valid `normalized_score` values on a `0.0` to `1.0` scale, store invalid values as `None`, and use neutral `0.5` fallback for missing, invalid, or degenerate category lookups.
 - Ordered lineup role-fit scoring lives in `application/lineups.py`; use normalized PvPoke category scores, score leads from `leads`, average unordered backs across `switches`/`closers` plus secondary role categories, and keep role weight low (`0.03`) versus resource-path score.
+- Ordered lineup synergy scoring lives in `application/lineups.py`; derive ABC/ABB/ABA strategy score from type/matchup evidence, then have `TeamOptimizer._lineup_mean_score()` pass row types, type chart, and threat weights so synergy affects cached lineup objective scoring.
+- Skip ordered-lineup synergy when any lineup member has missing type data or incomplete type-effectiveness mappings; viability filters should require both resource-path mean and blended lineup score to meet `LINEUP_VIABILITY_THRESHOLD`.
 
 ## 2026-04-14 11:49:44 MST - US-001
 - What was implemented
@@ -279,7 +281,7 @@
 - Files changed: `AGENTS.md`, `prd.json`, `progress.txt`, `src/pogo_team_optimizer/application/use_case.py`, `tests/unit/test_use_case_lineups.py`
 - Commit message: `feat: US-004 - Expose lineup-aware analysis results`
 - Checks:
-  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m pytest tests/unit/test_use_case_lineups.py -q` (pass)
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m pytest tests/unit/test_use_case_lineups.py -q` (pass, 13 tests)
   - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m mypy src` (pass)
   - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m ruff check src tests` (pass)
   - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m pytest` (pass)
@@ -318,7 +320,7 @@
   - Recommended: `python-pro`
   - Used: `python-pro`
 - Specialist review:
-  - Agents used: `code-reviewer`, `qa-expert`, `security-engineer`
+  - Agents used: `code-reviewer`, `qa-expert`, `security-engineer`, `security-auditor`, `documentation-engineer`
   - Findings: fixed before commit; tightened the invariance test to compare roster score and mixed ABC/ABB/ABA lineup labels against a baseline run. Second review pass found no actionable issues.
 - Decisions (why):
   - Chose `application/lineups.py` for usage aggregation and tiering because it already owns ordered lineup enumeration and scoring rules.
@@ -966,4 +968,77 @@
   - Pre-existing unrelated worktree changes remain outside this story and should not be staged.
 - Next iteration start:
   - Implement `US-027` by adding tested synergy components for ABC/ABB/ABA strategy without making shape labels the only scoring basis.
+---
+
+## 2026-05-25 17:46:33 MST - US-027
+- What was implemented
+  - Added typed ordered-lineup synergy scoring for ABC, ABB, ABA, and unclassified lineups using type weakness/resistance evidence plus matchup redundancy instead of shape labels alone.
+  - Wired synergy into `score_ordered_lineup()` and `TeamOptimizer._lineup_mean_score()` so ABC/ABB/ABA strategy contributes to cached lineup objective scoring when type data is available.
+  - Added focused tests for complementary ABC strength, intentional ABB coverage, unsafe ABA shared weakness, beneficial ABA shared strength, recommended-lineup synergy diagnostics and filtering, and optimizer comparison impact.
+  - Updated README/AGENTS guidance to clarify that labels remain diagnostics while evidence-derived synergy can affect lineup scoring.
+- Files changed: `AGENTS.md`, `README.md`, `prd.json`, `progress.txt`, `src/pogo_team_optimizer/application/lineups.py`, `src/pogo_team_optimizer/application/optimizer.py`, `src/pogo_team_optimizer/application/use_case.py`, `tests/unit/test_lineups.py`, `tests/unit/test_optimizer_lineup_objective.py`, `tests/unit/test_use_case_lineups.py`
+- Commit message: `feat: US-027 - Implement synergy and ABC ABB ABA scoring`
+- Checks:
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m pytest tests/unit/test_lineups.py -k "synergy" -q` (pass)
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m pytest tests/unit/test_optimizer_lineup_objective.py -k "synergy or cached_lineup" -q` (pass)
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m pytest tests/unit/test_use_case_lineups.py -q` (pass)
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m pytest tests/unit/test_lineups.py tests/unit/test_optimizer_lineup_objective.py -q` (pass)
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m mypy src` (pass)
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m ruff check src tests` (pass)
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m pytest` (pass, 185 tests)
+- Implementation agents:
+  - Recommended: `refactoring-specialist`
+  - Used: `refactoring-specialist`
+- Specialist review:
+  - Agents used: `code-reviewer`, `qa-expert`, `security-engineer`
+  - Findings: blocked after third review pass; fixed earlier findings for no-role weighting, recommended-lineup synergy summaries, recommended-lineup blended filtering, and README/AGENTS guidance, but third pass found remaining medium issues in optimizer viability counting and missing-type synergy guards.
+- Decisions (why):
+  - Chose `application/lineups.py` for synergy calculations because it already owns ordered lineup enumeration, resource-path scoring, role-fit scoring, and shape diagnostics.
+  - Chose evidence-based components for shape strategies so ABC/ABB/ABA labels stay explainable but are not the only scoring input.
+  - Chose a small synergy blend only when type data is available so existing matrix-only tests and metas without type data retain previous scoring behavior.
+  - Chose to expose `synergy_score` in recommended lineup score summaries when available so user-facing lineups stay aligned with optimizer scoring without moving scoring into exporters.
+  - Chose to require both resource-path viability and blended lineup-score viability for recommended lineups so low-resource lineups do not become viable from diagnostics and synergy-penalized lineups do not remain recommended.
+- **Learnings for future iterations:**
+  - Synergy scoring should use the configured type chart and matchup matrices together: type evidence identifies shared weaknesses/resistances, while matrix evidence identifies redundant answers and single-answer fragility.
+  - Gotcha encountered: cached lineup scores must include the same deterministic scoring inputs used by the optimizer instance; passing type data and threat weights through `_lineup_mean_score()` keeps cache keys valid per optimizer instance.
+- Known issues / follow-ups:
+  - Superseded by the 2026-05-25 18:05:35 MST US-027 entry, which resolved optimizer viability counting, missing-type synergy guards, and Codebase Patterns guidance before commit.
+  - Broader coverage, safety, consistency, bulk, defensive ratio, and offensive ratio weighted components remain pending for `US-028`.
+- Next iteration start:
+  - Continue `US-027` by fixing the remaining third-pass review findings, rerunning checks, and restarting the specialist review loop before committing.
+---
+
+## 2026-05-25 18:05:35 MST - US-027
+- What was implemented
+  - Completed the previously blocked synergy story by requiring complete lineup type data before applying synergy and preserving resource-only scoring when any lineup member lacks types.
+  - Updated optimizer, bench-utility, and Battle Frontier lineup-usage viability counting to require both resource-path viability and blended lineup-score viability while preserving per-instance lineup score caching.
+  - Added regression tests for missing-type synergy guards and optimizer blended-viability counting.
+- Files changed: `AGENTS.md`, `README.md`, `prd.json`, `progress.txt`, `src/pogo_team_optimizer/application/lineups.py`, `src/pogo_team_optimizer/application/optimizer.py`, `src/pogo_team_optimizer/application/use_case.py`, `tests/unit/test_lineups.py`, `tests/unit/test_optimizer_lineup_objective.py`, `tests/unit/test_use_case_lineups.py`
+- Commit message: `feat: US-027 - Implement synergy and ABC ABB ABA scoring`
+- Checks:
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m pytest tests/unit/test_lineups.py -k "synergy" -q` (pass)
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m pytest tests/unit/test_optimizer_lineup_objective.py -k "lineup_depth or cached_lineup" -q` (pass)
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m pytest tests/unit/test_lineups.py tests/unit/test_optimizer_lineup_objective.py tests/unit/test_use_case_lineups.py tests/unit/test_use_case_battle_frontier.py -q` (pass, 81 tests)
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m mypy src` (pass)
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m ruff check src tests` (pass)
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m pytest` (pass, 192 tests)
+- Implementation agents:
+  - Recommended: `refactoring-specialist`
+  - Used: `refactoring-specialist`
+- Specialist review:
+  - Agents used: `code-reviewer`, `qa-expert`, `security-engineer`, `security-auditor`, `documentation-engineer`
+  - Findings: fixed before commit; combined ABB back-pair coverage across both backs, penalized uncovered ABA shared weaknesses, skipped synergy for missing defender cells and missing attack rows in type charts, aligned bench utility and Battle Frontier usage with blended viability, clarified README result-payload wording, and added AGENTS/progress guardrails. Deferred low tied-winner diversity because it is not required by the story and no blocking finding remained after fixes.
+- Decisions (why):
+  - Chose a complete-type guard instead of neutral synergy fallback because missing type data should not alter resource-path scoring.
+  - Chose to preserve a resource-mean cache alongside the existing lineup-mean cache so optimizer viability checks can inspect both values without recomputing scored lineups.
+  - Chose to leave existing use-case blended filtering intact and align optimizer viability counting with that same rule.
+  - Chose to pass type data into Battle Frontier lineup usage and actionable bench utility so diagnostic viability stays consistent with recommended lineup filtering.
+- **Learnings for future iterations:**
+  - Synergy should be skipped for incomplete lineup type data; type-chart-only availability is not enough if any member has an empty type tuple.
+  - Type-effectiveness data must include finite defender mappings and attack rows for all lineup member types before synergy can affect scoring.
+  - Optimizer viable-lineup counts should match recommended-lineup filtering: both `resource_mean_score` and blended `lineup_score` must meet `LINEUP_VIABILITY_THRESHOLD`.
+- Known issues / follow-ups:
+  - Broader coverage, safety, consistency, bulk, defensive ratio, and offensive ratio weighted components remain pending for `US-028`.
+- Next iteration start:
+  - Implement `US-028` by adding weighted coverage, safety, consistency, bulk, defensive ratio, and offensive ratio components without moving scoring into CLI or exporters.
 ---

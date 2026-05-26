@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import itertools
+import math
 from collections.abc import Sequence
 from dataclasses import dataclass
 from typing import Literal
@@ -19,6 +20,9 @@ BATTLE_FRONTIER_LOW_POINT_MAX = 1
 BATTLE_FRONTIER_HIGH_POINT_MIN = 3
 LINEUP_RESOURCE_SCORE_WEIGHT = 0.97
 LINEUP_ROLE_FIT_SCORE_WEIGHT = 0.03
+LINEUP_RESOURCE_WITHOUT_ROLE_SYNERGY_SCORE_WEIGHT = 0.93
+LINEUP_RESOURCE_WITH_SYNERGY_SCORE_WEIGHT = 0.90
+LINEUP_SYNERGY_SCORE_WEIGHT = 0.07
 NORMALIZED_ROLE_FIT_FALLBACK = 0.5
 
 
@@ -69,11 +73,18 @@ class LineupRoleFitScore:
 
 
 @dataclass(frozen=True)
+class LineupSynergyScore:
+    score: float
+    components: dict[str, float | str]
+
+
+@dataclass(frozen=True)
 class OrderedLineupScore:
     lineup: OrderedLineup
     path_scores: tuple[LineupPathScore, ...]
     resource_mean_score: float
     role_fit_score: float | None = None
+    synergy_score: float | None = None
     lineup_score: float | None = None
 
 
@@ -139,10 +150,14 @@ def score_ordered_lineup(
     matrices: Sequence[Sequence[Sequence[int]]],
     species_by_row: Sequence[str] | None = None,
     ranking_profile: RankingProfile | None = None,
+    pokemon_types_by_row: Sequence[tuple[str, ...]] | None = None,
+    type_effectiveness: dict[str, dict[str, float]] | None = None,
+    threat_weights: Sequence[float] | None = None,
 ) -> OrderedLineupScore:
     path_scores = tuple(_score_resource_path(lineup, matrices, path) for path in LINEUP_RESOURCE_PATHS)
     resource_mean_score = _mean_path_score(path_scores)
     role_fit_score = None
+    synergy_score = None
     lineup_score = resource_mean_score
     if species_by_row is not None and ranking_profile is not None:
         role_fit = calculate_lineup_role_fit(lineup, species_by_row, ranking_profile)
@@ -151,11 +166,44 @@ def score_ordered_lineup(
             LINEUP_RESOURCE_SCORE_WEIGHT * resource_mean_score
             + LINEUP_ROLE_FIT_SCORE_WEIGHT * role_fit.score * 1000.0
         )
+    if (
+        pokemon_types_by_row is not None
+        and type_effectiveness
+        and all(pokemon_types_by_row[index] for index in (lineup.lead_index, *lineup.back_indices))
+        and _has_complete_type_effectiveness(
+            tuple(pokemon_types_by_row[index] for index in (lineup.lead_index, *lineup.back_indices)),
+            type_effectiveness,
+        )
+    ):
+        synergy = calculate_lineup_synergy(
+            lineup,
+            matrices,
+            pokemon_types_by_row,
+            type_effectiveness,
+            threat_weights=threat_weights,
+        )
+        synergy_score = synergy.score
+        role_component = (
+            LINEUP_ROLE_FIT_SCORE_WEIGHT * role_fit_score * 1000.0
+            if role_fit_score is not None
+            else 0.0
+        )
+        resource_weight = (
+            LINEUP_RESOURCE_WITH_SYNERGY_SCORE_WEIGHT
+            if role_fit_score is not None
+            else LINEUP_RESOURCE_WITHOUT_ROLE_SYNERGY_SCORE_WEIGHT
+        )
+        lineup_score = (
+            resource_weight * resource_mean_score
+            + role_component
+            + LINEUP_SYNERGY_SCORE_WEIGHT * synergy.score * 1000.0
+        )
     return OrderedLineupScore(
         lineup=lineup,
         path_scores=path_scores,
         resource_mean_score=resource_mean_score,
         role_fit_score=role_fit_score,
+        synergy_score=synergy_score,
         lineup_score=lineup_score,
     )
 
@@ -206,6 +254,91 @@ def calculate_lineup_role_fit(
     return LineupRoleFitScore(score=score, components=components)
 
 
+def calculate_lineup_synergy(
+    lineup: OrderedLineup,
+    matrices: Sequence[Sequence[Sequence[int]]],
+    pokemon_types_by_row: Sequence[tuple[str, ...]],
+    type_effectiveness: dict[str, dict[str, float]],
+    threat_weights: Sequence[float] | None = None,
+) -> LineupSynergyScore:
+    member_indices = (lineup.lead_index, *lineup.back_indices)
+    member_types = tuple(pokemon_types_by_row[index] for index in member_indices)
+    shape = classify_lineup_shape(*member_types)
+    weakness_sets = (
+        _weakness_types(member_types[0], type_effectiveness),
+        _weakness_types(member_types[1], type_effectiveness),
+        _weakness_types(member_types[2], type_effectiveness),
+    )
+    resistance_sets = (
+        _resistance_types(member_types[0], type_effectiveness),
+        _resistance_types(member_types[1], type_effectiveness),
+        _resistance_types(member_types[2], type_effectiveness),
+    )
+    shared_weakness_pressure = _shared_weakness_pressure(weakness_sets, type_effectiveness)
+    winner_diversity = _winner_diversity(lineup, matrices, threat_weights)
+    redundant_coverage = _redundant_coverage(lineup, matrices, threat_weights)
+    components: dict[str, float | str] = {
+        "shape": shape,
+        "shared_weakness_pressure": shared_weakness_pressure,
+        "winner_diversity": winner_diversity,
+        "redundant_coverage": redundant_coverage,
+        "singleton_covers_pair_weakness": 0.0,
+        "pair_covers_singleton_weakness": 0.0,
+        "unsafe_aba_shared_weakness": 0.0,
+        "aba_redundant_strength": 0.0,
+    }
+
+    low_shared_weakness = 1.0 - shared_weakness_pressure
+    if shape == "ABC":
+        score = 0.40 + (0.30 * low_shared_weakness) + (0.25 * winner_diversity) + (0.05 * redundant_coverage)
+    elif shape == "ABB":
+        pair_weakness = weakness_sets[1] & weakness_sets[2]
+        singleton_weakness = weakness_sets[0]
+        singleton_covers_pair = _coverage_rate(pair_weakness, resistance_sets[0])
+        pair_covers_singleton = _coverage_rate(
+            singleton_weakness,
+            resistance_sets[1] | resistance_sets[2],
+        )
+        components["singleton_covers_pair_weakness"] = singleton_covers_pair
+        components["pair_covers_singleton_weakness"] = pair_covers_singleton
+        score = (
+            0.40
+            + (0.30 * singleton_covers_pair)
+            + (0.15 * pair_covers_singleton)
+            + (0.10 * redundant_coverage)
+            + (0.05 * low_shared_weakness)
+        )
+    elif shape == "ABA":
+        shared_back_position = 1 if set(member_types[0]) & set(member_types[1]) else 2
+        different_position = 2 if shared_back_position == 1 else 1
+        shared_weakness = weakness_sets[0] & weakness_sets[shared_back_position]
+        different_resistances = resistance_sets[different_position]
+        different_covers_shared_weakness = _coverage_rate(shared_weakness, different_resistances)
+        uncovered_shared_weakness = 1.0 - different_covers_shared_weakness if shared_weakness else 0.0
+        only_different_answer_rate = _only_member_answer_rate(
+            lineup,
+            matrices,
+            member_position=different_position,
+            threat_weights=threat_weights,
+        )
+        unsafe_aba = (0.60 * uncovered_shared_weakness) + (
+            0.40 * different_covers_shared_weakness * only_different_answer_rate
+        )
+        redundant_strength = _shared_member_answer_rate(
+            lineup,
+            matrices,
+            member_positions=(0, shared_back_position),
+            threat_weights=threat_weights,
+        )
+        components["unsafe_aba_shared_weakness"] = unsafe_aba
+        components["aba_redundant_strength"] = redundant_strength
+        score = 0.45 + (0.30 * redundant_strength) + (0.10 * low_shared_weakness) - (0.35 * unsafe_aba)
+    else:
+        score = 0.45 + (0.20 * low_shared_weakness) + (0.20 * winner_diversity) + (0.15 * redundant_coverage)
+
+    return LineupSynergyScore(score=_clamp(score), components=components)
+
+
 def score_roster_lineup_depth(
     roster_indices: Sequence[int],
     matrices: Sequence[Sequence[Sequence[int]]],
@@ -240,6 +373,9 @@ def score_roster_bench_utility(
     roster_indices: Sequence[int],
     matrices: Sequence[Sequence[Sequence[int]]],
     battle_frontier_points_by_row: Sequence[int] | None = None,
+    pokemon_types_by_row: Sequence[tuple[str, ...]] | None = None,
+    type_effectiveness: dict[str, dict[str, float]] | None = None,
+    threat_weights: Sequence[float] | None = None,
 ) -> tuple[RosterMemberLineupUsage, ...]:
     if len(roster_indices) < 3 or len(matrices) < len(LINEUP_RESOURCE_PATHS):
         return tuple(
@@ -256,9 +392,15 @@ def score_roster_bench_utility(
     viable_lineup_count = 0
 
     for lineup in lineups:
-        score = score_ordered_lineup(lineup, matrices)
+        score = score_ordered_lineup(
+            lineup,
+            matrices,
+            pokemon_types_by_row=pokemon_types_by_row,
+            type_effectiveness=type_effectiveness,
+            threat_weights=threat_weights,
+        )
         lineup_score = _lineup_mean_score(score)
-        if lineup_score < LINEUP_VIABILITY_THRESHOLD:
+        if score.resource_mean_score < LINEUP_VIABILITY_THRESHOLD or lineup_score < LINEUP_VIABILITY_THRESHOLD:
             continue
 
         viable_lineup_count += 1
@@ -289,6 +431,9 @@ def score_battle_frontier_lineup_usage(
     roster_indices: Sequence[int],
     matrices: Sequence[Sequence[Sequence[int]]],
     points_by_row: Sequence[int],
+    pokemon_types_by_row: Sequence[tuple[str, ...]] | None = None,
+    type_effectiveness: dict[str, dict[str, float]] | None = None,
+    threat_weights: Sequence[float] | None = None,
 ) -> BattleFrontierLineupUsage:
     if len(roster_indices) < 3 or len(matrices) < len(LINEUP_RESOURCE_PATHS):
         return BattleFrontierLineupUsage(0, 0.0, 0.0)
@@ -297,8 +442,15 @@ def score_battle_frontier_lineup_usage(
     free_low_point_appearances = 0
     high_point_appearances = 0
     for lineup in enumerate_ordered_lineups(roster_indices):
-        score = score_ordered_lineup(lineup, matrices)
-        if _lineup_mean_score(score) < LINEUP_VIABILITY_THRESHOLD:
+        score = score_ordered_lineup(
+            lineup,
+            matrices,
+            pokemon_types_by_row=pokemon_types_by_row,
+            type_effectiveness=type_effectiveness,
+            threat_weights=threat_weights,
+        )
+        lineup_score = _lineup_mean_score(score)
+        if score.resource_mean_score < LINEUP_VIABILITY_THRESHOLD or lineup_score < LINEUP_VIABILITY_THRESHOLD:
             continue
 
         viable_lineup_count += 1
@@ -436,6 +588,170 @@ def _normalized_role_score(
     if row is None or row.normalized_score is None:
         return NORMALIZED_ROLE_FIT_FALLBACK
     return row.normalized_score
+
+
+def _has_complete_type_effectiveness(
+    member_types: tuple[tuple[str, ...], ...],
+    type_effectiveness: dict[str, dict[str, float]],
+) -> bool:
+    defender_types = {defender_type for types in member_types for defender_type in types}
+    if not defender_types:
+        return False
+    if not defender_types <= set(type_effectiveness):
+        return False
+    for effectiveness_by_defender in type_effectiveness.values():
+        for defender_type in defender_types:
+            multiplier = effectiveness_by_defender.get(defender_type)
+            if multiplier is None or not math.isfinite(multiplier):
+                return False
+    return True
+
+
+def _weakness_types(
+    defender_types: tuple[str, ...],
+    type_effectiveness: dict[str, dict[str, float]],
+) -> set[str]:
+    return {
+        attack_type
+        for attack_type in type_effectiveness
+        if _defensive_multiplier(attack_type, defender_types, type_effectiveness) > 1.0
+    }
+
+
+def _resistance_types(
+    defender_types: tuple[str, ...],
+    type_effectiveness: dict[str, dict[str, float]],
+) -> set[str]:
+    return {
+        attack_type
+        for attack_type in type_effectiveness
+        if _defensive_multiplier(attack_type, defender_types, type_effectiveness) < 1.0
+    }
+
+
+def _defensive_multiplier(
+    attack_type: str,
+    defender_types: tuple[str, ...],
+    type_effectiveness: dict[str, dict[str, float]],
+) -> float:
+    multiplier = 1.0
+    effectiveness_by_defender = type_effectiveness.get(attack_type, {})
+    for defender_type in defender_types:
+        multiplier *= effectiveness_by_defender.get(defender_type, 1.0)
+    return multiplier
+
+
+def _shared_weakness_pressure(
+    weakness_sets: tuple[set[str], set[str], set[str]],
+    type_effectiveness: dict[str, dict[str, float]],
+) -> float:
+    if not type_effectiveness:
+        return 0.0
+    shared_pairs = 0
+    for attack_type in type_effectiveness:
+        weak_count = sum(attack_type in weaknesses for weaknesses in weakness_sets)
+        if weak_count >= 2:
+            shared_pairs += weak_count - 1
+    return min(1.0, shared_pairs / (len(type_effectiveness) * 2))
+
+
+def _coverage_rate(threat_types: set[str], answer_types: set[str]) -> float:
+    if not threat_types:
+        return 0.0
+    return len(threat_types & answer_types) / len(threat_types)
+
+
+def _winner_diversity(
+    lineup: OrderedLineup,
+    matrices: Sequence[Sequence[Sequence[int]]],
+    threat_weights: Sequence[float] | None,
+) -> float:
+    winner_weights = [0.0, 0.0, 0.0]
+    for column_index, weight in enumerate(_normalized_threat_weights(matrices, threat_weights)):
+        member_scores = _member_column_scores(lineup, matrices, column_index)
+        best_score = max(member_scores)
+        if best_score <= 500:
+            continue
+        for position, score in enumerate(member_scores):
+            if score == best_score:
+                winner_weights[position] += weight
+                break
+    active_winners = sum(weight > 0.0 for weight in winner_weights)
+    return active_winners / 3
+
+
+def _redundant_coverage(
+    lineup: OrderedLineup,
+    matrices: Sequence[Sequence[Sequence[int]]],
+    threat_weights: Sequence[float] | None,
+) -> float:
+    coverage = 0.0
+    for column_index, weight in enumerate(_normalized_threat_weights(matrices, threat_weights)):
+        member_scores = _member_column_scores(lineup, matrices, column_index)
+        if sum(score > 500 for score in member_scores) >= 2:
+            coverage += weight
+    return coverage
+
+
+def _only_member_answer_rate(
+    lineup: OrderedLineup,
+    matrices: Sequence[Sequence[Sequence[int]]],
+    member_position: int,
+    threat_weights: Sequence[float] | None,
+) -> float:
+    rate = 0.0
+    for column_index, weight in enumerate(_normalized_threat_weights(matrices, threat_weights)):
+        member_scores = _member_column_scores(lineup, matrices, column_index)
+        if member_scores[member_position] > 500 and sum(score > 500 for score in member_scores) == 1:
+            rate += weight
+    return rate
+
+
+def _shared_member_answer_rate(
+    lineup: OrderedLineup,
+    matrices: Sequence[Sequence[Sequence[int]]],
+    member_positions: tuple[int, int],
+    threat_weights: Sequence[float] | None,
+) -> float:
+    rate = 0.0
+    for column_index, weight in enumerate(_normalized_threat_weights(matrices, threat_weights)):
+        member_scores = _member_column_scores(lineup, matrices, column_index)
+        if all(member_scores[position] > 500 for position in member_positions):
+            rate += weight
+    return rate
+
+
+def _member_column_scores(
+    lineup: OrderedLineup,
+    matrices: Sequence[Sequence[Sequence[int]]],
+    column_index: int,
+) -> tuple[float, float, float]:
+    member_indices = (lineup.lead_index, *lineup.back_indices)
+    return (
+        float(max(matrix[member_indices[0]][column_index] for matrix in matrices)),
+        float(max(matrix[member_indices[1]][column_index] for matrix in matrices)),
+        float(max(matrix[member_indices[2]][column_index] for matrix in matrices)),
+    )
+
+
+def _normalized_threat_weights(
+    matrices: Sequence[Sequence[Sequence[int]]],
+    threat_weights: Sequence[float] | None,
+) -> tuple[float, ...]:
+    col_count = len(matrices[0][0]) if matrices and matrices[0] else 0
+    if col_count == 0:
+        return ()
+    if threat_weights is None:
+        return tuple(1.0 / col_count for _ in range(col_count))
+    weights = tuple(float(weight) for weight in threat_weights[:col_count])
+    if len(weights) != col_count or sum(weights) <= 0.0:
+        return tuple(1.0 / col_count for _ in range(col_count))
+    total_weight = sum(weights)
+    return tuple(weight / total_weight for weight in weights)
+
+
+def _clamp(value: float) -> float:
+    return max(0.0, min(1.0, value))
 
 
 def _unused_member_usage(
