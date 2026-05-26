@@ -2,6 +2,7 @@ from typing import Any
 
 from pogo_team_optimizer.application import use_case as use_case_module
 from pogo_team_optimizer.application.use_case import AnalyzeMetaUseCase
+from pogo_team_optimizer.domain.models import RankingCategory, RankingProfile, RankingRow
 
 
 class FakePokemonRepository:
@@ -48,6 +49,51 @@ class TieBreakSimulationRepository:
         cols = ["Opp1"]
         matrix = [[600] for _ in rows]
         return rows, cols, [matrix, matrix, matrix]
+
+
+class EqualResourceSimulationRepository:
+    def load(self) -> tuple[list[str], list[str], list[list[list[int]]]]:
+        rows = ["Amon", "Bmon", "Cmon", "Dmon", "Emon", "Fmon"]
+        cols = ["Opp1"]
+        matrix = [[600] for _ in rows]
+        return rows, cols, [matrix, matrix, matrix]
+
+
+class BelowViabilitySimulationRepository:
+    def load(self) -> tuple[list[str], list[str], list[list[list[int]]]]:
+        rows = ["Amon", "Bmon", "Cmon", "Dmon", "Emon", "Fmon"]
+        cols = ["Opp1"]
+        matrix = [[490] for _ in rows]
+        return rows, cols, [matrix, matrix, matrix]
+
+
+class FakeRankingsRepository:
+    def load(self) -> RankingProfile:
+        high_back_scores = {
+            "Amon": RankingRow("Amon", 100.0, normalized_score=1.0),
+            "Bmon": RankingRow("Bmon", 0.0, normalized_score=0.0),
+            "Cmon": RankingRow("Cmon", 100.0, normalized_score=1.0),
+            "Dmon": RankingRow("Dmon", 0.0, normalized_score=0.0),
+            "Emon": RankingRow("Emon", 0.0, normalized_score=0.0),
+            "Fmon": RankingRow("Fmon", 0.0, normalized_score=0.0),
+        }
+        return RankingProfile(
+            scores_by_category={
+                RankingCategory.LEADS: {
+                    "Amon": RankingRow("Amon", 0.0, normalized_score=0.0),
+                    "Bmon": RankingRow("Bmon", 100.0, normalized_score=1.0),
+                    "Cmon": RankingRow("Cmon", 0.0, normalized_score=0.0),
+                    "Dmon": RankingRow("Dmon", 0.0, normalized_score=0.0),
+                    "Emon": RankingRow("Emon", 0.0, normalized_score=0.0),
+                    "Fmon": RankingRow("Fmon", 0.0, normalized_score=0.0),
+                },
+                RankingCategory.SWITCHES: high_back_scores,
+                RankingCategory.CLOSERS: high_back_scores,
+                RankingCategory.ATTACKERS: high_back_scores,
+                RankingCategory.CHARGERS: high_back_scores,
+                RankingCategory.CONSISTENCY: high_back_scores,
+            }
+        )
 
 
 def test_use_case_exposes_structured_recommended_lineups() -> None:
@@ -125,6 +171,32 @@ def test_recommended_lineups_use_deterministic_index_tie_breaking() -> None:
         (0, (1, 5)),
         (0, (2, 3)),
     ]
+
+
+def test_recommended_lineups_use_role_fit_to_rank_similar_lineups() -> None:
+    result = AnalyzeMetaUseCase(
+        simulation_repository=EqualResourceSimulationRepository(),
+        pokemon_repository=FakePokemonRepository(),
+        rankings_repository=FakeRankingsRepository(),
+    ).execute(seed=7, restarts=1)
+
+    first = result["recommended_lineups"][0]
+
+    assert first["lead"]["species"] == "Bmon"
+    assert [member["species"] for member in first["back_pair"]] == ["Amon", "Cmon"]
+    assert first["score_summary"]["resource_mean_score"] == 600.0
+    assert first["score_summary"]["role_fit_score"] == 1.0
+    assert first["lineup_score"] == 612.0
+
+
+def test_role_fit_does_not_make_resource_poor_lineups_viable() -> None:
+    result = AnalyzeMetaUseCase(
+        simulation_repository=BelowViabilitySimulationRepository(),
+        pokemon_repository=FakePokemonRepository(),
+        rankings_repository=FakeRankingsRepository(),
+    ).execute(seed=7, restarts=1)
+
+    assert result["recommended_lineups"] == []
 
 
 def test_shape_classification_does_not_change_lineup_score_or_order() -> None:

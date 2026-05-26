@@ -482,7 +482,7 @@
         "Typecheck passes"
       ],
       "priority": 26,
-      "passes": false,
+      "passes": true,
       "notes": "Recommended agent: python-pro. Role is a lower-priority weighted component and must not dominate synergy, coverage, safety, consistency, or bulk."
     },
     {

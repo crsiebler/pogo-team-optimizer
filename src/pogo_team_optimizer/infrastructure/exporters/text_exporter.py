@@ -127,8 +127,8 @@ class TextExporter(AnalysisExporter):
 
         lines.append("")
         lines.append("Recommended Lineups")
-        lines.append("- lineup dominating uses score > 600")
-        lines.append("- lineup overwhelming uses score < 400")
+        lines.append("- lineup dominating uses resource-path matchup score > 600")
+        lines.append("- lineup overwhelming uses resource-path matchup score < 400")
         for idx, lineup in enumerate(lineups, start=1):
             back_pair = ", ".join(member["label"] for member in lineup["back_pair"])
             summary = lineup["score_summary"]

@@ -28,6 +28,7 @@
 - Ranking threat pool construction lives in `application/ranking_pools.py`; align ranking profiles to normalized matrix opponent labels, deduplicate by `parse_base_species()` like the optimizer, and use deterministic missing-score fallback weights/order.
 - Ranking-aware weighted score structures live in `application/scoring.py`; preserve deterministic component order, neutral missing-component handling, and centralized `RosterScoreWeights` defaults before wiring them into optimizer ranking.
 - PvPoke category score normalization lives in `application/scoring.py`; keep raw `RankingRow.score` values for diagnostics, store derived valid `normalized_score` values on a `0.0` to `1.0` scale, store invalid values as `None`, and use neutral `0.5` fallback for missing, invalid, or degenerate category lookups.
+- Ordered lineup role-fit scoring lives in `application/lineups.py`; use normalized PvPoke category scores, score leads from `leads`, average unordered backs across `switches`/`closers` plus secondary role categories, and keep role weight low (`0.03`) versus resource-path score.
 
 ## 2026-04-14 11:49:44 MST - US-001
 - What was implemented
@@ -931,4 +932,38 @@
   - Pre-existing unrelated worktree changes remain outside this story and should not be staged.
 - Next iteration start:
   - Implement `US-026` by adding role-fit components to ordered lineup scoring using normalized category scores without letting role dominate higher-priority scoring components.
+---
+
+## 2026-05-25 17:26:32 MST - US-026
+- What was implemented
+  - Added ordered-lineup role-fit scoring from normalized PvPoke category profiles while preserving existing fixed resource-path matchup scoring.
+  - Wired optional category rankings into `AnalyzeMetaUseCase` and CLI dependency construction so recommended lineups can use role fit when configured.
+  - Added focused tests proving lead/back role categories are blended deterministically, back pairs remain unordered, resource-path scores remain intact, and role fit can change ranking between otherwise similar lineups.
+- Files changed: `AGENTS.md`, `prd.json`, `progress.txt`, `src/pogo_team_optimizer/application/lineups.py`, `src/pogo_team_optimizer/application/use_case.py`, `src/pogo_team_optimizer/cli/main.py`, `src/pogo_team_optimizer/infrastructure/exporters/text_exporter.py`, `src/pogo_team_optimizer/infrastructure/exporters/markdown_exporter.py`, `tests/unit/test_lineups.py`, `tests/unit/test_use_case_lineups.py`, `tests/unit/test_cli_main.py`, `tests/unit/test_battle_frontier_exporters.py`
+- Commit message: `feat: US-026 - Score ordered lineups with role fit`
+- Checks:
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m pytest tests/unit/test_lineups.py -k role -q` (pass)
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m pytest tests/unit/test_lineups.py tests/unit/test_use_case_lineups.py tests/unit/test_cli_main.py tests/unit/test_battle_frontier_exporters.py -q` (pass, 82 tests)
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m mypy src` (pass)
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m ruff check src tests` (pass)
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m pytest` (pass, 178 tests)
+- Implementation agents:
+  - Recommended: `python-pro`
+  - Used: `python-pro`
+- Specialist review:
+  - Agents used: `code-reviewer`, `qa-expert`, `security-engineer`, `security-auditor`, `documentation-engineer`
+  - Findings: fixed before commit; preserved resource-path `mean_score` and viability semantics while keeping top-level weighted `lineup_score`, added CLI rankings-repository wiring coverage, added neutral role-score fallback coverage, clarified text/Markdown threshold wording as resource-path matchup scores, added asymmetric role-weight coverage, and added a below-viability resource-score regression. Security reviewers found no actionable findings.
+- Decisions (why):
+  - Chose a low `0.03` role-fit weight blended with `0.97` resource-path score because role is a lower-priority component and should break close lineup choices without dominating matchup quality.
+  - Chose to average switch/closer/secondary role scores across both back Pokemon because the current lineup model intentionally treats the back pair as unordered.
+  - Chose use-case normalization of ranking profiles before lineup scoring so repositories remain raw data adapters and scoring consumes normalized `0.0` to `1.0` values.
+  - Chose to keep `score_summary.mean_score` and viability filtering tied to resource-path matchup score so role fit affects ranking but does not redefine legacy mean-score diagnostics or promote non-viable matchup lineups.
+- **Learnings for future iterations:**
+  - Role-fit diagnostics should come from `score_ordered_lineup()` and `recommended_lineups[*].score_summary`; exporters should not recompute role category scores.
+  - Gotcha encountered: `RankingProfile.get_score()` remains raw by design, so role-fit code should read `RankingRow.normalized_score` from a normalized profile.
+- Known issues / follow-ups:
+  - Optimizer roster search still uses resource-path lineup scores only; broader ranking-aware optimizer semantics and cache-key updates remain for later ranking-aware stories.
+  - Pre-existing unrelated worktree changes remain outside this story and should not be staged.
+- Next iteration start:
+  - Implement `US-027` by adding tested synergy components for ABC/ABB/ABA strategy without making shape labels the only scoring basis.
 ---

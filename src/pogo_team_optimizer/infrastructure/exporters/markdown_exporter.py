@@ -140,7 +140,10 @@ class MarkdownExporter(AnalysisExporter):
 
         lines.append("")
         lines.append("## Recommended Lineups")
-        lines.append("Lineup dominating uses `score > 600`; lineup overwhelming uses `score < 400`.")
+        lines.append(
+            "Lineup dominating uses resource-path matchup `score > 600`; "
+            "lineup overwhelming uses resource-path matchup `score < 400`."
+        )
         lines.append("")
         lines.append(
             "| # | Lead | Back Pair | Shape | Score | Dominating | Overwhelming | "

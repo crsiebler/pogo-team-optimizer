@@ -22,14 +22,17 @@ from pogo_team_optimizer.application.lineups import (
 )
 from pogo_team_optimizer.application.normalization import parse_species
 from pogo_team_optimizer.application.optimizer import TeamOptimizer
+from pogo_team_optimizer.application.scoring import PvPokeScoreNormalizationPolicy
 from pogo_team_optimizer.domain.interfaces import (
     BattleFrontierPointsRepository,
     MoveRepository,
     PokemonRepository,
+    RankingsRepository,
     SimulationMatrixRepository,
     SwitchRankingsRepository,
     TypeEffectivenessRepository,
 )
+from pogo_team_optimizer.domain.models import RankingProfile
 
 
 MAX_RECOMMENDED_LINEUPS = 5
@@ -45,6 +48,7 @@ class AnalyzeMetaUseCase:
         battle_frontier_points_repository: BattleFrontierPointsRepository | None = None,
         move_repository: MoveRepository | None = None,
         type_effectiveness_repository: TypeEffectivenessRepository | None = None,
+        rankings_repository: RankingsRepository | None = None,
     ) -> None:
         self.simulation_repository = simulation_repository
         self.pokemon_repository = pokemon_repository
@@ -52,6 +56,7 @@ class AnalyzeMetaUseCase:
         self.battle_frontier_points_repository = battle_frontier_points_repository
         self.move_repository = move_repository
         self.type_effectiveness_repository = type_effectiveness_repository
+        self.rankings_repository = rankings_repository
 
     def execute(
         self,
@@ -85,6 +90,7 @@ class AnalyzeMetaUseCase:
             parse_species(label): self.pokemon_repository.get_types(parse_species(label))
             for label in row_labels
         }
+        row_species = [parse_species(label) for label in row_labels]
         pokemon_types_by_row = [species_cache[parse_species(label)] for label in row_labels]
         move_types_by_row = [self._move_types_for_label(label) for label in row_labels]
         type_effectiveness = (
@@ -121,6 +127,8 @@ class AnalyzeMetaUseCase:
                 self.battle_frontier_points_repository.get_points(parse_species(label))
                 for label in row_labels
             ]
+
+        ranking_profile = self._load_normalized_ranking_profile()
 
         safety_priority_rules: dict[str, tuple[float | None, int, float]] = {
             "low": (72.0, 0, 90.0),
@@ -241,6 +249,8 @@ class AnalyzeMetaUseCase:
             matrices=matrices,
             team_indices=best_team.member_indices,
             species_cache=species_cache,
+            ranking_profile=ranking_profile,
+            species_by_row=row_species,
             battle_frontier_points_by_row=battle_frontier_points_by_row,
             limit=top_lineups,
         )
@@ -289,6 +299,11 @@ class AnalyzeMetaUseCase:
         )
         return result
 
+    def _load_normalized_ranking_profile(self) -> RankingProfile | None:
+        if self.rankings_repository is None:
+            return None
+        return PvPokeScoreNormalizationPolicy().normalize_profile(self.rankings_repository.load())
+
     def _move_types_for_label(self, label: str) -> tuple[str, ...]:
         if self.move_repository is None:
             return tuple()
@@ -315,6 +330,8 @@ def _build_recommended_lineups(
     matrices: list[list[list[int]]],
     team_indices: tuple[int, ...],
     species_cache: dict[str, tuple[str, ...]],
+    ranking_profile: RankingProfile | None = None,
+    species_by_row: list[str] | None = None,
     battle_frontier_points_by_row: list[int] | None = None,
     limit: int = MAX_RECOMMENDED_LINEUPS,
 ) -> list[dict[str, Any]]:
@@ -323,11 +340,14 @@ def _build_recommended_lineups(
 
     scored_lineups = []
     for lineup in enumerate_ordered_lineups(team_indices):
-        score = score_ordered_lineup(lineup, matrices)
-        lineup_score = sum(path.mean_best_score for path in score.path_scores) / len(
-            score.path_scores
+        score = score_ordered_lineup(
+            lineup,
+            matrices,
+            species_by_row=species_by_row,
+            ranking_profile=ranking_profile,
         )
-        if lineup_score >= LINEUP_VIABILITY_THRESHOLD:
+        lineup_score = score.lineup_score if score.lineup_score is not None else score.resource_mean_score
+        if score.resource_mean_score >= LINEUP_VIABILITY_THRESHOLD:
             scored_lineups.append((lineup_score, score))
 
     scored_lineups.sort(
@@ -365,7 +385,7 @@ def _to_recommended_lineup(
         _to_team_member(index, row_labels, species_cache)
         for index in score.lineup.back_indices
     ]
-    result = {
+    result: dict[str, Any] = {
         "lead": lead,
         "back_pair": back_pair,
         "team_shape": classify_lineup_shape(
@@ -375,7 +395,7 @@ def _to_recommended_lineup(
         ),
         "lineup_score": lineup_score,
         "score_summary": {
-            "mean_score": lineup_score,
+            "mean_score": score.resource_mean_score,
             "dominating_matchups": dominating_matchups,
             "overwhelming_matchups": overwhelming_matchups,
         },
@@ -391,6 +411,13 @@ def _to_recommended_lineup(
             for path, path_score in zip(LINEUP_RESOURCE_PATHS, score.path_scores, strict=True)
         ],
     }
+    if score.role_fit_score is not None:
+        result["score_summary"].update(
+            {
+                "resource_mean_score": score.resource_mean_score,
+                "role_fit_score": score.role_fit_score,
+            }
+        )
     if battle_frontier_points_by_row is not None:
         result["battle_frontier_points_used"] = sum(
             battle_frontier_points_by_row[index]

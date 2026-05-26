@@ -5,6 +5,8 @@ from collections.abc import Sequence
 from dataclasses import dataclass
 from typing import Literal
 
+from pogo_team_optimizer.domain.models import RankingCategory, RankingProfile
+
 
 DOMINATING_SCORE_THRESHOLD = 600
 OVERWHELMING_LOSS_THRESHOLD = 400
@@ -15,6 +17,9 @@ SPECIALIST_LINEUP_RATE = 0.25
 FLEXIBLE_LINEUP_RATE = 0.50
 BATTLE_FRONTIER_LOW_POINT_MAX = 1
 BATTLE_FRONTIER_HIGH_POINT_MIN = 3
+LINEUP_RESOURCE_SCORE_WEIGHT = 0.97
+LINEUP_ROLE_FIT_SCORE_WEIGHT = 0.03
+NORMALIZED_ROLE_FIT_FALLBACK = 0.5
 
 
 BenchUtilityTier = Literal["core", "flexible", "specialist", "low_utility", "unbringable"]
@@ -58,9 +63,18 @@ class LineupPathScore:
 
 
 @dataclass(frozen=True)
+class LineupRoleFitScore:
+    score: float
+    components: dict[str, float]
+
+
+@dataclass(frozen=True)
 class OrderedLineupScore:
     lineup: OrderedLineup
     path_scores: tuple[LineupPathScore, ...]
+    resource_mean_score: float
+    role_fit_score: float | None = None
+    lineup_score: float | None = None
 
 
 @dataclass(frozen=True)
@@ -123,9 +137,73 @@ def enumerate_ordered_lineups(roster_indices: Sequence[int]) -> tuple[OrderedLin
 def score_ordered_lineup(
     lineup: OrderedLineup,
     matrices: Sequence[Sequence[Sequence[int]]],
+    species_by_row: Sequence[str] | None = None,
+    ranking_profile: RankingProfile | None = None,
 ) -> OrderedLineupScore:
     path_scores = tuple(_score_resource_path(lineup, matrices, path) for path in LINEUP_RESOURCE_PATHS)
-    return OrderedLineupScore(lineup=lineup, path_scores=path_scores)
+    resource_mean_score = _mean_path_score(path_scores)
+    role_fit_score = None
+    lineup_score = resource_mean_score
+    if species_by_row is not None and ranking_profile is not None:
+        role_fit = calculate_lineup_role_fit(lineup, species_by_row, ranking_profile)
+        role_fit_score = role_fit.score
+        lineup_score = (
+            LINEUP_RESOURCE_SCORE_WEIGHT * resource_mean_score
+            + LINEUP_ROLE_FIT_SCORE_WEIGHT * role_fit.score * 1000.0
+        )
+    return OrderedLineupScore(
+        lineup=lineup,
+        path_scores=path_scores,
+        resource_mean_score=resource_mean_score,
+        role_fit_score=role_fit_score,
+        lineup_score=lineup_score,
+    )
+
+
+def calculate_lineup_role_fit(
+    lineup: OrderedLineup,
+    species_by_row: Sequence[str],
+    ranking_profile: RankingProfile,
+) -> LineupRoleFitScore:
+    lead_species = species_by_row[lineup.lead_index]
+    back_species = (species_by_row[lineup.back_indices[0]], species_by_row[lineup.back_indices[1]])
+    components = {
+        "lead_leads": _normalized_role_score(ranking_profile, RankingCategory.LEADS, lead_species),
+        "back_switches": _average_back_role_score(
+            ranking_profile,
+            RankingCategory.SWITCHES,
+            back_species,
+        ),
+        "back_closers": _average_back_role_score(
+            ranking_profile,
+            RankingCategory.CLOSERS,
+            back_species,
+        ),
+        "back_attackers": _average_back_role_score(
+            ranking_profile,
+            RankingCategory.ATTACKERS,
+            back_species,
+        ),
+        "back_chargers": _average_back_role_score(
+            ranking_profile,
+            RankingCategory.CHARGERS,
+            back_species,
+        ),
+        "back_consistency": _average_back_role_score(
+            ranking_profile,
+            RankingCategory.CONSISTENCY,
+            back_species,
+        ),
+    }
+    score = (
+        0.375 * components["lead_leads"]
+        + 0.250 * components["back_switches"]
+        + 0.175 * components["back_closers"]
+        + 0.075 * components["back_attackers"]
+        + 0.050 * components["back_chargers"]
+        + 0.075 * components["back_consistency"]
+    )
+    return LineupRoleFitScore(score=score, components=components)
 
 
 def score_roster_lineup_depth(
@@ -329,7 +407,35 @@ def battle_frontier_bench_warnings(
 
 
 def _lineup_mean_score(score: OrderedLineupScore) -> float:
-    return sum(path.mean_best_score for path in score.path_scores) / len(score.path_scores)
+    if score.lineup_score is not None:
+        return score.lineup_score
+    return score.resource_mean_score
+
+
+def _mean_path_score(path_scores: Sequence[LineupPathScore]) -> float:
+    return sum(path.mean_best_score for path in path_scores) / len(path_scores)
+
+
+def _average_back_role_score(
+    ranking_profile: RankingProfile,
+    category: RankingCategory,
+    species_names: tuple[str, str],
+) -> float:
+    return sum(
+        _normalized_role_score(ranking_profile, category, species_name)
+        for species_name in species_names
+    ) / len(species_names)
+
+
+def _normalized_role_score(
+    ranking_profile: RankingProfile,
+    category: RankingCategory,
+    species_name: str,
+) -> float:
+    row = ranking_profile.scores_by_category.get(category, {}).get(species_name)
+    if row is None or row.normalized_score is None:
+        return NORMALIZED_ROLE_FIT_FALLBACK
+    return row.normalized_score
 
 
 def _unused_member_usage(

@@ -3,6 +3,7 @@ import pytest
 from pogo_team_optimizer.application.lineups import (
     OrderedLineup,
     bench_utility_warnings,
+    calculate_lineup_role_fit,
     score_battle_frontier_lineup_usage,
     classify_lineup_shape,
     classify_bench_utility,
@@ -10,6 +11,7 @@ from pogo_team_optimizer.application.lineups import (
     score_roster_bench_utility,
     score_ordered_lineup,
 )
+from pogo_team_optimizer.domain.models import RankingCategory, RankingProfile, RankingRow
 
 
 def _matrix_with_rows(rows: dict[int, list[int]]) -> list[list[int]]:
@@ -162,6 +164,192 @@ def test_score_ordered_lineup_counts_lineup_thresholds_exclusively() -> None:
     assert balanced.best_scores == (399, 400, 401, 599, 600, 601)
     assert balanced.overwhelming_count == 1
     assert balanced.dominate_count == 1
+
+
+def test_calculate_lineup_role_fit_uses_lead_and_back_role_categories() -> None:
+    lineup = OrderedLineup(lead_index=0, back_indices=(1, 2))
+    profile = RankingProfile(
+        scores_by_category={
+            RankingCategory.LEADS: {
+                "Amon": RankingRow("Amon", 90.0, normalized_score=0.9),
+            },
+            RankingCategory.SWITCHES: {
+                "Bmon": RankingRow("Bmon", 80.0, normalized_score=0.8),
+                "Cmon": RankingRow("Cmon", 20.0, normalized_score=0.2),
+            },
+            RankingCategory.CLOSERS: {
+                "Bmon": RankingRow("Bmon", 60.0, normalized_score=0.6),
+                "Cmon": RankingRow("Cmon", 40.0, normalized_score=0.4),
+            },
+            RankingCategory.ATTACKERS: {
+                "Bmon": RankingRow("Bmon", 70.0, normalized_score=0.7),
+                "Cmon": RankingRow("Cmon", 30.0, normalized_score=0.3),
+            },
+            RankingCategory.CHARGERS: {
+                "Bmon": RankingRow("Bmon", 50.0, normalized_score=0.5),
+                "Cmon": RankingRow("Cmon", 50.0, normalized_score=0.5),
+            },
+            RankingCategory.CONSISTENCY: {
+                "Bmon": RankingRow("Bmon", 90.0, normalized_score=0.9),
+                "Cmon": RankingRow("Cmon", 10.0, normalized_score=0.1),
+            },
+        }
+    )
+
+    role_fit = calculate_lineup_role_fit(
+        lineup,
+        ("Amon", "Bmon", "Cmon"),
+        profile,
+    )
+
+    assert role_fit.score == 0.65
+    assert role_fit.components == {
+        "lead_leads": 0.9,
+        "back_switches": 0.5,
+        "back_closers": 0.5,
+        "back_attackers": 0.5,
+        "back_chargers": 0.5,
+        "back_consistency": 0.5,
+    }
+
+
+def test_calculate_lineup_role_fit_weights_distinct_components() -> None:
+    lineup = OrderedLineup(lead_index=0, back_indices=(1, 2))
+    profile = RankingProfile(
+        scores_by_category={
+            RankingCategory.LEADS: {"Amon": RankingRow("Amon", 80.0, normalized_score=0.8)},
+            RankingCategory.SWITCHES: {
+                "Bmon": RankingRow("Bmon", 30.0, normalized_score=0.3),
+                "Cmon": RankingRow("Cmon", 50.0, normalized_score=0.5),
+            },
+            RankingCategory.CLOSERS: {
+                "Bmon": RankingRow("Bmon", 40.0, normalized_score=0.4),
+                "Cmon": RankingRow("Cmon", 60.0, normalized_score=0.6),
+            },
+            RankingCategory.ATTACKERS: {
+                "Bmon": RankingRow("Bmon", 50.0, normalized_score=0.5),
+                "Cmon": RankingRow("Cmon", 70.0, normalized_score=0.7),
+            },
+            RankingCategory.CHARGERS: {
+                "Bmon": RankingRow("Bmon", 60.0, normalized_score=0.6),
+                "Cmon": RankingRow("Cmon", 80.0, normalized_score=0.8),
+            },
+            RankingCategory.CONSISTENCY: {
+                "Bmon": RankingRow("Bmon", 20.0, normalized_score=0.2),
+                "Cmon": RankingRow("Cmon", 40.0, normalized_score=0.4),
+            },
+        }
+    )
+
+    role_fit = calculate_lineup_role_fit(lineup, ("Amon", "Bmon", "Cmon"), profile)
+
+    assert role_fit.components.keys() == {
+        "lead_leads",
+        "back_switches",
+        "back_closers",
+        "back_attackers",
+        "back_chargers",
+        "back_consistency",
+    }
+    assert role_fit.components == pytest.approx({
+        "lead_leads": 0.8,
+        "back_switches": 0.4,
+        "back_closers": 0.5,
+        "back_attackers": 0.6,
+        "back_chargers": 0.7,
+        "back_consistency": 0.3,
+    })
+    assert role_fit.score == pytest.approx(0.59)
+
+
+def test_score_ordered_lineup_blends_role_fit_without_changing_resource_paths() -> None:
+    lineup = OrderedLineup(lead_index=0, back_indices=(1, 2))
+    matrices = (
+        _matrix_with_rows({0: [500], 1: [500], 2: [500]}),
+        _matrix_with_rows({0: [500], 1: [500], 2: [500]}),
+        _matrix_with_rows({0: [500], 1: [500], 2: [500]}),
+    )
+    profile = RankingProfile(
+        scores_by_category={
+            RankingCategory.LEADS: {"Amon": RankingRow("Amon", 100.0, normalized_score=1.0)},
+            RankingCategory.SWITCHES: {
+                "Bmon": RankingRow("Bmon", 100.0, normalized_score=1.0),
+                "Cmon": RankingRow("Cmon", 100.0, normalized_score=1.0),
+            },
+            RankingCategory.CLOSERS: {
+                "Bmon": RankingRow("Bmon", 100.0, normalized_score=1.0),
+                "Cmon": RankingRow("Cmon", 100.0, normalized_score=1.0),
+            },
+            RankingCategory.ATTACKERS: {
+                "Bmon": RankingRow("Bmon", 100.0, normalized_score=1.0),
+                "Cmon": RankingRow("Cmon", 100.0, normalized_score=1.0),
+            },
+            RankingCategory.CHARGERS: {
+                "Bmon": RankingRow("Bmon", 100.0, normalized_score=1.0),
+                "Cmon": RankingRow("Cmon", 100.0, normalized_score=1.0),
+            },
+            RankingCategory.CONSISTENCY: {
+                "Bmon": RankingRow("Bmon", 100.0, normalized_score=1.0),
+                "Cmon": RankingRow("Cmon", 100.0, normalized_score=1.0),
+            },
+        }
+    )
+
+    score = score_ordered_lineup(
+        lineup,
+        matrices,
+        species_by_row=("Amon", "Bmon", "Cmon"),
+        ranking_profile=profile,
+    )
+
+    assert [path.mean_best_score for path in score.path_scores] == [500.0, 500.0, 500.0]
+    assert score.resource_mean_score == 500.0
+    assert score.role_fit_score == 1.0
+    assert score.lineup_score == 515.0
+
+
+def test_lineup_role_fit_keeps_back_pair_unordered() -> None:
+    profile = RankingProfile(
+        scores_by_category={
+            RankingCategory.LEADS: {"Amon": RankingRow("Amon", 50.0, normalized_score=0.5)},
+            RankingCategory.SWITCHES: {
+                "Bmon": RankingRow("Bmon", 100.0, normalized_score=1.0),
+                "Cmon": RankingRow("Cmon", 0.0, normalized_score=0.0),
+            },
+            RankingCategory.CLOSERS: {
+                "Bmon": RankingRow("Bmon", 0.0, normalized_score=0.0),
+                "Cmon": RankingRow("Cmon", 100.0, normalized_score=1.0),
+            },
+        }
+    )
+
+    role_fit = calculate_lineup_role_fit(
+        OrderedLineup(lead_index=0, back_indices=(2, 1)),
+        ("Amon", "Bmon", "Cmon"),
+        profile,
+    )
+
+    assert role_fit.components["back_switches"] == 0.5
+    assert role_fit.components["back_closers"] == 0.5
+    assert role_fit.score == 0.5
+
+
+def test_lineup_role_fit_uses_neutral_fallback_for_missing_normalized_scores() -> None:
+    profile = RankingProfile(
+        scores_by_category={
+            RankingCategory.LEADS: {"Amon": RankingRow("Amon", 50.0, normalized_score=None)},
+            RankingCategory.SWITCHES: {"Bmon": RankingRow("Bmon", 50.0, normalized_score=None)},
+        }
+    )
+
+    role_fit = calculate_lineup_role_fit(
+        OrderedLineup(lead_index=0, back_indices=(1, 2)),
+        ("Amon", "Bmon", "Cmon"),
+        profile,
+    )
+
+    assert set(role_fit.components.values()) == {0.5}
+    assert role_fit.score == 0.5
 
 
 @pytest.mark.parametrize(

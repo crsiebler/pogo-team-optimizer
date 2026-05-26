@@ -253,7 +253,10 @@ def test_markdown_exporter_renders_lineup_aware_sections() -> None:
     assert "## Warnings" in rendered
     assert "balanced mean 630.00 / dom 2 overwhelm 0" in rendered
     assert "| spend mean 610.00 / dom 1 overwhelm 1" in rendered
-    assert "Lineup dominating uses `score > 600`; lineup overwhelming uses `score < 400`." in rendered
+    assert (
+        "Lineup dominating uses resource-path matchup `score > 600`; "
+        "lineup overwhelming uses resource-path matchup `score < 400`."
+    ) in rendered
     assert (
         "| Gengar (Mega) | battle_frontier | expensive_bench | warning | "
         "Expensive Pokemon appears in few viable lineups. |"

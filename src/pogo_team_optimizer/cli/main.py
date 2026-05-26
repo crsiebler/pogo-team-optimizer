@@ -21,6 +21,9 @@ from pogo_team_optimizer.infrastructure.repositories.battle_frontier_points_repo
 from pogo_team_optimizer.infrastructure.repositories.csv_matrix_repository import (
     CsvSimulationMatrixRepository,
 )
+from pogo_team_optimizer.infrastructure.repositories.csv_rankings_repository import (
+    CsvRankingsRepository,
+)
 from pogo_team_optimizer.infrastructure.repositories.csv_switch_rankings_repository import (
     CsvSwitchRankingsRepository,
 )
@@ -226,6 +229,12 @@ def main() -> int:
     if battle_frontier_points_path is not None:
         LOGGER.info("loading Battle Frontier points path=%s", battle_frontier_points_path)
         battle_frontier_points_repo = CsvBattleFrontierPointsRepository(battle_frontier_points_path)
+    ranking_paths: dict[RankingCategory | str, str] = {
+        category: path for category, path in meta_config.ranking_paths.items()
+    }
+    if args.switch_rankings_path is not None:
+        ranking_paths[RankingCategory.SWITCHES] = args.switch_rankings_path
+    rankings_repo = CsvRankingsRepository(ranking_paths) if ranking_paths else None
     use_case = AnalyzeMetaUseCase(
         simulation_repo,
         pokemon_repo,
@@ -233,6 +242,7 @@ def main() -> int:
         battle_frontier_points_repo,
         move_repo,
         type_effectiveness_repo,
+        rankings_repository=rankings_repo,
     )
     LOGGER.info("starting use case execution")
     result = use_case.execute(
