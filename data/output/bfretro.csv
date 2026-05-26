@@ -9,19 +9,49 @@ recommended_team,bulk_score,196.19
 recommended_team,bulk_pool_min_mean_max,167.49/189.02/254.44
 recommended_team,consistency,score=843.67;mean=782.56;dominate=22/27;overwhelming=0/27
 recommended_team,redundancy,2plus=27/27;3plus=21/27;single=0/27;none=0/27
+recommended_lineup,#1,"lead=Articuno PS+IW/Hu 14/13/14;backs=Raikou TS+WC/AuS 5/13/13, Venusaur (Shadow) VW+Sl/FP 4/14/15;shape=ABC;score=760.45;mean=759.26;dominating=22;overwhelming=0"
+recommended_lineup_resource_path,#1 balanced,lead_shield=1;back_shield=1;mean_best_score=737.89;dominating=7;overwhelming=0
+recommended_lineup_resource_path,#1 shield_spend,lead_shield=2;back_shield=0;mean_best_score=795.33;dominating=8;overwhelming=0
+recommended_lineup_resource_path,#1 shield_save,lead_shield=0;back_shield=2;mean_best_score=744.56;dominating=7;overwhelming=0
+recommended_lineup,#2,"lead=Venusaur (Shadow) VW+Sl/FP 4/14/15;backs=Raikou TS+WC/AuS 5/13/13, Articuno PS+IW/Hu 14/13/14;shape=ABC;score=757.15;mean=756.89;dominating=22;overwhelming=0"
+recommended_lineup_resource_path,#2 balanced,lead_shield=1;back_shield=1;mean_best_score=737.89;dominating=7;overwhelming=0
+recommended_lineup_resource_path,#2 shield_spend,lead_shield=2;back_shield=0;mean_best_score=787.44;dominating=8;overwhelming=0
+recommended_lineup_resource_path,#2 shield_save,lead_shield=0;back_shield=2;mean_best_score=745.33;dominating=7;overwhelming=0
+recommended_lineup,#3,"lead=Raikou TS+WC/AuS 5/13/13;backs=Venusaur (Shadow) VW+Sl/FP 4/14/15, Articuno PS+IW/Hu 14/13/14;shape=ABC;score=755.36;mean=754.59;dominating=22;overwhelming=0"
+recommended_lineup_resource_path,#3 balanced,lead_shield=1;back_shield=1;mean_best_score=737.89;dominating=7;overwhelming=0
+recommended_lineup_resource_path,#3 shield_spend,lead_shield=2;back_shield=0;mean_best_score=754.56;dominating=7;overwhelming=0
+recommended_lineup_resource_path,#3 shield_save,lead_shield=0;back_shield=2;mean_best_score=771.33;dominating=8;overwhelming=0
+recommended_lineup,#4,"lead=Articuno PS+IW/Hu 14/13/14;backs=Venusaur (Shadow) VW+Sl/FP 4/14/15, Grumpig Psy+SB/DyP 6/14/13;shape=ABC;score=750.41;mean=746.96;dominating=22;overwhelming=0"
+recommended_lineup_resource_path,#4 balanced,lead_shield=1;back_shield=1;mean_best_score=724.00;dominating=8;overwhelming=0
+recommended_lineup_resource_path,#4 shield_spend,lead_shield=2;back_shield=0;mean_best_score=757.11;dominating=7;overwhelming=0
+recommended_lineup_resource_path,#4 shield_save,lead_shield=0;back_shield=2;mean_best_score=759.78;dominating=7;overwhelming=0
+recommended_lineup,#5,"lead=Articuno PS+IW/Hu 14/13/14;backs=Kommo-o DT+UH/ClS 4/12/13, Venusaur (Shadow) VW+Sl/FP 4/14/15;shape=ABC;score=749.89;mean=732.07;dominating=23;overwhelming=2"
+recommended_lineup_resource_path,#5 balanced,lead_shield=1;back_shield=1;mean_best_score=678.22;dominating=7;overwhelming=1
+recommended_lineup_resource_path,#5 shield_spend,lead_shield=2;back_shield=0;mean_best_score=756.56;dominating=8;overwhelming=1
+recommended_lineup_resource_path,#5 shield_save,lead_shield=0;back_shield=2;mean_best_score=761.44;dominating=8;overwhelming=0
+recommended_lineup,#6,"lead=Venusaur (Shadow) VW+Sl/FP 4/14/15;backs=Articuno PS+IW/Hu 14/13/14, Grumpig Psy+SB/DyP 6/14/13;shape=ABC;score=749.09;mean=746.63;dominating=22;overwhelming=0"
+recommended_lineup_resource_path,#6 balanced,lead_shield=1;back_shield=1;mean_best_score=724.00;dominating=8;overwhelming=0
+recommended_lineup_resource_path,#6 shield_spend,lead_shield=2;back_shield=0;mean_best_score=753.89;dominating=7;overwhelming=0
+recommended_lineup_resource_path,#6 shield_save,lead_shield=0;back_shield=2;mean_best_score=762.00;dominating=7;overwhelming=0
+recommended_lineup,#7,"lead=Venusaur (Shadow) VW+Sl/FP 4/14/15;backs=Kommo-o DT+UH/ClS 4/12/13, Articuno PS+IW/Hu 14/13/14;shape=ABC;score=748.29;mean=731.41;dominating=23;overwhelming=2"
+recommended_lineup_resource_path,#7 balanced,lead_shield=1;back_shield=1;mean_best_score=678.22;dominating=7;overwhelming=1
+recommended_lineup_resource_path,#7 shield_spend,lead_shield=2;back_shield=0;mean_best_score=752.67;dominating=8;overwhelming=1
+recommended_lineup_resource_path,#7 shield_save,lead_shield=0;back_shield=2;mean_best_score=763.33;dominating=8;overwhelming=0
+recommended_lineup,#8,"lead=Articuno PS+IW/Hu 14/13/14;backs=Raikou TS+WC/AuS 5/13/13, Kyurem DB+G/DC 5/8/14;shape=ABA;score=747.27;mean=744.33;dominating=23;overwhelming=0"
+recommended_lineup_resource_path,#8 balanced,lead_shield=1;back_shield=1;mean_best_score=726.56;dominating=7;overwhelming=0
+recommended_lineup_resource_path,#8 shield_spend,lead_shield=2;back_shield=0;mean_best_score=785.78;dominating=9;overwhelming=0
+recommended_lineup_resource_path,#8 shield_save,lead_shield=0;back_shield=2;mean_best_score=720.67;dominating=7;overwhelming=0
+recommended_lineup,#9,"lead=Kyurem DB+G/DC 5/8/14;backs=Raikou TS+WC/AuS 5/13/13, Articuno PS+IW/Hu 14/13/14;shape=ABA;score=745.63;mean=743.19;dominating=23;overwhelming=0"
+recommended_lineup_resource_path,#9 balanced,lead_shield=1;back_shield=1;mean_best_score=726.56;dominating=7;overwhelming=0
+recommended_lineup_resource_path,#9 shield_spend,lead_shield=2;back_shield=0;mean_best_score=755.22;dominating=8;overwhelming=0
+recommended_lineup_resource_path,#9 shield_save,lead_shield=0;back_shield=2;mean_best_score=747.78;dominating=8;overwhelming=0
+recommended_lineup,#10,"lead=Kommo-o DT+UH/ClS 4/12/13;backs=Venusaur (Shadow) VW+Sl/FP 4/14/15, Articuno PS+IW/Hu 14/13/14;shape=ABC;score=745.28;mean=727.63;dominating=23;overwhelming=2"
+recommended_lineup_resource_path,#10 balanced,lead_shield=1;back_shield=1;mean_best_score=678.22;dominating=7;overwhelming=1
+recommended_lineup_resource_path,#10 shield_spend,lead_shield=2;back_shield=0;mean_best_score=774.11;dominating=8;overwhelming=0
+recommended_lineup_resource_path,#10 shield_save,lead_shield=0;back_shield=2;mean_best_score=730.56;dominating=8;overwhelming=1
 coverage,0-shield,9/0/0
 coverage,1-shield,9/0/0
 coverage,2-shield,9/0/0
-safe_core,#1 ABC,lead=Grumpig Psy+SB/DyP 6/14/13;switch=Kommo-o DT+UH/ClS 4/12/13;closer=Kyurem DB+G/DC 5/8/14
-safe_core,#2 ABC,lead=Grumpig Psy+SB/DyP 6/14/13;switch=Kommo-o DT+UH/ClS 4/12/13;closer=Articuno PS+IW/Hu 14/13/14
-safe_core,#3 ABC,lead=Grumpig Psy+SB/DyP 6/14/13;switch=Raikou TS+WC/AuS 5/13/13;closer=Articuno PS+IW/Hu 14/13/14
-safe_core,#4 ABC,lead=Kommo-o DT+UH/ClS 4/12/13;switch=Raikou TS+WC/AuS 5/13/13;closer=Articuno PS+IW/Hu 14/13/14
-safe_core,#5 ABC,lead=Grumpig Psy+SB/DyP 6/14/13;switch=Venusaur (Shadow) VW+Sl/FP 4/14/15;closer=Kyurem DB+G/DC 5/8/14
-safe_core,#6 ABC,lead=Grumpig Psy+SB/DyP 6/14/13;switch=Raikou TS+WC/AuS 5/13/13;closer=Kyurem DB+G/DC 5/8/14
-safe_core,#7 ABC,lead=Kommo-o DT+UH/ClS 4/12/13;switch=Raikou TS+WC/AuS 5/13/13;closer=Kyurem DB+G/DC 5/8/14
-safe_core,#8 ABC,lead=Grumpig Psy+SB/DyP 6/14/13;switch=Venusaur (Shadow) VW+Sl/FP 4/14/15;closer=Articuno PS+IW/Hu 14/13/14
-safe_core,#9 ABB,lead=Grumpig Psy+SB/DyP 6/14/13;switch=Kyurem DB+G/DC 5/8/14;closer=Articuno PS+IW/Hu 14/13/14
-safe_core,#10 ABA,lead=Articuno PS+IW/Hu 14/13/14;switch=Raikou TS+WC/AuS 5/13/13;closer=Kyurem DB+G/DC 5/8/14
 threat,Kingdra DB+Sw/O 0/15/15,single=0;none=0;details=n/a
 threat,Cetitan PS+ISp/SP 4/15/15,single=0;none=0;details=n/a
 threat,Toucannon Pk+BBl/DrlP 2/15/14,single=0;none=0;details=n/a

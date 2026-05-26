@@ -12,33 +12,23 @@
         ]
       },
       {
-        "index": 15,
-        "label": "Clefable FW+M/MM 2/12/11",
-        "species": "Clefable",
-        "base_species": "Clefable",
+        "index": 94,
+        "label": "Toxapex PJ+SW/Bri 0/15/15",
+        "species": "Toxapex",
+        "base_species": "Toxapex",
         "types": [
-          "fairy",
-          "none"
+          "poison",
+          "water"
         ]
       },
       {
-        "index": 18,
-        "label": "Corviknight SdA+AC/Pbk 0/13/14",
-        "species": "Corviknight",
-        "base_species": "Corviknight",
+        "index": 86,
+        "label": "Talonflame I+BrB/Fl 0/13/14",
+        "species": "Talonflame",
+        "base_species": "Talonflame",
         "types": [
-          "flying",
-          "steel"
-        ]
-      },
-      {
-        "index": 41,
-        "label": "Gastrodon MSl+WP/BS 1/15/14",
-        "species": "Gastrodon",
-        "base_species": "Gastrodon",
-        "types": [
-          "water",
-          "ground"
+          "fire",
+          "flying"
         ]
       },
       {
@@ -52,80 +42,280 @@
         ]
       },
       {
-        "index": 17,
-        "label": "Corsola (Galarian) A+PG/NSh 11/12/12",
-        "species": "Corsola (Galarian)",
-        "base_species": "Corsola (Galarian)",
+        "index": 45,
+        "label": "Golurk (Shadow) MSl+DyP/ShP 0/12/11",
+        "species": "Golurk (Shadow)",
+        "base_species": "Golurk",
         "types": [
-          "ghost",
-          "none"
+          "ground",
+          "ghost"
+        ]
+      },
+      {
+        "index": 56,
+        "label": "Lapras Psy+IB/SpA 0/10/14",
+        "species": "Lapras",
+        "base_species": "Lapras",
+        "types": [
+          "water",
+          "ice"
         ]
       }
     ],
     "score": [
-      147.0,
-      47.0,
-      -3.0,
-      -11.0,
-      682.9999999999999,
-      208.68168893058365,
-      80.11666666666666,
-      813.8933333333333,
-      136.0,
-      103.0,
-      751.8933333333333,
-      124.0,
+      149.0,
+      49.0,
+      -1.0,
+      -15.0,
+      730.8571428571431,
+      211.95628592470962,
+      79.18333333333334,
+      867.68,
+      134.0,
+      90.0,
+      797.68,
+      140.0,
       0.0,
-      632.7109333333333,
-      733.1199999999999,
-      719.5173333333333,
+      660.9762714285714,
+      764.2213523809525,
+      755.1916571428571,
       60.0,
-      23.0,
-      27.20000000000001
+      -1.0,
+      28.80000000000001,
+      0.7252973698039533
     ],
-    "bulk_score": 208.68168893058365,
-    "safety_score": 80.11666666666666,
+    "bulk_score": 211.95628592470962,
+    "safety_score": 79.18333333333334,
     "metrics": {
-      "pair_coverage": 147,
-      "full_col_coverage": 47,
-      "redundant_coverage_2plus": 136,
-      "redundant_coverage_3plus": 103,
-      "single_cover_pairs": 11,
-      "single_cover_rate": 0.07333333333333333,
-      "no_cover_pairs": 3,
-      "no_cover_rate": 0.02,
-      "bulk_score": 208.68168893058365,
-      "safety_score": 80.11666666666666,
-      "consistency_score": 813.8933333333333,
-      "weighted_worst_best_score": 682.9999999999999,
-      "mean_best_score": 751.8933333333333,
-      "dominate_count": 124,
-      "dominate_rate": 0.8266666666666667,
+      "pair_coverage": 149,
+      "full_col_coverage": 49,
+      "redundant_coverage_2plus": 134,
+      "redundant_coverage_3plus": 90,
+      "single_cover_pairs": 15,
+      "single_cover_rate": 0.1,
+      "no_cover_pairs": 1,
+      "no_cover_rate": 0.006666666666666667,
+      "bulk_score": 211.95628592470962,
+      "safety_score": 79.18333333333334,
+      "consistency_score": 867.68,
+      "weighted_worst_best_score": 730.8571428571431,
+      "mean_best_score": 797.68,
+      "dominate_count": 140,
+      "dominate_rate": 0.9333333333333333,
       "overwhelming_count": 0,
       "overwhelming_rate": 0.0,
       "total_pairs": 150,
       "bulk_pool_min": 77.05714285714286,
       "bulk_pool_max": 471.59574468085106,
       "bulk_pool_mean": 205.8983379859667,
-      "safety_pool_min": 45.6,
-      "safety_pool_max": 95.6,
-      "safety_pool_mean": 76.032,
+      "safety_pool_min": 41.5,
+      "safety_pool_max": 100.0,
+      "safety_pool_mean": 77.452,
       "safety_priority": "medium",
       "safety_floor_target": 78.0,
       "safe_member_floor": 90.0,
       "safe_member_target": 1,
-      "lineup_objective_score": 632.7109333333333,
-      "lineup_best_score": 733.1199999999999,
-      "lineup_top_n_mean_score": 719.5173333333333,
+      "lineup_objective_score": 660.9762714285714,
+      "lineup_best_score": 764.2213523809525,
+      "lineup_top_n_mean_score": 755.1916571428571,
       "lineup_viable_count": 60,
-      "defensive_type_score": 23.0,
-      "offensive_move_score": 27.20000000000001,
-      "legacy_full_roster_mean_best_score": 751.8933333333333,
-      "legacy_full_roster_dominate_count": 124,
+      "defensive_type_score": -1.0,
+      "offensive_move_score": 28.80000000000001,
+      "ranking_aware_score": 0.7252973698039533,
+      "legacy_full_roster_mean_best_score": 797.68,
+      "legacy_full_roster_dominate_count": 140,
       "legacy_full_roster_overwhelming_count": 0
     },
+    "score_breakdown": {
+      "final_score": 0.7252973698039533,
+      "components": [
+        {
+          "name": "synergy",
+          "raw_value": 0.5,
+          "weight": 0.24,
+          "weighted_score": 0.12,
+          "diagnostics": [
+            {
+              "key": "neutral_fallback",
+              "value": true
+            }
+          ]
+        },
+        {
+          "name": "threat_coverage",
+          "raw_value": 1.0,
+          "weight": 0.21,
+          "weighted_score": 0.21,
+          "diagnostics": [
+            {
+              "key": "full_meta_no_answer",
+              "value": 0
+            },
+            {
+              "key": "full_meta_single_answer",
+              "value": 0
+            },
+            {
+              "key": "top_threat_no_answer",
+              "value": 0
+            },
+            {
+              "key": "top_threat_single_answer",
+              "value": 0
+            }
+          ]
+        },
+        {
+          "name": "safety",
+          "raw_value": 0.9581142999999999,
+          "weight": 0.17,
+          "weighted_score": 0.162879431,
+          "diagnostics": [
+            {
+              "key": "overwhelming_losses",
+              "value": 0
+            },
+            {
+              "key": "shield_fragility",
+              "value": 0.12542
+            }
+          ]
+        },
+        {
+          "name": "consistency",
+          "raw_value": 0.7291913598553346,
+          "weight": 0.13,
+          "weighted_score": 0.0947948767811935,
+          "diagnostics": [
+            {
+              "key": "bait_dependence_proxy",
+              "value": 0.12542
+            },
+            {
+              "key": "move_dpe_proxy",
+              "value": 0.5
+            },
+            {
+              "key": "shield_stability",
+              "value": 0.87458
+            }
+          ]
+        },
+        {
+          "name": "bulk",
+          "raw_value": 0.34191620907057346,
+          "weight": 0.1,
+          "weighted_score": 0.034191620907057345,
+          "diagnostics": [
+            {
+              "key": "pool_max",
+              "value": 471.59574468085106
+            },
+            {
+              "key": "pool_min",
+              "value": 77.05714285714286
+            }
+          ]
+        },
+        {
+          "name": "defensive_ratio",
+          "raw_value": 0.5525625,
+          "weight": 0.07,
+          "weighted_score": 0.038679375,
+          "diagnostics": []
+        },
+        {
+          "name": "offensive_ratio",
+          "raw_value": 0.9950413223140496,
+          "weight": 0.05,
+          "weighted_score": 0.04975206611570249,
+          "diagnostics": []
+        },
+        {
+          "name": "role_fit",
+          "raw_value": 0.5,
+          "weight": 0.03,
+          "weighted_score": 0.015,
+          "diagnostics": [
+            {
+              "key": "neutral_fallback",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "ranking_diagnostics": {
+      "key_covered_threats": [
+        "Abomasnow PS+WBI/EB 0/15/15",
+        "Altaria DB+SA/Ft 0/14/15",
+        "Altaria (Shadow) DB+SA/Ft 0/14/15",
+        "Annihilape (Shadow) C+RF/IP 2/15/15",
+        "Azumarill B+IB/PR 0/15/15"
+      ],
+      "remaining_threats": [],
+      "no_answer_threats": [],
+      "single_answer_threats": [],
+      "shared_weaknesses": [
+        {
+          "type": "electric",
+          "members": [
+            "Toxapex PJ+SW/Bri 0/15/15",
+            "Talonflame I+BrB/Fl 0/13/14",
+            "Lapras Psy+IB/SpA 0/10/14"
+          ]
+        },
+        {
+          "type": "fighting",
+          "members": [
+            "Morpeko (Full Belly) TS+AuW/PsF 10/12/15",
+            "Lapras Psy+IB/SpA 0/10/14"
+          ]
+        },
+        {
+          "type": "grass",
+          "members": [
+            "Golurk (Shadow) MSl+DyP/ShP 0/12/11",
+            "Lapras Psy+IB/SpA 0/10/14"
+          ]
+        },
+        {
+          "type": "ground",
+          "members": [
+            "Morpeko (Full Belly) TS+AuW/PsF 10/12/15",
+            "Toxapex PJ+SW/Bri 0/15/15",
+            "Tinkaton FW+PR/Bd 3/10/12"
+          ]
+        },
+        {
+          "type": "rock",
+          "members": [
+            "Talonflame I+BrB/Fl 0/13/14",
+            "Lapras Psy+IB/SpA 0/10/14"
+          ]
+        },
+        {
+          "type": "water",
+          "members": [
+            "Talonflame I+BrB/Fl 0/13/14",
+            "Golurk (Shadow) MSl+DyP/ShP 0/12/11"
+          ]
+        }
+      ],
+      "role_assumptions": [
+        "Leads use PvPoke leads rankings when available.",
+        "Back pairs use unordered PvPoke switches, closers, attackers, chargers, and consistency blends when available."
+      ],
+      "lineup_dependency": {
+        "dependent": false,
+        "reason": "Recommended roster has multiple viable ordered lineups.",
+        "best_lineup_score": 764.2213523809525,
+        "top_lineup_mean_score": 755.1916571428571,
+        "viable_lineup_count": 60
+      }
+    },
     "bench_utility": [],
-    "shadow_count": 0
+    "shadow_count": 1
   },
   "coverage": [
     {
@@ -137,10 +327,10 @@
     },
     {
       "shield": 1,
-      "wins": 48,
+      "wins": 50,
       "draws": 0,
-      "losses": 2,
-      "weighted_wins": 0.959184
+      "losses": 0,
+      "weighted_wins": 1.0
     },
     {
       "shield": 2,
@@ -152,178 +342,159 @@
   ],
   "threats": [
     {
-      "opponent_label": "Gourgeist (Large) I+SB/SeB 1/14/15",
-      "min_best_score": 455,
-      "avg_best_score": 592.0,
+      "opponent_label": "Gastrodon MSl+BS/WP 1/15/14",
+      "min_best_score": 464,
+      "avg_best_score": 608.0,
       "shield_best_scores": [
-        551,
-        455,
-        770
+        673,
+        687,
+        464
       ],
       "shield_best_members": [
-        "Corsola (Galarian) A+PG/NSh 11/12/12",
-        "Corviknight SdA+AC/Pbk 0/13/14",
-        "Corsola (Galarian) A+PG/NSh 11/12/12"
+        "Lapras Psy+IB/SpA 0/10/14",
+        "Talonflame I+BrB/Fl 0/13/14",
+        "Talonflame I+BrB/Fl 0/13/14"
       ],
-      "single_cover_count": 0,
+      "single_cover_count": 1,
       "no_cover_count": 1,
       "fragile_shields": [
         {
-          "shield": 1,
-          "winner_count": 0,
-          "only_answer": null,
-          "only_answer_score": null,
-          "best_loser": "Corviknight SdA+AC/Pbk 0/13/14",
-          "best_loser_score": 455
-        }
-      ]
-    },
-    {
-      "opponent_label": "Talonflame (Shadow) I+FmC/Fl 0/13/15",
-      "min_best_score": 488,
-      "avg_best_score": 656.6666666666666,
-      "shield_best_scores": [
-        794,
-        688,
-        488
-      ],
-      "shield_best_members": [
-        "Morpeko (Full Belly) TS+AuW/PsF 10/12/15",
-        "Morpeko (Full Belly) TS+AuW/PsF 10/12/15",
-        "Corsola (Galarian) A+PG/NSh 11/12/12"
-      ],
-      "single_cover_count": 0,
-      "no_cover_count": 1,
-      "fragile_shields": [
+          "shield": 0,
+          "winner_count": 1,
+          "only_answer": "Lapras Psy+IB/SpA 0/10/14",
+          "only_answer_score": 673,
+          "best_loser": null,
+          "best_loser_score": null
+        },
         {
           "shield": 2,
           "winner_count": 0,
           "only_answer": null,
           "only_answer_score": null,
-          "best_loser": "Corsola (Galarian) A+PG/NSh 11/12/12",
-          "best_loser_score": 488
+          "best_loser": "Talonflame I+BrB/Fl 0/13/14",
+          "best_loser_score": 464
         }
       ]
     },
     {
-      "opponent_label": "Cradily Ac+RT/GK 0/15/15",
-      "min_best_score": 496,
-      "avg_best_score": 574.0,
+      "opponent_label": "Stunfisk TS+MB/D 0/12/15",
+      "min_best_score": 705,
+      "avg_best_score": 765.6666666666666,
       "shield_best_scores": [
-        641,
-        496,
-        585
+        709,
+        705,
+        883
       ],
       "shield_best_members": [
-        "Tinkaton FW+PR/Bd 3/10/12",
-        "Tinkaton FW+PR/Bd 3/10/12",
-        "Morpeko (Full Belly) TS+AuW/PsF 10/12/15"
+        "Golurk (Shadow) MSl+DyP/ShP 0/12/11",
+        "Golurk (Shadow) MSl+DyP/ShP 0/12/11",
+        "Golurk (Shadow) MSl+DyP/ShP 0/12/11"
       ],
-      "single_cover_count": 0,
-      "no_cover_count": 1,
+      "single_cover_count": 2,
+      "no_cover_count": 0,
       "fragile_shields": [
         {
           "shield": 1,
-          "winner_count": 0,
-          "only_answer": null,
-          "only_answer_score": null,
-          "best_loser": "Tinkaton FW+PR/Bd 3/10/12",
-          "best_loser_score": 496
+          "winner_count": 1,
+          "only_answer": "Golurk (Shadow) MSl+DyP/ShP 0/12/11",
+          "only_answer_score": 705,
+          "best_loser": null,
+          "best_loser_score": null
+        },
+        {
+          "shield": 2,
+          "winner_count": 1,
+          "only_answer": "Golurk (Shadow) MSl+DyP/ShP 0/12/11",
+          "only_answer_score": 883,
+          "best_loser": null,
+          "best_loser_score": null
         }
       ]
     },
     {
-      "opponent_label": "Ludicolo A+WBW/LfS 0/15/15",
-      "min_best_score": 523,
-      "avg_best_score": 708.0,
+      "opponent_label": "Jellicent H+S/SB 1/14/14",
+      "min_best_score": 837,
+      "avg_best_score": 892.6666666666666,
       "shield_best_scores": [
-        523,
-        841,
+        948,
+        893,
+        837
+      ],
+      "shield_best_members": [
+        "Morpeko (Full Belly) TS+AuW/PsF 10/12/15",
+        "Morpeko (Full Belly) TS+AuW/PsF 10/12/15",
+        "Morpeko (Full Belly) TS+AuW/PsF 10/12/15"
+      ],
+      "single_cover_count": 2,
+      "no_cover_count": 0,
+      "fragile_shields": [
+        {
+          "shield": 0,
+          "winner_count": 1,
+          "only_answer": "Morpeko (Full Belly) TS+AuW/PsF 10/12/15",
+          "only_answer_score": 948,
+          "best_loser": null,
+          "best_loser_score": null
+        },
+        {
+          "shield": 2,
+          "winner_count": 1,
+          "only_answer": "Morpeko (Full Belly) TS+AuW/PsF 10/12/15",
+          "only_answer_score": 837,
+          "best_loser": null,
+          "best_loser_score": null
+        }
+      ]
+    },
+    {
+      "opponent_label": "Lickilicky RO+BS/SB 0/15/10",
+      "min_best_score": 559,
+      "avg_best_score": 653.3333333333334,
+      "shield_best_scores": [
+        641,
+        559,
         760
       ],
       "shield_best_members": [
-        "Corviknight SdA+AC/Pbk 0/13/14",
+        "Morpeko (Full Belly) TS+AuW/PsF 10/12/15",
         "Morpeko (Full Belly) TS+AuW/PsF 10/12/15",
         "Morpeko (Full Belly) TS+AuW/PsF 10/12/15"
-      ],
-      "single_cover_count": 2,
-      "no_cover_count": 0,
-      "fragile_shields": [
-        {
-          "shield": 0,
-          "winner_count": 1,
-          "only_answer": "Corviknight SdA+AC/Pbk 0/13/14",
-          "only_answer_score": 523,
-          "best_loser": null,
-          "best_loser_score": null
-        },
-        {
-          "shield": 1,
-          "winner_count": 1,
-          "only_answer": "Morpeko (Full Belly) TS+AuW/PsF 10/12/15",
-          "only_answer_score": 841,
-          "best_loser": null,
-          "best_loser_score": null
-        }
-      ]
-    },
-    {
-      "opponent_label": "Gastrodon MSl+BS/WP 1/15/14",
-      "min_best_score": 600,
-      "avg_best_score": 647.0,
-      "shield_best_scores": [
-        600,
-        641,
-        700
-      ],
-      "shield_best_members": [
-        "Corsola (Galarian) A+PG/NSh 11/12/12",
-        "Corviknight SdA+AC/Pbk 0/13/14",
-        "Corviknight SdA+AC/Pbk 0/13/14"
-      ],
-      "single_cover_count": 2,
-      "no_cover_count": 0,
-      "fragile_shields": [
-        {
-          "shield": 0,
-          "winner_count": 1,
-          "only_answer": "Corsola (Galarian) A+PG/NSh 11/12/12",
-          "only_answer_score": 600,
-          "best_loser": null,
-          "best_loser_score": null
-        },
-        {
-          "shield": 2,
-          "winner_count": 1,
-          "only_answer": "Corviknight SdA+AC/Pbk 0/13/14",
-          "only_answer_score": 700,
-          "best_loser": null,
-          "best_loser_score": null
-        }
-      ]
-    },
-    {
-      "opponent_label": "Azumarill B+IB/PR 0/15/15",
-      "min_best_score": 592,
-      "avg_best_score": 668.3333333333334,
-      "shield_best_scores": [
-        592,
-        726,
-        687
-      ],
-      "shield_best_members": [
-        "Tinkaton FW+PR/Bd 3/10/12",
-        "Morpeko (Full Belly) TS+AuW/PsF 10/12/15",
-        "Clefable FW+M/MM 2/12/11"
       ],
       "single_cover_count": 1,
       "no_cover_count": 0,
       "fragile_shields": [
         {
-          "shield": 0,
+          "shield": 2,
           "winner_count": 1,
-          "only_answer": "Tinkaton FW+PR/Bd 3/10/12",
-          "only_answer_score": 592,
+          "only_answer": "Morpeko (Full Belly) TS+AuW/PsF 10/12/15",
+          "only_answer_score": 760,
+          "best_loser": null,
+          "best_loser_score": null
+        }
+      ]
+    },
+    {
+      "opponent_label": "Dusknoir (Shadow) A+DyP/ShP 0/14/13",
+      "min_best_score": 645,
+      "avg_best_score": 764.3333333333334,
+      "shield_best_scores": [
+        884,
+        764,
+        645
+      ],
+      "shield_best_members": [
+        "Morpeko (Full Belly) TS+AuW/PsF 10/12/15",
+        "Morpeko (Full Belly) TS+AuW/PsF 10/12/15",
+        "Morpeko (Full Belly) TS+AuW/PsF 10/12/15"
+      ],
+      "single_cover_count": 1,
+      "no_cover_count": 0,
+      "fragile_shields": [
+        {
+          "shield": 2,
+          "winner_count": 1,
+          "only_answer": "Morpeko (Full Belly) TS+AuW/PsF 10/12/15",
+          "only_answer_score": 645,
           "best_loser": null,
           "best_loser_score": null
         }
@@ -331,17 +502,17 @@
     },
     {
       "opponent_label": "Primeape KC+RF/CC 1/15/15",
-      "min_best_score": 653,
-      "avg_best_score": 732.0,
+      "min_best_score": 691,
+      "avg_best_score": 772.6666666666666,
       "shield_best_scores": [
-        795,
-        748,
-        653
+        790,
+        691,
+        837
       ],
       "shield_best_members": [
-        "Clefable FW+M/MM 2/12/11",
-        "Clefable FW+M/MM 2/12/11",
-        "Clefable FW+M/MM 2/12/11"
+        "Tinkaton FW+PR/Bd 3/10/12",
+        "Tinkaton FW+PR/Bd 3/10/12",
+        "Golurk (Shadow) MSl+DyP/ShP 0/12/11"
       ],
       "single_cover_count": 1,
       "no_cover_count": 0,
@@ -349,35 +520,35 @@
         {
           "shield": 2,
           "winner_count": 1,
-          "only_answer": "Clefable FW+M/MM 2/12/11",
-          "only_answer_score": 653,
+          "only_answer": "Golurk (Shadow) MSl+DyP/ShP 0/12/11",
+          "only_answer_score": 837,
           "best_loser": null,
           "best_loser_score": null
         }
       ]
     },
     {
-      "opponent_label": "Stunfisk TS+MB/D 0/12/15",
-      "min_best_score": 682,
-      "avg_best_score": 745.6666666666666,
+      "opponent_label": "Charjabug VS+XS/D 0/13/15",
+      "min_best_score": 713,
+      "avg_best_score": 799.3333333333334,
       "shield_best_scores": [
-        682,
-        788,
-        767
+        713,
+        879,
+        806
       ],
       "shield_best_members": [
-        "Gastrodon MSl+WP/BS 1/15/14",
-        "Gastrodon MSl+WP/BS 1/15/14",
-        "Gastrodon MSl+WP/BS 1/15/14"
+        "Golurk (Shadow) MSl+DyP/ShP 0/12/11",
+        "Golurk (Shadow) MSl+DyP/ShP 0/12/11",
+        "Golurk (Shadow) MSl+DyP/ShP 0/12/11"
       ],
       "single_cover_count": 1,
       "no_cover_count": 0,
       "fragile_shields": [
         {
-          "shield": 2,
+          "shield": 1,
           "winner_count": 1,
-          "only_answer": "Gastrodon MSl+WP/BS 1/15/14",
-          "only_answer_score": 767,
+          "only_answer": "Golurk (Shadow) MSl+DyP/ShP 0/12/11",
+          "only_answer_score": 879,
           "best_loser": null,
           "best_loser_score": null
         }
@@ -385,17 +556,17 @@
     },
     {
       "opponent_label": "Steelix TF+PsF/Cr 0/14/15",
-      "min_best_score": 694,
-      "avg_best_score": 725.3333333333334,
+      "min_best_score": 798,
+      "avg_best_score": 835.6666666666666,
       "shield_best_scores": [
-        785,
-        694,
-        697
+        798,
+        868,
+        841
       ],
       "shield_best_members": [
-        "Gastrodon MSl+WP/BS 1/15/14",
-        "Gastrodon MSl+WP/BS 1/15/14",
-        "Gastrodon MSl+WP/BS 1/15/14"
+        "Golurk (Shadow) MSl+DyP/ShP 0/12/11",
+        "Golurk (Shadow) MSl+DyP/ShP 0/12/11",
+        "Golurk (Shadow) MSl+DyP/ShP 0/12/11"
       ],
       "single_cover_count": 1,
       "no_cover_count": 0,
@@ -403,26 +574,26 @@
         {
           "shield": 2,
           "winner_count": 1,
-          "only_answer": "Gastrodon MSl+WP/BS 1/15/14",
-          "only_answer_score": 697,
+          "only_answer": "Golurk (Shadow) MSl+DyP/ShP 0/12/11",
+          "only_answer_score": 841,
           "best_loser": null,
           "best_loser_score": null
         }
       ]
     },
     {
-      "opponent_label": "Clodsire PSt+Eq/SE 0/14/13",
-      "min_best_score": 697,
-      "avg_best_score": 833.0,
+      "opponent_label": "Empoleon (Shadow) MSo+HC/DrlP 0/13/15",
+      "min_best_score": 810,
+      "avg_best_score": 855.0,
       "shield_best_scores": [
-        697,
         914,
-        888
+        841,
+        810
       ],
       "shield_best_members": [
-        "Gastrodon MSl+WP/BS 1/15/14",
-        "Gastrodon MSl+WP/BS 1/15/14",
-        "Gastrodon MSl+WP/BS 1/15/14"
+        "Morpeko (Full Belly) TS+AuW/PsF 10/12/15",
+        "Morpeko (Full Belly) TS+AuW/PsF 10/12/15",
+        "Golurk (Shadow) MSl+DyP/ShP 0/12/11"
       ],
       "single_cover_count": 1,
       "no_cover_count": 0,
@@ -430,8 +601,35 @@
         {
           "shield": 0,
           "winner_count": 1,
-          "only_answer": "Gastrodon MSl+WP/BS 1/15/14",
-          "only_answer_score": 697,
+          "only_answer": "Morpeko (Full Belly) TS+AuW/PsF 10/12/15",
+          "only_answer_score": 914,
+          "best_loser": null,
+          "best_loser_score": null
+        }
+      ]
+    },
+    {
+      "opponent_label": "Guzzlord DT+BrS/SlB 1/15/15",
+      "min_best_score": 843,
+      "avg_best_score": 865.6666666666666,
+      "shield_best_scores": [
+        893,
+        861,
+        843
+      ],
+      "shield_best_members": [
+        "Tinkaton FW+PR/Bd 3/10/12",
+        "Tinkaton FW+PR/Bd 3/10/12",
+        "Tinkaton FW+PR/Bd 3/10/12"
+      ],
+      "single_cover_count": 1,
+      "no_cover_count": 0,
+      "fragile_shields": [
+        {
+          "shield": 2,
+          "winner_count": 1,
+          "only_answer": "Tinkaton FW+PR/Bd 3/10/12",
+          "only_answer_score": 843,
           "best_loser": null,
           "best_loser_score": null
         }
@@ -443,84 +641,84 @@
     {
       "opponent_label": "Abomasnow PS+WBI/EB 0/15/15",
       "shield_best_scores": [
-        684,
-        676,
-        588
+        775,
+        712,
+        837
       ],
       "shield_best_members": [
-        "Tinkaton FW+PR/Bd 3/10/12",
-        "Clefable FW+M/MM 2/12/11",
-        "Clefable FW+M/MM 2/12/11"
+        "Toxapex PJ+SW/Bri 0/15/15",
+        "Toxapex PJ+SW/Bri 0/15/15",
+        "Lapras Psy+IB/SpA 0/10/14"
       ],
-      "confidence": "fragile"
+      "confidence": "stable"
     },
     {
       "opponent_label": "Altaria DB+SA/Ft 0/14/15",
       "shield_best_scores": [
-        751,
-        911,
-        874
+        741,
+        791,
+        868
       ],
       "shield_best_members": [
-        "Clefable FW+M/MM 2/12/11",
-        "Clefable FW+M/MM 2/12/11",
-        "Clefable FW+M/MM 2/12/11"
+        "Lapras Psy+IB/SpA 0/10/14",
+        "Lapras Psy+IB/SpA 0/10/14",
+        "Tinkaton FW+PR/Bd 3/10/12"
       ],
       "confidence": "stable"
     },
     {
       "opponent_label": "Altaria (Shadow) DB+SA/Ft 0/14/15",
       "shield_best_scores": [
-        734,
-        911,
-        880
+        714,
+        907,
+        868
       ],
       "shield_best_members": [
-        "Clefable FW+M/MM 2/12/11",
-        "Clefable FW+M/MM 2/12/11",
-        "Clefable FW+M/MM 2/12/11"
+        "Lapras Psy+IB/SpA 0/10/14",
+        "Tinkaton FW+PR/Bd 3/10/12",
+        "Tinkaton FW+PR/Bd 3/10/12"
       ],
       "confidence": "swingy"
     },
     {
       "opponent_label": "Annihilape (Shadow) C+RF/IP 2/15/15",
       "shield_best_scores": [
-        704,
-        659,
-        659
+        883,
+        767,
+        740
       ],
       "shield_best_members": [
-        "Clefable FW+M/MM 2/12/11",
-        "Corsola (Galarian) A+PG/NSh 11/12/12",
-        "Corsola (Galarian) A+PG/NSh 11/12/12"
+        "Golurk (Shadow) MSl+DyP/ShP 0/12/11",
+        "Golurk (Shadow) MSl+DyP/ShP 0/12/11",
+        "Golurk (Shadow) MSl+DyP/ShP 0/12/11"
       ],
       "confidence": "stable"
     },
     {
       "opponent_label": "Azumarill B+IB/PR 0/15/15",
       "shield_best_scores": [
-        592,
-        726,
-        687
+        770,
+        833,
+        795
       ],
       "shield_best_members": [
-        "Tinkaton FW+PR/Bd 3/10/12",
-        "Morpeko (Full Belly) TS+AuW/PsF 10/12/15",
-        "Clefable FW+M/MM 2/12/11"
+        "Toxapex PJ+SW/Bri 0/15/15",
+        "Toxapex PJ+SW/Bri 0/15/15",
+        "Toxapex PJ+SW/Bri 0/15/15"
       ],
-      "confidence": "fragile"
+      "confidence": "stable"
     },
     {
       "opponent_label": "Bastiodon SD+SE/Ft 0/15/14",
       "shield_best_scores": [
-        758,
-        864,
-        805
+        883,
+        810,
+        810
       ],
       "shield_best_members": [
-        "Gastrodon MSl+WP/BS 1/15/14",
-        "Gastrodon MSl+WP/BS 1/15/14",
-        "Gastrodon MSl+WP/BS 1/15/14"
+        "Golurk (Shadow) MSl+DyP/ShP 0/12/11",
+        "Golurk (Shadow) MSl+DyP/ShP 0/12/11",
+        "Golurk (Shadow) MSl+DyP/ShP 0/12/11"
       ],
       "confidence": "stable"
     },
@@ -541,54 +739,54 @@
     {
       "opponent_label": "Charjabug VS+XS/D 0/13/15",
       "shield_best_scores": [
-        622,
-        674,
-        641
+        713,
+        879,
+        806
       ],
       "shield_best_members": [
-        "Corsola (Galarian) A+PG/NSh 11/12/12",
-        "Corsola (Galarian) A+PG/NSh 11/12/12",
-        "Gastrodon MSl+WP/BS 1/15/14"
+        "Golurk (Shadow) MSl+DyP/ShP 0/12/11",
+        "Golurk (Shadow) MSl+DyP/ShP 0/12/11",
+        "Golurk (Shadow) MSl+DyP/ShP 0/12/11"
       ],
       "confidence": "stable"
     },
     {
       "opponent_label": "Clefable FW+M/MM 0/13/15",
       "shield_best_scores": [
-        671,
-        711,
-        789
+        875,
+        758,
+        825
       ],
       "shield_best_members": [
-        "Corviknight SdA+AC/Pbk 0/13/14",
-        "Gastrodon MSl+WP/BS 1/15/14",
-        "Clefable FW+M/MM 2/12/11"
+        "Toxapex PJ+SW/Bri 0/15/15",
+        "Toxapex PJ+SW/Bri 0/15/15",
+        "Toxapex PJ+SW/Bri 0/15/15"
       ],
       "confidence": "stable"
     },
     {
       "opponent_label": "Clodsire PSt+Eq/SE 0/14/13",
       "shield_best_scores": [
-        697,
-        914,
-        888
+        667,
+        903,
+        875
       ],
       "shield_best_members": [
-        "Gastrodon MSl+WP/BS 1/15/14",
-        "Gastrodon MSl+WP/BS 1/15/14",
-        "Gastrodon MSl+WP/BS 1/15/14"
+        "Lapras Psy+IB/SpA 0/10/14",
+        "Golurk (Shadow) MSl+DyP/ShP 0/12/11",
+        "Golurk (Shadow) MSl+DyP/ShP 0/12/11"
       ],
       "confidence": "swingy"
     },
     {
       "opponent_label": "Corsola (Galarian) A+NSh/PG 0/15/15",
       "shield_best_scores": [
-        591,
+        596,
         726,
         632
       ],
       "shield_best_members": [
-        "Clefable FW+M/MM 2/12/11",
+        "Lapras Psy+IB/SpA 0/10/14",
         "Morpeko (Full Belly) TS+AuW/PsF 10/12/15",
         "Morpeko (Full Belly) TS+AuW/PsF 10/12/15"
       ],
@@ -598,13 +796,13 @@
       "opponent_label": "Corviknight SdA+AC/Pbk 0/13/14",
       "shield_best_scores": [
         764,
-        764,
-        833
+        783,
+        757
       ],
       "shield_best_members": [
         "Morpeko (Full Belly) TS+AuW/PsF 10/12/15",
-        "Morpeko (Full Belly) TS+AuW/PsF 10/12/15",
-        "Corsola (Galarian) A+PG/NSh 11/12/12"
+        "Talonflame I+BrB/Fl 0/13/14",
+        "Talonflame I+BrB/Fl 0/13/14"
       ],
       "confidence": "stable"
     },
@@ -612,15 +810,15 @@
       "opponent_label": "Cradily Ac+RT/GK 0/15/15",
       "shield_best_scores": [
         641,
-        496,
-        585
+        903,
+        852
       ],
       "shield_best_members": [
         "Tinkaton FW+PR/Bd 3/10/12",
-        "Tinkaton FW+PR/Bd 3/10/12",
-        "Morpeko (Full Belly) TS+AuW/PsF 10/12/15"
+        "Golurk (Shadow) MSl+DyP/ShP 0/12/11",
+        "Golurk (Shadow) MSl+DyP/ShP 0/12/11"
       ],
-      "confidence": "fragile"
+      "confidence": "swingy"
     },
     {
       "opponent_label": "Dusknoir (Shadow) A+DyP/ShP 0/14/13",
@@ -641,12 +839,12 @@
       "shield_best_scores": [
         914,
         841,
-        888
+        810
       ],
       "shield_best_members": [
         "Morpeko (Full Belly) TS+AuW/PsF 10/12/15",
         "Morpeko (Full Belly) TS+AuW/PsF 10/12/15",
-        "Gastrodon MSl+WP/BS 1/15/14"
+        "Golurk (Shadow) MSl+DyP/ShP 0/12/11"
       ],
       "confidence": "stable"
     },
@@ -654,13 +852,13 @@
       "opponent_label": "Empoleon (Shadow) MSo+HC/DrlP 0/13/15",
       "shield_best_scores": [
         914,
-        879,
-        879
+        841,
+        810
       ],
       "shield_best_members": [
         "Morpeko (Full Belly) TS+AuW/PsF 10/12/15",
-        "Gastrodon MSl+WP/BS 1/15/14",
-        "Gastrodon MSl+WP/BS 1/15/14"
+        "Morpeko (Full Belly) TS+AuW/PsF 10/12/15",
+        "Golurk (Shadow) MSl+DyP/ShP 0/12/11"
       ],
       "confidence": "stable"
     },
@@ -681,54 +879,54 @@
     {
       "opponent_label": "Florges FW+CW/TBl 0/14/13",
       "shield_best_scores": [
-        695,
-        639,
-        659
+        870,
+        762,
+        716
       ],
       "shield_best_members": [
-        "Tinkaton FW+PR/Bd 3/10/12",
-        "Clefable FW+M/MM 2/12/11",
-        "Tinkaton FW+PR/Bd 3/10/12"
+        "Toxapex PJ+SW/Bri 0/15/15",
+        "Toxapex PJ+SW/Bri 0/15/15",
+        "Toxapex PJ+SW/Bri 0/15/15"
       ],
       "confidence": "stable"
     },
     {
       "opponent_label": "Forretress BBi+RT/ST 0/9/15",
       "shield_best_scores": [
-        637,
-        690,
-        657
+        852,
+        871,
+        871
       ],
       "shield_best_members": [
-        "Corsola (Galarian) A+PG/NSh 11/12/12",
-        "Corviknight SdA+AC/Pbk 0/13/14",
-        "Corviknight SdA+AC/Pbk 0/13/14"
+        "Talonflame I+BrB/Fl 0/13/14",
+        "Talonflame I+BrB/Fl 0/13/14",
+        "Talonflame I+BrB/Fl 0/13/14"
       ],
       "confidence": "stable"
     },
     {
       "opponent_label": "Forretress (Shadow) BBi+ST/RT 0/9/15",
       "shield_best_scores": [
-        644,
-        652,
-        733
+        845,
+        871,
+        871
       ],
       "shield_best_members": [
-        "Corviknight SdA+AC/Pbk 0/13/14",
-        "Gastrodon MSl+WP/BS 1/15/14",
-        "Corviknight SdA+AC/Pbk 0/13/14"
+        "Talonflame I+BrB/Fl 0/13/14",
+        "Talonflame I+BrB/Fl 0/13/14",
+        "Talonflame I+BrB/Fl 0/13/14"
       ],
       "confidence": "stable"
     },
     {
       "opponent_label": "Furret SkP+Sw/TBl 1/15/14",
       "shield_best_scores": [
-        714,
+        709,
         833,
         769
       ],
       "shield_best_members": [
-        "Clefable FW+M/MM 2/12/11",
+        "Talonflame I+BrB/Fl 0/13/14",
         "Morpeko (Full Belly) TS+AuW/PsF 10/12/15",
         "Morpeko (Full Belly) TS+AuW/PsF 10/12/15"
       ],
@@ -737,54 +935,54 @@
     {
       "opponent_label": "Gastrodon MSl+BS/WP 1/15/14",
       "shield_best_scores": [
-        600,
-        641,
-        700
+        673,
+        687,
+        464
       ],
       "shield_best_members": [
-        "Corsola (Galarian) A+PG/NSh 11/12/12",
-        "Corviknight SdA+AC/Pbk 0/13/14",
-        "Corviknight SdA+AC/Pbk 0/13/14"
+        "Lapras Psy+IB/SpA 0/10/14",
+        "Talonflame I+BrB/Fl 0/13/14",
+        "Talonflame I+BrB/Fl 0/13/14"
       ],
       "confidence": "fragile"
     },
     {
       "opponent_label": "Gourgeist (Large) I+SB/SeB 1/14/15",
       "shield_best_scores": [
-        551,
-        455,
-        770
+        871,
+        801,
+        860
       ],
       "shield_best_members": [
-        "Corsola (Galarian) A+PG/NSh 11/12/12",
-        "Corviknight SdA+AC/Pbk 0/13/14",
-        "Corsola (Galarian) A+PG/NSh 11/12/12"
+        "Talonflame I+BrB/Fl 0/13/14",
+        "Talonflame I+BrB/Fl 0/13/14",
+        "Talonflame I+BrB/Fl 0/13/14"
       ],
-      "confidence": "fragile"
+      "confidence": "stable"
     },
     {
       "opponent_label": "Guzzlord DT+BrS/SlB 1/15/15",
       "shield_best_scores": [
         893,
-        925,
-        891
+        861,
+        843
       ],
       "shield_best_members": [
         "Tinkaton FW+PR/Bd 3/10/12",
-        "Clefable FW+M/MM 2/12/11",
-        "Clefable FW+M/MM 2/12/11"
+        "Tinkaton FW+PR/Bd 3/10/12",
+        "Tinkaton FW+PR/Bd 3/10/12"
       ],
       "confidence": "stable"
     },
     {
       "opponent_label": "Gyarados (Shadow) DB+AT/Cr 0/14/15",
       "shield_best_scores": [
-        704,
+        708,
         741,
         702
       ],
       "shield_best_members": [
-        "Clefable FW+M/MM 2/12/11",
+        "Lapras Psy+IB/SpA 0/10/14",
         "Tinkaton FW+PR/Bd 3/10/12",
         "Tinkaton FW+PR/Bd 3/10/12"
       ],
@@ -836,39 +1034,39 @@
       "opponent_label": "Lickilicky RO+BS/SB 0/15/10",
       "shield_best_scores": [
         641,
-        708,
+        559,
         760
       ],
       "shield_best_members": [
         "Morpeko (Full Belly) TS+AuW/PsF 10/12/15",
-        "Gastrodon MSl+WP/BS 1/15/14",
-        "Morpeko (Full Belly) TS+AuW/PsF 10/12/15"
-      ],
-      "confidence": "stable"
-    },
-    {
-      "opponent_label": "Ludicolo A+WBW/LfS 0/15/15",
-      "shield_best_scores": [
-        523,
-        841,
-        760
-      ],
-      "shield_best_members": [
-        "Corviknight SdA+AC/Pbk 0/13/14",
         "Morpeko (Full Belly) TS+AuW/PsF 10/12/15",
         "Morpeko (Full Belly) TS+AuW/PsF 10/12/15"
       ],
       "confidence": "fragile"
     },
     {
+      "opponent_label": "Ludicolo A+WBW/LfS 0/15/15",
+      "shield_best_scores": [
+        837,
+        841,
+        760
+      ],
+      "shield_best_members": [
+        "Toxapex PJ+SW/Bri 0/15/15",
+        "Morpeko (Full Belly) TS+AuW/PsF 10/12/15",
+        "Morpeko (Full Belly) TS+AuW/PsF 10/12/15"
+      ],
+      "confidence": "stable"
+    },
+    {
       "opponent_label": "Malamar Psy+SP/FoP 0/15/9",
       "shield_best_scores": [
-        744,
+        726,
         837,
         797
       ],
       "shield_best_members": [
-        "Clefable FW+M/MM 2/12/11",
+        "Tinkaton FW+PR/Bd 3/10/12",
         "Morpeko (Full Belly) TS+AuW/PsF 10/12/15",
         "Tinkaton FW+PR/Bd 3/10/12"
       ],
@@ -877,86 +1075,86 @@
     {
       "opponent_label": "Marowak (Shadow) MSl+BC/RS 0/14/14",
       "shield_best_scores": [
-        700,
-        621,
-        687
+        783,
+        676,
+        709
       ],
       "shield_best_members": [
-        "Gastrodon MSl+WP/BS 1/15/14",
-        "Corviknight SdA+AC/Pbk 0/13/14",
-        "Corviknight SdA+AC/Pbk 0/13/14"
+        "Talonflame I+BrB/Fl 0/13/14",
+        "Talonflame I+BrB/Fl 0/13/14",
+        "Talonflame I+BrB/Fl 0/13/14"
       ],
       "confidence": "stable"
     },
     {
       "opponent_label": "Moltres (Galarian) SkP+Fl/BrB 0/13/12",
       "shield_best_scores": [
-        904,
-        833,
-        789
+        893,
+        826,
+        751
       ],
       "shield_best_members": [
-        "Clefable FW+M/MM 2/12/11",
-        "Clefable FW+M/MM 2/12/11",
-        "Clefable FW+M/MM 2/12/11"
+        "Morpeko (Full Belly) TS+AuW/PsF 10/12/15",
+        "Tinkaton FW+PR/Bd 3/10/12",
+        "Tinkaton FW+PR/Bd 3/10/12"
       ],
       "confidence": "stable"
     },
     {
       "opponent_label": "Morpeko (Full Belly) TS+AuW/PsF 1/15/15",
       "shield_best_scores": [
-        747,
-        800,
-        800
+        759,
+        748,
+        748
       ],
       "shield_best_members": [
-        "Gastrodon MSl+WP/BS 1/15/14",
-        "Gastrodon MSl+WP/BS 1/15/14",
-        "Gastrodon MSl+WP/BS 1/15/14"
+        "Golurk (Shadow) MSl+DyP/ShP 0/12/11",
+        "Golurk (Shadow) MSl+DyP/ShP 0/12/11",
+        "Golurk (Shadow) MSl+DyP/ShP 0/12/11"
       ],
       "confidence": "stable"
     },
     {
       "opponent_label": "Ninetales (Alolan) PS+WBI/CW 0/14/12",
       "shield_best_scores": [
-        914,
-        680,
-        591
+        870,
+        808,
+        799
       ],
       "shield_best_members": [
-        "Clefable FW+M/MM 2/12/11",
-        "Clefable FW+M/MM 2/12/11",
-        "Clefable FW+M/MM 2/12/11"
+        "Toxapex PJ+SW/Bri 0/15/15",
+        "Toxapex PJ+SW/Bri 0/15/15",
+        "Lapras Psy+IB/SpA 0/10/14"
       ],
-      "confidence": "fragile"
+      "confidence": "stable"
     },
     {
       "opponent_label": "Primeape KC+RF/CC 1/15/15",
       "shield_best_scores": [
-        795,
-        748,
-        653
+        790,
+        691,
+        837
       ],
       "shield_best_members": [
-        "Clefable FW+M/MM 2/12/11",
-        "Clefable FW+M/MM 2/12/11",
-        "Clefable FW+M/MM 2/12/11"
+        "Tinkaton FW+PR/Bd 3/10/12",
+        "Tinkaton FW+PR/Bd 3/10/12",
+        "Golurk (Shadow) MSl+DyP/ShP 0/12/11"
       ],
       "confidence": "stable"
     },
     {
       "opponent_label": "Primeape (Shadow) KC+RF/IP 1/15/15",
       "shield_best_scores": [
-        782,
-        690,
-        674
+        748,
+        627,
+        848
       ],
       "shield_best_members": [
-        "Clefable FW+M/MM 2/12/11",
-        "Clefable FW+M/MM 2/12/11",
-        "Corsola (Galarian) A+PG/NSh 11/12/12"
+        "Tinkaton FW+PR/Bd 3/10/12",
+        "Tinkaton FW+PR/Bd 3/10/12",
+        "Golurk (Shadow) MSl+DyP/ShP 0/12/11"
       ],
-      "confidence": "stable"
+      "confidence": "swingy"
     },
     {
       "opponent_label": "Sableye (Shadow) SC+FoP/PG 0/15/15",
@@ -977,12 +1175,12 @@
       "shield_best_scores": [
         850,
         726,
-        732
+        886
       ],
       "shield_best_members": [
         "Morpeko (Full Belly) TS+AuW/PsF 10/12/15",
         "Morpeko (Full Belly) TS+AuW/PsF 10/12/15",
-        "Gastrodon MSl+WP/BS 1/15/14"
+        "Talonflame I+BrB/Fl 0/13/14"
       ],
       "confidence": "stable"
     },
@@ -1003,83 +1201,83 @@
     {
       "opponent_label": "Steelix (Shadow) TF+Cr/PsF 0/14/15",
       "shield_best_scores": [
-        755,
-        755,
-        670
+        775,
+        860,
+        864
       ],
       "shield_best_members": [
-        "Gastrodon MSl+WP/BS 1/15/14",
-        "Gastrodon MSl+WP/BS 1/15/14",
-        "Gastrodon MSl+WP/BS 1/15/14"
+        "Golurk (Shadow) MSl+DyP/ShP 0/12/11",
+        "Golurk (Shadow) MSl+DyP/ShP 0/12/11",
+        "Golurk (Shadow) MSl+DyP/ShP 0/12/11"
       ],
       "confidence": "stable"
     },
     {
       "opponent_label": "Steelix TF+PsF/Cr 0/14/15",
       "shield_best_scores": [
-        785,
-        694,
-        697
+        798,
+        868,
+        841
       ],
       "shield_best_members": [
-        "Gastrodon MSl+WP/BS 1/15/14",
-        "Gastrodon MSl+WP/BS 1/15/14",
-        "Gastrodon MSl+WP/BS 1/15/14"
+        "Golurk (Shadow) MSl+DyP/ShP 0/12/11",
+        "Golurk (Shadow) MSl+DyP/ShP 0/12/11",
+        "Golurk (Shadow) MSl+DyP/ShP 0/12/11"
       ],
       "confidence": "stable"
     },
     {
       "opponent_label": "Stunfisk TS+MB/D 0/12/15",
       "shield_best_scores": [
-        682,
-        788,
-        767
+        709,
+        705,
+        883
       ],
       "shield_best_members": [
-        "Gastrodon MSl+WP/BS 1/15/14",
-        "Gastrodon MSl+WP/BS 1/15/14",
-        "Gastrodon MSl+WP/BS 1/15/14"
+        "Golurk (Shadow) MSl+DyP/ShP 0/12/11",
+        "Golurk (Shadow) MSl+DyP/ShP 0/12/11",
+        "Golurk (Shadow) MSl+DyP/ShP 0/12/11"
       ],
-      "confidence": "stable"
+      "confidence": "swingy"
     },
     {
       "opponent_label": "Talonflame I+Fl/FmC 0/13/15",
       "shield_best_scores": [
         829,
-        739,
-        547
+        799,
+        654
       ],
       "shield_best_members": [
         "Morpeko (Full Belly) TS+AuW/PsF 10/12/15",
-        "Morpeko (Full Belly) TS+AuW/PsF 10/12/15",
-        "Morpeko (Full Belly) TS+AuW/PsF 10/12/15"
+        "Lapras Psy+IB/SpA 0/10/14",
+        "Toxapex PJ+SW/Bri 0/15/15"
       ],
-      "confidence": "fragile"
+      "confidence": "swingy"
     },
     {
       "opponent_label": "Talonflame (Shadow) I+FmC/Fl 0/13/15",
       "shield_best_scores": [
-        794,
-        688,
-        488
+        890,
+        763,
+        591
       ],
       "shield_best_members": [
-        "Morpeko (Full Belly) TS+AuW/PsF 10/12/15",
-        "Morpeko (Full Belly) TS+AuW/PsF 10/12/15",
-        "Corsola (Galarian) A+PG/NSh 11/12/12"
+        "Lapras Psy+IB/SpA 0/10/14",
+        "Lapras Psy+IB/SpA 0/10/14",
+        "Toxapex PJ+SW/Bri 0/15/15"
       ],
       "confidence": "fragile"
     },
     {
       "opponent_label": "Thievul SkP+NS/PR 0/15/11",
       "shield_best_scores": [
-        880,
-        792,
+        840,
+        765,
         751
       ],
       "shield_best_members": [
-        "Clefable FW+M/MM 2/12/11",
-        "Clefable FW+M/MM 2/12/11",
+        "Tinkaton FW+PR/Bd 3/10/12",
+        "Tinkaton FW+PR/Bd 3/10/12",
         "Tinkaton FW+PR/Bd 3/10/12"
       ],
       "confidence": "stable"
@@ -1089,12 +1287,12 @@
       "shield_best_scores": [
         914,
         841,
-        786
+        804
       ],
       "shield_best_members": [
         "Morpeko (Full Belly) TS+AuW/PsF 10/12/15",
         "Morpeko (Full Belly) TS+AuW/PsF 10/12/15",
-        "Morpeko (Full Belly) TS+AuW/PsF 10/12/15"
+        "Toxapex PJ+SW/Bri 0/15/15"
       ],
       "confidence": "stable"
     },
@@ -1103,40 +1301,40 @@
       "shield_best_scores": [
         871,
         764,
-        658
+        810
       ],
       "shield_best_members": [
         "Morpeko (Full Belly) TS+AuW/PsF 10/12/15",
         "Morpeko (Full Belly) TS+AuW/PsF 10/12/15",
-        "Morpeko (Full Belly) TS+AuW/PsF 10/12/15"
+        "Lapras Psy+IB/SpA 0/10/14"
       ],
-      "confidence": "swingy"
+      "confidence": "stable"
     },
     {
       "opponent_label": "Weezing (Galarian) FW+Sl/BrS 0/14/14",
       "shield_best_scores": [
-        670,
-        738,
-        723
+        750,
+        775,
+        817
       ],
       "shield_best_members": [
-        "Gastrodon MSl+WP/BS 1/15/14",
-        "Gastrodon MSl+WP/BS 1/15/14",
-        "Gastrodon MSl+WP/BS 1/15/14"
+        "Talonflame I+BrB/Fl 0/13/14",
+        "Toxapex PJ+SW/Bri 0/15/15",
+        "Golurk (Shadow) MSl+DyP/ShP 0/12/11"
       ],
       "confidence": "stable"
     },
     {
       "opponent_label": "Wigglytuff Ch+IW/Sw 0/15/12",
       "shield_best_scores": [
-        645,
-        659,
-        638
+        808,
+        737,
+        775
       ],
       "shield_best_members": [
-        "Tinkaton FW+PR/Bd 3/10/12",
-        "Clefable FW+M/MM 2/12/11",
-        "Corviknight SdA+AC/Pbk 0/13/14"
+        "Toxapex PJ+SW/Bri 0/15/15",
+        "Toxapex PJ+SW/Bri 0/15/15",
+        "Toxapex PJ+SW/Bri 0/15/15"
       ],
       "confidence": "stable"
     }
@@ -1144,26 +1342,16 @@
   "recommended_lineups": [
     {
       "lead": {
-        "index": 41,
-        "label": "Gastrodon MSl+WP/BS 1/15/14",
-        "species": "Gastrodon",
-        "base_species": "Gastrodon",
+        "index": 45,
+        "label": "Golurk (Shadow) MSl+DyP/ShP 0/12/11",
+        "species": "Golurk (Shadow)",
+        "base_species": "Golurk",
         "types": [
-          "water",
-          "ground"
+          "ground",
+          "ghost"
         ]
       },
       "back_pair": [
-        {
-          "index": 15,
-          "label": "Clefable FW+M/MM 2/12/11",
-          "species": "Clefable",
-          "base_species": "Clefable",
-          "types": [
-            "fairy",
-            "none"
-          ]
-        },
         {
           "index": 66,
           "label": "Morpeko (Full Belly) TS+AuW/PsF 10/12/15",
@@ -1173,41 +1361,91 @@
             "electric",
             "dark"
           ]
+        },
+        {
+          "index": 86,
+          "label": "Talonflame I+BrB/Fl 0/13/14",
+          "species": "Talonflame",
+          "base_species": "Talonflame",
+          "types": [
+            "fire",
+            "flying"
+          ]
         }
       ],
       "team_shape": "ABC",
-      "lineup_score": 733.1199999999999,
+      "lineup_score": 764.7687282633902,
       "score_summary": {
-        "mean_score": 733.1199999999999,
-        "dominating_matchups": 125,
-        "overwhelming_matchups": 1
+        "mean_score": 747.9466666666667,
+        "dominating_matchups": 129,
+        "overwhelming_matchups": 0,
+        "resource_mean_score": 747.9466666666667,
+        "role_fit_score": 0.7661925294145927,
+        "synergy_score": 0.9804421768707483
       },
       "resource_paths": [
         {
           "name": "balanced",
           "lead_shield": 1,
           "back_shield": 1,
-          "mean_best_score": 746.76,
-          "dominating_matchups": 45,
-          "overwhelming_matchups": 1
+          "mean_best_score": 754.76,
+          "dominating_matchups": 46,
+          "overwhelming_matchups": 0
         },
         {
           "name": "shield_spend",
           "lead_shield": 2,
           "back_shield": 0,
-          "mean_best_score": 745.92,
-          "dominating_matchups": 38,
+          "mean_best_score": 778.9,
+          "dominating_matchups": 44,
           "overwhelming_matchups": 0
         },
         {
           "name": "shield_save",
           "lead_shield": 0,
           "back_shield": 2,
-          "mean_best_score": 706.68,
-          "dominating_matchups": 42,
+          "mean_best_score": 710.18,
+          "dominating_matchups": 39,
           "overwhelming_matchups": 0
         }
-      ]
+      ],
+      "score_breakdown": {
+        "final_score": 764.7687282633902,
+        "components": [
+          {
+            "name": "resource_path",
+            "raw_value": 747.9466666666667,
+            "weight": 0.9,
+            "weighted_score": 673.152
+          },
+          {
+            "name": "role_fit",
+            "raw_value": 766.1925294145927,
+            "weight": 0.03,
+            "weighted_score": 22.985775882437782
+          },
+          {
+            "name": "synergy",
+            "raw_value": 980.4421768707483,
+            "weight": 0.07,
+            "weighted_score": 68.6309523809524
+          }
+        ]
+      },
+      "ranking_diagnostics": {
+        "role_assumptions": [
+          "Lead uses PvPoke leads ranking; backs use unordered switch/closer support rankings."
+        ],
+        "shared_weaknesses": [
+          {
+            "type": "water",
+            "members": [
+              "Golurk (Shadow) MSl+DyP/ShP 0/12/11",
+              "Talonflame I+BrB/Fl 0/13/14"
+            ]
+          }
+        ]
+      }
     },
     {
       "lead": {
@@ -1222,80 +1460,120 @@
       },
       "back_pair": [
         {
-          "index": 15,
-          "label": "Clefable FW+M/MM 2/12/11",
-          "species": "Clefable",
-          "base_species": "Clefable",
+          "index": 45,
+          "label": "Golurk (Shadow) MSl+DyP/ShP 0/12/11",
+          "species": "Golurk (Shadow)",
+          "base_species": "Golurk",
           "types": [
-            "fairy",
-            "none"
+            "ground",
+            "ghost"
           ]
         },
         {
-          "index": 41,
-          "label": "Gastrodon MSl+WP/BS 1/15/14",
-          "species": "Gastrodon",
-          "base_species": "Gastrodon",
+          "index": 86,
+          "label": "Talonflame I+BrB/Fl 0/13/14",
+          "species": "Talonflame",
+          "base_species": "Talonflame",
           "types": [
-            "water",
-            "ground"
+            "fire",
+            "flying"
           ]
         }
       ],
       "team_shape": "ABC",
-      "lineup_score": 732.2466666666666,
+      "lineup_score": 762.6754607892517,
       "score_summary": {
-        "mean_score": 732.2466666666666,
-        "dominating_matchups": 124,
-        "overwhelming_matchups": 2
+        "mean_score": 744.8066666666667,
+        "dominating_matchups": 130,
+        "overwhelming_matchups": 1,
+        "resource_mean_score": 744.8066666666667,
+        "role_fit_score": 0.7906169469433082,
+        "synergy_score": 0.9804421768707483
       },
       "resource_paths": [
         {
           "name": "balanced",
           "lead_shield": 1,
           "back_shield": 1,
-          "mean_best_score": 746.76,
-          "dominating_matchups": 45,
-          "overwhelming_matchups": 1
+          "mean_best_score": 754.76,
+          "dominating_matchups": 46,
+          "overwhelming_matchups": 0
         },
         {
           "name": "shield_spend",
           "lead_shield": 2,
           "back_shield": 0,
-          "mean_best_score": 707.98,
-          "dominating_matchups": 39,
+          "mean_best_score": 721.12,
+          "dominating_matchups": 44,
           "overwhelming_matchups": 0
         },
         {
           "name": "shield_save",
           "lead_shield": 0,
           "back_shield": 2,
-          "mean_best_score": 742.0,
+          "mean_best_score": 758.54,
           "dominating_matchups": 40,
           "overwhelming_matchups": 1
         }
-      ]
+      ],
+      "score_breakdown": {
+        "final_score": 762.6754607892517,
+        "components": [
+          {
+            "name": "resource_path",
+            "raw_value": 744.8066666666667,
+            "weight": 0.9,
+            "weighted_score": 670.326
+          },
+          {
+            "name": "role_fit",
+            "raw_value": 790.6169469433082,
+            "weight": 0.03,
+            "weighted_score": 23.718508408299247
+          },
+          {
+            "name": "synergy",
+            "raw_value": 980.4421768707483,
+            "weight": 0.07,
+            "weighted_score": 68.6309523809524
+          }
+        ]
+      },
+      "ranking_diagnostics": {
+        "role_assumptions": [
+          "Lead uses PvPoke leads ranking; backs use unordered switch/closer support rankings."
+        ],
+        "shared_weaknesses": [
+          {
+            "type": "water",
+            "members": [
+              "Golurk (Shadow) MSl+DyP/ShP 0/12/11",
+              "Talonflame I+BrB/Fl 0/13/14"
+            ]
+          }
+        ]
+      }
     },
     {
       "lead": {
-        "index": 15,
-        "label": "Clefable FW+M/MM 2/12/11",
-        "species": "Clefable",
-        "base_species": "Clefable",
+        "index": 86,
+        "label": "Talonflame I+BrB/Fl 0/13/14",
+        "species": "Talonflame",
+        "base_species": "Talonflame",
         "types": [
-          "fairy",
-          "none"
+          "fire",
+          "flying"
         ]
       },
       "back_pair": [
         {
-          "index": 41,
-          "label": "Gastrodon MSl+WP/BS 1/15/14",
-          "species": "Gastrodon",
-          "base_species": "Gastrodon",
+          "index": 45,
+          "label": "Golurk (Shadow) MSl+DyP/ShP 0/12/11",
+          "species": "Golurk (Shadow)",
+          "base_species": "Golurk",
           "types": [
-            "water",
-            "ground"
+            "ground",
+            "ghost"
           ]
         },
         {
@@ -1310,18 +1588,677 @@
         }
       ],
       "team_shape": "ABC",
-      "lineup_score": 731.6266666666667,
+      "lineup_score": 759.7567284573835,
       "score_summary": {
-        "mean_score": 731.6266666666667,
-        "dominating_matchups": 123,
-        "overwhelming_matchups": 2
+        "mean_score": 742.48,
+        "dominating_matchups": 129,
+        "overwhelming_matchups": 1,
+        "resource_mean_score": 742.48,
+        "role_fit_score": 0.7631258692143649,
+        "synergy_score": 0.9804421768707483
       },
       "resource_paths": [
         {
           "name": "balanced",
           "lead_shield": 1,
           "back_shield": 1,
-          "mean_best_score": 746.76,
+          "mean_best_score": 754.76,
+          "dominating_matchups": 46,
+          "overwhelming_matchups": 0
+        },
+        {
+          "name": "shield_spend",
+          "lead_shield": 2,
+          "back_shield": 0,
+          "mean_best_score": 727.88,
+          "dominating_matchups": 37,
+          "overwhelming_matchups": 1
+        },
+        {
+          "name": "shield_save",
+          "lead_shield": 0,
+          "back_shield": 2,
+          "mean_best_score": 744.8,
+          "dominating_matchups": 46,
+          "overwhelming_matchups": 0
+        }
+      ],
+      "score_breakdown": {
+        "final_score": 759.7567284573835,
+        "components": [
+          {
+            "name": "resource_path",
+            "raw_value": 742.48,
+            "weight": 0.9,
+            "weighted_score": 668.2320000000001
+          },
+          {
+            "name": "role_fit",
+            "raw_value": 763.1258692143649,
+            "weight": 0.03,
+            "weighted_score": 22.893776076430946
+          },
+          {
+            "name": "synergy",
+            "raw_value": 980.4421768707483,
+            "weight": 0.07,
+            "weighted_score": 68.6309523809524
+          }
+        ]
+      },
+      "ranking_diagnostics": {
+        "role_assumptions": [
+          "Lead uses PvPoke leads ranking; backs use unordered switch/closer support rankings."
+        ],
+        "shared_weaknesses": [
+          {
+            "type": "water",
+            "members": [
+              "Talonflame I+BrB/Fl 0/13/14",
+              "Golurk (Shadow) MSl+DyP/ShP 0/12/11"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "lead": {
+        "index": 45,
+        "label": "Golurk (Shadow) MSl+DyP/ShP 0/12/11",
+        "species": "Golurk (Shadow)",
+        "base_species": "Golurk",
+        "types": [
+          "ground",
+          "ghost"
+        ]
+      },
+      "back_pair": [
+        {
+          "index": 66,
+          "label": "Morpeko (Full Belly) TS+AuW/PsF 10/12/15",
+          "species": "Morpeko (Full Belly)",
+          "base_species": "Morpeko (Full Belly)",
+          "types": [
+            "electric",
+            "dark"
+          ]
+        },
+        {
+          "index": 94,
+          "label": "Toxapex PJ+SW/Bri 0/15/15",
+          "species": "Toxapex",
+          "base_species": "Toxapex",
+          "types": [
+            "poison",
+            "water"
+          ]
+        }
+      ],
+      "team_shape": "ABC",
+      "lineup_score": 758.3216025154621,
+      "score_summary": {
+        "mean_score": 740.32,
+        "dominating_matchups": 124,
+        "overwhelming_matchups": 2,
+        "resource_mean_score": 740.32,
+        "role_fit_score": 0.7872311949598485,
+        "synergy_score": 0.9773809523809524
+      },
+      "resource_paths": [
+        {
+          "name": "balanced",
+          "lead_shield": 1,
+          "back_shield": 1,
+          "mean_best_score": 758.38,
+          "dominating_matchups": 47,
+          "overwhelming_matchups": 0
+        },
+        {
+          "name": "shield_spend",
+          "lead_shield": 2,
+          "back_shield": 0,
+          "mean_best_score": 762.54,
+          "dominating_matchups": 39,
+          "overwhelming_matchups": 2
+        },
+        {
+          "name": "shield_save",
+          "lead_shield": 0,
+          "back_shield": 2,
+          "mean_best_score": 700.04,
+          "dominating_matchups": 38,
+          "overwhelming_matchups": 0
+        }
+      ],
+      "score_breakdown": {
+        "final_score": 758.3216025154621,
+        "components": [
+          {
+            "name": "resource_path",
+            "raw_value": 740.32,
+            "weight": 0.9,
+            "weighted_score": 666.288
+          },
+          {
+            "name": "role_fit",
+            "raw_value": 787.2311949598485,
+            "weight": 0.03,
+            "weighted_score": 23.616935848795453
+          },
+          {
+            "name": "synergy",
+            "raw_value": 977.3809523809523,
+            "weight": 0.07,
+            "weighted_score": 68.41666666666667
+          }
+        ]
+      },
+      "ranking_diagnostics": {
+        "role_assumptions": [
+          "Lead uses PvPoke leads ranking; backs use unordered switch/closer support rankings."
+        ],
+        "shared_weaknesses": [
+          {
+            "type": "ground",
+            "members": [
+              "Morpeko (Full Belly) TS+AuW/PsF 10/12/15",
+              "Toxapex PJ+SW/Bri 0/15/15"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "lead": {
+        "index": 66,
+        "label": "Morpeko (Full Belly) TS+AuW/PsF 10/12/15",
+        "species": "Morpeko (Full Belly)",
+        "base_species": "Morpeko (Full Belly)",
+        "types": [
+          "electric",
+          "dark"
+        ]
+      },
+      "back_pair": [
+        {
+          "index": 45,
+          "label": "Golurk (Shadow) MSl+DyP/ShP 0/12/11",
+          "species": "Golurk (Shadow)",
+          "base_species": "Golurk",
+          "types": [
+            "ground",
+            "ghost"
+          ]
+        },
+        {
+          "index": 94,
+          "label": "Toxapex PJ+SW/Bri 0/15/15",
+          "species": "Toxapex",
+          "base_species": "Toxapex",
+          "types": [
+            "poison",
+            "water"
+          ]
+        }
+      ],
+      "team_shape": "ABC",
+      "lineup_score": 758.1423350413237,
+      "score_summary": {
+        "mean_score": 739.3066666666667,
+        "dominating_matchups": 124,
+        "overwhelming_matchups": 3,
+        "resource_mean_score": 739.3066666666667,
+        "role_fit_score": 0.811655612488564,
+        "synergy_score": 0.9773809523809524
+      },
+      "resource_paths": [
+        {
+          "name": "balanced",
+          "lead_shield": 1,
+          "back_shield": 1,
+          "mean_best_score": 758.38,
+          "dominating_matchups": 47,
+          "overwhelming_matchups": 0
+        },
+        {
+          "name": "shield_spend",
+          "lead_shield": 2,
+          "back_shield": 0,
+          "mean_best_score": 718.28,
+          "dominating_matchups": 40,
+          "overwhelming_matchups": 0
+        },
+        {
+          "name": "shield_save",
+          "lead_shield": 0,
+          "back_shield": 2,
+          "mean_best_score": 741.26,
+          "dominating_matchups": 37,
+          "overwhelming_matchups": 3
+        }
+      ],
+      "score_breakdown": {
+        "final_score": 758.1423350413237,
+        "components": [
+          {
+            "name": "resource_path",
+            "raw_value": 739.3066666666667,
+            "weight": 0.9,
+            "weighted_score": 665.3760000000001
+          },
+          {
+            "name": "role_fit",
+            "raw_value": 811.655612488564,
+            "weight": 0.03,
+            "weighted_score": 24.34966837465692
+          },
+          {
+            "name": "synergy",
+            "raw_value": 977.3809523809523,
+            "weight": 0.07,
+            "weighted_score": 68.41666666666667
+          }
+        ]
+      },
+      "ranking_diagnostics": {
+        "role_assumptions": [
+          "Lead uses PvPoke leads ranking; backs use unordered switch/closer support rankings."
+        ],
+        "shared_weaknesses": [
+          {
+            "type": "ground",
+            "members": [
+              "Morpeko (Full Belly) TS+AuW/PsF 10/12/15",
+              "Toxapex PJ+SW/Bri 0/15/15"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "lead": {
+        "index": 66,
+        "label": "Morpeko (Full Belly) TS+AuW/PsF 10/12/15",
+        "species": "Morpeko (Full Belly)",
+        "base_species": "Morpeko (Full Belly)",
+        "types": [
+          "electric",
+          "dark"
+        ]
+      },
+      "back_pair": [
+        {
+          "index": 45,
+          "label": "Golurk (Shadow) MSl+DyP/ShP 0/12/11",
+          "species": "Golurk (Shadow)",
+          "base_species": "Golurk",
+          "types": [
+            "ground",
+            "ghost"
+          ]
+        },
+        {
+          "index": 56,
+          "label": "Lapras Psy+IB/SpA 0/10/14",
+          "species": "Lapras",
+          "base_species": "Lapras",
+          "types": [
+            "water",
+            "ice"
+          ]
+        }
+      ],
+      "team_shape": "ABC",
+      "lineup_score": 754.7345923543503,
+      "score_summary": {
+        "mean_score": 734.9133333333333,
+        "dominating_matchups": 127,
+        "overwhelming_matchups": 0,
+        "resource_mean_score": 734.9133333333333,
+        "role_fit_score": 0.8397848245100892,
+        "synergy_score": 0.9731292517006803
+      },
+      "resource_paths": [
+        {
+          "name": "balanced",
+          "lead_shield": 1,
+          "back_shield": 1,
+          "mean_best_score": 745.68,
+          "dominating_matchups": 44,
+          "overwhelming_matchups": 0
+        },
+        {
+          "name": "shield_spend",
+          "lead_shield": 2,
+          "back_shield": 0,
+          "mean_best_score": 712.1,
+          "dominating_matchups": 45,
+          "overwhelming_matchups": 0
+        },
+        {
+          "name": "shield_save",
+          "lead_shield": 0,
+          "back_shield": 2,
+          "mean_best_score": 746.96,
+          "dominating_matchups": 38,
+          "overwhelming_matchups": 0
+        }
+      ],
+      "score_breakdown": {
+        "final_score": 754.7345923543503,
+        "components": [
+          {
+            "name": "resource_path",
+            "raw_value": 734.9133333333333,
+            "weight": 0.9,
+            "weighted_score": 661.422
+          },
+          {
+            "name": "role_fit",
+            "raw_value": 839.7848245100892,
+            "weight": 0.03,
+            "weighted_score": 25.193544735302673
+          },
+          {
+            "name": "synergy",
+            "raw_value": 973.1292517006804,
+            "weight": 0.07,
+            "weighted_score": 68.11904761904763
+          }
+        ]
+      },
+      "ranking_diagnostics": {
+        "role_assumptions": [
+          "Lead uses PvPoke leads ranking; backs use unordered switch/closer support rankings."
+        ],
+        "shared_weaknesses": [
+          {
+            "type": "fighting",
+            "members": [
+              "Morpeko (Full Belly) TS+AuW/PsF 10/12/15",
+              "Lapras Psy+IB/SpA 0/10/14"
+            ]
+          },
+          {
+            "type": "grass",
+            "members": [
+              "Golurk (Shadow) MSl+DyP/ShP 0/12/11",
+              "Lapras Psy+IB/SpA 0/10/14"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "lead": {
+        "index": 94,
+        "label": "Toxapex PJ+SW/Bri 0/15/15",
+        "species": "Toxapex",
+        "base_species": "Toxapex",
+        "types": [
+          "poison",
+          "water"
+        ]
+      },
+      "back_pair": [
+        {
+          "index": 45,
+          "label": "Golurk (Shadow) MSl+DyP/ShP 0/12/11",
+          "species": "Golurk (Shadow)",
+          "base_species": "Golurk",
+          "types": [
+            "ground",
+            "ghost"
+          ]
+        },
+        {
+          "index": 66,
+          "label": "Morpeko (Full Belly) TS+AuW/PsF 10/12/15",
+          "species": "Morpeko (Full Belly)",
+          "base_species": "Morpeko (Full Belly)",
+          "types": [
+            "electric",
+            "dark"
+          ]
+        }
+      ],
+      "team_shape": "ABC",
+      "lineup_score": 754.5403603377523,
+      "score_summary": {
+        "mean_score": 736.7133333333333,
+        "dominating_matchups": 124,
+        "overwhelming_matchups": 3,
+        "resource_mean_score": 736.7133333333333,
+        "role_fit_score": 0.7693897890361912,
+        "synergy_score": 0.9773809523809524
+      },
+      "resource_paths": [
+        {
+          "name": "balanced",
+          "lead_shield": 1,
+          "back_shield": 1,
+          "mean_best_score": 758.38,
+          "dominating_matchups": 47,
+          "overwhelming_matchups": 0
+        },
+        {
+          "name": "shield_spend",
+          "lead_shield": 2,
+          "back_shield": 0,
+          "mean_best_score": 720.98,
+          "dominating_matchups": 37,
+          "overwhelming_matchups": 1
+        },
+        {
+          "name": "shield_save",
+          "lead_shield": 0,
+          "back_shield": 2,
+          "mean_best_score": 730.78,
+          "dominating_matchups": 40,
+          "overwhelming_matchups": 2
+        }
+      ],
+      "score_breakdown": {
+        "final_score": 754.5403603377523,
+        "components": [
+          {
+            "name": "resource_path",
+            "raw_value": 736.7133333333333,
+            "weight": 0.9,
+            "weighted_score": 663.0419999999999
+          },
+          {
+            "name": "role_fit",
+            "raw_value": 769.3897890361911,
+            "weight": 0.03,
+            "weighted_score": 23.081693671085734
+          },
+          {
+            "name": "synergy",
+            "raw_value": 977.3809523809523,
+            "weight": 0.07,
+            "weighted_score": 68.41666666666667
+          }
+        ]
+      },
+      "ranking_diagnostics": {
+        "role_assumptions": [
+          "Lead uses PvPoke leads ranking; backs use unordered switch/closer support rankings."
+        ],
+        "shared_weaknesses": [
+          {
+            "type": "ground",
+            "members": [
+              "Toxapex PJ+SW/Bri 0/15/15",
+              "Morpeko (Full Belly) TS+AuW/PsF 10/12/15"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "lead": {
+        "index": 56,
+        "label": "Lapras Psy+IB/SpA 0/10/14",
+        "species": "Lapras",
+        "base_species": "Lapras",
+        "types": [
+          "water",
+          "ice"
+        ]
+      },
+      "back_pair": [
+        {
+          "index": 45,
+          "label": "Golurk (Shadow) MSl+DyP/ShP 0/12/11",
+          "species": "Golurk (Shadow)",
+          "base_species": "Golurk",
+          "types": [
+            "ground",
+            "ghost"
+          ]
+        },
+        {
+          "index": 66,
+          "label": "Morpeko (Full Belly) TS+AuW/PsF 10/12/15",
+          "species": "Morpeko (Full Belly)",
+          "base_species": "Morpeko (Full Belly)",
+          "types": [
+            "electric",
+            "dark"
+          ]
+        }
+      ],
+      "team_shape": "ABC",
+      "lineup_score": 752.7953849426946,
+      "score_summary": {
+        "mean_score": 734.0333333333333,
+        "dominating_matchups": 128,
+        "overwhelming_matchups": 0,
+        "resource_mean_score": 734.0333333333333,
+        "role_fit_score": 0.8015445774548994,
+        "synergy_score": 0.9731292517006803
+      },
+      "resource_paths": [
+        {
+          "name": "balanced",
+          "lead_shield": 1,
+          "back_shield": 1,
+          "mean_best_score": 745.68,
+          "dominating_matchups": 44,
+          "overwhelming_matchups": 0
+        },
+        {
+          "name": "shield_spend",
+          "lead_shield": 2,
+          "back_shield": 0,
+          "mean_best_score": 725.26,
+          "dominating_matchups": 39,
+          "overwhelming_matchups": 0
+        },
+        {
+          "name": "shield_save",
+          "lead_shield": 0,
+          "back_shield": 2,
+          "mean_best_score": 731.16,
+          "dominating_matchups": 45,
+          "overwhelming_matchups": 0
+        }
+      ],
+      "score_breakdown": {
+        "final_score": 752.7953849426946,
+        "components": [
+          {
+            "name": "resource_path",
+            "raw_value": 734.0333333333333,
+            "weight": 0.9,
+            "weighted_score": 660.63
+          },
+          {
+            "name": "role_fit",
+            "raw_value": 801.5445774548994,
+            "weight": 0.03,
+            "weighted_score": 24.04633732364698
+          },
+          {
+            "name": "synergy",
+            "raw_value": 973.1292517006804,
+            "weight": 0.07,
+            "weighted_score": 68.11904761904763
+          }
+        ]
+      },
+      "ranking_diagnostics": {
+        "role_assumptions": [
+          "Lead uses PvPoke leads ranking; backs use unordered switch/closer support rankings."
+        ],
+        "shared_weaknesses": [
+          {
+            "type": "fighting",
+            "members": [
+              "Lapras Psy+IB/SpA 0/10/14",
+              "Morpeko (Full Belly) TS+AuW/PsF 10/12/15"
+            ]
+          },
+          {
+            "type": "grass",
+            "members": [
+              "Lapras Psy+IB/SpA 0/10/14",
+              "Golurk (Shadow) MSl+DyP/ShP 0/12/11"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "lead": {
+        "index": 66,
+        "label": "Morpeko (Full Belly) TS+AuW/PsF 10/12/15",
+        "species": "Morpeko (Full Belly)",
+        "base_species": "Morpeko (Full Belly)",
+        "types": [
+          "electric",
+          "dark"
+        ]
+      },
+      "back_pair": [
+        {
+          "index": 45,
+          "label": "Golurk (Shadow) MSl+DyP/ShP 0/12/11",
+          "species": "Golurk (Shadow)",
+          "base_species": "Golurk",
+          "types": [
+            "ground",
+            "ghost"
+          ]
+        },
+        {
+          "index": 90,
+          "label": "Tinkaton FW+PR/Bd 3/10/12",
+          "species": "Tinkaton",
+          "base_species": "Tinkaton",
+          "types": [
+            "fairy",
+            "steel"
+          ]
+        }
+      ],
+      "team_shape": "ABC",
+      "lineup_score": 752.4765076255438,
+      "score_summary": {
+        "mean_score": 732.66,
+        "dominating_matchups": 123,
+        "overwhelming_matchups": 4,
+        "resource_mean_score": 732.66,
+        "role_fit_score": 0.8269566033911431,
+        "synergy_score": 0.9753401360544218
+      },
+      "resource_paths": [
+        {
+          "name": "balanced",
+          "lead_shield": 1,
+          "back_shield": 1,
+          "mean_best_score": 751.9,
           "dominating_matchups": 45,
           "overwhelming_matchups": 1
         },
@@ -1329,19 +2266,56 @@
           "name": "shield_spend",
           "lead_shield": 2,
           "back_shield": 0,
-          "mean_best_score": 740.46,
-          "dominating_matchups": 39,
+          "mean_best_score": 693.02,
+          "dominating_matchups": 40,
           "overwhelming_matchups": 1
         },
         {
           "name": "shield_save",
           "lead_shield": 0,
           "back_shield": 2,
-          "mean_best_score": 707.66,
-          "dominating_matchups": 39,
-          "overwhelming_matchups": 0
+          "mean_best_score": 753.06,
+          "dominating_matchups": 38,
+          "overwhelming_matchups": 2
         }
-      ]
+      ],
+      "score_breakdown": {
+        "final_score": 752.4765076255438,
+        "components": [
+          {
+            "name": "resource_path",
+            "raw_value": 732.66,
+            "weight": 0.9,
+            "weighted_score": 659.394
+          },
+          {
+            "name": "role_fit",
+            "raw_value": 826.9566033911431,
+            "weight": 0.03,
+            "weighted_score": 24.80869810173429
+          },
+          {
+            "name": "synergy",
+            "raw_value": 975.3401360544218,
+            "weight": 0.07,
+            "weighted_score": 68.27380952380953
+          }
+        ]
+      },
+      "ranking_diagnostics": {
+        "role_assumptions": [
+          "Lead uses PvPoke leads ranking; backs use unordered switch/closer support rankings."
+        ],
+        "shared_weaknesses": [
+          {
+            "type": "ground",
+            "members": [
+              "Morpeko (Full Belly) TS+AuW/PsF 10/12/15",
+              "Tinkaton FW+PR/Bd 3/10/12"
+            ]
+          }
+        ]
+      }
     },
     {
       "lead": {
@@ -1356,13 +2330,13 @@
       },
       "back_pair": [
         {
-          "index": 41,
-          "label": "Gastrodon MSl+WP/BS 1/15/14",
-          "species": "Gastrodon",
-          "base_species": "Gastrodon",
+          "index": 45,
+          "label": "Golurk (Shadow) MSl+DyP/ShP 0/12/11",
+          "species": "Golurk (Shadow)",
+          "base_species": "Golurk",
           "types": [
-            "water",
-            "ground"
+            "ground",
+            "ghost"
           ]
         },
         {
@@ -1377,440 +2351,78 @@
         }
       ],
       "team_shape": "ABC",
-      "lineup_score": 718.96,
+      "lineup_score": 751.6122337071448,
       "score_summary": {
-        "mean_score": 718.96,
-        "dominating_matchups": 120,
-        "overwhelming_matchups": 2
+        "mean_score": 731.7533333333334,
+        "dominating_matchups": 122,
+        "overwhelming_matchups": 3,
+        "resource_mean_score": 731.7533333333334,
+        "role_fit_score": 0.8253474727778393,
+        "synergy_score": 0.9753401360544218
       },
       "resource_paths": [
         {
           "name": "balanced",
           "lead_shield": 1,
           "back_shield": 1,
-          "mean_best_score": 729.26,
-          "dominating_matchups": 42,
+          "mean_best_score": 751.9,
+          "dominating_matchups": 45,
           "overwhelming_matchups": 1
         },
         {
           "name": "shield_spend",
           "lead_shield": 2,
           "back_shield": 0,
-          "mean_best_score": 730.18,
-          "dominating_matchups": 37,
-          "overwhelming_matchups": 0
-        },
-        {
-          "name": "shield_save",
-          "lead_shield": 0,
-          "back_shield": 2,
-          "mean_best_score": 697.44,
-          "dominating_matchups": 41,
-          "overwhelming_matchups": 1
-        }
-      ]
-    },
-    {
-      "lead": {
-        "index": 66,
-        "label": "Morpeko (Full Belly) TS+AuW/PsF 10/12/15",
-        "species": "Morpeko (Full Belly)",
-        "base_species": "Morpeko (Full Belly)",
-        "types": [
-          "electric",
-          "dark"
-        ]
-      },
-      "back_pair": [
-        {
-          "index": 41,
-          "label": "Gastrodon MSl+WP/BS 1/15/14",
-          "species": "Gastrodon",
-          "base_species": "Gastrodon",
-          "types": [
-            "water",
-            "ground"
-          ]
-        },
-        {
-          "index": 90,
-          "label": "Tinkaton FW+PR/Bd 3/10/12",
-          "species": "Tinkaton",
-          "base_species": "Tinkaton",
-          "types": [
-            "fairy",
-            "steel"
-          ]
-        }
-      ],
-      "team_shape": "ABC",
-      "lineup_score": 718.8266666666667,
-      "score_summary": {
-        "mean_score": 718.8266666666667,
-        "dominating_matchups": 121,
-        "overwhelming_matchups": 2
-      },
-      "resource_paths": [
-        {
-          "name": "balanced",
-          "lead_shield": 1,
-          "back_shield": 1,
-          "mean_best_score": 729.26,
-          "dominating_matchups": 42,
-          "overwhelming_matchups": 1
-        },
-        {
-          "name": "shield_spend",
-          "lead_shield": 2,
-          "back_shield": 0,
-          "mean_best_score": 695.1,
-          "dominating_matchups": 41,
-          "overwhelming_matchups": 1
-        },
-        {
-          "name": "shield_save",
-          "lead_shield": 0,
-          "back_shield": 2,
-          "mean_best_score": 732.12,
+          "mean_best_score": 734.12,
           "dominating_matchups": 38,
           "overwhelming_matchups": 0
-        }
-      ]
-    },
-    {
-      "lead": {
-        "index": 41,
-        "label": "Gastrodon MSl+WP/BS 1/15/14",
-        "species": "Gastrodon",
-        "base_species": "Gastrodon",
-        "types": [
-          "water",
-          "ground"
-        ]
-      },
-      "back_pair": [
-        {
-          "index": 66,
-          "label": "Morpeko (Full Belly) TS+AuW/PsF 10/12/15",
-          "species": "Morpeko (Full Belly)",
-          "base_species": "Morpeko (Full Belly)",
-          "types": [
-            "electric",
-            "dark"
-          ]
         },
         {
-          "index": 90,
-          "label": "Tinkaton FW+PR/Bd 3/10/12",
-          "species": "Tinkaton",
-          "base_species": "Tinkaton",
-          "types": [
-            "fairy",
-            "steel"
-          ]
-        }
-      ],
-      "team_shape": "ABC",
-      "lineup_score": 716.3866666666667,
-      "score_summary": {
-        "mean_score": 716.3866666666667,
-        "dominating_matchups": 118,
-        "overwhelming_matchups": 2
-      },
-      "resource_paths": [
-        {
-          "name": "balanced",
-          "lead_shield": 1,
-          "back_shield": 1,
-          "mean_best_score": 729.26,
-          "dominating_matchups": 42,
-          "overwhelming_matchups": 1
-        },
-        {
-          "name": "shield_spend",
-          "lead_shield": 2,
-          "back_shield": 0,
-          "mean_best_score": 735.38,
+          "name": "shield_save",
+          "lead_shield": 0,
+          "back_shield": 2,
+          "mean_best_score": 709.24,
           "dominating_matchups": 39,
-          "overwhelming_matchups": 0
-        },
-        {
-          "name": "shield_save",
-          "lead_shield": 0,
-          "back_shield": 2,
-          "mean_best_score": 684.52,
-          "dominating_matchups": 37,
-          "overwhelming_matchups": 1
-        }
-      ]
-    },
-    {
-      "lead": {
-        "index": 18,
-        "label": "Corviknight SdA+AC/Pbk 0/13/14",
-        "species": "Corviknight",
-        "base_species": "Corviknight",
-        "types": [
-          "flying",
-          "steel"
-        ]
-      },
-      "back_pair": [
-        {
-          "index": 15,
-          "label": "Clefable FW+M/MM 2/12/11",
-          "species": "Clefable",
-          "base_species": "Clefable",
-          "types": [
-            "fairy",
-            "none"
-          ]
-        },
-        {
-          "index": 66,
-          "label": "Morpeko (Full Belly) TS+AuW/PsF 10/12/15",
-          "species": "Morpeko (Full Belly)",
-          "base_species": "Morpeko (Full Belly)",
-          "types": [
-            "electric",
-            "dark"
-          ]
+          "overwhelming_matchups": 2
         }
       ],
-      "team_shape": "ABC",
-      "lineup_score": 713.84,
-      "score_summary": {
-        "mean_score": 713.84,
-        "dominating_matchups": 118,
-        "overwhelming_matchups": 1
-      },
-      "resource_paths": [
-        {
-          "name": "balanced",
-          "lead_shield": 1,
-          "back_shield": 1,
-          "mean_best_score": 719.44,
-          "dominating_matchups": 44,
-          "overwhelming_matchups": 0
-        },
-        {
-          "name": "shield_spend",
-          "lead_shield": 2,
-          "back_shield": 0,
-          "mean_best_score": 748.16,
-          "dominating_matchups": 39,
-          "overwhelming_matchups": 0
-        },
-        {
-          "name": "shield_save",
-          "lead_shield": 0,
-          "back_shield": 2,
-          "mean_best_score": 673.92,
-          "dominating_matchups": 35,
-          "overwhelming_matchups": 1
-        }
-      ]
-    },
-    {
-      "lead": {
-        "index": 66,
-        "label": "Morpeko (Full Belly) TS+AuW/PsF 10/12/15",
-        "species": "Morpeko (Full Belly)",
-        "base_species": "Morpeko (Full Belly)",
-        "types": [
-          "electric",
-          "dark"
+      "score_breakdown": {
+        "final_score": 751.6122337071448,
+        "components": [
+          {
+            "name": "resource_path",
+            "raw_value": 731.7533333333334,
+            "weight": 0.9,
+            "weighted_score": 658.5780000000001
+          },
+          {
+            "name": "role_fit",
+            "raw_value": 825.3474727778392,
+            "weight": 0.03,
+            "weighted_score": 24.760424183335175
+          },
+          {
+            "name": "synergy",
+            "raw_value": 975.3401360544218,
+            "weight": 0.07,
+            "weighted_score": 68.27380952380953
+          }
         ]
       },
-      "back_pair": [
-        {
-          "index": 15,
-          "label": "Clefable FW+M/MM 2/12/11",
-          "species": "Clefable",
-          "base_species": "Clefable",
-          "types": [
-            "fairy",
-            "none"
-          ]
-        },
-        {
-          "index": 18,
-          "label": "Corviknight SdA+AC/Pbk 0/13/14",
-          "species": "Corviknight",
-          "base_species": "Corviknight",
-          "types": [
-            "flying",
-            "steel"
-          ]
-        }
-      ],
-      "team_shape": "ABC",
-      "lineup_score": 712.4266666666667,
-      "score_summary": {
-        "mean_score": 712.4266666666667,
-        "dominating_matchups": 118,
-        "overwhelming_matchups": 1
-      },
-      "resource_paths": [
-        {
-          "name": "balanced",
-          "lead_shield": 1,
-          "back_shield": 1,
-          "mean_best_score": 719.44,
-          "dominating_matchups": 44,
-          "overwhelming_matchups": 0
-        },
-        {
-          "name": "shield_spend",
-          "lead_shield": 2,
-          "back_shield": 0,
-          "mean_best_score": 683.34,
-          "dominating_matchups": 34,
-          "overwhelming_matchups": 0
-        },
-        {
-          "name": "shield_save",
-          "lead_shield": 0,
-          "back_shield": 2,
-          "mean_best_score": 734.5,
-          "dominating_matchups": 40,
-          "overwhelming_matchups": 1
-        }
-      ]
-    },
-    {
-      "lead": {
-        "index": 15,
-        "label": "Clefable FW+M/MM 2/12/11",
-        "species": "Clefable",
-        "base_species": "Clefable",
-        "types": [
-          "fairy",
-          "none"
+      "ranking_diagnostics": {
+        "role_assumptions": [
+          "Lead uses PvPoke leads ranking; backs use unordered switch/closer support rankings."
+        ],
+        "shared_weaknesses": [
+          {
+            "type": "ground",
+            "members": [
+              "Tinkaton FW+PR/Bd 3/10/12",
+              "Morpeko (Full Belly) TS+AuW/PsF 10/12/15"
+            ]
+          }
         ]
-      },
-      "back_pair": [
-        {
-          "index": 18,
-          "label": "Corviknight SdA+AC/Pbk 0/13/14",
-          "species": "Corviknight",
-          "base_species": "Corviknight",
-          "types": [
-            "flying",
-            "steel"
-          ]
-        },
-        {
-          "index": 66,
-          "label": "Morpeko (Full Belly) TS+AuW/PsF 10/12/15",
-          "species": "Morpeko (Full Belly)",
-          "base_species": "Morpeko (Full Belly)",
-          "types": [
-            "electric",
-            "dark"
-          ]
-        }
-      ],
-      "team_shape": "ABC",
-      "lineup_score": 712.3333333333334,
-      "score_summary": {
-        "mean_score": 712.3333333333334,
-        "dominating_matchups": 118,
-        "overwhelming_matchups": 0
-      },
-      "resource_paths": [
-        {
-          "name": "balanced",
-          "lead_shield": 1,
-          "back_shield": 1,
-          "mean_best_score": 719.44,
-          "dominating_matchups": 44,
-          "overwhelming_matchups": 0
-        },
-        {
-          "name": "shield_spend",
-          "lead_shield": 2,
-          "back_shield": 0,
-          "mean_best_score": 717.88,
-          "dominating_matchups": 35,
-          "overwhelming_matchups": 0
-        },
-        {
-          "name": "shield_save",
-          "lead_shield": 0,
-          "back_shield": 2,
-          "mean_best_score": 699.68,
-          "dominating_matchups": 39,
-          "overwhelming_matchups": 0
-        }
-      ]
-    },
-    {
-      "lead": {
-        "index": 17,
-        "label": "Corsola (Galarian) A+PG/NSh 11/12/12",
-        "species": "Corsola (Galarian)",
-        "base_species": "Corsola (Galarian)",
-        "types": [
-          "ghost",
-          "none"
-        ]
-      },
-      "back_pair": [
-        {
-          "index": 15,
-          "label": "Clefable FW+M/MM 2/12/11",
-          "species": "Clefable",
-          "base_species": "Clefable",
-          "types": [
-            "fairy",
-            "none"
-          ]
-        },
-        {
-          "index": 66,
-          "label": "Morpeko (Full Belly) TS+AuW/PsF 10/12/15",
-          "species": "Morpeko (Full Belly)",
-          "base_species": "Morpeko (Full Belly)",
-          "types": [
-            "electric",
-            "dark"
-          ]
-        }
-      ],
-      "team_shape": "ABA",
-      "lineup_score": 705.4066666666666,
-      "score_summary": {
-        "mean_score": 705.4066666666666,
-        "dominating_matchups": 112,
-        "overwhelming_matchups": 1
-      },
-      "resource_paths": [
-        {
-          "name": "balanced",
-          "lead_shield": 1,
-          "back_shield": 1,
-          "mean_best_score": 710.04,
-          "dominating_matchups": 39,
-          "overwhelming_matchups": 1
-        },
-        {
-          "name": "shield_spend",
-          "lead_shield": 2,
-          "back_shield": 0,
-          "mean_best_score": 717.78,
-          "dominating_matchups": 32,
-          "overwhelming_matchups": 0
-        },
-        {
-          "name": "shield_save",
-          "lead_shield": 0,
-          "back_shield": 2,
-          "mean_best_score": 688.4,
-          "dominating_matchups": 41,
-          "overwhelming_matchups": 0
-        }
-      ]
+      }
     }
   ],
   "meta": "great",

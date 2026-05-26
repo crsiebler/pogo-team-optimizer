@@ -69,16 +69,23 @@
       0.0,
       691.9722222222223,
       196.1940450956081,
-      66.31666666666666,
+      81.48333333333333,
       843.6666666666666,
       27.0,
       21.0,
       782.5555555555555,
       22.0,
-      0.0
+      0.0,
+      656.2300740740741,
+      759.2592592592592,
+      748.9085185185186,
+      60.0,
+      -15.0,
+      24.000000000000007,
+      0.7222160914154244
     ],
     "bulk_score": 196.1940450956081,
-    "safety_score": 66.31666666666666,
+    "safety_score": 81.48333333333333,
     "metrics": {
       "pair_coverage": 27,
       "full_col_coverage": 9,
@@ -89,7 +96,7 @@
       "no_cover_pairs": 0,
       "no_cover_rate": 0.0,
       "bulk_score": 196.1940450956081,
-      "safety_score": 66.31666666666666,
+      "safety_score": 81.48333333333333,
       "consistency_score": 843.6666666666666,
       "weighted_worst_best_score": 691.9722222222223,
       "mean_best_score": 782.5555555555555,
@@ -101,14 +108,225 @@
       "bulk_pool_min": 167.4896265560166,
       "bulk_pool_max": 254.4375,
       "bulk_pool_mean": 189.0179404607102,
-      "safety_pool_min": 44.3,
-      "safety_pool_max": 77.0,
-      "safety_pool_mean": 68.9875,
+      "safety_pool_min": 68.5,
+      "safety_pool_max": 96.6,
+      "safety_pool_mean": 79.1375,
       "safety_priority": "medium",
       "safety_floor_target": 78.0,
       "safe_member_floor": 90.0,
-      "safe_member_target": 1
+      "safe_member_target": 1,
+      "lineup_objective_score": 656.2300740740741,
+      "lineup_best_score": 759.2592592592592,
+      "lineup_top_n_mean_score": 748.9085185185186,
+      "lineup_viable_count": 60,
+      "defensive_type_score": -15.0,
+      "offensive_move_score": 24.000000000000007,
+      "ranking_aware_score": 0.7222160914154244,
+      "legacy_full_roster_mean_best_score": 782.5555555555555,
+      "legacy_full_roster_dominate_count": 22,
+      "legacy_full_roster_overwhelming_count": 0
     },
+    "score_breakdown": {
+      "final_score": 0.7222160914154244,
+      "components": [
+        {
+          "name": "synergy",
+          "raw_value": 0.5,
+          "weight": 0.24,
+          "weighted_score": 0.12,
+          "diagnostics": [
+            {
+              "key": "neutral_fallback",
+              "value": true
+            }
+          ]
+        },
+        {
+          "name": "threat_coverage",
+          "raw_value": 1.0,
+          "weight": 0.21,
+          "weighted_score": 0.21,
+          "diagnostics": [
+            {
+              "key": "full_meta_no_answer",
+              "value": 0
+            },
+            {
+              "key": "full_meta_single_answer",
+              "value": 0
+            },
+            {
+              "key": "top_threat_no_answer",
+              "value": 0
+            },
+            {
+              "key": "top_threat_single_answer",
+              "value": 0
+            }
+          ]
+        },
+        {
+          "name": "safety",
+          "raw_value": 0.96177,
+          "weight": 0.17,
+          "weighted_score": 0.1635009,
+          "diagnostics": [
+            {
+              "key": "overwhelming_losses",
+              "value": 0
+            },
+            {
+              "key": "shield_fragility",
+              "value": 0.123
+            }
+          ]
+        },
+        {
+          "name": "consistency",
+          "raw_value": 0.7265703196347033,
+          "weight": 0.13,
+          "weighted_score": 0.09445414155251143,
+          "diagnostics": [
+            {
+              "key": "bait_dependence_proxy",
+              "value": 0.123
+            },
+            {
+              "key": "move_dpe_proxy",
+              "value": 0.5
+            },
+            {
+              "key": "shield_stability",
+              "value": 0.877
+            }
+          ]
+        },
+        {
+          "name": "bulk",
+          "raw_value": 0.33013364677727813,
+          "weight": 0.1,
+          "weighted_score": 0.033013364677727815,
+          "diagnostics": [
+            {
+              "key": "pool_max",
+              "value": 254.4375
+            },
+            {
+              "key": "pool_min",
+              "value": 167.4896265560166
+            }
+          ]
+        },
+        {
+          "name": "defensive_ratio",
+          "raw_value": 0.5178240740740742,
+          "weight": 0.07,
+          "weighted_score": 0.036247685185185195,
+          "diagnostics": []
+        },
+        {
+          "name": "offensive_ratio",
+          "raw_value": 1.0,
+          "weight": 0.05,
+          "weighted_score": 0.05,
+          "diagnostics": []
+        },
+        {
+          "name": "role_fit",
+          "raw_value": 0.5,
+          "weight": 0.03,
+          "weighted_score": 0.015,
+          "diagnostics": [
+            {
+              "key": "neutral_fallback",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "ranking_diagnostics": {
+      "key_covered_threats": [
+        "Gliscor (Shadow) WA+Acr/NS 0/14/15",
+        "Gliscor (Shadow) WA+Acr/ST 0/14/15",
+        "Gliscor (Shadow) WA+ST/NS 0/14/15",
+        "Kingdra DB+Sw/O 0/15/15",
+        "Toucannon Pk+BBl/DrlP 2/15/14"
+      ],
+      "remaining_threats": [],
+      "no_answer_threats": [],
+      "single_answer_threats": [],
+      "shared_weaknesses": [
+        {
+          "type": "dragon",
+          "members": [
+            "Kommo-o DT+UH/ClS 4/12/13",
+            "Kyurem DB+G/DC 5/8/14"
+          ]
+        },
+        {
+          "type": "fairy",
+          "members": [
+            "Kommo-o DT+UH/ClS 4/12/13",
+            "Kyurem DB+G/DC 5/8/14"
+          ]
+        },
+        {
+          "type": "fire",
+          "members": [
+            "Venusaur (Shadow) VW+Sl/FP 4/14/15",
+            "Articuno PS+IW/Hu 14/13/14"
+          ]
+        },
+        {
+          "type": "flying",
+          "members": [
+            "Venusaur (Shadow) VW+Sl/FP 4/14/15",
+            "Kommo-o DT+UH/ClS 4/12/13"
+          ]
+        },
+        {
+          "type": "ice",
+          "members": [
+            "Venusaur (Shadow) VW+Sl/FP 4/14/15",
+            "Kommo-o DT+UH/ClS 4/12/13"
+          ]
+        },
+        {
+          "type": "psychic",
+          "members": [
+            "Venusaur (Shadow) VW+Sl/FP 4/14/15",
+            "Kommo-o DT+UH/ClS 4/12/13"
+          ]
+        },
+        {
+          "type": "rock",
+          "members": [
+            "Articuno PS+IW/Hu 14/13/14",
+            "Kyurem DB+G/DC 5/8/14"
+          ]
+        },
+        {
+          "type": "steel",
+          "members": [
+            "Articuno PS+IW/Hu 14/13/14",
+            "Kyurem DB+G/DC 5/8/14"
+          ]
+        }
+      ],
+      "role_assumptions": [
+        "Leads use PvPoke leads rankings when available.",
+        "Back pairs use unordered PvPoke switches, closers, attackers, chargers, and consistency blends when available."
+      ],
+      "lineup_dependency": {
+        "dependent": false,
+        "reason": "Recommended roster has multiple viable ordered lineups.",
+        "best_lineup_score": 759.2592592592592,
+        "top_lineup_mean_score": 748.9085185185186,
+        "viable_lineup_count": 60
+      }
+    },
+    "bench_utility": [],
     "shadow_count": 1
   },
   "coverage": [
@@ -298,882 +516,7 @@
       "fragile_shields": []
     }
   ],
-  "safe_cores": [
-    {
-      "members": [
-        {
-          "index": 3,
-          "label": "Kommo-o DT+UH/ClS 4/12/13",
-          "species": "Kommo-o",
-          "base_species": "Kommo-o",
-          "types": [
-            "dragon",
-            "fighting"
-          ]
-        },
-        {
-          "index": 7,
-          "label": "Kyurem DB+G/DC 5/8/14",
-          "species": "Kyurem",
-          "base_species": "Kyurem",
-          "types": [
-            "dragon",
-            "ice"
-          ]
-        },
-        {
-          "index": 6,
-          "label": "Grumpig Psy+SB/DyP 6/14/13",
-          "species": "Grumpig",
-          "base_species": "Grumpig",
-          "types": [
-            "psychic",
-            "none"
-          ]
-        }
-      ],
-      "score": [
-        27.0,
-        9.0,
-        0.0,
-        -9.0,
-        596.6944444444445,
-        191.2911692179985,
-        66.8,
-        722.1111111111111,
-        18.0,
-        5.0,
-        686.0,
-        13.0,
-        0.0
-      ],
-      "strategy": "ABC",
-      "recommended_order": [
-        {
-          "role": "lead",
-          "label": "Grumpig Psy+SB/DyP 6/14/13",
-          "index": 6
-        },
-        {
-          "role": "switch",
-          "label": "Kommo-o DT+UH/ClS 4/12/13",
-          "index": 3
-        },
-        {
-          "role": "closer",
-          "label": "Kyurem DB+G/DC 5/8/14",
-          "index": 7
-        }
-      ],
-      "role_scores": {
-        "Kommo-o DT+UH/ClS 4/12/13": {
-          "lead": 481.556,
-          "switch": 560.344,
-          "closer": 528.889
-        },
-        "Kyurem DB+G/DC 5/8/14": {
-          "lead": 550.222,
-          "switch": 654.444,
-          "closer": 650.556
-        },
-        "Grumpig Psy+SB/DyP 6/14/13": {
-          "lead": 538.0,
-          "switch": 589.981,
-          "closer": 536.889
-        }
-      },
-      "shared_weaknesses": [],
-      "shared_strengths": []
-    },
-    {
-      "members": [
-        {
-          "index": 3,
-          "label": "Kommo-o DT+UH/ClS 4/12/13",
-          "species": "Kommo-o",
-          "base_species": "Kommo-o",
-          "types": [
-            "dragon",
-            "fighting"
-          ]
-        },
-        {
-          "index": 5,
-          "label": "Articuno PS+IW/Hu 14/13/14",
-          "species": "Articuno",
-          "base_species": "Articuno",
-          "types": [
-            "ice",
-            "flying"
-          ]
-        },
-        {
-          "index": 6,
-          "label": "Grumpig Psy+SB/DyP 6/14/13",
-          "species": "Grumpig",
-          "base_species": "Grumpig",
-          "types": [
-            "psychic",
-            "none"
-          ]
-        }
-      ],
-      "score": [
-        27.0,
-        9.0,
-        0.0,
-        -10.0,
-        637.8888888888888,
-        219.66735485485484,
-        61.56666666666666,
-        754.5555555555555,
-        17.0,
-        4.0,
-        710.1111111111111,
-        16.0,
-        0.0
-      ],
-      "strategy": "ABC",
-      "recommended_order": [
-        {
-          "role": "lead",
-          "label": "Grumpig Psy+SB/DyP 6/14/13",
-          "index": 6
-        },
-        {
-          "role": "switch",
-          "label": "Kommo-o DT+UH/ClS 4/12/13",
-          "index": 3
-        },
-        {
-          "role": "closer",
-          "label": "Articuno PS+IW/Hu 14/13/14",
-          "index": 5
-        }
-      ],
-      "role_scores": {
-        "Kommo-o DT+UH/ClS 4/12/13": {
-          "lead": 481.556,
-          "switch": 560.344,
-          "closer": 528.889
-        },
-        "Articuno PS+IW/Hu 14/13/14": {
-          "lead": 540.667,
-          "switch": 614.67,
-          "closer": 620.556
-        },
-        "Grumpig Psy+SB/DyP 6/14/13": {
-          "lead": 538.0,
-          "switch": 589.981,
-          "closer": 536.889
-        }
-      },
-      "shared_weaknesses": [],
-      "shared_strengths": []
-    },
-    {
-      "members": [
-        {
-          "index": 5,
-          "label": "Articuno PS+IW/Hu 14/13/14",
-          "species": "Articuno",
-          "base_species": "Articuno",
-          "types": [
-            "ice",
-            "flying"
-          ]
-        },
-        {
-          "index": 1,
-          "label": "Raikou TS+WC/AuS 5/13/13",
-          "species": "Raikou",
-          "base_species": "Raikou",
-          "types": [
-            "electric",
-            "none"
-          ]
-        },
-        {
-          "index": 6,
-          "label": "Grumpig Psy+SB/DyP 6/14/13",
-          "species": "Grumpig",
-          "base_species": "Grumpig",
-          "types": [
-            "psychic",
-            "none"
-          ]
-        }
-      ],
-      "score": [
-        27.0,
-        9.0,
-        0.0,
-        -11.0,
-        660.6388888888889,
-        210.27200514830182,
-        64.93333333333334,
-        791.2962962962963,
-        16.0,
-        1.0,
-        738.5185185185185,
-        19.0,
-        0.0
-      ],
-      "strategy": "ABC",
-      "recommended_order": [
-        {
-          "role": "lead",
-          "label": "Grumpig Psy+SB/DyP 6/14/13",
-          "index": 6
-        },
-        {
-          "role": "switch",
-          "label": "Raikou TS+WC/AuS 5/13/13",
-          "index": 1
-        },
-        {
-          "role": "closer",
-          "label": "Articuno PS+IW/Hu 14/13/14",
-          "index": 5
-        }
-      ],
-      "role_scores": {
-        "Articuno PS+IW/Hu 14/13/14": {
-          "lead": 540.667,
-          "switch": 614.67,
-          "closer": 620.556
-        },
-        "Raikou TS+WC/AuS 5/13/13": {
-          "lead": 478.444,
-          "switch": 588.963,
-          "closer": 533.444
-        },
-        "Grumpig Psy+SB/DyP 6/14/13": {
-          "lead": 538.0,
-          "switch": 589.981,
-          "closer": 536.889
-        }
-      },
-      "shared_weaknesses": [],
-      "shared_strengths": []
-    },
-    {
-      "members": [
-        {
-          "index": 3,
-          "label": "Kommo-o DT+UH/ClS 4/12/13",
-          "species": "Kommo-o",
-          "base_species": "Kommo-o",
-          "types": [
-            "dragon",
-            "fighting"
-          ]
-        },
-        {
-          "index": 5,
-          "label": "Articuno PS+IW/Hu 14/13/14",
-          "species": "Articuno",
-          "base_species": "Articuno",
-          "types": [
-            "ice",
-            "flying"
-          ]
-        },
-        {
-          "index": 1,
-          "label": "Raikou TS+WC/AuS 5/13/13",
-          "species": "Raikou",
-          "base_species": "Raikou",
-          "types": [
-            "electric",
-            "none"
-          ]
-        }
-      ],
-      "score": [
-        27.0,
-        9.0,
-        0.0,
-        -11.0,
-        647.8055555555555,
-        205.86760074389744,
-        62.73333333333333,
-        795.8148148148148,
-        16.0,
-        0.0,
-        740.2592592592592,
-        20.0,
-        0.0
-      ],
-      "strategy": "ABC",
-      "recommended_order": [
-        {
-          "role": "lead",
-          "label": "Kommo-o DT+UH/ClS 4/12/13",
-          "index": 3
-        },
-        {
-          "role": "switch",
-          "label": "Raikou TS+WC/AuS 5/13/13",
-          "index": 1
-        },
-        {
-          "role": "closer",
-          "label": "Articuno PS+IW/Hu 14/13/14",
-          "index": 5
-        }
-      ],
-      "role_scores": {
-        "Kommo-o DT+UH/ClS 4/12/13": {
-          "lead": 481.556,
-          "switch": 560.344,
-          "closer": 528.889
-        },
-        "Articuno PS+IW/Hu 14/13/14": {
-          "lead": 540.667,
-          "switch": 614.67,
-          "closer": 620.556
-        },
-        "Raikou TS+WC/AuS 5/13/13": {
-          "lead": 478.444,
-          "switch": 588.963,
-          "closer": 533.444
-        }
-      },
-      "shared_weaknesses": [],
-      "shared_strengths": []
-    },
-    {
-      "members": [
-        {
-          "index": 4,
-          "label": "Venusaur (Shadow) VW+Sl/FP 4/14/15",
-          "species": "Venusaur (Shadow)",
-          "base_species": "Venusaur",
-          "types": [
-            "grass",
-            "poison"
-          ]
-        },
-        {
-          "index": 7,
-          "label": "Kyurem DB+G/DC 5/8/14",
-          "species": "Kyurem",
-          "base_species": "Kyurem",
-          "types": [
-            "dragon",
-            "ice"
-          ]
-        },
-        {
-          "index": 6,
-          "label": "Grumpig Psy+SB/DyP 6/14/13",
-          "species": "Grumpig",
-          "base_species": "Grumpig",
-          "types": [
-            "psychic",
-            "none"
-          ]
-        }
-      ],
-      "score": [
-        27.0,
-        9.0,
-        0.0,
-        -11.0,
-        635.6111111111112,
-        186.5204894473187,
-        69.89999999999999,
-        782.0370370370371,
-        16.0,
-        3.0,
-        729.2592592592592,
-        19.0,
-        0.0
-      ],
-      "strategy": "ABC",
-      "recommended_order": [
-        {
-          "role": "lead",
-          "label": "Grumpig Psy+SB/DyP 6/14/13",
-          "index": 6
-        },
-        {
-          "role": "switch",
-          "label": "Venusaur (Shadow) VW+Sl/FP 4/14/15",
-          "index": 4
-        },
-        {
-          "role": "closer",
-          "label": "Kyurem DB+G/DC 5/8/14",
-          "index": 7
-        }
-      ],
-      "role_scores": {
-        "Venusaur (Shadow) VW+Sl/FP 4/14/15": {
-          "lead": 484.111,
-          "switch": 558.904,
-          "closer": 513.111
-        },
-        "Kyurem DB+G/DC 5/8/14": {
-          "lead": 550.222,
-          "switch": 654.444,
-          "closer": 650.556
-        },
-        "Grumpig Psy+SB/DyP 6/14/13": {
-          "lead": 538.0,
-          "switch": 589.981,
-          "closer": 536.889
-        }
-      },
-      "shared_weaknesses": [],
-      "shared_strengths": []
-    },
-    {
-      "members": [
-        {
-          "index": 7,
-          "label": "Kyurem DB+G/DC 5/8/14",
-          "species": "Kyurem",
-          "base_species": "Kyurem",
-          "types": [
-            "dragon",
-            "ice"
-          ]
-        },
-        {
-          "index": 1,
-          "label": "Raikou TS+WC/AuS 5/13/13",
-          "species": "Raikou",
-          "base_species": "Raikou",
-          "types": [
-            "electric",
-            "none"
-          ]
-        },
-        {
-          "index": 6,
-          "label": "Grumpig Psy+SB/DyP 6/14/13",
-          "species": "Grumpig",
-          "base_species": "Grumpig",
-          "types": [
-            "psychic",
-            "none"
-          ]
-        }
-      ],
-      "score": [
-        27.0,
-        9.0,
-        0.0,
-        -11.0,
-        622.8611111111112,
-        181.89581951144547,
-        70.16666666666667,
-        771.0370370370371,
-        16.0,
-        3.0,
-        721.0370370370371,
-        18.0,
-        0.0
-      ],
-      "strategy": "ABC",
-      "recommended_order": [
-        {
-          "role": "lead",
-          "label": "Grumpig Psy+SB/DyP 6/14/13",
-          "index": 6
-        },
-        {
-          "role": "switch",
-          "label": "Raikou TS+WC/AuS 5/13/13",
-          "index": 1
-        },
-        {
-          "role": "closer",
-          "label": "Kyurem DB+G/DC 5/8/14",
-          "index": 7
-        }
-      ],
-      "role_scores": {
-        "Kyurem DB+G/DC 5/8/14": {
-          "lead": 550.222,
-          "switch": 654.444,
-          "closer": 650.556
-        },
-        "Raikou TS+WC/AuS 5/13/13": {
-          "lead": 478.444,
-          "switch": 588.963,
-          "closer": 533.444
-        },
-        "Grumpig Psy+SB/DyP 6/14/13": {
-          "lead": 538.0,
-          "switch": 589.981,
-          "closer": 536.889
-        }
-      },
-      "shared_weaknesses": [],
-      "shared_strengths": []
-    },
-    {
-      "members": [
-        {
-          "index": 3,
-          "label": "Kommo-o DT+UH/ClS 4/12/13",
-          "species": "Kommo-o",
-          "base_species": "Kommo-o",
-          "types": [
-            "dragon",
-            "fighting"
-          ]
-        },
-        {
-          "index": 7,
-          "label": "Kyurem DB+G/DC 5/8/14",
-          "species": "Kyurem",
-          "base_species": "Kyurem",
-          "types": [
-            "dragon",
-            "ice"
-          ]
-        },
-        {
-          "index": 1,
-          "label": "Raikou TS+WC/AuS 5/13/13",
-          "species": "Raikou",
-          "base_species": "Raikou",
-          "types": [
-            "electric",
-            "none"
-          ]
-        }
-      ],
-      "score": [
-        27.0,
-        9.0,
-        0.0,
-        -12.0,
-        590.8611111111111,
-        177.49141510704104,
-        67.96666666666667,
-        748.2962962962963,
-        15.0,
-        3.0,
-        703.8518518518518,
-        16.0,
-        0.0
-      ],
-      "strategy": "ABC",
-      "recommended_order": [
-        {
-          "role": "lead",
-          "label": "Kommo-o DT+UH/ClS 4/12/13",
-          "index": 3
-        },
-        {
-          "role": "switch",
-          "label": "Raikou TS+WC/AuS 5/13/13",
-          "index": 1
-        },
-        {
-          "role": "closer",
-          "label": "Kyurem DB+G/DC 5/8/14",
-          "index": 7
-        }
-      ],
-      "role_scores": {
-        "Kommo-o DT+UH/ClS 4/12/13": {
-          "lead": 481.556,
-          "switch": 560.344,
-          "closer": 528.889
-        },
-        "Kyurem DB+G/DC 5/8/14": {
-          "lead": 550.222,
-          "switch": 654.444,
-          "closer": 650.556
-        },
-        "Raikou TS+WC/AuS 5/13/13": {
-          "lead": 478.444,
-          "switch": 588.963,
-          "closer": 533.444
-        }
-      },
-      "shared_weaknesses": [],
-      "shared_strengths": []
-    },
-    {
-      "members": [
-        {
-          "index": 4,
-          "label": "Venusaur (Shadow) VW+Sl/FP 4/14/15",
-          "species": "Venusaur (Shadow)",
-          "base_species": "Venusaur",
-          "types": [
-            "grass",
-            "poison"
-          ]
-        },
-        {
-          "index": 5,
-          "label": "Articuno PS+IW/Hu 14/13/14",
-          "species": "Articuno",
-          "base_species": "Articuno",
-          "types": [
-            "ice",
-            "flying"
-          ]
-        },
-        {
-          "index": 6,
-          "label": "Grumpig Psy+SB/DyP 6/14/13",
-          "species": "Grumpig",
-          "base_species": "Grumpig",
-          "types": [
-            "psychic",
-            "none"
-          ]
-        }
-      ],
-      "score": [
-        27.0,
-        9.0,
-        0.0,
-        -13.0,
-        663.5555555555555,
-        214.8966750841751,
-        64.66666666666667,
-        802.6296296296296,
-        14.0,
-        3.0,
-        747.074074074074,
-        20.0,
-        0.0
-      ],
-      "strategy": "ABC",
-      "recommended_order": [
-        {
-          "role": "lead",
-          "label": "Grumpig Psy+SB/DyP 6/14/13",
-          "index": 6
-        },
-        {
-          "role": "switch",
-          "label": "Venusaur (Shadow) VW+Sl/FP 4/14/15",
-          "index": 4
-        },
-        {
-          "role": "closer",
-          "label": "Articuno PS+IW/Hu 14/13/14",
-          "index": 5
-        }
-      ],
-      "role_scores": {
-        "Venusaur (Shadow) VW+Sl/FP 4/14/15": {
-          "lead": 484.111,
-          "switch": 558.904,
-          "closer": 513.111
-        },
-        "Articuno PS+IW/Hu 14/13/14": {
-          "lead": 540.667,
-          "switch": 614.67,
-          "closer": 620.556
-        },
-        "Grumpig Psy+SB/DyP 6/14/13": {
-          "lead": 538.0,
-          "switch": 589.981,
-          "closer": 536.889
-        }
-      },
-      "shared_weaknesses": [],
-      "shared_strengths": []
-    },
-    {
-      "members": [
-        {
-          "index": 5,
-          "label": "Articuno PS+IW/Hu 14/13/14",
-          "species": "Articuno",
-          "base_species": "Articuno",
-          "types": [
-            "ice",
-            "flying"
-          ]
-        },
-        {
-          "index": 7,
-          "label": "Kyurem DB+G/DC 5/8/14",
-          "species": "Kyurem",
-          "base_species": "Kyurem",
-          "types": [
-            "dragon",
-            "ice"
-          ]
-        },
-        {
-          "index": 6,
-          "label": "Grumpig Psy+SB/DyP 6/14/13",
-          "species": "Grumpig",
-          "base_species": "Grumpig",
-          "types": [
-            "psychic",
-            "none"
-          ]
-        }
-      ],
-      "score": [
-        26.0,
-        8.0,
-        -1.0,
-        -6.0,
-        620.1388888888889,
-        210.87844399277324,
-        59.26666666666667,
-        742.8148148148148,
-        20.0,
-        6.0,
-        698.3703703703703,
-        16.0,
-        0.0
-      ],
-      "strategy": "ABB",
-      "recommended_order": [
-        {
-          "role": "lead",
-          "label": "Grumpig Psy+SB/DyP 6/14/13",
-          "index": 6
-        },
-        {
-          "role": "switch",
-          "label": "Kyurem DB+G/DC 5/8/14",
-          "index": 7
-        },
-        {
-          "role": "closer",
-          "label": "Articuno PS+IW/Hu 14/13/14",
-          "index": 5
-        }
-      ],
-      "role_scores": {
-        "Articuno PS+IW/Hu 14/13/14": {
-          "lead": 540.667,
-          "switch": 614.67,
-          "closer": 620.556
-        },
-        "Kyurem DB+G/DC 5/8/14": {
-          "lead": 550.222,
-          "switch": 654.444,
-          "closer": 650.556
-        },
-        "Grumpig Psy+SB/DyP 6/14/13": {
-          "lead": 538.0,
-          "switch": 589.981,
-          "closer": 536.889
-        }
-      },
-      "shared_weaknesses": [
-        "Cetitan PS+ISp/SP 4/15/15"
-      ],
-      "shared_strengths": [
-        "Gliscor (Shadow) WA+Acr/NS 0/14/15",
-        "Gliscor (Shadow) WA+Acr/ST 0/14/15",
-        "Gliscor (Shadow) WA+ST/NS 0/14/15",
-        "Toucannon Pk+BBl/DrlP 2/15/14"
-      ]
-    },
-    {
-      "members": [
-        {
-          "index": 5,
-          "label": "Articuno PS+IW/Hu 14/13/14",
-          "species": "Articuno",
-          "base_species": "Articuno",
-          "types": [
-            "ice",
-            "flying"
-          ]
-        },
-        {
-          "index": 7,
-          "label": "Kyurem DB+G/DC 5/8/14",
-          "species": "Kyurem",
-          "base_species": "Kyurem",
-          "types": [
-            "dragon",
-            "ice"
-          ]
-        },
-        {
-          "index": 1,
-          "label": "Raikou TS+WC/AuS 5/13/13",
-          "species": "Raikou",
-          "base_species": "Raikou",
-          "types": [
-            "electric",
-            "none"
-          ]
-        }
-      ],
-      "score": [
-        26.0,
-        8.0,
-        -1.0,
-        -8.0,
-        633.3055555555555,
-        197.07868988181585,
-        60.43333333333334,
-        795.2592592592592,
-        18.0,
-        3.0,
-        739.7037037037037,
-        20.0,
-        0.0
-      ],
-      "strategy": "ABA",
-      "recommended_order": [
-        {
-          "role": "lead",
-          "label": "Articuno PS+IW/Hu 14/13/14",
-          "index": 5
-        },
-        {
-          "role": "switch",
-          "label": "Raikou TS+WC/AuS 5/13/13",
-          "index": 1
-        },
-        {
-          "role": "closer",
-          "label": "Kyurem DB+G/DC 5/8/14",
-          "index": 7
-        }
-      ],
-      "role_scores": {
-        "Articuno PS+IW/Hu 14/13/14": {
-          "lead": 540.667,
-          "switch": 614.67,
-          "closer": 620.556
-        },
-        "Kyurem DB+G/DC 5/8/14": {
-          "lead": 550.222,
-          "switch": 654.444,
-          "closer": 650.556
-        },
-        "Raikou TS+WC/AuS 5/13/13": {
-          "lead": 478.444,
-          "switch": 588.963,
-          "closer": 533.444
-        }
-      },
-      "shared_weaknesses": [
-        "Cetitan PS+ISp/SP 4/15/15"
-      ],
-      "shared_strengths": [
-        "Gliscor (Shadow) WA+Acr/NS 0/14/15",
-        "Gliscor (Shadow) WA+Acr/ST 0/14/15",
-        "Gliscor (Shadow) WA+ST/NS 0/14/15",
-        "Toucannon Pk+BBl/DrlP 2/15/14"
-      ]
-    }
-  ],
+  "safe_cores": [],
   "target_map": [
     {
       "opponent_label": "Gliscor (Shadow) WA+Acr/NS 0/14/15",
@@ -1300,6 +643,1106 @@
         "Venusaur (Shadow) VW+Sl/FP 4/14/15"
       ],
       "confidence": "stable"
+    }
+  ],
+  "recommended_lineups": [
+    {
+      "lead": {
+        "index": 5,
+        "label": "Articuno PS+IW/Hu 14/13/14",
+        "species": "Articuno",
+        "base_species": "Articuno",
+        "types": [
+          "ice",
+          "flying"
+        ]
+      },
+      "back_pair": [
+        {
+          "index": 1,
+          "label": "Raikou TS+WC/AuS 5/13/13",
+          "species": "Raikou",
+          "base_species": "Raikou",
+          "types": [
+            "electric",
+            "none"
+          ]
+        },
+        {
+          "index": 4,
+          "label": "Venusaur (Shadow) VW+Sl/FP 4/14/15",
+          "species": "Venusaur (Shadow)",
+          "base_species": "Venusaur",
+          "types": [
+            "grass",
+            "poison"
+          ]
+        }
+      ],
+      "team_shape": "ABC",
+      "lineup_score": 760.4527724704012,
+      "score_summary": {
+        "mean_score": 759.2592592592592,
+        "dominating_matchups": 22,
+        "overwhelming_matchups": 0,
+        "resource_mean_score": 759.2592592592592,
+        "role_fit_score": 0.7990430329639943
+      },
+      "resource_paths": [
+        {
+          "name": "balanced",
+          "lead_shield": 1,
+          "back_shield": 1,
+          "mean_best_score": 737.8888888888889,
+          "dominating_matchups": 7,
+          "overwhelming_matchups": 0
+        },
+        {
+          "name": "shield_spend",
+          "lead_shield": 2,
+          "back_shield": 0,
+          "mean_best_score": 795.3333333333334,
+          "dominating_matchups": 8,
+          "overwhelming_matchups": 0
+        },
+        {
+          "name": "shield_save",
+          "lead_shield": 0,
+          "back_shield": 2,
+          "mean_best_score": 744.5555555555555,
+          "dominating_matchups": 7,
+          "overwhelming_matchups": 0
+        }
+      ],
+      "score_breakdown": {
+        "final_score": 760.4527724704012,
+        "components": [
+          {
+            "name": "resource_path",
+            "raw_value": 759.2592592592592,
+            "weight": 0.97,
+            "weighted_score": 736.4814814814814
+          },
+          {
+            "name": "role_fit",
+            "raw_value": 799.0430329639943,
+            "weight": 0.03,
+            "weighted_score": 23.971290988919826
+          }
+        ]
+      },
+      "ranking_diagnostics": {
+        "role_assumptions": [
+          "Lead uses PvPoke leads ranking; backs use unordered switch/closer support rankings."
+        ],
+        "shared_weaknesses": [
+          {
+            "type": "fire",
+            "members": [
+              "Articuno PS+IW/Hu 14/13/14",
+              "Venusaur (Shadow) VW+Sl/FP 4/14/15"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "lead": {
+        "index": 4,
+        "label": "Venusaur (Shadow) VW+Sl/FP 4/14/15",
+        "species": "Venusaur (Shadow)",
+        "base_species": "Venusaur",
+        "types": [
+          "grass",
+          "poison"
+        ]
+      },
+      "back_pair": [
+        {
+          "index": 1,
+          "label": "Raikou TS+WC/AuS 5/13/13",
+          "species": "Raikou",
+          "base_species": "Raikou",
+          "types": [
+            "electric",
+            "none"
+          ]
+        },
+        {
+          "index": 5,
+          "label": "Articuno PS+IW/Hu 14/13/14",
+          "species": "Articuno",
+          "base_species": "Articuno",
+          "types": [
+            "ice",
+            "flying"
+          ]
+        }
+      ],
+      "team_shape": "ABC",
+      "lineup_score": 757.1514195652995,
+      "score_summary": {
+        "mean_score": 756.888888888889,
+        "dominating_matchups": 22,
+        "overwhelming_matchups": 0,
+        "resource_mean_score": 756.888888888889,
+        "role_fit_score": 0.7656399114359056
+      },
+      "resource_paths": [
+        {
+          "name": "balanced",
+          "lead_shield": 1,
+          "back_shield": 1,
+          "mean_best_score": 737.8888888888889,
+          "dominating_matchups": 7,
+          "overwhelming_matchups": 0
+        },
+        {
+          "name": "shield_spend",
+          "lead_shield": 2,
+          "back_shield": 0,
+          "mean_best_score": 787.4444444444445,
+          "dominating_matchups": 8,
+          "overwhelming_matchups": 0
+        },
+        {
+          "name": "shield_save",
+          "lead_shield": 0,
+          "back_shield": 2,
+          "mean_best_score": 745.3333333333334,
+          "dominating_matchups": 7,
+          "overwhelming_matchups": 0
+        }
+      ],
+      "score_breakdown": {
+        "final_score": 757.1514195652995,
+        "components": [
+          {
+            "name": "resource_path",
+            "raw_value": 756.888888888889,
+            "weight": 0.97,
+            "weighted_score": 734.1822222222223
+          },
+          {
+            "name": "role_fit",
+            "raw_value": 765.6399114359056,
+            "weight": 0.03,
+            "weighted_score": 22.969197343077166
+          }
+        ]
+      },
+      "ranking_diagnostics": {
+        "role_assumptions": [
+          "Lead uses PvPoke leads ranking; backs use unordered switch/closer support rankings."
+        ],
+        "shared_weaknesses": [
+          {
+            "type": "fire",
+            "members": [
+              "Venusaur (Shadow) VW+Sl/FP 4/14/15",
+              "Articuno PS+IW/Hu 14/13/14"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "lead": {
+        "index": 1,
+        "label": "Raikou TS+WC/AuS 5/13/13",
+        "species": "Raikou",
+        "base_species": "Raikou",
+        "types": [
+          "electric",
+          "none"
+        ]
+      },
+      "back_pair": [
+        {
+          "index": 4,
+          "label": "Venusaur (Shadow) VW+Sl/FP 4/14/15",
+          "species": "Venusaur (Shadow)",
+          "base_species": "Venusaur",
+          "types": [
+            "grass",
+            "poison"
+          ]
+        },
+        {
+          "index": 5,
+          "label": "Articuno PS+IW/Hu 14/13/14",
+          "species": "Articuno",
+          "base_species": "Articuno",
+          "types": [
+            "ice",
+            "flying"
+          ]
+        }
+      ],
+      "team_shape": "ABC",
+      "lineup_score": 755.3642761351657,
+      "score_summary": {
+        "mean_score": 754.5925925925926,
+        "dominating_matchups": 22,
+        "overwhelming_matchups": 0,
+        "resource_mean_score": 754.5925925925926,
+        "role_fit_score": 0.7803153773450333
+      },
+      "resource_paths": [
+        {
+          "name": "balanced",
+          "lead_shield": 1,
+          "back_shield": 1,
+          "mean_best_score": 737.8888888888889,
+          "dominating_matchups": 7,
+          "overwhelming_matchups": 0
+        },
+        {
+          "name": "shield_spend",
+          "lead_shield": 2,
+          "back_shield": 0,
+          "mean_best_score": 754.5555555555555,
+          "dominating_matchups": 7,
+          "overwhelming_matchups": 0
+        },
+        {
+          "name": "shield_save",
+          "lead_shield": 0,
+          "back_shield": 2,
+          "mean_best_score": 771.3333333333334,
+          "dominating_matchups": 8,
+          "overwhelming_matchups": 0
+        }
+      ],
+      "score_breakdown": {
+        "final_score": 755.3642761351657,
+        "components": [
+          {
+            "name": "resource_path",
+            "raw_value": 754.5925925925926,
+            "weight": 0.97,
+            "weighted_score": 731.9548148148148
+          },
+          {
+            "name": "role_fit",
+            "raw_value": 780.3153773450333,
+            "weight": 0.03,
+            "weighted_score": 23.409461320351
+          }
+        ]
+      },
+      "ranking_diagnostics": {
+        "role_assumptions": [
+          "Lead uses PvPoke leads ranking; backs use unordered switch/closer support rankings."
+        ],
+        "shared_weaknesses": [
+          {
+            "type": "fire",
+            "members": [
+              "Venusaur (Shadow) VW+Sl/FP 4/14/15",
+              "Articuno PS+IW/Hu 14/13/14"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "lead": {
+        "index": 5,
+        "label": "Articuno PS+IW/Hu 14/13/14",
+        "species": "Articuno",
+        "base_species": "Articuno",
+        "types": [
+          "ice",
+          "flying"
+        ]
+      },
+      "back_pair": [
+        {
+          "index": 4,
+          "label": "Venusaur (Shadow) VW+Sl/FP 4/14/15",
+          "species": "Venusaur (Shadow)",
+          "base_species": "Venusaur",
+          "types": [
+            "grass",
+            "poison"
+          ]
+        },
+        {
+          "index": 6,
+          "label": "Grumpig Psy+SB/DyP 6/14/13",
+          "species": "Grumpig",
+          "base_species": "Grumpig",
+          "types": [
+            "psychic",
+            "none"
+          ]
+        }
+      ],
+      "team_shape": "ABC",
+      "lineup_score": 750.4105351625406,
+      "score_summary": {
+        "mean_score": 746.9629629629629,
+        "dominating_matchups": 22,
+        "overwhelming_matchups": 0,
+        "resource_mean_score": 746.9629629629629,
+        "role_fit_score": 0.8618820362822163
+      },
+      "resource_paths": [
+        {
+          "name": "balanced",
+          "lead_shield": 1,
+          "back_shield": 1,
+          "mean_best_score": 724.0,
+          "dominating_matchups": 8,
+          "overwhelming_matchups": 0
+        },
+        {
+          "name": "shield_spend",
+          "lead_shield": 2,
+          "back_shield": 0,
+          "mean_best_score": 757.1111111111111,
+          "dominating_matchups": 7,
+          "overwhelming_matchups": 0
+        },
+        {
+          "name": "shield_save",
+          "lead_shield": 0,
+          "back_shield": 2,
+          "mean_best_score": 759.7777777777778,
+          "dominating_matchups": 7,
+          "overwhelming_matchups": 0
+        }
+      ],
+      "score_breakdown": {
+        "final_score": 750.4105351625406,
+        "components": [
+          {
+            "name": "resource_path",
+            "raw_value": 746.9629629629629,
+            "weight": 0.97,
+            "weighted_score": 724.554074074074
+          },
+          {
+            "name": "role_fit",
+            "raw_value": 861.8820362822163,
+            "weight": 0.03,
+            "weighted_score": 25.85646108846649
+          }
+        ]
+      },
+      "ranking_diagnostics": {
+        "role_assumptions": [
+          "Lead uses PvPoke leads ranking; backs use unordered switch/closer support rankings."
+        ],
+        "shared_weaknesses": [
+          {
+            "type": "fire",
+            "members": [
+              "Articuno PS+IW/Hu 14/13/14",
+              "Venusaur (Shadow) VW+Sl/FP 4/14/15"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "lead": {
+        "index": 5,
+        "label": "Articuno PS+IW/Hu 14/13/14",
+        "species": "Articuno",
+        "base_species": "Articuno",
+        "types": [
+          "ice",
+          "flying"
+        ]
+      },
+      "back_pair": [
+        {
+          "index": 3,
+          "label": "Kommo-o DT+UH/ClS 4/12/13",
+          "species": "Kommo-o",
+          "base_species": "Kommo-o",
+          "types": [
+            "dragon",
+            "fighting"
+          ]
+        },
+        {
+          "index": 4,
+          "label": "Venusaur (Shadow) VW+Sl/FP 4/14/15",
+          "species": "Venusaur (Shadow)",
+          "base_species": "Venusaur",
+          "types": [
+            "grass",
+            "poison"
+          ]
+        }
+      ],
+      "team_shape": "ABC",
+      "lineup_score": 749.8906095188852,
+      "score_summary": {
+        "mean_score": 732.074074074074,
+        "dominating_matchups": 23,
+        "overwhelming_matchups": 2,
+        "resource_mean_score": 732.074074074074,
+        "role_fit_score": 0.8174647617406187,
+        "synergy_score": 0.9500000000000001
+      },
+      "resource_paths": [
+        {
+          "name": "balanced",
+          "lead_shield": 1,
+          "back_shield": 1,
+          "mean_best_score": 678.2222222222222,
+          "dominating_matchups": 7,
+          "overwhelming_matchups": 1
+        },
+        {
+          "name": "shield_spend",
+          "lead_shield": 2,
+          "back_shield": 0,
+          "mean_best_score": 756.5555555555555,
+          "dominating_matchups": 8,
+          "overwhelming_matchups": 1
+        },
+        {
+          "name": "shield_save",
+          "lead_shield": 0,
+          "back_shield": 2,
+          "mean_best_score": 761.4444444444445,
+          "dominating_matchups": 8,
+          "overwhelming_matchups": 0
+        }
+      ],
+      "score_breakdown": {
+        "final_score": 749.8906095188852,
+        "components": [
+          {
+            "name": "resource_path",
+            "raw_value": 732.074074074074,
+            "weight": 0.9,
+            "weighted_score": 658.8666666666667
+          },
+          {
+            "name": "role_fit",
+            "raw_value": 817.4647617406187,
+            "weight": 0.03,
+            "weighted_score": 24.52394285221856
+          },
+          {
+            "name": "synergy",
+            "raw_value": 950.0000000000001,
+            "weight": 0.07,
+            "weighted_score": 66.50000000000001
+          }
+        ]
+      },
+      "ranking_diagnostics": {
+        "role_assumptions": [
+          "Lead uses PvPoke leads ranking; backs use unordered switch/closer support rankings."
+        ],
+        "shared_weaknesses": [
+          {
+            "type": "fire",
+            "members": [
+              "Articuno PS+IW/Hu 14/13/14",
+              "Venusaur (Shadow) VW+Sl/FP 4/14/15"
+            ]
+          },
+          {
+            "type": "flying",
+            "members": [
+              "Kommo-o DT+UH/ClS 4/12/13",
+              "Venusaur (Shadow) VW+Sl/FP 4/14/15"
+            ]
+          },
+          {
+            "type": "ice",
+            "members": [
+              "Kommo-o DT+UH/ClS 4/12/13",
+              "Venusaur (Shadow) VW+Sl/FP 4/14/15"
+            ]
+          },
+          {
+            "type": "psychic",
+            "members": [
+              "Kommo-o DT+UH/ClS 4/12/13",
+              "Venusaur (Shadow) VW+Sl/FP 4/14/15"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "lead": {
+        "index": 4,
+        "label": "Venusaur (Shadow) VW+Sl/FP 4/14/15",
+        "species": "Venusaur (Shadow)",
+        "base_species": "Venusaur",
+        "types": [
+          "grass",
+          "poison"
+        ]
+      },
+      "back_pair": [
+        {
+          "index": 5,
+          "label": "Articuno PS+IW/Hu 14/13/14",
+          "species": "Articuno",
+          "base_species": "Articuno",
+          "types": [
+            "ice",
+            "flying"
+          ]
+        },
+        {
+          "index": 6,
+          "label": "Grumpig Psy+SB/DyP 6/14/13",
+          "species": "Grumpig",
+          "base_species": "Grumpig",
+          "types": [
+            "psychic",
+            "none"
+          ]
+        }
+      ],
+      "team_shape": "ABC",
+      "lineup_score": 749.0851081833645,
+      "score_summary": {
+        "mean_score": 746.6296296296296,
+        "dominating_matchups": 22,
+        "overwhelming_matchups": 0,
+        "resource_mean_score": 746.6296296296296,
+        "role_fit_score": 0.8284789147541276
+      },
+      "resource_paths": [
+        {
+          "name": "balanced",
+          "lead_shield": 1,
+          "back_shield": 1,
+          "mean_best_score": 724.0,
+          "dominating_matchups": 8,
+          "overwhelming_matchups": 0
+        },
+        {
+          "name": "shield_spend",
+          "lead_shield": 2,
+          "back_shield": 0,
+          "mean_best_score": 753.8888888888889,
+          "dominating_matchups": 7,
+          "overwhelming_matchups": 0
+        },
+        {
+          "name": "shield_save",
+          "lead_shield": 0,
+          "back_shield": 2,
+          "mean_best_score": 762.0,
+          "dominating_matchups": 7,
+          "overwhelming_matchups": 0
+        }
+      ],
+      "score_breakdown": {
+        "final_score": 749.0851081833645,
+        "components": [
+          {
+            "name": "resource_path",
+            "raw_value": 746.6296296296296,
+            "weight": 0.97,
+            "weighted_score": 724.2307407407407
+          },
+          {
+            "name": "role_fit",
+            "raw_value": 828.4789147541276,
+            "weight": 0.03,
+            "weighted_score": 24.854367442623825
+          }
+        ]
+      },
+      "ranking_diagnostics": {
+        "role_assumptions": [
+          "Lead uses PvPoke leads ranking; backs use unordered switch/closer support rankings."
+        ],
+        "shared_weaknesses": [
+          {
+            "type": "fire",
+            "members": [
+              "Venusaur (Shadow) VW+Sl/FP 4/14/15",
+              "Articuno PS+IW/Hu 14/13/14"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "lead": {
+        "index": 4,
+        "label": "Venusaur (Shadow) VW+Sl/FP 4/14/15",
+        "species": "Venusaur (Shadow)",
+        "base_species": "Venusaur",
+        "types": [
+          "grass",
+          "poison"
+        ]
+      },
+      "back_pair": [
+        {
+          "index": 3,
+          "label": "Kommo-o DT+UH/ClS 4/12/13",
+          "species": "Kommo-o",
+          "base_species": "Kommo-o",
+          "types": [
+            "dragon",
+            "fighting"
+          ]
+        },
+        {
+          "index": 5,
+          "label": "Articuno PS+IW/Hu 14/13/14",
+          "species": "Articuno",
+          "base_species": "Articuno",
+          "types": [
+            "ice",
+            "flying"
+          ]
+        }
+      ],
+      "team_shape": "ABC",
+      "lineup_score": 748.2885158730426,
+      "score_summary": {
+        "mean_score": 731.4074074074074,
+        "dominating_matchups": 23,
+        "overwhelming_matchups": 2,
+        "resource_mean_score": 731.4074074074074,
+        "role_fit_score": 0.7840616402125299,
+        "synergy_score": 0.9500000000000001
+      },
+      "resource_paths": [
+        {
+          "name": "balanced",
+          "lead_shield": 1,
+          "back_shield": 1,
+          "mean_best_score": 678.2222222222222,
+          "dominating_matchups": 7,
+          "overwhelming_matchups": 1
+        },
+        {
+          "name": "shield_spend",
+          "lead_shield": 2,
+          "back_shield": 0,
+          "mean_best_score": 752.6666666666666,
+          "dominating_matchups": 8,
+          "overwhelming_matchups": 1
+        },
+        {
+          "name": "shield_save",
+          "lead_shield": 0,
+          "back_shield": 2,
+          "mean_best_score": 763.3333333333334,
+          "dominating_matchups": 8,
+          "overwhelming_matchups": 0
+        }
+      ],
+      "score_breakdown": {
+        "final_score": 748.2885158730426,
+        "components": [
+          {
+            "name": "resource_path",
+            "raw_value": 731.4074074074074,
+            "weight": 0.9,
+            "weighted_score": 658.2666666666667
+          },
+          {
+            "name": "role_fit",
+            "raw_value": 784.0616402125299,
+            "weight": 0.03,
+            "weighted_score": 23.521849206375897
+          },
+          {
+            "name": "synergy",
+            "raw_value": 950.0000000000001,
+            "weight": 0.07,
+            "weighted_score": 66.50000000000001
+          }
+        ]
+      },
+      "ranking_diagnostics": {
+        "role_assumptions": [
+          "Lead uses PvPoke leads ranking; backs use unordered switch/closer support rankings."
+        ],
+        "shared_weaknesses": [
+          {
+            "type": "fire",
+            "members": [
+              "Venusaur (Shadow) VW+Sl/FP 4/14/15",
+              "Articuno PS+IW/Hu 14/13/14"
+            ]
+          },
+          {
+            "type": "flying",
+            "members": [
+              "Venusaur (Shadow) VW+Sl/FP 4/14/15",
+              "Kommo-o DT+UH/ClS 4/12/13"
+            ]
+          },
+          {
+            "type": "ice",
+            "members": [
+              "Venusaur (Shadow) VW+Sl/FP 4/14/15",
+              "Kommo-o DT+UH/ClS 4/12/13"
+            ]
+          },
+          {
+            "type": "psychic",
+            "members": [
+              "Venusaur (Shadow) VW+Sl/FP 4/14/15",
+              "Kommo-o DT+UH/ClS 4/12/13"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "lead": {
+        "index": 5,
+        "label": "Articuno PS+IW/Hu 14/13/14",
+        "species": "Articuno",
+        "base_species": "Articuno",
+        "types": [
+          "ice",
+          "flying"
+        ]
+      },
+      "back_pair": [
+        {
+          "index": 1,
+          "label": "Raikou TS+WC/AuS 5/13/13",
+          "species": "Raikou",
+          "base_species": "Raikou",
+          "types": [
+            "electric",
+            "none"
+          ]
+        },
+        {
+          "index": 7,
+          "label": "Kyurem DB+G/DC 5/8/14",
+          "species": "Kyurem",
+          "base_species": "Kyurem",
+          "types": [
+            "dragon",
+            "ice"
+          ]
+        }
+      ],
+      "team_shape": "ABA",
+      "lineup_score": 747.2697234903869,
+      "score_summary": {
+        "mean_score": 744.3333333333334,
+        "dominating_matchups": 23,
+        "overwhelming_matchups": 0,
+        "resource_mean_score": 744.3333333333334,
+        "role_fit_score": 0.8422130052351201
+      },
+      "resource_paths": [
+        {
+          "name": "balanced",
+          "lead_shield": 1,
+          "back_shield": 1,
+          "mean_best_score": 726.5555555555555,
+          "dominating_matchups": 7,
+          "overwhelming_matchups": 0
+        },
+        {
+          "name": "shield_spend",
+          "lead_shield": 2,
+          "back_shield": 0,
+          "mean_best_score": 785.7777777777778,
+          "dominating_matchups": 9,
+          "overwhelming_matchups": 0
+        },
+        {
+          "name": "shield_save",
+          "lead_shield": 0,
+          "back_shield": 2,
+          "mean_best_score": 720.6666666666666,
+          "dominating_matchups": 7,
+          "overwhelming_matchups": 0
+        }
+      ],
+      "score_breakdown": {
+        "final_score": 747.2697234903869,
+        "components": [
+          {
+            "name": "resource_path",
+            "raw_value": 744.3333333333334,
+            "weight": 0.97,
+            "weighted_score": 722.0033333333333
+          },
+          {
+            "name": "role_fit",
+            "raw_value": 842.2130052351201,
+            "weight": 0.03,
+            "weighted_score": 25.266390157053603
+          }
+        ]
+      },
+      "ranking_diagnostics": {
+        "role_assumptions": [
+          "Lead uses PvPoke leads ranking; backs use unordered switch/closer support rankings."
+        ],
+        "shared_weaknesses": [
+          {
+            "type": "rock",
+            "members": [
+              "Articuno PS+IW/Hu 14/13/14",
+              "Kyurem DB+G/DC 5/8/14"
+            ]
+          },
+          {
+            "type": "steel",
+            "members": [
+              "Articuno PS+IW/Hu 14/13/14",
+              "Kyurem DB+G/DC 5/8/14"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "lead": {
+        "index": 7,
+        "label": "Kyurem DB+G/DC 5/8/14",
+        "species": "Kyurem",
+        "base_species": "Kyurem",
+        "types": [
+          "dragon",
+          "ice"
+        ]
+      },
+      "back_pair": [
+        {
+          "index": 1,
+          "label": "Raikou TS+WC/AuS 5/13/13",
+          "species": "Raikou",
+          "base_species": "Raikou",
+          "types": [
+            "electric",
+            "none"
+          ]
+        },
+        {
+          "index": 5,
+          "label": "Articuno PS+IW/Hu 14/13/14",
+          "species": "Articuno",
+          "base_species": "Articuno",
+          "types": [
+            "ice",
+            "flying"
+          ]
+        }
+      ],
+      "team_shape": "ABA",
+      "lineup_score": 745.6324756213555,
+      "score_summary": {
+        "mean_score": 743.1851851851852,
+        "dominating_matchups": 23,
+        "overwhelming_matchups": 0,
+        "resource_mean_score": 743.1851851851852,
+        "role_fit_score": 0.8247615330575273
+      },
+      "resource_paths": [
+        {
+          "name": "balanced",
+          "lead_shield": 1,
+          "back_shield": 1,
+          "mean_best_score": 726.5555555555555,
+          "dominating_matchups": 7,
+          "overwhelming_matchups": 0
+        },
+        {
+          "name": "shield_spend",
+          "lead_shield": 2,
+          "back_shield": 0,
+          "mean_best_score": 755.2222222222222,
+          "dominating_matchups": 8,
+          "overwhelming_matchups": 0
+        },
+        {
+          "name": "shield_save",
+          "lead_shield": 0,
+          "back_shield": 2,
+          "mean_best_score": 747.7777777777778,
+          "dominating_matchups": 8,
+          "overwhelming_matchups": 0
+        }
+      ],
+      "score_breakdown": {
+        "final_score": 745.6324756213555,
+        "components": [
+          {
+            "name": "resource_path",
+            "raw_value": 743.1851851851852,
+            "weight": 0.97,
+            "weighted_score": 720.8896296296297
+          },
+          {
+            "name": "role_fit",
+            "raw_value": 824.7615330575273,
+            "weight": 0.03,
+            "weighted_score": 24.74284599172582
+          }
+        ]
+      },
+      "ranking_diagnostics": {
+        "role_assumptions": [
+          "Lead uses PvPoke leads ranking; backs use unordered switch/closer support rankings."
+        ],
+        "shared_weaknesses": [
+          {
+            "type": "rock",
+            "members": [
+              "Kyurem DB+G/DC 5/8/14",
+              "Articuno PS+IW/Hu 14/13/14"
+            ]
+          },
+          {
+            "type": "steel",
+            "members": [
+              "Kyurem DB+G/DC 5/8/14",
+              "Articuno PS+IW/Hu 14/13/14"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "lead": {
+        "index": 3,
+        "label": "Kommo-o DT+UH/ClS 4/12/13",
+        "species": "Kommo-o",
+        "base_species": "Kommo-o",
+        "types": [
+          "dragon",
+          "fighting"
+        ]
+      },
+      "back_pair": [
+        {
+          "index": 4,
+          "label": "Venusaur (Shadow) VW+Sl/FP 4/14/15",
+          "species": "Venusaur (Shadow)",
+          "base_species": "Venusaur",
+          "types": [
+            "grass",
+            "poison"
+          ]
+        },
+        {
+          "index": 5,
+          "label": "Articuno PS+IW/Hu 14/13/14",
+          "species": "Articuno",
+          "base_species": "Articuno",
+          "types": [
+            "ice",
+            "flying"
+          ]
+        }
+      ],
+      "team_shape": "ABC",
+      "lineup_score": 745.2828847437744,
+      "score_summary": {
+        "mean_score": 727.6296296296296,
+        "dominating_matchups": 23,
+        "overwhelming_matchups": 2,
+        "resource_mean_score": 727.6296296296296,
+        "role_fit_score": 0.7972072692369252,
+        "synergy_score": 0.9500000000000001
+      },
+      "resource_paths": [
+        {
+          "name": "balanced",
+          "lead_shield": 1,
+          "back_shield": 1,
+          "mean_best_score": 678.2222222222222,
+          "dominating_matchups": 7,
+          "overwhelming_matchups": 1
+        },
+        {
+          "name": "shield_spend",
+          "lead_shield": 2,
+          "back_shield": 0,
+          "mean_best_score": 774.1111111111111,
+          "dominating_matchups": 8,
+          "overwhelming_matchups": 0
+        },
+        {
+          "name": "shield_save",
+          "lead_shield": 0,
+          "back_shield": 2,
+          "mean_best_score": 730.5555555555555,
+          "dominating_matchups": 8,
+          "overwhelming_matchups": 1
+        }
+      ],
+      "score_breakdown": {
+        "final_score": 745.2828847437744,
+        "components": [
+          {
+            "name": "resource_path",
+            "raw_value": 727.6296296296296,
+            "weight": 0.9,
+            "weighted_score": 654.8666666666667
+          },
+          {
+            "name": "role_fit",
+            "raw_value": 797.2072692369252,
+            "weight": 0.03,
+            "weighted_score": 23.916218077107754
+          },
+          {
+            "name": "synergy",
+            "raw_value": 950.0000000000001,
+            "weight": 0.07,
+            "weighted_score": 66.50000000000001
+          }
+        ]
+      },
+      "ranking_diagnostics": {
+        "role_assumptions": [
+          "Lead uses PvPoke leads ranking; backs use unordered switch/closer support rankings."
+        ],
+        "shared_weaknesses": [
+          {
+            "type": "fire",
+            "members": [
+              "Venusaur (Shadow) VW+Sl/FP 4/14/15",
+              "Articuno PS+IW/Hu 14/13/14"
+            ]
+          },
+          {
+            "type": "flying",
+            "members": [
+              "Kommo-o DT+UH/ClS 4/12/13",
+              "Venusaur (Shadow) VW+Sl/FP 4/14/15"
+            ]
+          },
+          {
+            "type": "ice",
+            "members": [
+              "Kommo-o DT+UH/ClS 4/12/13",
+              "Venusaur (Shadow) VW+Sl/FP 4/14/15"
+            ]
+          },
+          {
+            "type": "psychic",
+            "members": [
+              "Kommo-o DT+UH/ClS 4/12/13",
+              "Venusaur (Shadow) VW+Sl/FP 4/14/15"
+            ]
+          }
+        ]
+      }
     }
   ],
   "meta": "bfretro",
