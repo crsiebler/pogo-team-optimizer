@@ -1,46 +1,89 @@
 Meta: great
 
-Recommended Team
-- Diggersby MS+FiP/ScS 4/15/14 [normal/ground]
-- Grumpig Psy+DyP/SB 4/15/15 [psychic/none]
-- Lickilicky RO+BS/SB 4/15/8 [normal/none]
-- Togekiss Pk+Psh/AuS 4/15/15 [fairy/flying]
-- Corsola (Galarian) A+NSh/PG 4/15/14 [ghost/none]
-- Forretress (Shadow) BBi+ST/RT 5/15/13 [bug/steel]
+Recommended Bring-6 Roster
+- Morpeko (Full Belly) TS+AuW/PsF 10/12/15 [electric/dark]
+- Clefable FW+M/MM 2/12/11 [fairy/none]
+- Corviknight SdA+AC/Pbk 0/13/14 [flying/steel]
+- Gastrodon MSl+WP/BS 1/15/14 [water/ground]
+- Tinkaton FW+PR/Bd 3/10/12 [fairy/steel]
+- Corsola (Galarian) A+PG/NSh 11/12/12 [ghost/none]
 
 Team Analysis
-- bulk score: 236.60 (team avg def*hp/atk; pool min/mean/max 190.96/226.82/274.02)
-- safety score: 81.72 (PvPoke switch score avg; pool min/mean/max 62.30/82.99/92.70)
+- bulk score: 208.68 (team avg def*hp/atk; pool min/mean/max 77.06/205.90/471.60)
+- safety score: 80.12 (PvPoke switch score avg; pool min/mean/max 45.60/76.03/95.60)
 - safety target: medium priority | avg >= 78.00 | members >= 90.00: 1
-- consistency score: 767.17 (internal matchup stability metric; not PvPoke bait-dependency consistency) = mean 710.92 + dominate bonus - overwhelming penalty
-- redundancy (2+ winners): 21/24 (87.5%)
-- redundancy (3+ winners): 21/24 (87.5%)
-- single-coverage pairs: 3/24 (12.5%)
-- no-coverage pairs: 0/24 (0.0%)
-- dominate: 18/24 (75.0%) where score > 650
-- overwhelming: 0/24 (0.0%) where score < 350
+- consistency score: 813.89 (internal matchup stability metric; not PvPoke bait-dependency consistency) = mean 751.89 + dominate bonus - overwhelming penalty
+- redundancy (2+ winners): 136/150 (90.7%)
+- redundancy (3+ winners): 103/150 (68.7%)
+- single-coverage pairs: 11/150 (7.3%)
+- no-coverage pairs: 3/150 (2.0%)
+- full-roster dominate count: 124/150 (82.7%)
+- full-roster overwhelming count: 0/150 (0.0%)
 
-Coverage
-- 0-shield: W 8 | D 0 | L 0 | weighted wins 1.000
-- 1-shield: W 8 | D 0 | L 0 | weighted wins 1.000
-- 2-shield: W 8 | D 0 | L 0 | weighted wins 1.000
-
-Safe Cores
-- #1 ABC: Lead Diggersby MS+FiP/ScS 4/15/14 | Switch Forretress (Shadow) BBi+ST/RT 5/15/13 | Closer Grumpig Psy+DyP/SB 4/15/15
-- #2 ABC: Lead Corsola (Galarian) A+NSh/PG 4/15/14 | Switch Forretress (Shadow) BBi+ST/RT 5/15/13 | Closer Grumpig Psy+DyP/SB 4/15/15
-- #3 ABC: Lead Diggersby MS+FiP/ScS 4/15/14 | Switch Lickilicky RO+BS/SB 4/15/8 | Closer Grumpig Psy+DyP/SB 4/15/15
-- #4 ABC: Lead Togekiss Pk+Psh/AuS 4/15/15 | Switch Forretress (Shadow) BBi+ST/RT 5/15/13 | Closer Grumpig Psy+DyP/SB 4/15/15
-- #5 ABC: Lead Togekiss Pk+Psh/AuS 4/15/15 | Switch Forretress (Shadow) BBi+ST/RT 5/15/13 | Closer Diggersby MS+FiP/ScS 4/15/14
-- #6 ABC: Lead Diggersby MS+FiP/ScS 4/15/14 | Switch Forretress (Shadow) BBi+ST/RT 5/15/13 | Closer Lickilicky RO+BS/SB 4/15/8
-- #7 ABC: Lead Corsola (Galarian) A+NSh/PG 4/15/14 | Switch Forretress (Shadow) BBi+ST/RT 5/15/13 | Closer Lickilicky RO+BS/SB 4/15/8
-- #8 ABC: Lead Corsola (Galarian) A+NSh/PG 4/15/14 | Switch Togekiss Pk+Psh/AuS 4/15/15 | Closer Grumpig Psy+DyP/SB 4/15/15
-- #9 ABC: Lead Corsola (Galarian) A+NSh/PG 4/15/14 | Switch Togekiss Pk+Psh/AuS 4/15/15 | Closer Forretress (Shadow) BBi+ST/RT 5/15/13
-- #10 ABC: Lead Corsola (Galarian) A+NSh/PG 4/15/14 | Switch Lickilicky RO+BS/SB 4/15/8 | Closer Grumpig Psy+DyP/SB 4/15/15
+Recommended Lineups
+- lineup dominating uses score > 600
+- lineup overwhelming uses score < 400
+- #1: Lead Gastrodon MSl+WP/BS 1/15/14 | Back Clefable FW+M/MM 2/12/11, Morpeko (Full Belly) TS+AuW/PsF 10/12/15 | shape ABC | score 733.12
+  - lineup dominating: 125
+  - lineup overwhelming: 1
+  - resources: balanced mean 746.76 / dom 45 overhwlm 1 | spend mean 745.92 / dom 38 overhwlm 0 | save mean 706.68 / dom 42 overhwlm 0
+- #2: Lead Morpeko (Full Belly) TS+AuW/PsF 10/12/15 | Back Clefable FW+M/MM 2/12/11, Gastrodon MSl+WP/BS 1/15/14 | shape ABC | score 732.25
+  - lineup dominating: 124
+  - lineup overwhelming: 2
+  - resources: balanced mean 746.76 / dom 45 overhwlm 1 | spend mean 707.98 / dom 39 overhwlm 0 | save mean 742.00 / dom 40 overhwlm 1
+- #3: Lead Clefable FW+M/MM 2/12/11 | Back Gastrodon MSl+WP/BS 1/15/14, Morpeko (Full Belly) TS+AuW/PsF 10/12/15 | shape ABC | score 731.63
+  - lineup dominating: 123
+  - lineup overwhelming: 2
+  - resources: balanced mean 746.76 / dom 45 overhwlm 1 | spend mean 740.46 / dom 39 overhwlm 1 | save mean 707.66 / dom 39 overhwlm 0
+- #4: Lead Tinkaton FW+PR/Bd 3/10/12 | Back Gastrodon MSl+WP/BS 1/15/14, Morpeko (Full Belly) TS+AuW/PsF 10/12/15 | shape ABC | score 718.96
+  - lineup dominating: 120
+  - lineup overwhelming: 2
+  - resources: balanced mean 729.26 / dom 42 overhwlm 1 | spend mean 730.18 / dom 37 overhwlm 0 | save mean 697.44 / dom 41 overhwlm 1
+- #5: Lead Morpeko (Full Belly) TS+AuW/PsF 10/12/15 | Back Gastrodon MSl+WP/BS 1/15/14, Tinkaton FW+PR/Bd 3/10/12 | shape ABC | score 718.83
+  - lineup dominating: 121
+  - lineup overwhelming: 2
+  - resources: balanced mean 729.26 / dom 42 overhwlm 1 | spend mean 695.10 / dom 41 overhwlm 1 | save mean 732.12 / dom 38 overhwlm 0
+- #6: Lead Gastrodon MSl+WP/BS 1/15/14 | Back Morpeko (Full Belly) TS+AuW/PsF 10/12/15, Tinkaton FW+PR/Bd 3/10/12 | shape ABC | score 716.39
+  - lineup dominating: 118
+  - lineup overwhelming: 2
+  - resources: balanced mean 729.26 / dom 42 overhwlm 1 | spend mean 735.38 / dom 39 overhwlm 0 | save mean 684.52 / dom 37 overhwlm 1
+- #7: Lead Corviknight SdA+AC/Pbk 0/13/14 | Back Clefable FW+M/MM 2/12/11, Morpeko (Full Belly) TS+AuW/PsF 10/12/15 | shape ABC | score 713.84
+  - lineup dominating: 118
+  - lineup overwhelming: 1
+  - resources: balanced mean 719.44 / dom 44 overhwlm 0 | spend mean 748.16 / dom 39 overhwlm 0 | save mean 673.92 / dom 35 overhwlm 1
+- #8: Lead Morpeko (Full Belly) TS+AuW/PsF 10/12/15 | Back Clefable FW+M/MM 2/12/11, Corviknight SdA+AC/Pbk 0/13/14 | shape ABC | score 712.43
+  - lineup dominating: 118
+  - lineup overwhelming: 1
+  - resources: balanced mean 719.44 / dom 44 overhwlm 0 | spend mean 683.34 / dom 34 overhwlm 0 | save mean 734.50 / dom 40 overhwlm 1
+- #9: Lead Clefable FW+M/MM 2/12/11 | Back Corviknight SdA+AC/Pbk 0/13/14, Morpeko (Full Belly) TS+AuW/PsF 10/12/15 | shape ABC | score 712.33
+  - lineup dominating: 118
+  - lineup overwhelming: 0
+  - resources: balanced mean 719.44 / dom 44 overhwlm 0 | spend mean 717.88 / dom 35 overhwlm 0 | save mean 699.68 / dom 39 overhwlm 0
+- #10: Lead Corsola (Galarian) A+PG/NSh 11/12/12 | Back Clefable FW+M/MM 2/12/11, Morpeko (Full Belly) TS+AuW/PsF 10/12/15 | shape ABA | score 705.41
+  - lineup dominating: 112
+  - lineup overwhelming: 1
+  - resources: balanced mean 710.04 / dom 39 overhwlm 1 | spend mean 717.78 / dom 32 overhwlm 0 | save mean 688.40 / dom 41 overhwlm 0
 
 Potential Threats
-- Togekiss Pk+Psh/AuS 4/15/15 | single-coverage: 1 | no-coverage: 0
-  - 2-shield: only answer Grumpig Psy+DyP/SB 4/15/15 (553)
-- Piloswine (Shadow) PS+ISp/SE 4/14/11 | single-coverage: 1 | no-coverage: 0
-  - 2-shield: only answer Forretress (Shadow) BBi+ST/RT 5/15/13 (789)
-- Forretress (Shadow) VS+ST/RT 5/15/13 | single-coverage: 1 | no-coverage: 0
-  - 2-shield: only answer Diggersby MS+FiP/ScS 4/15/14 (704)
+- Gourgeist (Large) I+SB/SeB 1/14/15 | single-coverage: 0 | no-coverage: 1
+  - 1-shield: no cover; best loser Corviknight SdA+AC/Pbk 0/13/14 (455)
+- Talonflame (Shadow) I+FmC/Fl 0/13/15 | single-coverage: 0 | no-coverage: 1
+  - 2-shield: no cover; best loser Corsola (Galarian) A+PG/NSh 11/12/12 (488)
+- Cradily Ac+RT/GK 0/15/15 | single-coverage: 0 | no-coverage: 1
+  - 1-shield: no cover; best loser Tinkaton FW+PR/Bd 3/10/12 (496)
+- Ludicolo A+WBW/LfS 0/15/15 | single-coverage: 2 | no-coverage: 0
+  - 0-shield: only answer Corviknight SdA+AC/Pbk 0/13/14 (523)
+  - 1-shield: only answer Morpeko (Full Belly) TS+AuW/PsF 10/12/15 (841)
+- Gastrodon MSl+BS/WP 1/15/14 | single-coverage: 2 | no-coverage: 0
+  - 0-shield: only answer Corsola (Galarian) A+PG/NSh 11/12/12 (600)
+  - 2-shield: only answer Corviknight SdA+AC/Pbk 0/13/14 (700)
+- Azumarill B+IB/PR 0/15/15 | single-coverage: 1 | no-coverage: 0
+  - 0-shield: only answer Tinkaton FW+PR/Bd 3/10/12 (592)
+- Primeape KC+RF/CC 1/15/15 | single-coverage: 1 | no-coverage: 0
+  - 2-shield: only answer Clefable FW+M/MM 2/12/11 (653)
+- Stunfisk TS+MB/D 0/12/15 | single-coverage: 1 | no-coverage: 0
+  - 2-shield: only answer Gastrodon MSl+WP/BS 1/15/14 (767)
+- Steelix TF+PsF/Cr 0/14/15 | single-coverage: 1 | no-coverage: 0
+  - 2-shield: only answer Gastrodon MSl+WP/BS 1/15/14 (697)
+- Clodsire PSt+Eq/SE 0/14/13 | single-coverage: 1 | no-coverage: 0
+  - 0-shield: only answer Gastrodon MSl+WP/BS 1/15/14 (697)

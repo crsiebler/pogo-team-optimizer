@@ -58,17 +58,18 @@ PYTHONPATH=src python -m pytest --cov=src --cov-report=term-missing
 Basic run:
 
 ```bash
-PYTHONPATH=src python -m pogo_team_optimizer.cli.main --meta crucible
+PYTHONPATH=src python -m pogo_team_optimizer.cli.main --meta bayou
 ```
 
-Supported metas include `bayou`, `bfretro`, `bfmaster`, `crucible`, `euic`, `great`,
-`majestic`, `master`, `naic`, and `spellcraft`.
+Supported metas include `bayou`, `bfretro`, `bfmaster`, `euic`, `great`, `majestic`,
+`master`, `naic`, and `spellcraft`. Crucible is no longer supported because it is
+outdated and no longer played.
 
 Each CLI execution runs the optimizer once, prints the text report, and writes every supported
 format to `data/output/`:
 
 ```bash
-PYTHONPATH=src python -m pogo_team_optimizer.cli.main --meta crucible
+PYTHONPATH=src python -m pogo_team_optimizer.cli.main --meta bayou
 ```
 
 Generated files use the selected meta name: `<meta>.txt`, `<meta>.md`, `<meta>.json`,
@@ -99,6 +100,32 @@ Multiprocessing is process-based, not thread-based. Worker runs split optimizer 
 into deterministic batches and reduce the best result in the parent process, which keeps
 CPU-bound scoring work parallel without parallelizing individual matchup cells or lineup
 resource-path calculations.
+
+## Ranking-Aware Inputs
+
+Active metas declare PvPoke category ranking CSVs in `data/metas.json`. The supported
+categories are `overall`, `leads`, `switches`, `closers`, `attackers`, `chargers`, and
+`consistency`; each file is loaded as `Pokemon,Score` rows plus any extra PvPoke export
+columns. The repository keeps raw PvPoke scores available for diagnostics, while the
+application layer normalizes valid category scores onto a `0.0` to `1.0` scale for scoring.
+
+Each meta can define two ranking-path maps:
+
+- `ranking_paths` describes the active cup or format used for candidate quality, role fit,
+  and top-threat weighting.
+- `full_meta_ranking_paths` is optional broader league context for use cases that wire a
+  separate full-meta ranking profile.
+
+The legacy `switch_rankings_path` field remains only as a compatibility shim. New ranking
+inputs should use typed `ranking_paths` entries, and the CLI validates configured files
+before constructing repositories.
+
+Current CLI execution loads the active `ranking_paths` profile for category scoring and
+top-threat weighting. It parses and validates `full_meta_ranking_paths`, but normal scoring
+uses all matchup matrix columns as the broad full-meta context until a separate full-meta
+ranking profile is explicitly wired into the use case. Missing, invalid, or degenerate
+ranking values use deterministic neutral fallback behavior instead of making the optimizer
+crash or depend on file ordering.
 
 ## Interpreting Lineup-Aware Results
 
@@ -148,6 +175,22 @@ ABC, ABB, and ABA lineup labels remain heuristic diagnostics for interpreting te
 complete type and matchup data are available, evidence-derived synergy can affect `lineup_score`
 and is surfaced in the structured result payload as `score_summary.synergy_score`; labels alone
 are not tie-breakers or scoring inputs.
+
+Ranking-aware roster score breakdowns include weighted components for synergy, threat
+coverage, safety, consistency, bulk, defensive type ratio, offensive move ratio, and role fit.
+Today, roster-level threat coverage, safety, consistency, bulk, defensive ratio, and offensive
+ratio distinguish teams in the appended ranking-aware score, while roster-level synergy and
+role fit use neutral fallback diagnostics. Role fit affects recommended-lineup scoring and
+diagnostics when category rankings are wired into the use case; it is not currently a direct
+roster-level optimizer input. Evidence-derived synergy can affect optimizer behavior through
+ordered-lineup scoring when the required type and matchup data is available. Explainability fields such
+as covered threats, remaining threats, no-answer threats, single-answer threats, shared
+weaknesses, role assumptions, and lineup dependency explain the selected roster but should not
+be treated as separate exporter-computed objectives.
+
+Deterministic ranking-aware regression fixtures live under
+`tests/fixtures/us031_weighted_scoring/`. Use those fixtures for small tests involving category
+rankings, top-threat/full-meta pools, type and move inputs, and weighted optimizer ordering.
 
 ## Fast Test Iteration
 

@@ -1,27 +1,64 @@
 section,key,value
-recommended_team,member,Diggersby MS+FiP/ScS 4/15/14
-recommended_team,member,Grumpig Psy+DyP/SB 4/15/15
-recommended_team,member,Lickilicky RO+BS/SB 4/15/8
-recommended_team,member,Togekiss Pk+Psh/AuS 4/15/15
-recommended_team,member,Corsola (Galarian) A+NSh/PG 4/15/14
-recommended_team,member,Forretress (Shadow) BBi+ST/RT 5/15/13
-recommended_team,bulk_score,236.60
-recommended_team,bulk_pool_min_mean_max,190.96/226.82/274.02
-recommended_team,consistency,score=767.17;mean=710.92;dominate=18/24;overwhelming=0/24
-recommended_team,redundancy,2plus=21/24;3plus=21/24;single=3/24;none=0/24
-coverage,0-shield,8/0/0
-coverage,1-shield,8/0/0
-coverage,2-shield,8/0/0
-safe_core,#1 ABC,lead=Diggersby MS+FiP/ScS 4/15/14;switch=Forretress (Shadow) BBi+ST/RT 5/15/13;closer=Grumpig Psy+DyP/SB 4/15/15
-safe_core,#2 ABC,lead=Corsola (Galarian) A+NSh/PG 4/15/14;switch=Forretress (Shadow) BBi+ST/RT 5/15/13;closer=Grumpig Psy+DyP/SB 4/15/15
-safe_core,#3 ABC,lead=Diggersby MS+FiP/ScS 4/15/14;switch=Lickilicky RO+BS/SB 4/15/8;closer=Grumpig Psy+DyP/SB 4/15/15
-safe_core,#4 ABC,lead=Togekiss Pk+Psh/AuS 4/15/15;switch=Forretress (Shadow) BBi+ST/RT 5/15/13;closer=Grumpig Psy+DyP/SB 4/15/15
-safe_core,#5 ABC,lead=Togekiss Pk+Psh/AuS 4/15/15;switch=Forretress (Shadow) BBi+ST/RT 5/15/13;closer=Diggersby MS+FiP/ScS 4/15/14
-safe_core,#6 ABC,lead=Diggersby MS+FiP/ScS 4/15/14;switch=Forretress (Shadow) BBi+ST/RT 5/15/13;closer=Lickilicky RO+BS/SB 4/15/8
-safe_core,#7 ABC,lead=Corsola (Galarian) A+NSh/PG 4/15/14;switch=Forretress (Shadow) BBi+ST/RT 5/15/13;closer=Lickilicky RO+BS/SB 4/15/8
-safe_core,#8 ABC,lead=Corsola (Galarian) A+NSh/PG 4/15/14;switch=Togekiss Pk+Psh/AuS 4/15/15;closer=Grumpig Psy+DyP/SB 4/15/15
-safe_core,#9 ABC,lead=Corsola (Galarian) A+NSh/PG 4/15/14;switch=Togekiss Pk+Psh/AuS 4/15/15;closer=Forretress (Shadow) BBi+ST/RT 5/15/13
-safe_core,#10 ABC,lead=Corsola (Galarian) A+NSh/PG 4/15/14;switch=Lickilicky RO+BS/SB 4/15/8;closer=Grumpig Psy+DyP/SB 4/15/15
-threat,Togekiss Pk+Psh/AuS 4/15/15,single=1;none=0;details=2-shield only Grumpig Psy+DyP/SB 4/15/15
-threat,Piloswine (Shadow) PS+ISp/SE 4/14/11,single=1;none=0;details=2-shield only Forretress (Shadow) BBi+ST/RT 5/15/13
-threat,Forretress (Shadow) VS+ST/RT 5/15/13,single=1;none=0;details=2-shield only Diggersby MS+FiP/ScS 4/15/14
+recommended_team,member,Morpeko (Full Belly) TS+AuW/PsF 10/12/15
+recommended_team,member,Clefable FW+M/MM 2/12/11
+recommended_team,member,Corviknight SdA+AC/Pbk 0/13/14
+recommended_team,member,Gastrodon MSl+WP/BS 1/15/14
+recommended_team,member,Tinkaton FW+PR/Bd 3/10/12
+recommended_team,member,Corsola (Galarian) A+PG/NSh 11/12/12
+recommended_team,bulk_score,208.68
+recommended_team,bulk_pool_min_mean_max,77.06/205.90/471.60
+recommended_team,consistency,score=813.89;mean=751.89;dominate=124/150;overwhelming=0/150
+recommended_team,redundancy,2plus=136/150;3plus=103/150;single=11/150;none=3/150
+recommended_lineup,#1,"lead=Gastrodon MSl+WP/BS 1/15/14;backs=Clefable FW+M/MM 2/12/11, Morpeko (Full Belly) TS+AuW/PsF 10/12/15;shape=ABC;score=733.12;mean=733.12;dominating=125;overwhelming=1"
+recommended_lineup_resource_path,#1 balanced,lead_shield=1;back_shield=1;mean_best_score=746.76;dominating=45;overwhelming=1
+recommended_lineup_resource_path,#1 shield_spend,lead_shield=2;back_shield=0;mean_best_score=745.92;dominating=38;overwhelming=0
+recommended_lineup_resource_path,#1 shield_save,lead_shield=0;back_shield=2;mean_best_score=706.68;dominating=42;overwhelming=0
+recommended_lineup,#2,"lead=Morpeko (Full Belly) TS+AuW/PsF 10/12/15;backs=Clefable FW+M/MM 2/12/11, Gastrodon MSl+WP/BS 1/15/14;shape=ABC;score=732.25;mean=732.25;dominating=124;overwhelming=2"
+recommended_lineup_resource_path,#2 balanced,lead_shield=1;back_shield=1;mean_best_score=746.76;dominating=45;overwhelming=1
+recommended_lineup_resource_path,#2 shield_spend,lead_shield=2;back_shield=0;mean_best_score=707.98;dominating=39;overwhelming=0
+recommended_lineup_resource_path,#2 shield_save,lead_shield=0;back_shield=2;mean_best_score=742.00;dominating=40;overwhelming=1
+recommended_lineup,#3,"lead=Clefable FW+M/MM 2/12/11;backs=Gastrodon MSl+WP/BS 1/15/14, Morpeko (Full Belly) TS+AuW/PsF 10/12/15;shape=ABC;score=731.63;mean=731.63;dominating=123;overwhelming=2"
+recommended_lineup_resource_path,#3 balanced,lead_shield=1;back_shield=1;mean_best_score=746.76;dominating=45;overwhelming=1
+recommended_lineup_resource_path,#3 shield_spend,lead_shield=2;back_shield=0;mean_best_score=740.46;dominating=39;overwhelming=1
+recommended_lineup_resource_path,#3 shield_save,lead_shield=0;back_shield=2;mean_best_score=707.66;dominating=39;overwhelming=0
+recommended_lineup,#4,"lead=Tinkaton FW+PR/Bd 3/10/12;backs=Gastrodon MSl+WP/BS 1/15/14, Morpeko (Full Belly) TS+AuW/PsF 10/12/15;shape=ABC;score=718.96;mean=718.96;dominating=120;overwhelming=2"
+recommended_lineup_resource_path,#4 balanced,lead_shield=1;back_shield=1;mean_best_score=729.26;dominating=42;overwhelming=1
+recommended_lineup_resource_path,#4 shield_spend,lead_shield=2;back_shield=0;mean_best_score=730.18;dominating=37;overwhelming=0
+recommended_lineup_resource_path,#4 shield_save,lead_shield=0;back_shield=2;mean_best_score=697.44;dominating=41;overwhelming=1
+recommended_lineup,#5,"lead=Morpeko (Full Belly) TS+AuW/PsF 10/12/15;backs=Gastrodon MSl+WP/BS 1/15/14, Tinkaton FW+PR/Bd 3/10/12;shape=ABC;score=718.83;mean=718.83;dominating=121;overwhelming=2"
+recommended_lineup_resource_path,#5 balanced,lead_shield=1;back_shield=1;mean_best_score=729.26;dominating=42;overwhelming=1
+recommended_lineup_resource_path,#5 shield_spend,lead_shield=2;back_shield=0;mean_best_score=695.10;dominating=41;overwhelming=1
+recommended_lineup_resource_path,#5 shield_save,lead_shield=0;back_shield=2;mean_best_score=732.12;dominating=38;overwhelming=0
+recommended_lineup,#6,"lead=Gastrodon MSl+WP/BS 1/15/14;backs=Morpeko (Full Belly) TS+AuW/PsF 10/12/15, Tinkaton FW+PR/Bd 3/10/12;shape=ABC;score=716.39;mean=716.39;dominating=118;overwhelming=2"
+recommended_lineup_resource_path,#6 balanced,lead_shield=1;back_shield=1;mean_best_score=729.26;dominating=42;overwhelming=1
+recommended_lineup_resource_path,#6 shield_spend,lead_shield=2;back_shield=0;mean_best_score=735.38;dominating=39;overwhelming=0
+recommended_lineup_resource_path,#6 shield_save,lead_shield=0;back_shield=2;mean_best_score=684.52;dominating=37;overwhelming=1
+recommended_lineup,#7,"lead=Corviknight SdA+AC/Pbk 0/13/14;backs=Clefable FW+M/MM 2/12/11, Morpeko (Full Belly) TS+AuW/PsF 10/12/15;shape=ABC;score=713.84;mean=713.84;dominating=118;overwhelming=1"
+recommended_lineup_resource_path,#7 balanced,lead_shield=1;back_shield=1;mean_best_score=719.44;dominating=44;overwhelming=0
+recommended_lineup_resource_path,#7 shield_spend,lead_shield=2;back_shield=0;mean_best_score=748.16;dominating=39;overwhelming=0
+recommended_lineup_resource_path,#7 shield_save,lead_shield=0;back_shield=2;mean_best_score=673.92;dominating=35;overwhelming=1
+recommended_lineup,#8,"lead=Morpeko (Full Belly) TS+AuW/PsF 10/12/15;backs=Clefable FW+M/MM 2/12/11, Corviknight SdA+AC/Pbk 0/13/14;shape=ABC;score=712.43;mean=712.43;dominating=118;overwhelming=1"
+recommended_lineup_resource_path,#8 balanced,lead_shield=1;back_shield=1;mean_best_score=719.44;dominating=44;overwhelming=0
+recommended_lineup_resource_path,#8 shield_spend,lead_shield=2;back_shield=0;mean_best_score=683.34;dominating=34;overwhelming=0
+recommended_lineup_resource_path,#8 shield_save,lead_shield=0;back_shield=2;mean_best_score=734.50;dominating=40;overwhelming=1
+recommended_lineup,#9,"lead=Clefable FW+M/MM 2/12/11;backs=Corviknight SdA+AC/Pbk 0/13/14, Morpeko (Full Belly) TS+AuW/PsF 10/12/15;shape=ABC;score=712.33;mean=712.33;dominating=118;overwhelming=0"
+recommended_lineup_resource_path,#9 balanced,lead_shield=1;back_shield=1;mean_best_score=719.44;dominating=44;overwhelming=0
+recommended_lineup_resource_path,#9 shield_spend,lead_shield=2;back_shield=0;mean_best_score=717.88;dominating=35;overwhelming=0
+recommended_lineup_resource_path,#9 shield_save,lead_shield=0;back_shield=2;mean_best_score=699.68;dominating=39;overwhelming=0
+recommended_lineup,#10,"lead=Corsola (Galarian) A+PG/NSh 11/12/12;backs=Clefable FW+M/MM 2/12/11, Morpeko (Full Belly) TS+AuW/PsF 10/12/15;shape=ABA;score=705.41;mean=705.41;dominating=112;overwhelming=1"
+recommended_lineup_resource_path,#10 balanced,lead_shield=1;back_shield=1;mean_best_score=710.04;dominating=39;overwhelming=1
+recommended_lineup_resource_path,#10 shield_spend,lead_shield=2;back_shield=0;mean_best_score=717.78;dominating=32;overwhelming=0
+recommended_lineup_resource_path,#10 shield_save,lead_shield=0;back_shield=2;mean_best_score=688.40;dominating=41;overwhelming=0
+coverage,0-shield,50/0/0
+coverage,1-shield,48/0/2
+coverage,2-shield,49/0/1
+threat,Gourgeist (Large) I+SB/SeB 1/14/15,single=0;none=1;details=1-shield no cover
+threat,Talonflame (Shadow) I+FmC/Fl 0/13/15,single=0;none=1;details=2-shield no cover
+threat,Cradily Ac+RT/GK 0/15/15,single=0;none=1;details=1-shield no cover
+threat,Ludicolo A+WBW/LfS 0/15/15,single=2;none=0;details=0-shield only Corviknight SdA+AC/Pbk 0/13/14 | 1-shield only Morpeko (Full Belly) TS+AuW/PsF 10/12/15
+threat,Gastrodon MSl+BS/WP 1/15/14,single=2;none=0;details=0-shield only Corsola (Galarian) A+PG/NSh 11/12/12 | 2-shield only Corviknight SdA+AC/Pbk 0/13/14
+threat,Azumarill B+IB/PR 0/15/15,single=1;none=0;details=0-shield only Tinkaton FW+PR/Bd 3/10/12
+threat,Primeape KC+RF/CC 1/15/15,single=1;none=0;details=2-shield only Clefable FW+M/MM 2/12/11
+threat,Stunfisk TS+MB/D 0/12/15,single=1;none=0;details=2-shield only Gastrodon MSl+WP/BS 1/15/14
+threat,Steelix TF+PsF/Cr 0/14/15,single=1;none=0;details=2-shield only Gastrodon MSl+WP/BS 1/15/14
+threat,Clodsire PSt+Eq/SE 0/14/13,single=1;none=0;details=0-shield only Gastrodon MSl+WP/BS 1/15/14

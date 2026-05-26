@@ -597,7 +597,7 @@
         "Typecheck passes"
       ],
       "priority": 32,
-      "passes": false,
+      "passes": true,
       "notes": "Recommended agent: documentation-engineer. Documentation should stay aligned with scoring behavior and avoid reintroducing deprecated full-roster Coverage, Safe Cores, or Resource / Shield Safety sections."
     },
     {

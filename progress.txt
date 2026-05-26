@@ -32,11 +32,13 @@
 - Ordered lineup synergy scoring lives in `application/lineups.py`; derive ABC/ABB/ABA strategy score from type/matchup evidence, then have `TeamOptimizer._lineup_mean_score()` pass row types, type chart, and threat weights so synergy affects cached lineup objective scoring.
 - Skip ordered-lineup synergy when any lineup member has missing type data or incomplete type-effectiveness mappings; viability filters should require both resource-path mean and blended lineup score to meet `LINEUP_VIABILITY_THRESHOLD`.
 - Ranking-aware roster component scoring lives in `application/scoring.py`; keep coverage, safety, consistency, bulk, defensive ratio, and offensive ratio normalized before combining them through `RosterScore`.
-- `TeamOptimizer._score_team()` appends the ranking-aware final score after existing tuple indexes; `_comparison_key()` consumes it after safety/bulk guards and the primary lineup objective without reordering legacy score fields.
+- `TeamOptimizer._score_team()` appends the ranking-aware final score after existing tuple indexes; `_comparison_key()` consumes safety-floor deficit, safe-member deficit, bulk deficit, primary lineup objective, ranking-aware final score, secondary lineup metrics, then legacy tie-breakers without reordering legacy score fields.
 - Use ranking-pool matrix indices from `AnalyzeMetaUseCase` for top-threat weighting, normalized PvPoke consistency for ranking-aware consistency, shield-path stability as the bait-dependence proxy, and neutral move DPE fallback until move power/energy data is modeled.
 - `TeamOptimizer` snapshots caller-owned scoring inputs at construction and uses deterministic SHA-256 scoring-context fingerprints in team and lineup score cache keys so mutable inputs and large matrix keys do not affect cached scoring or integration-test runtime.
 - Ranking-aware explainability payloads are assembled in `AnalyzeMetaUseCase` from application score objects and structured threat/lineup diagnostics; exporters should render those fields without recomputing scoring, coverage, role, or shared-weakness logic.
 - Deterministic weighted GBL regression fixtures live under `tests/fixtures/us031_weighted_scoring/`; use them for small ranking, matrix, Pokemon, move, top-threat, full-meta, and Crucible-removal coverage instead of production ranking CSVs in unit tests.
+- Ranking-aware documentation should keep optimizer objectives separate from explainability-only diagnostics, preserve the repository/application/use-case/CLI/exporter boundary split, and keep Crucible documented as unsupported.
+- Ranking-aware docs should state the current optimizer comparison order exactly: safety-floor deficit, safe-member deficit, bulk deficit, primary lineup objective, ranking-aware final score, secondary lineup metrics, then legacy tie-breakers.
 
 ## 2026-04-14 11:49:44 MST - US-001
 - What was implemented
@@ -1224,4 +1226,67 @@
   - Pre-existing unrelated worktree changes remain outside this story and should not be staged.
 - Next iteration start:
   - Implement `US-032` by documenting category ranking inputs, pool construction, weighted score outputs, deterministic fixtures, and architecture boundaries.
+---
+
+## 2026-05-25 21:12:29 MST - US-032
+- What was implemented
+  - Documented category ranking CSV inputs, active/full meta ranking path semantics, Crucible unsupported status, weighted ranking-aware scoring objectives, and deterministic fixture guidance in README.
+  - Updated the GBL optimization docs and subdocs to describe ranking pool construction, score normalization, weighted component ordering, role-fit behavior, lineup synergy guards, validation expectations, caching, and multiprocessing implications.
+  - Updated AGENTS and the `gbl-optimizer` skill with reusable architecture boundaries: repositories load raw rankings, application services normalize/build pools/score, the use case assembles diagnostics, the CLI validates and wires, and exporters render without recomputing.
+- Files changed: `AGENTS.md`, `README.md`, `.opencode/skills/gbl-optimizer/SKILL.md`, `docs/pokemon-go-team-optimization.md`, `docs/team-optimization/coverage-threat-pools.md`, `docs/team-optimization/data-inputs.md`, `docs/team-optimization/lineup-structures.md`, `docs/team-optimization/role-scoring.md`, `docs/team-optimization/safety-consistency-bulk.md`, `docs/team-optimization/scoring-model.md`, `docs/team-optimization/type-effectiveness.md`, `docs/team-optimization/validation.md`, `progress.txt`
+- Commit message: `feat: US-032 - Document ranking-aware optimization architecture`
+- Checks:
+  - `make typecheck` (pass)
+  - `make lint` (pass)
+  - `make test` (pass)
+  - `make typecheck` after review fixes (pass)
+  - `make lint` after review fixes (pass)
+- Implementation agents:
+  - Recommended: `documentation-engineer`
+  - Used: `documentation-engineer`
+- Specialist review:
+  - Agents used: `code-reviewer`, `qa-expert`, `security-engineer`, `security-auditor`, `documentation-engineer`
+  - Findings: blocked after third review pass; fixed earlier findings for optimizer comparison wording, full-meta ranking path consumption, and neutral roster-level synergy/role-fit wording, but the third pass still found medium documentation accuracy issues around role fit not being a roster optimizer input and exact ranking-aware comparison order.
+- Decisions (why):
+  - Chose documentation-only updates because the implemented ranking-aware behavior and regression fixtures already exist and US-032 is an architecture documentation story.
+  - Chose to document ranking inputs in README and deeper behavior in `docs/team-optimization/` so user-facing setup stays concise while contributors get implementation-level guidance.
+  - Chose to update the OpenCode `gbl-optimizer` skill because future scoring agents need the same boundary and testing obligations as the docs.
+- **Learnings for future iterations:**
+  - Ranking-aware documentation should explicitly separate optimizer-selected weighted objectives from explainability diagnostics rendered by exporters.
+  - Gotcha encountered: `docs/` and `.opencode/skills/gbl-optimizer/` were untracked in this worktree, so stage only the US-032 documentation files and avoid unrelated generated outputs or vendor files.
+- Known issues / follow-ups:
+  - Blocked by third-pass specialist review findings: clarify that role fit currently affects recommended-lineup scoring/diagnostics, not roster optimization, unless a ranking profile is explicitly wired into optimizer lineup scoring.
+  - Blocked by third-pass specialist review findings: clarify exact optimizer comparison order as safety/safe-member/bulk guards, primary lineup objective score, ranking-aware final score, then secondary lineup metrics and legacy tie-breakers.
+  - Pre-existing unrelated worktree changes remain outside this story and should not be staged.
+- Next iteration start:
+  - Continue `US-032` by fixing the remaining documentation accuracy findings, rerunning typecheck/lint, and restarting the specialist review loop before committing.
+---
+
+## 2026-05-25 21:29:26 MST - US-032
+- What was implemented
+  - Resolved the remaining documentation accuracy blockers from the prior US-032 review by documenting the exact optimizer comparison order.
+  - Clarified that role fit currently affects recommended-lineup scoring and diagnostics when category rankings are wired, but is not a direct roster-level optimizer comparison input.
+  - Marked US-032 passing in `prd.json` after validation succeeded.
+- Files changed: `AGENTS.md`, `README.md`, `.opencode/skills/gbl-optimizer/SKILL.md`, `docs/pokemon-go-team-optimization.md`, `docs/team-optimization/scoring-model.md`, `prd.json`, `progress.txt`
+- Commit message: `feat: US-032 - Document ranking-aware optimization architecture`
+- Checks:
+  - `make typecheck` (pass)
+  - `make lint` (pass)
+  - `make test` (pass, 218 tests)
+- Implementation agents:
+  - Recommended: `documentation-engineer`
+  - Used: `documentation-engineer`
+- Specialist review:
+  - Agents used: pending
+  - Findings: pending
+- Decisions (why):
+  - Chose precise comparison-order wording instead of broad safety/bulk wording because future scoring changes need to preserve the actual `_comparison_key()` priority chain.
+  - Chose to document role fit as lineup-scoped rather than roster-scoped so architecture docs match current optimizer behavior without implying unimplemented roster-level role scoring.
+- **Learnings for future iterations:**
+  - When documenting ranking-aware scoring, verify docs against `TeamOptimizer._comparison_key()` and distinguish lineup-scoped role/synergy from roster-level weighted components.
+- Known issues / follow-ups:
+  - US-033 remains pending for local PvPoke CSV data sync.
+  - Pre-existing unrelated worktree changes remain outside this story and should not be staged.
+- Next iteration start:
+  - Implement `US-033` by adding the local PvPoke sync workflow, Makefile target, README setup docs, and focused sync tests.
 ---

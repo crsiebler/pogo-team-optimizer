@@ -135,6 +135,7 @@ Boundary rules:
 - Keep optimizer-related tests deterministic with explicit seeds.
 - Cover parsing edge cases and matrix label alignment behavior.
 - Use `tests/fixtures/us031_weighted_scoring/` for small ranking-aware unit regressions instead of production ranking CSVs when testing category rankings, top-threat/full-meta pools, type/move inputs, and weighted optimizer ordering.
+- Documentation for ranking-aware optimization should distinguish optimizer objectives from explainability-only diagnostics and keep Crucible documented as unsupported.
 
 Recommended local gate before completion:
 ```bash
@@ -166,8 +167,9 @@ make test
 - Ordered lineup role-fit scoring belongs in `application/lineups.py` and should consume normalized `RankingRow.normalized_score` values from a use-case-normalized `RankingProfile`; leads use `leads`, unordered backs are averaged across `switches`/`closers` plus secondary role categories, and role weight stays low (`0.03`) versus resource-path matchup score.
 - Ordered lineup synergy scoring belongs in `application/lineups.py`; keep ABC/ABB/ABA labels explainable, but derive synergy from type/matchup evidence and wire it through `TeamOptimizer._lineup_mean_score()` so it affects cached lineup objective scoring.
 - Skip ordered-lineup synergy when any lineup member has missing type data or incomplete type-effectiveness mappings; viability filters should require both resource-path mean and blended lineup score to meet `LINEUP_VIABILITY_THRESHOLD`.
-- Ranking-aware coverage, safety, consistency, bulk, defensive ratio, and offensive ratio components belong in `application/scoring.py`; `TeamOptimizer` appends the weighted final score after existing tuple indexes and uses it after bulk/safety guards and the primary lineup objective without reordering legacy fields.
+- Ranking-aware coverage, safety, consistency, bulk, defensive ratio, and offensive ratio components belong in `application/scoring.py`; `TeamOptimizer` appends the weighted final score after existing tuple indexes and `_comparison_key()` consumes safety-floor deficit, safe-member deficit, bulk deficit, primary lineup objective, ranking-aware final score, secondary lineup metrics, then legacy tie-breakers without reordering legacy fields.
 - Ranking-aware explainability belongs in `AnalyzeMetaUseCase`: expose structured score breakdowns and diagnostics in the result payload, and keep exporters limited to rendering those fields without recomputing scoring, coverage, role, or shared-weakness logic.
+- Ranking-aware architecture boundaries are strict: infrastructure repositories load raw ranking files, the application layer normalizes category scores, builds ranking pools, and computes weighted roster/lineup scores, `AnalyzeMetaUseCase` assembles explainability payloads, the CLI validates and wires dependencies only, and exporters render existing diagnostics only.
 - Use ranking-pool matrix indices from the use case for top-threat weighting, normalized PvPoke consistency scores for ranking-aware consistency, shield-path stability as the bait-dependence proxy, and neutral move DPE fallback until move power/energy data is modeled.
 - Derive opponent type pressure from matrix column labels through the Pokemon repository in the use case, then pass explicit `opponent_types_by_col` into `TeamOptimizer`; keep missing opponent type data neutral rather than inferring it in exporters or CLI logic.
 - Six-Pokemon roster objective scoring belongs in `TeamOptimizer` consuming lineup-depth metrics from `application/lineups.py`; append new optimizer score tuple fields instead of reordering existing indexes consumed by use-case metrics and exporters.
