@@ -443,7 +443,7 @@
         "Typecheck passes"
       ],
       "priority": 24,
-      "passes": false,
+      "passes": true,
       "notes": "Recommended agent: refactoring-specialist. Likely files: new application/scoring.py, application/lineups.py, application/optimizer.py, scoring tests. Keep scoring explainable and non-lexicographic."
     },
     {

@@ -26,6 +26,7 @@
 - Battle Frontier output metrics belong in `recommended_team.metrics`; keep them optional and have human-readable exporters render a conditional legality section so non-`bfmaster` metas do not need placeholder fields.
 - For real-data integration coverage, instantiate the concrete CSV repositories directly in tests so `bfmaster` assertions exercise the checked-in matrices, switch rankings, and Battle Frontier points files together.
 - Ranking threat pool construction lives in `application/ranking_pools.py`; align ranking profiles to normalized matrix opponent labels, deduplicate by `parse_base_species()` like the optimizer, and use deterministic missing-score fallback weights/order.
+- Ranking-aware weighted score structures live in `application/scoring.py`; preserve deterministic component order, neutral missing-component handling, and centralized `RosterScoreWeights` defaults before wiring them into optimizer ranking.
 
 ## 2026-04-14 11:49:44 MST - US-001
 - What was implemented
@@ -864,4 +865,35 @@
   - Pre-existing unrelated worktree changes remain outside this story and should not be staged.
 - Next iteration start:
   - Implement `US-024` by adding explicit weighted score structures while preserving existing tuple score consumers until migration.
+---
+
+## 2026-05-25 16:59:55 MST - US-024
+- What was implemented
+  - Added immutable application-layer weighted score structures for ranking-aware scoring components and roster score breakdowns.
+  - Centralized default roster scoring weights in `RosterScoreWeights` using the documented GBL priority order.
+  - Preserved existing optimizer tuple score consumers by adding the structures without changing optimizer comparison behavior in this story.
+- Files changed: `AGENTS.md`, `prd.json`, `progress.txt`, `src/pogo_team_optimizer/application/scoring.py`, `tests/unit/test_scoring.py`
+- Commit message: `feat: US-024 - Add weighted score structures for ranking-aware optimization`
+- Checks:
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m pytest tests/unit/test_scoring.py -q` (pass, 8 tests)
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m mypy src` (pass)
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m ruff check src tests` (pass)
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m pytest` (pass, 161 tests)
+- Implementation agents:
+  - Recommended: `refactoring-specialist`
+  - Used: `refactoring-specialist`
+- Specialist review:
+  - Agents used: `code-reviewer`, `qa-expert`, `security-engineer`, `documentation-engineer`
+  - Findings: fixed before commit; diagnostics now sort by key without comparing arbitrary object values, public diagnostics preserve duplicate entries instead of collapsing them to a dict, and custom weight consumption has focused test coverage. Deferred low finite-value validation to later normalization/scoring stories because current ranking pool inputs already sanitize non-finite PvPoke scores and US-025 covers explicit normalization policy. Deferred low commit-message format suggestion because Ralph explicitly requires `feat: US-024 - Add weighted score structures for ranking-aware optimization`.
+- Decisions (why):
+  - Chose a new `application/scoring.py` module so ranking-aware score structures remain pure application logic and avoid leaking repository or CSV concerns.
+  - Chose neutral `None` handling with explicit diagnostics so missing ranking-aware components are explainable without failing future partial scoring inputs.
+  - Chose not to wire these structures into `TeamOptimizer` comparison yet because this story allows preserving existing tuple consumers until a dedicated migration story updates scoring behavior.
+- **Learnings for future iterations:**
+  - `RosterScore.from_components()` emits all weighted components in `ROSTER_COMPONENT_ORDER` even when inputs are omitted, so exporters and future explainability code can rely on stable diagnostics ordering.
+  - Gotcha encountered: this story is structural scaffolding only; changing optimizer ranking semantics belongs to later ranking-aware scoring stories.
+- Known issues / follow-ups:
+  - `US-025` remains pending to normalize PvPoke category scores before role-fit and broader ranking-aware scoring consume them.
+- Next iteration start:
+  - Implement `US-025` by adding a normalization policy for PvPoke category scores while keeping raw scores available for diagnostics.
 ---
