@@ -39,6 +39,7 @@
 - Deterministic weighted GBL regression fixtures live under `tests/fixtures/us031_weighted_scoring/`; use them for small ranking, matrix, Pokemon, move, top-threat, full-meta, and Crucible-removal coverage instead of production ranking CSVs in unit tests.
 - Ranking-aware documentation should keep optimizer objectives separate from explainability-only diagnostics, preserve the repository/application/use-case/CLI/exporter boundary split, and keep Crucible documented as unsupported.
 - Ranking-aware docs should state the current optimizer comparison order exactly: safety-floor deficit, safe-member deficit, bulk deficit, primary lineup objective, ranking-aware final score, secondary lineup metrics, then legacy tie-breakers.
+- Local PvPoke data sync lives in `scripts/sync_pvpoke_data.py`; it reads `vendor/pvpoke` as a submodule source, copies gamemaster JSON, converts configured ranking JSON into flat `data/rankings/cp{cp}_{cup}_{category}_rankings.csv` files, and intentionally never writes `data/simulations/`.
 
 ## 2026-04-14 11:49:44 MST - US-001
 - What was implemented
@@ -1289,4 +1290,35 @@
   - Pre-existing unrelated worktree changes remain outside this story and should not be staged.
 - Next iteration start:
   - Implement `US-033` by adding the local PvPoke sync workflow, Makefile target, README setup docs, and focused sync tests.
+---
+
+## 2026-05-25 21:41:47 MST - US-033
+- What was implemented
+  - Added a local PvPoke sync script that copies required gamemaster JSON and converts configured PvPoke ranking JSON files into rankings-page-compatible flat CSV files.
+  - Added `make sync` and README submodule/sync documentation while preserving runtime CSV ranking inputs and excluding simulation matrix generation.
+  - Added focused tests for path mapping, CSV header/row generation, missing optional rankings, missing required gamemaster files, flat filename preservation, deterministic output, and the no-simulation-sync guarantee.
+- Files changed: `AGENTS.md`, `Makefile`, `README.md`, `prd.json`, `progress.txt`, `scripts/sync_pvpoke_data.py`, `tests/unit/test_pvpoke_sync.py`, `vendor/pvpoke`
+- Commit message: `feat: US-033 - Add local PvPoke CSV data sync`
+- Checks:
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m pytest tests/unit/test_pvpoke_sync.py -q` (pass, 9 tests after review fixes)
+  - `make typecheck` (pass)
+  - `make lint` (pass)
+  - `make test` (pass, 227 tests after review fixes)
+- Implementation agents:
+  - Recommended: `refactoring-specialist`
+  - Used: `refactoring-specialist`
+- Specialist review:
+  - Agents used: `code-reviewer`, `qa-expert`, `security-engineer`, `security-auditor`, `documentation-engineer`
+  - Findings: fixed before commit; constrained ranking outputs to `data/rankings` before any writes, escaped spreadsheet-formula text cells, derived stat product from displayed stats instead of trusting compact JSON product values, and handled ranking rows with missing stats deterministically.
+- Decisions (why):
+  - Chose a standalone script instead of changing runtime repositories because ranking JSON is only an intermediate sync source and the optimizer contract remains flat CSV files.
+  - Chose `data/metas.json` ranking paths as the mapping source so sync generates the exact flat files configured for active metas and full-meta pools without nested output directories.
+  - Chose warning-and-skip behavior for missing ranking JSON so optional PvPoke rankings do not delete or overwrite existing local CSVs, while missing gamemaster files still fail fast.
+- **Learnings for future iterations:**
+  - PvPoke sync should stage the `vendor/pvpoke` gitlink only; do not add vendor contents as normal repository files.
+  - Gotcha encountered: PvPoke ranking JSON does not directly store the CSV `CP` column, so the sync derives a deterministic CP estimate from ranking stats while preserving the exact exported header and runtime-critical `Pokemon,Score` fields.
+- Known issues / follow-ups:
+  - Final specialist review pass is pending after review fixes.
+- Next iteration start:
+  - All PRD stories should pass after the local review loop and commit if no findings remain.
 ---

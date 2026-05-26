@@ -154,6 +154,7 @@ make test
 - `pvpoke` export requires both `pokemon.json` and `moves.json`.
 - CLI runs emit all supported output formats to `--output-dir`; do not use deprecated `--output`.
 - Meta-specific PvPoke ranking inputs belong in `data/metas.json` via typed `ranking_paths` and optional `full_meta_ranking_paths` keyed by `RankingCategory`; keep legacy `switch_rankings_path` as a compatibility shim only.
+- Local PvPoke data sync belongs in `scripts/sync_pvpoke_data.py`; it reads the `vendor/pvpoke` submodule, copies gamemaster JSON, converts ranking JSON into flat `data/rankings/cp{cp}_{cup}_{category}_rankings.csv` files, and must not generate or overwrite simulation matrices.
 - Validate all configured ranking paths in the CLI before constructing repositories; switch rankings resolution remains explicit `--switch-rankings-path`, then per-meta `ranking_paths.switches`, then the legacy Great League default path.
 - Ranking threat pools belong in `application/ranking_pools.py`; align ranking profiles to normalized matrix opponent labels, deduplicate by `parse_base_species()` like the optimizer, and keep missing ranking entries deterministic instead of failing.
 - Ranking-aware weighted score structures belong in `application/scoring.py`; keep component order deterministic, missing components neutral with diagnostics, and default weights centralized in `RosterScoreWeights`.

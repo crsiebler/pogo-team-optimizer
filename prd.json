@@ -623,7 +623,7 @@
         "Typecheck passes"
       ],
       "priority": 33,
-      "passes": false,
+      "passes": true,
       "notes": "Recommended agent: refactoring-specialist. Use pogo-team-generator lib/sync as reference for local source resolution and gamemaster copying, but preserve this repository's CSV ranking contract. Replicate PvPoke rankings page CSV export fields and flat data/rankings/cp{cp}_{cup}_{category}_rankings.csv outputs. Do not refactor the optimizer to consume ranking JSON. Exclude simulation generation for this repository. Wire through Makefile and keep file I/O in scripts/infrastructure, not optimizer scoring."
     }
   ]

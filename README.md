@@ -101,6 +101,29 @@ into deterministic batches and reduce the best result in the parent process, whi
 CPU-bound scoring work parallel without parallelizing individual matchup cells or lineup
 resource-path calculations.
 
+## Syncing PvPoke Data
+
+PvPoke is vendored as a git submodule at `vendor/pvpoke`. Initialize it before running
+the local sync workflow:
+
+```bash
+git submodule update --init --recursive
+```
+
+The sync target reads local PvPoke gamemaster files and ranking JSON exports, then writes
+this repository's runtime inputs:
+
+```bash
+make sync
+```
+
+The workflow copies `vendor/pvpoke/src/data/gamemaster/pokemon.json` and `moves.json` to
+`data/pokemon.json` and `data/moves.json`. It also converts configured ranking JSON files
+into flat PvPoke rankings-page-compatible CSV files under `data/rankings/`, preserving the
+`cp{cp}_{cup}_{category}_rankings.csv` filename convention used by `data/metas.json`.
+Ranking JSON remains an intermediate sync source only; the optimizer continues to read the
+flat CSV files at runtime. Simulation matrix CSVs are not generated or overwritten by sync.
+
 ## Ranking-Aware Inputs
 
 Active metas declare PvPoke category ranking CSVs in `data/metas.json`. The supported
