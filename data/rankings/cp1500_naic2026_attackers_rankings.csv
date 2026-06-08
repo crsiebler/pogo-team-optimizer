@@ -1,346 +1,347 @@
 Pokemon,Score,Dex,Type 1,Type 2,Attack,Defense,Stamina,Stat Product,Level,CP,Fast Move,Charged Move 1,Charged Move 2,Charged Move 1 Count,Charged Move 2 Count,Buddy Distance,Charged Move Cost
-Uxie,100,480,psychic,none,102.1,176.1,122,2193759,22,1497,Confusion,Swift,Thunder,3,5,20,100000
-Miltank,92.2,241,normal,none,105.4,134.8,150,2130680,24,1500,Rollout,Body Slam,Thunderbolt,3,5,5,75000
-Hypno,91.2,97,psychic,none,103.4,143,147,2174050,27,1500,Confusion,Shadow Ball,Thunder Punch,4,3,3,50000
-Munchlax,88,446,normal,none,103.2,96.6,218,2172279,30,1499,Tackle,Body Slam,Bulldoze,12,15,5,10000
-Weezing (Galarian),87.5,110,poison,fairy,117.7,139.5,116,1904809,24.5,1499,Fairy Wind,Sludge,Brutal Swing,5,4,3,50000
-Dubwool,85.5,832,normal,none,110.6,143,128,2025159,25.5,1497,Double Kick,Body Slam,Wild Charge,3,4,3,10000
-Dachsbun,84,927,fairy,none,113.5,156.1,112,1983841,26.5,1500,Charm,Psychic Fangs,Play Rough,5,8,3,50000
-Wobbuffet,84,202,psychic,none,63,101.7,333,2133829,50,1160,Counter,Return<sup>†</sup>,Mirror Coat,12,10,3,50000
-Orbeetle,83.7,826,bug,psychic,107.9,168.6,114,2075077,25.5,1496,Psycho Cut,Psyshock,Bug Buzz,5,7,1,10000
-Oinkologne (Female),83.5,916,normal,none,109.6,111.5,167,2041611,22.5,1500,Mud Slap*,Body Slam,Trailblaze,4,5,1,10000
-Azumarill,81.2,184,water,fairy,93.4,134.5,191,2399514,43,1499,Bubble,Ice Beam,Play Rough,5,6,3,50000
-Sealeo,80.7,364,ice,water,109,112.8,168,2065168,36,1500,Powder Snow,Surf,Body Slam,6,5,3,50000
-Aromatisse,79.8,683,fairy,none,115.8,107.3,156,1939437,24,1500,Charm,Psyshock,Moonblast,5,8,3,50000
-Dunsparce,79,206,normal,none,104.8,111,184,2139359,37.5,1499,Rollout,Drill Run,Rock Slide,4,4,3,50000
-Florges,79,671,fairy,none,120.1,141.6,110,1869643,17,1499,Fairy Wind,Disarming Voice,Trailblaze,5,5,3,50000
-Grumpig,79,326,psychic,none,113.3,131.5,132,1966510,23.5,1497,Psywave,Dynamic Punch,Shadow Ball,12,13,1,10000
-Lumineon,79,457,water,none,109,137.4,137,2052476,32.5,1498,Waterfall,Aqua Tail,Silver Wind,4,5,3,50000
-Lapras,78.3,131,water,ice,104.7,114.6,179,2147136,21.5,1499,Psywave,Sparkling Aria,Skull Bash,12,19,5,75000
-Milotic,78.3,350,water,none,113.2,133.9,131,1985080,18.5,1498,Waterfall,Aqua Tail,Wrap,4,5,5,75000
-Sylveon,77.8,700,fairy,none,117.3,124.7,130,1901632,18,1498,Charm,Psyshock*,Moonblast,5,8,5,75000
-Dewott,77.3,502,water,none,122.6,99.8,149,1822620,35,1496,Fury Cutter,Aqua Tail,X-Scissor,9,10,3,10000
-Linoone,76.8,264,normal,none,114.1,111.8,154,1965124,38.5,1497,Shadow Claw,Swift,Grass Knot,5,7,1,10000
-Kingdra,75.5,230,water,dragon,121.8,127.9,118,1839109,21,1497,Dragon Breath,Swift,Outrage,9,15,3,50000
-Castform,73.8,351,normal,none,112.6,121.3,146,1993800,39.5,1500,Hex,Weather Ball (Rock),Energy Ball,3,5,5,75000
-Slowking (Galarian),73.8,199,poison,psychic,117.3,117.9,138,1909734,20.5,1499,Acid,Psyshock,Shadow Ball,5,7,3,50000
-Kangaskhan,73.5,115,normal,none,114.6,110.9,153,1943857,21.5,1495,Mud Slap,Brick Break*,Crunch,4,5,3,50000
-Blastoise,73,9,water,none,112.1,137.7,130,2007546,23,1500,Rollout,Hydro Cannon*,Skull Bash,4,6,3,10000
-Whiscash,72.3,340,water,ground,107.6,108.3,178,2073839,27,1495,Mud Shot,Mud Bomb,Scald,5,6,1,10000
-Hypno (Shadow),72,97,psychic,none,103.4,143,147,2174050,27,1500,Confusion,Shadow Ball,Thunder Punch,4,3,3,50000
-Gallade,71.8,475,psychic,fighting,136.6,115.6,104,1642368,18,1499,Psycho Cut,Close Combat,Leaf Blade,5,4,5,75000
-Ninetales (Alolan),71.8,38,ice,fairy,114.5,136.1,125,1948701,24,1497,Powder Snow,Weather Ball (Ice),Dazzling Gleam,5,7,3,50000
-Latias,71.3,380,dragon,psychic,124.5,138.9,104,1798959,16,1498,Dragon Breath,Aura Sphere,Mist Ball*,10,15,20,100000
-Weezing (Galarian) (Shadow),71.3,110,poison,fairy,117.7,139.5,116,1904809,24.5,1499,Fairy Wind,Sludge,Brutal Swing,5,4,3,50000
-Oinkologne,71,916,normal,none,117.7,101.6,159,1900828,21.5,1496,Mud Slap*,Body Slam,Trailblaze,4,5,1,10000
-Wailmer,71,320,water,none,116.6,68.3,242,1926826,48.5,1499,Rollout,Scald,Body Slam,4,3,1,10000
-Slowbro,70.8,80,water,psychic,113.4,120.9,144,1974848,22,1500,Confusion,Drain Punch,Surf*,3,4,3,50000
-Pidgeot,70.5,18,normal,flying,116.9,115.5,142,1917898,26.5,1499,Wing Attack*,Air Cutter*,Brave Bird,5,7,1,10000
-Slowbro (Galarian),70,80,poison,psychic,119.1,108.4,146,1884537,22.5,1500,Poison Jab,Brutal Swing,Sludge Bomb,5,8,3,50000
-Togetic,70,176,fairy,flying,110.2,150.2,123,2035132,36.5,1498,Fairy Wind,Psyshock,Dazzling Gleam,5,7,3,50000
-Deoxys (Defense),69.8,386,psychic,none,101,221.5,98,2192628,23.5,1491,Counter,Psycho Boost,Thunderbolt,6,10,20,100000
-Barbaracle,68.8,689,rock,water,121,133.1,115,1851007,20.5,1499,Fury Cutter,Cross Chop,Stone Edge,9,14,3,50000
-Kecleon,68,352,normal,none,115.6,142.2,118,1939686,27.5,1499,Sucker Punch,Foul Play,Thunder,6,9,5,75000
-Quagsire,67.5,195,water,ground,111.3,112.7,161,2018332,28.5,1499,Mud Shot,Aqua Tail*,Stone Edge,4,7,3,50000
-Sealeo (Shadow),67.5,364,ice,water,109,112.8,168,2065168,36,1500,Powder Snow,Surf,Body Slam,6,5,3,50000
-Slowbro (Shadow),67.3,80,water,psychic,113.4,120.9,144,1974848,22,1500,Confusion,Drain Punch,Surf*,3,4,3,50000
-Wobbuffet (Shadow),67.3,202,psychic,none,63,101.7,333,2133829,50,1160,Counter,Mirror Coat,Frustration<sup>†</sup>,10,12,3,50000
-Alomomola,67,594,water,none,97.4,99.5,238,2305528,26,1499,Waterfall,Hydro Pump,Psychic,8,6,5,75000
-Dudunsparce,67,982,normal,none,116.1,98.6,169,1934787,20.5,1500,Rollout,Body Slam,Drill Run,3,4,3,50000
-Quagsire (Shadow),67,195,water,ground,111.3,112.7,161,2018332,28.5,1499,Mud Shot,Aqua Tail*,Stone Edge,4,7,3,50000
-Furfrou,66.8,676,normal,none,115.5,125.2,134,1937601,26.5,1496,Sucker Punch,Surf,Grass Knot,7,8,5,75000
-Spritzee,66.5,682,fairy,none,105,107.6,168,1898008,50,1415,Charm,Thunderbolt,Draining Kiss,7,7,3,50000
-Dewgong,66,87,water,ice,102,136.9,157,2192411,28.5,1498,Ice Shard*,Icy Wind*,Drill Run,5,5,3,50000
-Snorlax,65.5,143,normal,none,108.4,102.3,187,2073265,17.5,1500,Lick,Body Slam,Superpower,12,14,5,75000
-Ninetales (Alolan) (Shadow),65.3,38,ice,fairy,114.5,136.1,125,1948701,24,1497,Powder Snow,Weather Ball (Ice),Dazzling Gleam,5,7,3,50000
-Vigoroth,65.3,288,normal,none,116.2,114.1,145,1923360,28.5,1497,Counter,Body Slam,Rock Slide,6,8,5,75000
-Maushold,65,925,normal,none,116.2,122,136,1928003,28.5,1498,Mud Shot,Swift,Crunch,4,5,1,10000
-Tentacruel,65,73,water,poison,108.9,143.5,131,2047453,23,1495,Acid,Scald,Payback,7,8,3,50000
-Girafarig,64.5,203,normal,psychic,130.3,101.6,130,1720655,27.5,1499,Confusion,Psychic Fangs,Trailblaze,3,4,3,50000
-Lunatone,64.5,337,rock,psychic,119.1,108.6,145,1876210,24,1496,Psywave,Weather Ball (Ice),Rock Slide,9,12,3,50000
-Wailord,64,321,water,none,118.4,67.4,237,1891875,24.5,1497,Rollout,Surf,Return<sup>†</sup>,4,6,1,10000
-Whiscash (Shadow),64,340,water,ground,107.6,108.3,178,2073839,27,1495,Mud Shot,Mud Bomb,Scald,5,6,1,10000
-Solrock,63.3,338,rock,psychic,119.1,108.6,145,1876210,24,1496,Psywave,Weather Ball (Fire),Rock Slide,9,12,3,50000
-Marshtomp,63,259,water,ground,119.9,111.5,140,1871384,34.5,1499,Mud Shot,Surf,Sludge,5,5,3,10000
-Politoed,62.5,186,water,none,114,124.3,139,1970072,23,1498,Mud Shot,Weather Ball (Water),Earthquake*,4,8,3,50000
-Swampert,62.5,260,water,ground,123,109.2,136,1825538,18.5,1499,Mud Shot,Hydro Cannon*,Earthquake,5,8,3,10000
-Feraligatr,62.3,160,water,none,123.9,117.4,125,1817697,19.5,1500,Shadow Claw,Hydro Cannon*,Crunch,5,6,3,10000
-Lapras (Shadow),62.3,131,water,ice,104.7,114.6,179,2147136,21.5,1499,Psywave,Sparkling Aria,Dragon Pulse*,12,14,5,75000
-Mantine,62.3,226,water,flying,105.5,166.6,121,2126860,27,1500,Wing Attack,Aerial Ace,Ice Beam,6,7,5,75000
-Samurott,62.3,503,water,none,128,100.9,136,1756037,19.5,1500,Fury Cutter,Hydro Cannon*,Megahorn,10,14,3,10000
-Slowpoke,62,79,water,psychic,104.2,95,186,1840271,50,1386,Confusion,Psyshock,Water Pulse,3,4,3,50000
-Dondozo,61.8,977,water,none,104.6,109.7,187,2146006,18.5,1499,Waterfall,Surf,Outrage,5,6,5,75000
-Relicanth,61.5,369,water,rock,105.2,133.7,152,2137627,22.5,1499,Water Gun,Aqua Tail,Ancient Power,12,15,5,75000
-Frillish,61.3,592,water,ghost,109.2,125.2,135,1846427,50,1421,Hex,Night Shade,Ice Beam,4,5,3,50000
-Tapu Fini,61.3,788,water,fairy,115.9,158.3,105,1926493,20,1495,Water Gun,Surf,Nature's Madness*,15,17,20,100000
-Walrein,61.3,365,ice,water,112.5,114.9,154,1990879,20.5,1500,Powder Snow*,Icicle Spear*,Earthquake,5,9,3,50000
-Diancie,60.3,719,rock,fairy,119.2,175.2,89,1857962,19.5,1488,Rock Throw,Rock Slide,Moonblast,9,12,20,100000
-Spinda,60.3,327,normal,none,110.1,110.1,142,1720678,50,1380,Sucker Punch,Rock Tomb,Icy Wind,8,7,3,50000
-Mew,60,151,psychic,none,120.5,119.4,129,1855163,16.5,1498,Shadow Claw,Wild Charge,Psyshock,6,5,20,100000
-Rapidash (Galarian),59.8,78,psychic,fairy,133.7,111.5,112,1669979,22.5,1499,Fairy Wind,Body Slam,Wild Charge*,4,5,3,50000
-Gardevoir (Shadow),59.3,282,psychic,fairy,136.6,115.6,104,1642368,18,1499,Charm,Triple Axel,Shadow Ball,6,7,5,75000
-Slowpoke (Galarian),59.3,79,psychic,none,104.2,95,186,1840271,50,1386,Confusion,Psyshock,Surf,3,4,3,50000
-Wailmer (Shadow),59.3,320,water,none,116.6,68.3,242,1926826,48.5,1499,Rollout,Scald,Body Slam,4,3,1,10000
-Milotic (Shadow),59.1,350,water,none,113.2,133.9,131,1985080,18.5,1498,Waterfall,Aqua Tail,Wrap,4,5,5,75000
-Politoed (Shadow),59.1,186,water,none,114,124.3,139,1970072,23,1498,Mud Shot,Weather Ball (Water),Earthquake*,4,8,3,50000
-Tentacruel (Shadow),58.8,73,water,poison,108.9,143.5,131,2047453,23,1495,Acid,Scald,Payback,7,8,3,50000
-Wartortle,58.8,8,water,none,107.6,139.1,139,2080282,47.5,1496,Water Gun,Aqua Jet,Ice Beam,14,19,3,10000
-Golduck,58.1,55,water,none,124.2,112.2,129,1796871,22.5,1499,Confusion,Cross Chop,Liquidation,3,4,3,50000
-Loudred (Shadow),58.1,294,normal,none,125.2,80.7,178,1797820,50,1500,Bite,Stomp,Disarming Voice,20,23,1,10000
-Girafarig (Shadow),57.8,203,normal,psychic,130.3,101.6,130,1720655,27.5,1499,Confusion,Psychic Fangs,Trailblaze,3,4,3,50000
-Togekiss,57.6,468,fairy,flying,124.3,125.9,115,1799029,16.5,1498,Peck,Dazzling Gleam,Aura Sphere*,7,5,3,50000
-Aipom,57.3,190,normal,none,124.4,106.7,135,1791711,50,1494,Astonish,Swift,Aerial Ace,4,5,3,50000
-Grumpig (Shadow),57.3,326,psychic,none,113.3,131.5,132,1966510,23.5,1497,Psywave,Dynamic Punch,Shadow Ball,12,13,1,10000
-Drampa,57.1,780,normal,dragon,136.8,104.2,115,1640140,19,1499,Dragon Breath,Swift,Dragon Pulse,9,14,5,75000
-Heliolisk,57.1,695,electric,normal,138.1,112.1,105,1626001,21.5,1500,Volt Switch,Breaking Swipe,Parabolic Charge,4,4,3,50000
-Floette,56.6,670,fairy,none,114.3,134.5,128,1967111,44,1499,Vine Whip,Dazzling Gleam,Psychic,7,7,3,50000
-Dewott (Shadow),56.3,502,water,none,124.1,99.8,146,1808108,35,1499,Fury Cutter,Aqua Tail,X-Scissor,9,10,3,10000
-Vigoroth (Shadow),56.1,288,normal,none,116.2,114.1,145,1923360,28.5,1497,Counter,Body Slam,Rock Slide,6,8,5,75000
-Slowking,55.8,199,water,psychic,113.4,120.9,144,1974848,22,1500,Confusion,Surf*,Blizzard,4,6,3,50000
-Noctowl,55.6,164,normal,flying,105.3,120.2,168,2126381,28,1500,Wing Attack,Sky Attack,Shadow Ball,7,7,1,10000
-Slowpoke (Shadow),55.6,79,water,psychic,104.2,95,186,1840271,50,1386,Confusion,Psyshock,Water Pulse,3,4,3,50000
-Loudred,55.3,294,normal,none,125.2,80.7,178,1797820,50,1500,Bite,Stomp,Disarming Voice,20,23,1,10000
-Swoobat,55.3,528,psychic,flying,126.7,101.7,138,1777300,34.5,1500,Confusion,Fly,Psychic Fangs,4,3,1,10000
-Slowking (Shadow),55.1,199,water,psychic,113.4,120.9,144,1974848,22,1500,Confusion,Surf*,Blizzard,4,6,3,50000
-Blastoise (Shadow),54.8,9,water,none,112.1,137.7,130,2007546,23,1500,Rollout,Hydro Cannon*,Skull Bash,4,6,3,10000
-Gardevoir,54.8,282,psychic,fairy,136.6,115.6,104,1642368,18,1499,Charm,Triple Axel,Shadow Ball,6,7,5,75000
-Seaking,54.8,119,water,none,121.9,109,138,1833820,26,1500,Peck,Icy Wind*,Megahorn,6,7,3,50000
-Tentacool,54.8,72,water,poison,94.1,137.8,113,1465578,50,1176,Poison Sting,Water Pulse,Wrap,6,5,3,50000
-Castform (Rainy),54.6,351,water,none,112.6,121.3,146,1993800,39.5,1500,Water Gun,Weather Ball (Water),Thunder,12,20,5,75000
-Blissey,54.3,242,normal,none,81,111.3,307,2768972,20.5,1500,Zen Headbutt,Wild Charge*,Dazzling Gleam,8,10,5,75000
-Gumshoos,53.8,735,normal,none,134.2,85,147,1677298,25.5,1500,Bite,Rock Tomb,Crunch,25,23,1,10000
-Comfey,53.6,764,fairy,none,116.2,157.5,105,1921722,26.5,1500,Vine Whip,Grass Knot,Draining Kiss,7,7,3,50000
-Kingdra (Shadow),53.6,230,water,dragon,121.8,127.9,118,1839109,21,1497,Dragon Breath,Swift,Outrage,9,15,3,50000
-Quaxwell,53.1,913,water,none,125.4,103.5,138,1792214,34,1500,Wing Attack,Aqua Jet,Aerial Ace,5,6,3,10000
-Swampert (Shadow),53.1,260,water,ground,123,109.2,136,1825538,18.5,1499,Mud Shot,Hydro Cannon*,Earthquake,5,8,3,10000
-Tauros,53.1,128,normal,none,125.1,119.5,120,1794891,21.5,1499,Tackle,Trailblaze,Horn Attack,15,12,3,50000
-Chimecho,52.8,358,psychic,none,119.6,120.9,130,1879066,25,1500,Astonish,Psyshock,Shadow Ball,4,5,5,75000
-Tauros (Aqua),52.8,128,fighting,water,127.8,120.7,114,1758735,20,1500,Double Kick,Aqua Jet,Trailblaze,4,4,3,50000
-Snorlax (Shadow),52.6,143,normal,none,108.4,102.3,187,2073265,17.5,1500,Lick,Body Slam,Superpower,12,14,5,75000
-Corsola,52.3,222,water,rock,108.6,142,134,2066246,49,1500,Bubble,Power Gem,Rock Blast,5,4,3,50000
-Buneary,51.6,427,normal,none,121.8,100.8,135,1658639,50,1423,Quick Attack,Swift,Fire Punch,5,5,3,50000
-Gallade (Shadow),51.6,475,psychic,fighting,136.6,115.6,104,1642368,18,1499,Psycho Cut,Close Combat,Leaf Blade,5,4,5,75000
-Pidgeot (Shadow),51.6,18,normal,flying,116.9,115.5,142,1917898,26.5,1499,Wing Attack*,Brave Bird,Air Cutter*,7,5,1,10000
-Wartortle (Shadow),51.6,8,water,none,107.6,139.1,139,2080282,47.5,1496,Water Gun,Aqua Jet,Ice Beam,14,19,3,10000
-Wyrdeer,51.1,899,normal,psychic,126.6,95.6,146,1767417,20,1497,Confusion,Stomp,Wild Charge,3,4,5,75000
-Bouffalant,50.8,626,normal,none,118.9,115.9,137,1887582,20,1500,Mud Shot,Stomp,Megahorn,5,7,3,50000
-Espurr,50.8,677,psychic,none,113.4,108.4,145,1783036,50,1424,Confusion,Psyshock,Energy Ball,3,4,3,50000
-Heliolisk (Shadow),50.8,695,electric,normal,138.1,112.1,105,1626001,21.5,1500,Volt Switch,Breaking Swipe,Parabolic Charge,4,4,3,50000
-Suicune,50.8,245,water,none,106.3,143.1,137,2083417,18.5,1489,Ice Fang,Bubble Beam,Scald,7,9,20,100000
-Meowstic (Male),50.1,678,psychic,none,117.2,124,132,1917248,26,1499,Sucker Punch,Energy Ball,Thunderbolt,8,8,3,50000
-Shellos,49.6,422,water,none,99.2,100.8,166,1659740,50,1284,Mud Slap,Body Slam,Water Pulse,4,5,3,50000
-Slurpuff,49.6,685,fairy,none,116,119.4,139,1925688,25.5,1498,Fairy Wind,Play Rough,Energy Ball,7,7,3,50000
-Vaporeon,49.6,134,water,none,118.5,96.9,165,1894159,18,1500,Water Gun,Aqua Tail,Last Resort*,12,19,5,75000
-Marshtomp (Shadow),49.3,259,water,ground,120.4,111.4,139,1864979,33.5,1500,Mud Shot,Surf,Sludge,5,5,3,10000
-Victini,49.3,494,psychic,fire,120.5,119.4,129,1855163,16.5,1498,Confusion,V-Create,Psyshock,3,3,20,100000
-Urshifu (Rapid Strike),49.1,892,fighting,water,136.6,97.8,121,1616195,15,1489,Counter,Aqua Jet,Dynamic Punch,7,8,20,100000
-Tentacool (Shadow),48.6,72,water,poison,94.1,137.8,113,1465578,50,1176,Poison Sting,Water Pulse,Wrap,6,5,3,50000
-Aipom (Shadow),48.3,190,normal,none,124.4,106.7,135,1791711,50,1494,Astonish,Swift,Aerial Ace,4,5,3,50000
-Bruxish,48.3,779,water,psychic,136.5,102.5,117,1636557,23,1495,Confusion,Psychic Fangs,Crunch,3,4,3,50000
-Gyarados,48.3,130,water,flying,130.8,108.5,121,1717312,16.5,1498,Dragon Breath,Aqua Tail*,Crunch,9,12,1,10000
-Litleo,48.3,667,fire,normal,121.6,105.8,144,1851844,48.5,1500,Incinerate,Flame Charge,Crunch,3,3,3,10000
-Mesprit,48.3,481,psychic,none,123.6,128.1,114,1804097,18,1496,Confusion,Swift,Future Sight,3,5,20,100000
-Gothitelle,48.1,576,psychic,none,115.3,140.9,119,1934140,23,1498,Confusion,Rock Slide,Future Sight,4,5,3,50000
-Qwilfish,48.1,211,water,poison,131.2,105.5,123,1702587,27,1497,Poison Sting,Aqua Tail,Ice Beam,4,7,3,50000
-Tirtouga,47.6,564,water,rock,114.4,132.5,130,1969593,46.5,1500,Water Gun,Surf,Body Slam,15,12,5,75000
-Gothitelle (Shadow),47.3,576,psychic,none,115.3,140.9,119,1934140,23,1498,Confusion,Rock Slide,Future Sight,4,5,3,50000
-Snubbull,47.3,209,fairy,none,127.7,84,142,1524055,50,1399,Tackle,Brick Break,Crunch,14,15,3,50000
-Stufful,47.3,759,normal,fighting,124.8,92.2,156,1794685,49.5,1499,Tackle,Superpower,Stomp,14,14,1,10000
-Exploud,47.1,295,normal,none,119.8,99.5,157,1870373,24,1500,Astonish,Crunch,Boomburst,5,7,1,10000
-Gothorita,47.1,575,psychic,none,112.2,132.8,134,1996579,40,1498,Confusion,Future Sight,Psychic,5,4,3,50000
-Gothorita (Shadow),47.1,575,psychic,none,112.2,132.8,134,1996579,40,1498,Confusion,Future Sight,Psychic,5,4,3,50000
-Pelipper,47.1,279,water,flying,123.3,128.7,115,1825336,26,1500,Wing Attack,Weather Ball (Water),Hurricane,5,9,3,50000
-Suicune (Shadow),47.1,245,water,none,107.1,140,136,2039331,18,1478,Ice Fang,Bubble Beam,Scald,7,9,20,100000
-Walrein (Shadow),46.8,365,ice,water,112.5,114.9,154,1990879,20.5,1500,Powder Snow*,Icicle Spear*,Earthquake,5,9,3,50000
-Bewear,45.6,760,normal,fighting,129.6,87.2,153,1729276,17.5,1497,Shadow Claw,Superpower,Stomp,5,5,1,10000
-Latias (Shadow),45.6,380,dragon,psychic,126.8,135.2,103,1764672,15.5,1500,Dragon Breath,Aura Sphere,Mist Ball*,10,15,20,100000
-Drowzee,45.1,96,psychic,none,87.4,126.9,142,1574590,50,1176,Confusion,Psyshock,Return<sup>†</sup>,3,5,3,50000
-Starmie,45.1,121,water,psychic,133.2,122,104,1689998,21.5,1500,Psywave,Surf,Power Gem,12,13,3,50000
-Brionne,44.8,729,water,none,125.9,117.1,121,1782789,30,1500,Charm,Aqua Jet,Disarming Voice,5,6,3,10000
-Primarina,44.8,730,water,fairy,131.6,115.7,112,1705342,17,1500,Waterfall,Disarming Voice,Hydro Cannon*,5,4,3,10000
-Exploud (Shadow),44.6,295,normal,none,119.8,99.5,157,1870373,24,1500,Astonish,Crunch,Boomburst,5,7,1,10000
-Grafaiai,44.6,945,poison,normal,134.2,107.8,115,1663690,24.5,1498,Mud Slap,Poison Fang,Sludge Bomb,4,5,3,50000
-Meowstic (Female),44.6,678,psychic,none,117.2,124,132,1917248,26,1499,Confusion,Shadow Ball,Psychic,4,4,3,50000
-Palpitoad,44.6,536,water,ground,116.2,103,161,1926840,48,1500,Mud Shot,Water Pulse,Earth Power,6,7,3,50000
-Porygon,44.6,137,normal,none,120,115.4,135,1870465,35.5,1500,Tackle*,Discharge*,Signal Beam*,14,19,3,50000
-Ursaluna (Shadow),44.3,901,ground,normal,125.6,98.7,144,1785614,14.5,1500,Tackle,Swift,High Horsepower*,12,20,3,50000
-Bibarel,43.8,400,normal,water,123,99.3,149,1818797,31.5,1498,Rollout,Surf,Hyper Fang,4,4,1,10000
-Porygon (Shadow),43.6,137,normal,none,120,115.4,135,1870465,35.5,1500,Tackle*,Discharge*,Signal Beam*,14,19,3,50000
-Mr. Mime,43.3,122,psychic,fairy,131.6,144.3,90,1708557,25,1500,Psywave,Shadow Ball,Psychic,13,14,5,75000
-Pidgeotto,43.3,17,normal,flying,110.9,100.8,147,1644149,50,1350,Wing Attack,Air Cutter,Twister,5,5,1,10000
-Ursaluna,43.3,901,ground,normal,125.6,98.7,144,1785614,14.5,1500,Tackle,Swift,High Horsepower*,12,20,3,50000
-Persian,42.8,53,normal,none,118.6,116.3,137,1890318,36.5,1498,Feint Attack,Night Slash*,Power Gem,6,9,3,50000
-Skrelp,42.8,690,poison,water,104.2,104.2,127,1378846,50,1202,Acid,Aqua Tail,Twister,5,5,3,50000
-Fearow,42.6,22,normal,flying,131.5,104.6,124,1705662,28,1500,Peck,Drill Peck,Drill Run,5,6,1,10000
-Hattrem,42.6,857,psychic,none,122.7,115.7,128,1817823,38.5,1494,Confusion,Psyshock,Dazzling Gleam,3,4,5,50000
-Armarouge,42.3,936,fire,psychic,132.2,109.6,117,1695222,17,1499,Incinerate,Psyshock,Heat Wave,2,3,5,50000
-Gyarados (Shadow),42.3,130,water,flying,130.8,108.5,121,1717312,16.5,1498,Dragon Breath,Aqua Tail*,Crunch,9,12,1,10000
-Samurott (Shadow),42.3,503,water,none,128,100.9,136,1756037,19.5,1500,Fury Cutter,Hydro Cannon*,Megahorn,10,14,3,10000
-Croconaw,42.1,159,water,none,117.7,120,135,1907626,35.5,1500,Water Gun,Ice Punch,Water Pulse,14,17,3,10000
-Feraligatr (Shadow),42.1,160,water,none,123.9,117.4,125,1817697,19.5,1500,Shadow Claw,Hydro Cannon*,Crunch,5,6,3,10000
-Stantler,41.8,234,normal,none,132.1,99.5,129,1695309,26,1499,Tackle,Wild Charge,Stomp,15,14,3,50000
-Raichu (Alolan),41.6,26,electric,psychic,135.5,109.9,111,1653242,24,1498,Thunder Shock,Wild Charge,Trailblaze,5,5,1,10000
-Reuniclus (Shadow),41.6,579,psychic,none,126.9,94.9,147,1771020,19,1500,Charm*,Psyshock,Shadow Ball,5,7,3,50000
-Qwilfish (Shadow),41.3,211,water,poison,131.2,105.5,123,1702587,27,1497,Poison Sting,Aqua Tail,Ice Beam,4,7,3,50000
-Eevee,40.8,133,normal,none,100,108.4,135,1463320,50,1210,Quick Attack,Body Slam*,Swift,5,5,5,75000
-Latios,40.6,381,dragon,psychic,139.4,112.9,102,1605573,14.5,1497,Dragon Breath,Aura Sphere,Dragon Claw,10,13,20,100000
-Ursaring,40.6,217,normal,none,139.6,91.4,126,1607158,18.5,1500,Shadow Claw,Swift,Close Combat,5,6,3,50000
-Golduck (Shadow),40.3,55,water,none,124.2,112.2,129,1796871,22.5,1499,Confusion,Cross Chop,Liquidation,3,4,3,50000
-Lopunny,40.1,428,normal,none,112.1,143.6,124,1996020,27.5,1499,Low Kick,Triple Axel,Hyper Beam,6,10,3,50000
-Rufflet,39.9,627,normal,flying,126.7,92.2,152,1774904,46.5,1500,Peck,Brave Bird,Fly,7,6,5,75000
-Audino,39.6,531,normal,none,92.7,137.9,190,2428140,38,1500,Zen Headbutt,Body Slam*,Disarming Voice,6,8,3,50000
-Trumbeak,39.6,732,normal,flying,134.1,93.3,134,1675846,48.5,1499,Peck,Drill Peck,Rock Blast,5,5,1,10000
-Tirtouga (Shadow),39.4,564,water,rock,114.4,132.5,130,1969593,46.5,1500,Water Gun,Surf,Body Slam,15,12,5,75000
-Zangoose,39.4,335,normal,none,144.8,87.8,122,1550367,23,1500,Fury Cutter,Close Combat,Night Slash,12,9,3,50000
-Carracosta,39.1,565,water,rock,121.4,127,120,1849862,21.5,1499,Water Gun,Liquidation,Body Slam,15,12,5,75000
-Delcatty,39.1,301,normal,none,111.9,116.8,153,2000374,46.5,1496,Feint Attack,Wild Charge,Disarming Voice,8,8,3,50000
-Mr. Rime,39.1,866,ice,psychic,127.4,114.4,120,1749749,19.5,1495,Confusion,Icy Wind,Psychic,4,4,5,75000
-Ponyta (Galarian),39.1,77,psychic,none,133.5,108.2,116,1675972,36,1500,Psycho Cut,Swift,Play Rough,4,7,3,50000
-Seismitoad,39.1,537,water,ground,120.3,100.9,154,1868887,22,1500,Mud Shot,Earth Power,Sludge Bomb,7,6,3,50000
-Ambipom,38.9,424,normal,none,133.9,100.6,124,1669988,23,1500,Astonish,Aerial Ace,Return<sup>†</sup>,5,7,3,50000
-Starmie (Shadow),38.9,121,water,psychic,133.2,122,104,1689998,21.5,1500,Psywave,Surf,Power Gem,12,13,3,50000
-Wailord (Shadow),38.6,321,water,none,118.4,67.4,237,1891875,24.5,1497,Rollout,Surf,Hyper Beam,4,7,1,10000
-Cinccino,38.4,573,normal,none,134.9,96.2,128,1661081,25,1498,Charm,Aqua Tail,Thunderbolt,5,7,3,50000
-Croconaw (Shadow),38.1,159,water,none,117.7,120,135,1907626,35.5,1500,Water Gun,Ice Punch,Water Pulse,14,17,3,10000
-Hatterene,37.9,858,psychic,fairy,142.2,115,96,1569863,19.5,1499,Psycho Cut,Psyshock,Power Whip,5,6,5,50000
-Pyroar,37.9,668,fire,normal,135,98,126,1666684,20,1500,Incinerate,Flame Charge,Dark Pulse,3,3,3,10000
-Xatu,37.6,178,psychic,flying,132.2,107.9,119,1698214,25.5,1500,Peck,Psyshock,Aerial Ace,5,6,3,50000
-Delphox,37.4,655,fire,psychic,132.6,115.6,110,1686664,18,1499,Fire Spin,Psyshock,Blast Burn*,4,5,3,10000
-Latios (Shadow),37.4,381,dragon,psychic,140.5,113,99,1570884,14,1488,Dragon Breath,Aura Sphere,Dragon Claw,10,13,20,100000
-Omastar,37.4,139,rock,water,126.6,128.4,109,1773092,20,1500,Mud Shot,Rock Slide*,Hydro Pump,5,9,5,75000
-Hoopa,37.1,720,psychic,ghost,144.8,106.3,99,1524461,16,1488,Confusion,Shadow Ball,Psychic,4,4,20,100000
-Mantyke,36.9,458,water,flying,100.8,163,120,1972572,50,1411,Bubble,Water Pulse,Aerial Ace,5,5,5,10000
-Omanyte,36.9,138,rock,water,128,135.3,101,1749618,43,1500,Mud Shot,Rock Tomb*,Rock Blast,6,5,5,75000
-Palkia (Shadow),36.9,484,water,dragon,140.4,110,100,1543554,13.5,1473,Dragon Breath,Aqua Tail,Draco Meteor,9,17,20,100000
-Goldeen,36.6,118,water,none,116,105,120,1461636,50,1302,Peck,Aqua Tail,Horn Attack,5,5,3,50000
-Beheeyem,36.4,606,psychic,none,134.4,105.7,117,1662923,20,1495,Confusion,Rock Slide,Dark Pulse,4,4,3,50000
-Elgyem,36.1,605,psychic,none,133.7,95.5,132,1684875,48,1500,Confusion,Dark Pulse,Psychic,4,4,3,50000
-Kabuto,36.1,140,rock,water,134.5,129.5,96,1671529,49,1499,Mud Shot,Aqua Jet,Rock Tomb,5,6,5,75000
-Mr. Mime (Galarian),36.1,122,ice,psychic,130.5,127,104,1724015,27,1500,Confusion,Ice Punch,Triple Axel,3,4,5,75000
-Persian (Shadow),35.9,53,normal,none,118.6,116.3,137,1890318,36.5,1498,Feint Attack,Night Slash*,Power Gem,6,9,3,50000
-Swanna (Shadow),35.9,581,water,flying,128.6,101.1,134,1741978,26.5,1497,Water Gun,Fly,Ice Beam,15,19,3,50000
-Huntail,35.6,367,water,none,130.8,125.6,104,1709128,23.5,1497,Water Gun,Aqua Tail,Crunch,12,15,3,50000
-Stufful (Shadow),35.4,759,normal,fighting,124.8,92.2,156,1794685,49.5,1499,Tackle,Superpower,Stomp,14,14,1,10000
-Ambipom (Shadow),35.1,424,normal,none,133.9,100.6,124,1669988,23,1500,Astonish,Aerial Ace,Low Sweep,5,4,3,50000
-Carracosta (Shadow),34.9,565,water,rock,121.4,127,120,1849862,21.5,1499,Water Gun,Liquidation,Body Slam,15,12,5,75000
-Clamperl,34.9,366,water,none,124.4,126,105,1645929,50,1436,Water Gun,Body Slam,Water Pulse,12,17,3,50000
-Herdier,34.9,507,normal,none,118.9,111.7,142,1885363,41.5,1497,Sand Attack,Dig,Thunderbolt,13,14,1,10000
-Teddiursa,34.9,216,normal,none,131.5,90.5,142,1690038,49.5,1493,Lick,Swift,Cross Chop,12,12,3,50000
-Poliwhirl,34.4,61,water,none,114.3,116,148,1961320,50,1500,Bubble,Scald*,Mud Bomb,5,5,3,50000
-Basculin,34.1,550,water,none,134,97.2,129,1679476,27,1500,Water Gun,Aqua Tail,Aqua Jet,12,14,1,10000
-Cloyster,34.1,91,water,ice,119,169.8,93,1879927,22,1498,Ice Shard,Icy Wind,Liquidation,5,5,3,50000
-Musharna,34.1,518,psychic,none,113.1,108.9,161,1982428,20.5,1499,Charge Beam,Psyshock,Dazzling Gleam,4,5,3,50000
-Seel,34.1,86,water,none,84,114.3,149,1430849,50,1098,Water Gun*,Aqua Tail,Icy Wind,12,15,3,50000
-Stantler (Shadow),34.1,234,normal,none,133.6,98.5,128,1683827,25.5,1500,Tackle,Wild Charge,Stomp,15,14,3,50000
-Toucannon,34.1,733,normal,flying,137.3,96.8,123,1634212,20.5,1500,Peck,Beak Blast*,Drill Peck,7,5,1,10000
-Drowzee (Shadow),33.9,96,psychic,none,87.4,126.9,142,1574590,50,1176,Confusion,Psyshock,Psychic,3,4,3,50000
-Pidgeotto (Shadow),33.9,17,normal,flying,110.9,100.8,147,1644149,50,1350,Wing Attack,Air Cutter,Twister,5,5,1,10000
-Swanna,33.9,581,water,flying,128.6,101.1,134,1741978,26.5,1497,Air Slash,Fly,Ice Beam,5,7,3,50000
-Volcanion,33.4,721,fire,water,135.6,117.4,103,1639861,15,1494,Incinerate,Scald,Overheat,3,3,20,100000
-Snubbull (Shadow),33.1,209,fairy,none,127.7,84,142,1524055,50,1399,Tackle,Brick Break,Crunch,14,15,3,50000
-Delphox (Shadow),32.9,655,fire,psychic,132.6,115.6,110,1686664,18,1499,Fire Spin,Psyshock,Blast Burn*,4,5,3,10000
-Espeon,32.4,196,psychic,none,148.1,105.6,97,1517189,17.5,1500,Confusion,Psychic Fangs,Shadow Ball*,3,4,5,75000
-Ursaring (Shadow),32.1,217,normal,none,139.6,91.4,126,1607158,18.5,1500,Shadow Claw,Swift,Close Combat,5,6,3,50000
-Jynx,31.9,124,ice,psychic,141.2,102.2,110,1587668,21.5,1499,Confusion,Avalanche,Psyshock,4,3,5,75000
-Purugly,31.9,432,normal,none,125.5,105.5,134,1775269,28.5,1493,Shadow Claw,Aerial Ace,Thunder,6,8,3,50000
-Teddiursa (Shadow),31.9,216,normal,none,131.5,90.5,142,1690038,49.5,1493,Lick,Swift,Cross Chop,12,12,3,50000
-Dottler,31.6,825,bug,psychic,85.7,144.5,127,1573262,50,1164,Confusion,Bug Buzz,Psychic,5,4,1,10000
-Prinplup,31.6,394,water,none,118.6,117.1,136,1888948,36.5,1498,Bubble,Icy Wind,Hydro Pump,5,7,3,10000
-Xatu (Shadow),31.6,178,psychic,flying,132.2,107.9,119,1698214,25.5,1500,Peck,Psyshock,Aerial Ace,5,6,3,50000
-Watchog,31.4,505,normal,none,125.2,114.1,125,1785264,31.5,1500,Low Kick,Crunch,Hyper Fang,6,7,1,10000
-Kabutops,31.1,141,rock,water,135.5,119.8,102,1654897,20.5,1498,Fury Cutter*,Stone Edge,Water Pulse,14,13,5,75000
-Kyogre (Shadow),31.1,382,water,none,133.9,116.6,104,1623378,13,1478,Waterfall,Avalanche,Surf,5,5,20,100000
-Gorebyss,30.9,368,water,none,136.2,121,100,1648806,22.5,1499,Confusion,Water Pulse,Psychic,4,4,3,50000
-Purugly (Shadow),30.9,432,normal,none,125.5,105.5,134,1775269,28.5,1493,Shadow Claw,Aerial Ace,Thunder,6,8,3,50000
-Stoutland,30.9,508,normal,none,123.9,116.2,125,1799428,19.5,1496,Sand Attack,Wild Charge,Crunch,12,12,1,10000
-Dodrio,30.6,85,normal,flying,143.8,98.4,110,1556601,23.5,1496,Peck,Drill Peck,Brave Bird,5,7,3,50000
-Simipour,30.6,516,water,none,136,95.8,126,1642252,23.5,1496,Water Gun,Surf,Crunch,15,15,3,50000
-Toucannon (Shadow),30.6,733,normal,flying,137.3,96.8,123,1634212,20.5,1500,Peck,Beak Blast*,Drill Peck,7,5,1,10000
-Tranquill,30.6,520,normal,flying,124,102.2,143,1812350,49.5,1500,Air Slash,Heat Wave,Aerial Ace,5,5,1,10000
-Azelf,30.4,482,psychic,none,152.6,90.3,106,1460851,17,1495,Confusion,Swift,Future Sight,3,5,20,100000
-Cloyster (Shadow),30.1,91,water,ice,119,169.8,93,1879927,22,1498,Ice Shard,Icy Wind,Liquidation,5,5,3,50000
-Trumbeak (Shadow),30.1,732,normal,flying,133.7,94.3,132,1664964,46,1492,Peck,Drill Peck,Rock Blast,5,5,1,10000
-Bibarel (Shadow),29.9,400,normal,water,123,99.3,149,1818797,31.5,1498,Rollout,Surf,Hyper Fang,4,4,1,10000
-Tranquill (Shadow),29.6,520,normal,flying,124,102.2,143,1812350,49.5,1500,Air Slash,Heat Wave,Sky Attack,5,6,1,10000
-Drizzile,29.4,817,water,none,137.9,92.1,128,1626045,29.5,1499,Water Gun,Surf,Water Pulse,15,17,3,10000
-Floatzel,29.4,419,water,none,143.8,81.7,133,1563742,22.5,1500,Waterfall,Aqua Jet,Swift,4,4,3,50000
-Oricorio (Pa'u),29.4,741,psychic,flying,130.9,102.1,128,1710403,24,1497,Air Slash,Air Cutter,Aerial Ace,4,5,3,75000
-Poliwhirl (Shadow),29.4,61,water,none,114.3,116,148,1961320,50,1500,Bubble,Scald*,Mud Bomb,5,5,3,50000
-Braviary (Hisuian),29.1,628,psychic,flying,128.6,89.7,151,1741069,19.5,1496,Air Slash,Brave Bird,Fly,7,5,5,75000
-Clawitzer,29.1,693,water,none,134.4,110.5,112,1663806,20,1497,Water Gun,Crabhammer,Ice Beam,17,19,3,50000
-Kadabra,29.1,64,psychic,none,163.8,90.9,92,1370471,27,1500,Confusion,Shadow Ball,Dazzling Gleam,4,4,3,50000
-Sigilyph,29.1,561,psychic,flying,130.1,112.1,118,1720791,21.5,1498,Air Slash,Air Cutter,Ancient Power,4,5,5,75000
-Swirlix,29.1,684,fairy,none,104.2,112.6,145,1701231,50,1333,Tackle,Energy Ball,Draining Kiss,19,19,3,50000
-Tatsugiri (Curly),28.6,978,dragon,water,137.4,108.1,109,1619434,20,1497,Water Gun,Surf,Outrage,15,20,5,75000
-Tatsugiri (Droopy),28.6,978,dragon,water,137.4,108.1,109,1619434,20,1497,Water Gun,Surf,Outrage,15,20,5,75000
-Tatsugiri (Stretchy),28.6,978,dragon,water,137.4,108.1,109,1619434,20,1497,Water Gun,Surf,Outrage,15,20,5,75000
-Omanyte (Shadow),28.4,138,rock,water,128,135.3,101,1749618,43,1500,Mud Shot,Rock Tomb*,Rock Blast,6,5,5,75000
-Bewear (Shadow),27.9,760,normal,fighting,129.6,87.2,153,1729276,17.5,1497,Shadow Claw,Superpower,Stomp,5,5,1,10000
-Clauncher,27.9,692,water,none,103.4,110.9,127,1455967,50,1230,Water Gun,Aqua Jet,Crabhammer,14,17,3,50000
-Indeedee (Female),27.9,876,psychic,normal,121.7,128.2,118,1842015,23.5,1500,Extrasensory,Psychic,Energy Ball,6,6,3,50000
-Quaquaval,27.9,914,water,fighting,137.7,98.6,120,1629772,18,1499,Wing Attack,Close Combat,Hydro Cannon*,6,5,3,10000
-Granbull,27.6,210,fairy,none,135.3,88.3,139,1661969,22,1500,Snarl,Close Combat,Crunch,4,4,3,50000
-Seadra (Shadow),27.6,117,water,none,131.3,117.6,110,1699030,26.5,1494,Dragon Breath,Hydro Pump,Dragon Pulse,19,14,3,50000
-Wugtrio,27.6,961,water,none,151.1,108.6,90,1476993,29,1499,Mud Slap,Liquidation,Surf,5,5,3,50000
-Zoroark (Hisuian),27.6,571,normal,ghost,163.4,87.5,96,1373550,21,1499,Shadow Claw,Shadow Ball,Foul Play,7,5,5,75000
-Kabutops (Shadow),27.4,141,rock,water,135.5,119.8,102,1654897,20.5,1498,Fury Cutter*,Stone Edge,Water Pulse,14,13,5,75000
-Omastar (Shadow),27.4,139,rock,water,126.6,128.4,109,1773092,20,1500,Mud Shot,Rock Slide*,Hydro Pump,5,9,5,75000
-Prinplup (Shadow),27.4,394,water,none,118.6,117.1,136,1888948,36.5,1498,Bubble,Icy Wind,Hydro Pump,5,7,3,10000
-Chatot,27.1,441,normal,flying,139.6,78.4,147,1609663,32.5,1499,Peck,Sky Attack,Heat Wave,7,6,5,75000
-Articuno (Galarian),26.9,144,psychic,flying,134.1,111,112,1666929,15.5,1495,Psycho Cut,Fly,Brave Bird,5,7,20,100000
-Reuniclus,26.6,579,psychic,none,126.9,94.9,147,1771020,19,1500,Hidden Power (Fighting),Psyshock,Shadow Ball,5,7,3,50000
-Braviary,26.4,628,normal,flying,133.8,92.9,135,1678339,18,1500,Air Slash,Fly,Close Combat,5,5,5,75000
-Raticate,26.4,20,normal,none,125.9,116.1,122,1783281,34.5,1499,Quick Attack,Hyper Fang,Dig,7,7,1,10000
-Totodile,26.4,158,water,none,110.9,104.2,127,1467804,50,1279,Water Gun,Aqua Jet,Crunch,14,15,3,10000
-Seadra,26.1,117,water,none,131.3,117.6,110,1699030,26.5,1494,Dragon Breath,Hydro Pump,Dragon Pulse,19,14,3,50000
-Spoink (Shadow),26.1,325,psychic,none,117.6,115.1,141,1909574,50,1499,Zen Headbutt,Shadow Ball,Mirror Coat,9,10,1,10000
-Popplio,25.9,728,water,none,113.4,99.2,127,1428526,50,1276,Water Gun,Aqua Tail,Aqua Jet,12,14,3,10000
-Porygon2,25.9,233,normal,none,122.2,117.9,127,1829984,20.5,1498,Lock On,Tri Attack,Zap Cannon,10,16,3,50000
-Unfezant (Shadow),25.9,521,normal,flying,138.6,95.6,122,1616212,20,1499,Air Slash,Sky Attack,Heat Wave,6,5,1,10000
-Spoink,25.4,325,psychic,none,117.6,115.1,141,1909574,50,1499,Zen Headbutt,Shadow Ball,Return<sup>†</sup>,9,12,1,10000
-Totodile (Shadow),25.4,158,water,none,110.9,104.2,127,1467804,50,1279,Water Gun,Aqua Jet,Crunch,14,15,3,10000
-Inteleon,25.1,818,water,none,153.4,89.1,107,1461879,18.5,1500,Water Gun,Surf,Shadow Ball,15,17,3,10000
-Porygon2 (Shadow),24.9,233,normal,none,122.2,117.9,127,1829984,20.5,1498,Lock On,Tri Attack,Zap Cannon,10,16,3,50000
-Staravia,24.6,397,normal,flying,131.9,91.6,135,1631281,50,1468,Wing Attack,Brave Bird,Fly,7,6,1,10000
-Unfezant,24.4,521,normal,flying,138.6,95.6,122,1616212,20,1499,Air Slash,Sky Attack,Heat Wave,6,5,1,10000
-Raticate (Shadow),24.1,20,normal,none,125.9,116.1,122,1783281,34.5,1499,Quick Attack,Hyper Fang,Dig,7,7,1,10000
-Duosion (Shadow),23.6,578,psychic,none,149.2,82,123,1504319,27.5,1500,Hidden Power (Psychic),Psyshock,Night Shade,5,6,3,50000
-Smoochum,23.6,238,ice,psychic,141.2,89.1,120,1508916,50,1460,Powder Snow,Psyshock,Ice Punch,5,5,5,10000
-Swellow,23.6,277,normal,flying,136,100,121,1645136,29,1499,Wing Attack,Brave Bird,Aerial Ace,7,6,1,10000
-Solosis (Shadow),23.4,577,psychic,none,152,81.9,118,1468468,49,1498,Hidden Power (Psychic),Psyshock,Night Shade,5,6,3,50000
-Flabebe,22.9,669,fairy,none,103.4,113.4,119,1395258,50,1202,Vine Whip,Dazzling Gleam,Psychic,7,7,3,50000
-Duosion,22.4,578,psychic,none,149.2,82,123,1504319,27.5,1500,Hidden Power (Psychic),Psyshock,Night Shade,5,6,3,50000
-Watchog (Shadow),22.4,505,normal,none,125.2,114.1,125,1785264,31.5,1500,Low Kick,Crunch,Hyper Fang,6,7,1,10000
-Regigigas,22.1,486,normal,none,139.8,104.4,110,1605384,12.5,1498,Hidden Power (Ground),Crush Grip*,Focus Blast,7,10,20,100000
-Solosis,21.9,577,psychic,none,152,81.9,118,1468468,49,1498,Hidden Power (Psychic),Psyshock,Night Shade,5,6,3,50000
-Staravia (Shadow),21.6,397,normal,flying,131.9,91.6,135,1631281,50,1468,Wing Attack,Brave Bird,Fly,7,6,1,10000
-Indeedee (Male),21.4,876,psychic,normal,135,114.7,107,1656303,22.5,1495,Extrasensory,Shadow Ball,Psychic,5,6,3,50000
-Staraptor,21.4,398,normal,flying,140.4,90.8,125,1594214,19.5,1496,Wing Attack,Fly,Close Combat,6,6,1,10000
-Swellow (Shadow),21.1,277,normal,flying,136,100,121,1645136,29,1499,Wing Attack,Brave Bird,Sky Attack,7,7,1,10000
-Unown,21.1,201,psychic,none,126.9,89.1,125,1412738,50,1339,Hidden Power (Psychic),Struggle,,13,0,5,75000
-Munna,20.9,517,psychic,none,105.9,89.9,166,1580270,50,1294,Charge Beam,Psyshock,Dazzling Gleam,4,5,3,50000
-Staraptor (Shadow),20.9,398,normal,flying,140.4,90.8,125,1594214,19.5,1496,Wing Attack,Fly,Close Combat,6,6,1,10000
-Kabuto (Shadow),20.6,140,rock,water,134.5,129.5,96,1671529,49,1499,Mud Shot,Aqua Jet,Rock Tomb,5,6,5,75000
-Frogadier,20.4,657,water,none,134.5,100.9,123,1668029,38.5,1500,Bubble,Surf,Aerial Ace,5,5,3,10000
-Frogadier (Shadow),19.9,657,water,none,134.5,100.9,123,1668029,38.5,1500,Bubble,Surf,Aerial Ace,5,5,3,10000
-Ribombee,19.7,743,bug,fairy,136.3,105.9,114,1645225,25.5,1497,Fairy Wind,Dazzling Gleam,Bug Buzz,7,7,1,10000
-Deoxys (Speed),19.4,386,psychic,none,140.8,131.6,86,1592886,18.5,1499,Charge Beam,Psycho Boost,Swift,4,4,20,100000
-Octillery,19.4,224,water,none,131.5,100.8,128,1696917,24,1495,Lock On,Octazooka,Gunk Shot,10,15,1,10000
-Piplup,19.2,393,water,none,106.7,98.3,131,1374452,50,1215,Bubble,Drill Peck,Icy Wind,4,5,3,10000
-Krabby,18.9,98,water,none,148.1,111.2,92,1515235,42,1498,Bubble,Vise Grip,Razor Shell,4,4,3,50000
-Corphish,18.4,341,water,none,131.1,95.8,117,1469211,50,1391,Bubble,Aqua Jet,Vise Grip,4,4,3,50000
-Kingler,18.2,99,water,none,144.5,115.6,93,1553975,19.5,1500,Bubble,Crabhammer,X-Scissor,5,4,3,50000
-Komala,18.2,775,normal,none,136.9,110.3,109,1645080,21.5,1500,Rollout,Payback,Bulldoze,5,4,3,50000
-Regigigas (Shadow),18.2,486,normal,none,140.3,102,110,1574364,12.5,1492,Hidden Power (Ice),Crush Grip*,Thunder,7,8,20,100000
-Clefairy,17.9,35,fairy,none,102.5,103.4,157,1663540,50,1306,Zen Headbutt,Disarming Voice,Body Slam,8,6,1,10000
-Corphish (Shadow),16.9,341,water,none,131.1,95.8,117,1469211,50,1391,Bubble,Aqua Jet,Vise Grip,4,4,3,50000
-Piplup (Shadow),15.9,393,water,none,106.7,98.3,131,1374452,50,1215,Bubble,Drill Peck,Icy Wind,4,5,3,10000
-Granbull (Shadow),15.7,210,fairy,none,135.3,88.3,139,1661969,22,1500,Snarl,Close Combat,Crunch,4,4,3,50000
-Alakazam,15.2,65,psychic,none,155.9,101.4,91,1438855,18,1499,Psycho Cut,Fire Punch,Shadow Ball,5,6,3,50000
-Alakazam (Shadow),14.9,65,psychic,none,155.9,101.4,91,1438855,18,1499,Psycho Cut,Fire Punch,Shadow Ball,5,6,3,50000
-Kadabra (Shadow),14.4,64,psychic,none,163.8,90.9,92,1370471,27,1500,Psycho Cut,Shadow Ball,Dazzling Gleam,6,7,3,50000
-Mewtwo (Shadow),14.2,150,psychic,none,147.4,94.4,106,1475059,13,1480,Psycho Cut,Psystrike*,Thunderbolt,5,7,20,100000
-Porygon-Z (Shadow),11.2,474,normal,none,147.6,88.1,117,1522008,17,1500,Lock On,Tri Attack*,Zap Cannon,10,16,3,50000
-Porygon-Z,10.4,474,normal,none,147.6,88.1,117,1522008,17,1500,Lock On,Tri Attack*,Zap Cannon,10,16,3,50000
-Slaking,5.4,289,normal,none,138.9,83.1,140,1616182,12.5,1499,Yawn,Body Slam*,Earthquake,3,6,5,75000
-Slaking (Shadow),4.9,289,normal,none,138.9,83.1,140,1616182,12.5,1499,Yawn,Body Slam*,Earthquake,3,6,5,75000
+Mantine,100,226,water,flying,,,,,27,,Wing Attack,Twister,Water Pulse,5,7,5,75000
+Uxie,99.2,480,psychic,none,,,,,22,,Confusion,Swift,Thunder,3,5,20,100000
+Miltank,98.6,241,normal,none,,,,,24,,Rollout,Body Slam,Thunderbolt,3,5,5,75000
+Azumarill,95.2,184,water,fairy,,,,,43,,Bubble,Ice Beam,Play Rough,5,6,3,50000
+Munchlax,93.6,446,normal,none,,,,,30,,Tackle,Body Slam,Bulldoze,12,15,5,10000
+Dewott,92.3,502,water,none,,,,,35,,Fury Cutter,Aqua Tail,X-Scissor,9,10,3,10000
+Pidgeot,92,18,normal,flying,,,,,26.5,,Wing Attack,Twister,Brave Bird,5,7,1,10000
+Sealeo,91.5,364,ice,water,,,,,36,,Powder Snow,Surf,Body Slam,6,5,3,50000
+Hypno,90.7,97,psychic,none,,,,,27,,Confusion,Shadow Ball,Thunder Punch,4,3,3,50000
+Lumineon,89.1,457,water,none,,,,,32.5,,Gust,Aqua Tail,Silver Wind,3,4,3,50000
+Orbeetle,89.1,826,bug,psychic,,,,,25.5,,Psycho Cut,Psyshock,Bug Buzz,5,7,1,10000
+Grumpig,87.5,326,psychic,none,,,,,23.5,,Psywave,Dynamic Punch,Shadow Ball,12,13,1,10000
+Lapras,87,131,water,ice,,,,,21.5,,Psywave,Sparkling Aria,Skull Bash,12,19,5,75000
+Linoone,87,264,normal,none,,,,,38.5,,Shadow Claw,Swift,Grass Knot,5,7,1,10000
+Aromatisse,86.7,683,fairy,none,,,,,24,,Fairy Wind,Psyshock,Moonblast,5,7,3,50000
+Weezing (Galarian),86.4,110,poison,fairy,,,,,24.5,,Fairy Wind,Sludge,Brutal Swing,5,4,3,50000
+Oinkologne (Female),86.2,916,normal,none,,,,,22.5,,Mud Slap,Body Slam,Trailblaze,4,5,1,10000
+Dunsparce,85.9,206,normal,none,,,,,37.5,,Rollout,Drill Run,Rock Slide,4,4,3,50000
+Togetic,84.8,176,fairy,flying,,,,,36.5,,Fairy Wind,Psyshock,Dazzling Gleam,5,7,3,50000
+Sylveon,84.3,700,fairy,none,,,,,18,,Fairy Wind,Psyshock,Shadow Ball,5,6,5,75000
+Kecleon,84,352,normal,none,,,,,27.5,,Sucker Punch,Thunder Punch,Dynamic Punch,6,7,5,75000
+Slurpuff,83.5,685,fairy,none,,,,,25.5,,Fairy Wind,Play Rough,Energy Ball,7,5,3,50000
+Castform,83.2,351,normal,none,,,,,39.5,,Hex,Weather Ball (Rock),Energy Ball,3,4,5,75000
+Kingdra,81.4,230,water,dragon,,,,,21,,Dragon Breath,Swift,Surf,9,12,3,50000
+Ninetales (Alolan),80.6,38,ice,fairy,,,,,24,,Powder Snow,Weather Ball (Ice),Dazzling Gleam,5,7,3,50000
+Milotic,80.1,350,water,none,,,,,18.5,,Waterfall,Aqua Tail,Wrap,4,5,5,75000
+Wobbuffet,80.1,202,psychic,none,,,,,50,,Counter,Return,Mirror Coat,12,10,3,50000
+Dachsbun,79.8,927,fairy,none,,,,,26.5,,Charm,Psychic Fangs,Play Rough,5,8,3,50000
+Dewgong,79.5,87,water,ice,,,,,28.5,,Ice Shard,Icy Wind,Drill Run,5,4,3,50000
+Florges,79,671,fairy,none,,,,,17,,Fairy Wind,Disarming Voice,Trailblaze,5,5,3,50000
+Hypno (Shadow),79,97,psychic,none,,,,,27,,Confusion,Shadow Ball,Thunder Punch,4,3,3,50000
+Sealeo (Shadow),78.5,364,ice,water,,,,,36,,Powder Snow,Surf,Body Slam,6,5,3,50000
+Whiscash,77.9,340,water,ground,,,,,27,,Mud Shot,Mud Bomb,Scald,5,6,1,10000
+Wailmer,77.1,320,water,none,,,,,48.5,,Rollout,Scald,Body Slam,4,3,1,10000
+Quagsire (Shadow),76.9,195,water,ground,,,,,28.5,,Mud Shot,Aqua Tail,Mud Bomb,4,5,3,50000
+Walrein,76.1,365,ice,water,,,,,20.5,,Powder Snow,Icicle Spear,Earthquake,5,9,3,50000
+Dudunsparce,75.8,982,normal,none,,,,,20.5,,Rollout,Body Slam,Drill Run,3,4,3,50000
+Slowbro,75.8,80,water,psychic,,,,,22,,Confusion,Drain Punch,Surf,3,4,3,50000
+Togekiss,75.8,468,fairy,flying,,,,,16.5,,Peck,Psyshock,Aura Sphere,5,5,3,50000
+Kangaskhan,75.5,115,normal,none,,,,,21.5,,Mud Slap,Brick Break,Crunch,4,5,3,50000
+Quagsire,75.5,195,water,ground,,,,,28.5,,Mud Shot,Aqua Tail,Mud Bomb,4,5,3,50000
+Tentacruel,75.3,73,water,poison,,,,,23,,Acid,Scald,Payback,7,8,3,50000
+Dubwool,75,832,normal,none,,,,,25.5,,Double Kick,Body Slam,Payback,3,5,3,10000
+Pelipper,74.8,279,water,flying,,,,,26,,Wing Attack,Weather Ball (Water),Hurricane,5,8,3,50000
+Blastoise,74,9,water,none,,,,,23,,Rollout,Hydro Cannon,Skull Bash,4,6,3,10000
+Seaking,73.4,119,water,none,,,,,26,,Peck,Drill Run,Megahorn,5,7,3,50000
+Lapras (Shadow),72.9,131,water,ice,,,,,21.5,,Psywave,Sparkling Aria,Dragon Pulse,12,14,5,75000
+Oinkologne,72.9,916,normal,none,,,,,21.5,,Mud Slap,Body Slam,Trailblaze,4,5,1,10000
+Weezing (Galarian) (Shadow),72.4,110,poison,fairy,,,,,24.5,,Fairy Wind,Sludge,Brutal Swing,5,4,3,50000
+Girafarig,72.1,203,normal,psychic,,,,,27.5,,Confusion,Psychic Fangs,Trailblaze,3,4,3,50000
+Ninetales (Alolan) (Shadow),72.1,38,ice,fairy,,,,,24,,Powder Snow,Weather Ball (Ice),Dazzling Gleam,5,7,3,50000
+Slowbro (Shadow),71.6,80,water,psychic,,,,,22,,Confusion,Drain Punch,Surf,3,4,3,50000
+Alomomola,71,594,water,none,,,,,26,,Waterfall,Hydro Pump,Psychic,8,6,5,75000
+Kingdra (Shadow),70.8,230,water,dragon,,,,,21,,Dragon Breath,Swift,Surf,9,12,3,50000
+Swanna,70.8,581,water,flying,,,,,26.5,,Gust,Aqua Jet,Fly,3,4,3,50000
+Lopunny,70.5,428,normal,none,,,,,27.5,,Low Kick,Thunder Punch,Shadow Ball,5,7,3,50000
+Snorlax,70.5,143,normal,none,,,,,17.5,,Lick,Body Slam,Superpower,12,14,5,75000
+Dondozo,70,977,water,none,,,,,18.5,,Waterfall,Surf,Outrage,5,6,5,75000
+Relicanth,70,369,water,rock,,,,,22.5,,Water Gun,Aqua Tail,Ancient Power,12,15,5,75000
+Wailmer (Shadow),69.4,320,water,none,,,,,48.5,,Rollout,Scald,Body Slam,4,3,1,10000
+Tapu Fini,69.2,788,water,fairy,,,,,20,,Water Gun,Surf,Nature's Madness,15,17,20,100000
+Maushold,68.9,925,normal,none,,,,,28.5,,Mud Shot,Swift,Crunch,4,5,1,10000
+Politoed,68.9,186,water,none,,,,,23,,Mud Shot,Weather Ball (Water),Earthquake,4,8,3,50000
+Tentacool,68.7,72,water,poison,,,,,50,,Poison Sting,Water Pulse,Wrap,6,5,3,50000
+Furfrou,68.4,676,normal,none,,,,,26.5,,Sucker Punch,Surf,Grass Knot,7,8,5,75000
+Noctowl,68.1,164,normal,flying,,,,,28,,Wing Attack,Sky Attack,Shadow Ball,7,7,1,10000
+Gyarados,67.6,130,water,flying,,,,,16.5,,Dragon Breath,Aqua Tail,Crunch,9,12,1,10000
+Milotic (Shadow),67.1,350,water,none,,,,,18.5,,Waterfall,Aqua Tail,Wrap,4,5,5,75000
+Vigoroth,67.1,288,normal,none,,,,,28.5,,Counter,Body Slam,Rock Slide,6,8,5,75000
+Deoxys (Defense),66.5,386,psychic,none,,,,,23.5,,Counter,Psycho Boost,Thunderbolt,6,10,20,100000
+Tentacruel (Shadow),66.5,73,water,poison,,,,,23,,Acid,Scald,Payback,7,8,3,50000
+Rapidash (Galarian),66.3,78,psychic,fairy,,,,,22.5,,Fairy Wind,Body Slam,Wild Charge,4,5,3,50000
+Slowking (Galarian),66.3,199,poison,psychic,,,,,20.5,,Acid,Psyshock,Shadow Ball,5,7,3,50000
+Wailord,65.7,321,water,none,,,,,24.5,,Rollout,Surf,Return,4,6,1,10000
+Barbaracle,65.5,689,rock,water,,,,,20.5,,Fury Cutter,Cross Chop,Stone Edge,9,14,3,50000
+Gallade,65.2,475,psychic,fighting,,,,,18,,Psycho Cut,Close Combat,Leaf Blade,5,4,5,75000
+Lunatone,64.9,337,rock,psychic,,,,,24,,Psywave,Weather Ball (Ice),Rock Slide,9,12,3,50000
+Swanna (Shadow),64.9,581,water,flying,,,,,26.5,,Gust,Aqua Jet,Fly,3,4,3,50000
+Politoed (Shadow),64.7,186,water,none,,,,,23,,Mud Shot,Weather Ball (Water),Earthquake,4,8,3,50000
+Girafarig (Shadow),64.4,203,normal,psychic,,,,,27.5,,Confusion,Psychic Fangs,Trailblaze,3,4,3,50000
+Marshtomp,64.4,259,water,ground,,,,,34.5,,Mud Shot,Surf,Sludge,5,5,3,10000
+Slowpoke,64.4,79,water,psychic,,,,,50,,Confusion,Psyshock,Water Pulse,3,4,3,50000
+Slowpoke (Galarian),64.4,79,psychic,none,,,,,50,,Confusion,Psyshock,Surf,3,4,3,50000
+Whiscash (Shadow),64.4,340,water,ground,,,,,27,,Mud Shot,Mud Bomb,Scald,5,6,1,10000
+Samurott,64.1,503,water,none,,,,,19.5,,Fury Cutter,Hydro Cannon,Megahorn,10,14,3,10000
+Slowbro (Galarian),63.9,80,poison,psychic,,,,,22.5,,Poison Jab,Brutal Swing,Sludge Bomb,5,8,3,50000
+Solrock,63.3,338,rock,psychic,,,,,24,,Psywave,Weather Ball (Fire),Rock Slide,9,12,3,50000
+Meowstic (Male),62.8,678,psychic,none,,,,,26,,Sucker Punch,Energy Ball,Thunderbolt,7,8,3,50000
+Pidgeot (Shadow),62.8,18,normal,flying,,,,,26.5,,Wing Attack,Brave Bird,Twister,7,5,1,10000
+Spinda,62.8,327,normal,none,,,,,50,,Sucker Punch,Rock Tomb,Icy Wind,8,7,3,50000
+Tentacool (Shadow),62.8,72,water,poison,,,,,50,,Poison Sting,Water Pulse,Wrap,6,5,3,50000
+Dewott (Shadow),62.5,502,water,none,,,,,35,,Fury Cutter,Aqua Tail,X-Scissor,9,10,3,10000
+Qwilfish,62.5,211,water,poison,,,,,27,,Poison Sting,Aqua Tail,Shadow Ball,4,6,3,50000
+Swampert,62.5,260,water,ground,,,,,18.5,,Mud Shot,Hydro Cannon,Earthquake,5,8,3,10000
+Swoobat,62.5,528,psychic,flying,,,,,34.5,,Confusion,Fly,Psychic Fangs,4,3,1,10000
+Diancie,62.3,719,rock,fairy,,,,,19.5,,Rock Throw,Rock Slide,Moonblast,9,12,20,100000
+Feraligatr,62,160,water,none,,,,,19.5,,Shadow Claw,Hydro Cannon,Crunch,5,6,3,10000
+Spritzee,61.8,682,fairy,none,,,,,50,,Charm,Thunderbolt,Draining Kiss,7,7,3,50000
+Seismitoad,61.5,537,water,ground,,,,,22,,Mud Shot,Earth Power,Icy Wind,6,5,3,50000
+Wobbuffet (Shadow),61.2,202,psychic,none,,,,,50,,Counter,Mirror Coat,Frustration,10,12,3,50000
+Slowking,61,199,water,psychic,,,,,22,,Confusion,Surf,Blizzard,4,6,3,50000
+Wartortle,61,8,water,none,,,,,47.5,,Water Gun,Aqua Jet,Ice Beam,14,19,3,10000
+Corsola,60.7,222,water,rock,,,,,49,,Bubble,Power Gem,Rock Blast,5,4,3,50000
+Loudred (Shadow),60.7,294,normal,none,,,,,50,,Bite,Stomp,Disarming Voice,20,23,1,10000
+Castform (Rainy),60.2,351,water,none,,,,,39.5,,Water Gun,Weather Ball (Water),Thunder,12,20,5,75000
+Golduck,60.2,55,water,none,,,,,22.5,,Confusion,Cross Chop,Liquidation,3,4,3,50000
+Latias,59.6,380,dragon,psychic,,,,,16,,Dragon Breath,Aura Sphere,Mist Ball,10,15,20,100000
+Pidgeotto,59.6,17,normal,flying,,,,,50,,Wing Attack,Air Cutter,Twister,5,5,1,10000
+Frillish,58.8,592,water,ghost,,,,,50,,Hex,Night Shade,Ice Beam,4,5,3,50000
+Gyarados (Shadow),58,130,water,flying,,,,,16.5,,Dragon Breath,Aqua Tail,Crunch,9,12,1,10000
+Quaxwell,57.8,913,water,none,,,,,34,,Wing Attack,Aqua Jet,Aerial Ace,5,6,3,10000
+Heliolisk,57.2,695,electric,normal,,,,,21.5,,Volt Switch,Breaking Swipe,Parabolic Charge,4,4,3,50000
+Mew,57.2,151,psychic,none,,,,,16.5,,Shadow Claw,Wild Charge,Psyshock,6,5,20,100000
+Slowking (Shadow),57.2,199,water,psychic,,,,,22,,Confusion,Surf,Blizzard,4,6,3,50000
+Walrein (Shadow),57.2,365,ice,water,,,,,20.5,,Powder Snow,Icicle Spear,Earthquake,5,9,3,50000
+Blissey,57,242,normal,none,,,,,20.5,,Zen Headbutt,Wild Charge,Dazzling Gleam,8,10,5,75000
+Tauros (Aqua),56.7,128,fighting,water,,,,,20,,Double Kick,Aqua Jet,Trailblaze,4,4,3,50000
+Suicune,56.4,245,water,none,,,,,18.5,,Ice Fang,Bubble Beam,Scald,7,9,20,100000
+Drampa,56.2,780,normal,dragon,,,,,19,,Dragon Breath,Swift,Dragon Pulse,9,14,5,75000
+Heliolisk (Shadow),56.2,695,electric,normal,,,,,21.5,,Volt Switch,Breaking Swipe,Parabolic Charge,4,4,3,50000
+Chimecho,55.9,358,psychic,none,,,,,25,,Astonish,Psyshock,Shadow Ball,4,5,5,75000
+Gumshoos,55.9,735,normal,none,,,,,25.5,,Bite,Rock Tomb,Crunch,25,23,1,10000
+Loudred,54.9,294,normal,none,,,,,50,,Bite,Stomp,Disarming Voice,20,23,1,10000
+Shellos,54.9,422,water,none,,,,,50,,Mud Slap,Body Slam,Water Pulse,4,5,3,50000
+Slowpoke (Shadow),54.9,79,water,psychic,,,,,50,,Confusion,Psyshock,Water Pulse,3,4,3,50000
+Vaporeon,54.9,134,water,none,,,,,18,,Water Gun,Aqua Tail,Last Resort,12,19,5,75000
+Wartortle (Shadow),54.9,8,water,none,,,,,47.5,,Water Gun,Aqua Jet,Ice Beam,14,19,3,10000
+Aipom,54.6,190,normal,none,,,,,50,,Astonish,Swift,Aerial Ace,4,5,3,50000
+Gardevoir (Shadow),54.3,282,psychic,fairy,,,,,18,,Charm,Triple Axel,Shadow Ball,6,7,5,75000
+Rufflet,54.3,627,normal,flying,,,,,46.5,,Peck,Brave Bird,Fly,7,6,5,75000
+Suicune (Shadow),54.3,245,water,none,,,,,18,,Ice Fang,Bubble Beam,Scald,7,9,20,100000
+Tauros,54.3,128,normal,none,,,,,21.5,,Tackle,Trailblaze,Horn Attack,15,12,3,50000
+Vigoroth (Shadow),54.3,288,normal,none,,,,,28.5,,Counter,Body Slam,Rock Slide,6,8,5,75000
+Tirtouga,54.1,564,water,rock,,,,,46.5,,Water Gun,Surf,Body Slam,15,12,5,75000
+Fearow,53.5,22,normal,flying,,,,,28,,Peck,Drill Peck,Drill Run,5,5,1,10000
+Comfey,53.3,764,fairy,none,,,,,26.5,,Vine Whip,Grass Knot,Draining Kiss,7,7,3,50000
+Espurr,53.3,677,psychic,none,,,,,50,,Confusion,Psyshock,Energy Ball,3,4,3,50000
+Blastoise (Shadow),52.7,9,water,none,,,,,23,,Rollout,Hydro Cannon,Skull Bash,4,6,3,10000
+Bouffalant,52.7,626,normal,none,,,,,20,,Mud Shot,Stomp,Megahorn,5,7,3,50000
+Snorlax (Shadow),52.7,143,normal,none,,,,,17.5,,Lick,Body Slam,Superpower,12,14,5,75000
+Wyrdeer,52.7,899,normal,psychic,,,,,20,,Confusion,Stomp,Wild Charge,3,4,5,75000
+Grumpig (Shadow),52.5,326,psychic,none,,,,,23.5,,Psywave,Dynamic Punch,Shadow Ball,12,13,1,10000
+Bruxish,51.9,779,water,psychic,,,,,23,,Confusion,Psychic Fangs,Crunch,3,4,3,50000
+Urshifu (Rapid Strike),51.9,892,fighting,water,,,,,15,,Counter,Aqua Jet,Dynamic Punch,7,8,20,100000
+Gothorita,51.4,575,psychic,none,,,,,40,,Confusion,Future Sight,Psychic,5,4,3,50000
+Mantyke,51.4,458,water,flying,,,,,50,,Bubble,Water Pulse,Aerial Ace,5,5,5,10000
+Qwilfish (Shadow),51.1,211,water,poison,,,,,27,,Poison Sting,Aqua Tail,Shadow Ball,4,6,3,50000
+Drowzee,50.9,96,psychic,none,,,,,50,,Confusion,Psyshock,Return,3,5,3,50000
+Starmie,50.9,121,water,psychic,,,,,21.5,,Psywave,Aqua Jet,Power Gem,10,13,3,50000
+Aipom (Shadow),50.6,190,normal,none,,,,,50,,Astonish,Swift,Aerial Ace,4,5,3,50000
+Gothitelle,50.6,576,psychic,none,,,,,23,,Confusion,Rock Slide,Future Sight,4,5,3,50000
+Stufful,50.6,759,normal,fighting,,,,,49.5,,Tackle,Superpower,Stomp,14,14,1,10000
+Gothorita (Shadow),50.1,575,psychic,none,,,,,40,,Confusion,Future Sight,Psychic,5,4,3,50000
+Buneary,49.8,427,normal,none,,,,,50,,Quick Attack,Swift,Fire Punch,5,5,3,50000
+Marshtomp (Shadow),49.8,259,water,ground,,,,,33.5,,Mud Shot,Surf,Sludge,5,5,3,10000
+Latias (Shadow),49.6,380,dragon,psychic,,,,,15.5,,Dragon Breath,Aura Sphere,Mist Ball,10,15,20,100000
+Mesprit,49.6,481,psychic,none,,,,,18,,Confusion,Swift,Future Sight,3,5,20,100000
+Skrelp,49.6,690,poison,water,,,,,50,,Acid,Aqua Tail,Twister,5,5,3,50000
+Gardevoir,49.3,282,psychic,fairy,,,,,18,,Charm,Triple Axel,Shadow Ball,6,7,5,75000
+Gothitelle (Shadow),49.3,576,psychic,none,,,,,23,,Confusion,Rock Slide,Future Sight,4,5,3,50000
+Victini,49.3,494,psychic,fire,,,,,16.5,,Confusion,V-Create,Psyshock,3,3,20,100000
+Meowstic (Female),49,678,psychic,none,,,,,26,,Confusion,Shadow Ball,Psychic,4,4,3,50000
+Exploud,48.8,295,normal,none,,,,,24,,Astonish,Crunch,Boomburst,5,7,1,10000
+Floette,48.8,670,fairy,none,,,,,44,,Vine Whip,Dazzling Gleam,Psychic,7,7,3,50000
+Primarina,48.5,730,water,fairy,,,,,17,,Waterfall,Disarming Voice,Hydro Cannon,5,4,3,10000
+Trumbeak,48,732,normal,flying,,,,,48.5,,Peck,Drill Peck,Rock Blast,5,5,1,10000
+Litleo,47.4,667,fire,normal,,,,,48.5,,Incinerate,Flame Charge,Crunch,3,3,3,10000
+Palpitoad,47.2,536,water,ground,,,,,48,,Mud Shot,Water Pulse,Earth Power,6,6,3,50000
+Bibarel,46.9,400,normal,water,,,,,31.5,,Rollout,Surf,Hyper Fang,4,4,1,10000
+Audino,46.6,531,normal,none,,,,,38,,Zen Headbutt,Body Slam,Disarming Voice,6,8,3,50000
+Bewear,46.4,760,normal,fighting,,,,,17.5,,Shadow Claw,Superpower,Stomp,5,5,1,10000
+Croconaw,46.4,159,water,none,,,,,35.5,,Water Gun,Ice Punch,Water Pulse,14,17,3,10000
+Golduck (Shadow),46.4,55,water,none,,,,,22.5,,Confusion,Cross Chop,Liquidation,3,4,3,50000
+Porygon,46.4,137,normal,none,,,,,35.5,,Tackle,Discharge,Signal Beam,14,19,3,50000
+Porygon (Shadow),46.1,137,normal,none,,,,,35.5,,Tackle,Discharge,Signal Beam,14,19,3,50000
+Latios,45.8,381,dragon,psychic,,,,,14.5,,Dragon Breath,Aura Sphere,Dragon Claw,10,13,20,100000
+Swampert (Shadow),45.8,260,water,ground,,,,,18.5,,Mud Shot,Hydro Cannon,Earthquake,5,8,3,10000
+Persian,45,53,normal,none,,,,,36.5,,Feint Attack,Night Slash,Power Gem,6,9,3,50000
+Ursaluna,45,901,ground,normal,,,,,14.5,,Tackle,Swift,High Horsepower,12,20,3,50000
+Starmie (Shadow),44.8,121,water,psychic,,,,,21.5,,Psywave,Aqua Jet,Power Gem,10,13,3,50000
+Samurott (Shadow),44.5,503,water,none,,,,,19.5,,Fury Cutter,Hydro Cannon,Megahorn,10,14,3,10000
+Snubbull,44.5,209,fairy,none,,,,,50,,Tackle,Brick Break,Crunch,14,15,3,50000
+Hattrem,44.2,857,psychic,none,,,,,38.5,,Confusion,Psyshock,Dazzling Gleam,3,4,5,50000
+Xatu,44.2,178,psychic,flying,,,,,25.5,,Peck,Psyshock,Aerial Ace,5,6,3,50000
+Exploud (Shadow),43.7,295,normal,none,,,,,24,,Astonish,Crunch,Boomburst,5,7,1,10000
+Feraligatr (Shadow),43.7,160,water,none,,,,,19.5,,Shadow Claw,Hydro Cannon,Crunch,5,6,3,10000
+Ursaluna (Shadow),43.7,901,ground,normal,,,,,14.5,,Tackle,Swift,High Horsepower,12,20,3,50000
+Mr. Rime,43.2,866,ice,psychic,,,,,19.5,,Confusion,Icy Wind,Psychic,4,4,5,75000
+Ursaring,43.2,217,normal,none,,,,,18.5,,Shadow Claw,Swift,Close Combat,5,6,3,50000
+Toucannon,42.9,733,normal,flying,,,,,20.5,,Peck,Beak Blast,Drill Peck,7,5,1,10000
+Zangoose,42.9,335,normal,none,,,,,23,,Fury Cutter,Close Combat,Night Slash,12,9,3,50000
+Gallade (Shadow),42.7,475,psychic,fighting,,,,,18,,Psycho Cut,Close Combat,Leaf Blade,5,4,5,75000
+Tirtouga (Shadow),42.7,564,water,rock,,,,,46.5,,Water Gun,Surf,Body Slam,15,12,5,75000
+Raichu (Alolan),42.4,26,electric,psychic,,,,,24,,Thunder Shock,Wild Charge,Trailblaze,5,5,1,10000
+Carracosta,41.9,565,water,rock,,,,,21.5,,Water Gun,Liquidation,Body Slam,15,12,5,75000
+Grafaiai,41.9,945,poison,normal,,,,,24.5,,Mud Slap,Poison Fang,Sludge Bomb,4,5,3,50000
+Mr. Mime,41.9,122,psychic,fairy,,,,,25,,Psywave,Shadow Ball,Psychic,13,14,5,75000
+Quaquaval,41.9,914,water,fighting,,,,,18,,Low Kick,Close Combat,Hydro Cannon,6,5,3,10000
+Croconaw (Shadow),41.6,159,water,none,,,,,35.5,,Water Gun,Ice Punch,Water Pulse,14,17,3,10000
+Brionne,41.1,729,water,none,,,,,30,,Charm,Aqua Jet,Disarming Voice,5,6,3,10000
+Espathra,40.8,956,psychic,none,,,,,22.5,,Confusion,Psyshock,Dazzling Gleam,3,4,3,50000
+Stantler,40.8,234,normal,none,,,,,26,,Tackle,Wild Charge,Stomp,15,14,3,50000
+Delcatty,40,301,normal,none,,,,,46.5,,Feint Attack,Wild Charge,Disarming Voice,8,8,3,50000
+Beheeyem,39.7,606,psychic,none,,,,,20,,Confusion,Rock Slide,Dark Pulse,4,4,3,50000
+Pidgeotto (Shadow),39.7,17,normal,flying,,,,,50,,Wing Attack,Air Cutter,Twister,5,5,1,10000
+Goldeen,39.5,118,water,none,,,,,50,,Peck,Aqua Tail,Horn Attack,5,5,3,50000
+Hoopa,39.5,720,psychic,ghost,,,,,16,,Confusion,Shadow Ball,Psychic,4,4,20,100000
+Hatterene,39.2,858,psychic,fairy,,,,,19.5,,Psycho Cut,Psyshock,Power Whip,5,6,5,50000
+Omanyte,39.2,138,rock,water,,,,,43,,Mud Shot,Rock Tomb,Rock Blast,6,5,5,75000
+Stufful (Shadow),39.2,759,normal,fighting,,,,,49.5,,Tackle,Superpower,Stomp,14,14,1,10000
+Wailord (Shadow),39.2,321,water,none,,,,,24.5,,Rollout,Surf,Hyper Beam,4,7,1,10000
+Palkia (Shadow),38.9,484,water,dragon,,,,,13.5,,Dragon Breath,Aqua Tail,Draco Meteor,9,17,20,100000
+Elgyem,38.7,605,psychic,none,,,,,48,,Confusion,Dark Pulse,Psychic,4,4,3,50000
+Mr. Mime (Galarian),38.7,122,ice,psychic,,,,,27,,Confusion,Ice Punch,Triple Axel,3,4,5,75000
+Xatu (Shadow),38.7,178,psychic,flying,,,,,25.5,,Peck,Psyshock,Aerial Ace,5,6,3,50000
+Eevee,38.4,133,normal,none,,,,,50,,Quick Attack,Body Slam,Swift,5,5,5,75000
+Latios (Shadow),38.4,381,dragon,psychic,,,,,14,,Dragon Breath,Aura Sphere,Dragon Claw,10,13,20,100000
+Tranquill,38.4,520,normal,flying,,,,,49.5,,Air Slash,Heat Wave,Aerial Ace,5,5,1,10000
+Armarouge,38.1,936,fire,psychic,,,,,17,,Incinerate,Psyshock,Heat Wave,2,3,5,50000
+Cloyster,38.1,91,water,ice,,,,,22,,Ice Shard,Icy Wind,Liquidation,5,5,3,50000
+Stantler (Shadow),38.1,234,normal,none,,,,,25.5,,Tackle,Wild Charge,Stomp,15,14,3,50000
+Ambipom (Shadow),37.9,424,normal,none,,,,,23,,Astonish,Aerial Ace,Low Sweep,5,4,3,50000
+Ponyta (Galarian),37.9,77,psychic,none,,,,,36,,Psycho Cut,Swift,Play Rough,4,7,3,50000
+Pyroar,37.9,668,fire,normal,,,,,20,,Incinerate,Flame Charge,Dark Pulse,3,3,3,10000
+Ambipom,37.4,424,normal,none,,,,,23,,Astonish,Aerial Ace,Return,5,7,3,50000
+Dodrio,37.1,85,normal,flying,,,,,23.5,,Peck,Drill Peck,Brave Bird,5,7,3,50000
+Drowzee (Shadow),37.1,96,psychic,none,,,,,50,,Confusion,Psyshock,Psychic,3,4,3,50000
+Indeedee (Female),37.1,876,psychic,normal,,,,,23.5,,Extrasensory,Psychic,Energy Ball,6,5,3,50000
+Musharna,37.1,518,psychic,none,,,,,20.5,,Charge Beam,Psyshock,Dazzling Gleam,4,5,3,50000
+Delphox,36.8,655,fire,psychic,,,,,18,,Fire Spin,Psyshock,Blast Burn,4,5,3,10000
+Huntail,36.8,367,water,none,,,,,23.5,,Water Gun,Aqua Tail,Crunch,12,15,3,50000
+Toucannon (Shadow),36.8,733,normal,flying,,,,,20.5,,Peck,Beak Blast,Drill Peck,7,5,1,10000
+Reuniclus (Shadow),36.6,579,psychic,none,,,,,19,,Charm,Psyshock,Shadow Ball,5,7,3,50000
+Basculin,36.3,550,water,none,,,,,27,,Water Gun,Aqua Tail,Aqua Jet,12,14,1,10000
+Clamperl,36,366,water,none,,,,,50,,Water Gun,Body Slam,Water Pulse,12,17,3,50000
+Dottler,36,825,bug,psychic,,,,,50,,Confusion,Bug Buzz,Psychic,5,4,1,10000
+Persian (Shadow),35.8,53,normal,none,,,,,36.5,,Feint Attack,Night Slash,Power Gem,6,9,3,50000
+Poliwhirl,35.8,61,water,none,,,,,50,,Bubble,Scald,Mud Bomb,5,5,3,50000
+Trumbeak (Shadow),35.8,732,normal,flying,,,,,46,,Peck,Drill Peck,Rock Blast,5,5,1,10000
+Carracosta (Shadow),35.5,565,water,rock,,,,,21.5,,Water Gun,Liquidation,Body Slam,15,12,5,75000
+Espeon,35.5,196,psychic,none,,,,,17.5,,Confusion,Psychic Fangs,Shadow Ball,3,4,5,75000
+Delphox (Shadow),35.2,655,fire,psychic,,,,,18,,Fire Spin,Psyshock,Blast Burn,4,5,3,10000
+Bewear (Shadow),35,760,normal,fighting,,,,,17.5,,Shadow Claw,Superpower,Stomp,5,5,1,10000
+Braviary (Hisuian),34.4,628,psychic,flying,,,,,19.5,,Air Slash,Brave Bird,Fly,7,5,5,75000
+Cinccino,34.4,573,normal,none,,,,,25,,Charm,Aqua Tail,Thunderbolt,5,7,3,50000
+Swirlix,34.4,684,fairy,none,,,,,50,,Tackle,Energy Ball,Draining Kiss,15,19,3,50000
+Herdier,34.2,507,normal,none,,,,,41.5,,Sand Attack,Dig,Thunderbolt,13,14,1,10000
+Jynx,34.2,124,ice,psychic,,,,,21.5,,Confusion,Avalanche,Psyshock,4,3,5,75000
+Prinplup,34.2,394,water,none,,,,,36.5,,Bubble,Icy Wind,Hydro Pump,5,7,3,10000
+Seel,34.2,86,water,none,,,,,50,,Water Gun,Aqua Tail,Icy Wind,12,15,3,50000
+Teddiursa,34.2,216,normal,none,,,,,49.5,,Lick,Swift,Cross Chop,12,12,3,50000
+Tranquill (Shadow),34.2,520,normal,flying,,,,,49.5,,Air Slash,Heat Wave,Sky Attack,5,6,1,10000
+Gorebyss,33.9,368,water,none,,,,,22.5,,Confusion,Water Pulse,Psychic,4,4,3,50000
+Omastar,33.9,139,rock,water,,,,,20,,Mud Shot,Rock Slide,Hydro Pump,5,9,5,75000
+Kabuto,33.6,140,rock,water,,,,,49,,Mud Shot,Aqua Jet,Rock Tomb,5,6,5,75000
+Kabutops,33.4,141,rock,water,,,,,20.5,,Fury Cutter,Stone Edge,Aqua Jet,14,10,5,75000
+Stoutland,33.4,508,normal,none,,,,,19.5,,Sand Attack,Wild Charge,Crunch,12,12,1,10000
+Volcanion,33.4,721,fire,water,,,,,15,,Incinerate,Scald,Overheat,3,3,20,100000
+Cloyster (Shadow),33.1,91,water,ice,,,,,22,,Ice Shard,Icy Wind,Liquidation,5,5,3,50000
+Azelf,32.8,482,psychic,none,,,,,17,,Confusion,Swift,Future Sight,3,5,20,100000
+Kyogre (Shadow),32.8,382,water,none,,,,,13,,Waterfall,Avalanche,Surf,5,5,20,100000
+Oricorio (Pa'u),32.8,741,psychic,flying,,,,,24,,Air Slash,Air Cutter,Aerial Ace,4,5,3,75000
+Sigilyph,32.8,561,psychic,flying,,,,,21.5,,Air Slash,Air Cutter,Ancient Power,4,5,5,75000
+Ursaring (Shadow),32.8,217,normal,none,,,,,18.5,,Shadow Claw,Swift,Close Combat,5,6,3,50000
+Teddiursa (Shadow),32.6,216,normal,none,,,,,49.5,,Lick,Swift,Cross Chop,12,12,3,50000
+Braviary,32.3,628,normal,flying,,,,,18,,Air Slash,Fly,Close Combat,5,5,5,75000
+Simipour,32,516,water,none,,,,,23.5,,Water Gun,Surf,Crunch,15,15,3,50000
+Staravia,32,397,normal,flying,,,,,50,,Wing Attack,Brave Bird,Fly,7,6,1,10000
+Kadabra,31.8,64,psychic,none,,,,,27,,Confusion,Shadow Ball,Dazzling Gleam,4,4,3,50000
+Snubbull (Shadow),31.8,209,fairy,none,,,,,50,,Tackle,Brick Break,Crunch,14,15,3,50000
+Watchog,31.8,505,normal,none,,,,,31.5,,Low Kick,Crunch,Hyper Fang,6,7,1,10000
+Articuno (Galarian),31.5,144,psychic,flying,,,,,15.5,,Psycho Cut,Fly,Brave Bird,5,7,20,100000
+Drizzile,31.5,817,water,none,,,,,29.5,,Water Gun,Surf,Water Pulse,15,17,3,10000
+Poliwhirl (Shadow),31.5,61,water,none,,,,,50,,Bubble,Scald,Mud Bomb,5,5,3,50000
+Seadra (Shadow),31.5,117,water,none,,,,,26.5,,Dragon Breath,Hydro Pump,Dragon Pulse,19,14,3,50000
+Clawitzer,31,693,water,none,,,,,20,,Water Gun,Crabhammer,Ice Beam,17,19,3,50000
+Prinplup (Shadow),31,394,water,none,,,,,36.5,,Bubble,Icy Wind,Hydro Pump,5,7,3,10000
+Tatsugiri (Curly),31,978,dragon,water,,,,,20,,Water Gun,Surf,Outrage,15,20,5,75000
+Tatsugiri (Droopy),31,978,dragon,water,,,,,20,,Water Gun,Surf,Outrage,15,20,5,75000
+Tatsugiri (Stretchy),31,978,dragon,water,,,,,20,,Water Gun,Surf,Outrage,15,20,5,75000
+Chatot,30.7,441,normal,flying,,,,,32.5,,Peck,Sky Attack,Heat Wave,7,6,5,75000
+Floatzel,30.7,419,water,none,,,,,22.5,,Waterfall,Aqua Jet,Swift,4,4,3,50000
+Kabutops (Shadow),30.7,141,rock,water,,,,,20.5,,Fury Cutter,Stone Edge,Aqua Jet,14,10,5,75000
+Purugly,30.5,432,normal,none,,,,,28.5,,Shadow Claw,Aerial Ace,Thunder,6,8,3,50000
+Purugly (Shadow),29.9,432,normal,none,,,,,28.5,,Shadow Claw,Aerial Ace,Thunder,6,8,3,50000
+Zoroark (Hisuian),29.7,571,normal,ghost,,,,,21,,Shadow Claw,Shadow Ball,Foul Play,7,5,5,75000
+Swellow,29.4,277,normal,flying,,,,,29,,Wing Attack,Brave Bird,Aerial Ace,7,6,1,10000
+Unfezant (Shadow),29.4,521,normal,flying,,,,,20,,Air Slash,Sky Attack,Heat Wave,6,5,1,10000
+Clauncher,29.1,692,water,none,,,,,50,,Water Gun,Aqua Jet,Crabhammer,14,17,3,50000
+Popplio,28.9,728,water,none,,,,,50,,Water Gun,Aqua Tail,Aqua Jet,12,14,3,10000
+Seadra,28.3,117,water,none,,,,,26.5,,Dragon Breath,Hydro Pump,Dragon Pulse,19,14,3,50000
+Bibarel (Shadow),28.1,400,normal,water,,,,,31.5,,Rollout,Surf,Hyper Fang,4,4,1,10000
+Smoochum,28.1,238,ice,psychic,,,,,50,,Powder Snow,Psyshock,Ice Punch,5,5,5,10000
+Spoink (Shadow),28.1,325,psychic,none,,,,,50,,Zen Headbutt,Shadow Ball,Mirror Coat,9,10,1,10000
+Totodile,28.1,158,water,none,,,,,50,,Water Gun,Aqua Jet,Crunch,14,15,3,10000
+Omanyte (Shadow),27.8,138,rock,water,,,,,43,,Mud Shot,Rock Tomb,Rock Blast,6,5,5,75000
+Wugtrio,27.8,961,water,none,,,,,29,,Mud Slap,Liquidation,Surf,5,5,3,50000
+Spoink,27.5,325,psychic,none,,,,,50,,Zen Headbutt,Shadow Ball,Return,9,12,1,10000
+Unfezant,27.5,521,normal,flying,,,,,20,,Air Slash,Sky Attack,Heat Wave,6,5,1,10000
+Inteleon,27.3,818,water,none,,,,,18.5,,Water Gun,Surf,Shadow Ball,15,17,3,10000
+Omastar (Shadow),27,139,rock,water,,,,,20,,Mud Shot,Rock Slide,Hydro Pump,5,9,5,75000
+Totodile (Shadow),26.7,158,water,none,,,,,50,,Water Gun,Aqua Jet,Crunch,14,15,3,10000
+Granbull,26.5,210,fairy,none,,,,,22,,Snarl,Close Combat,Crunch,4,4,3,50000
+Raticate,25.9,20,normal,none,,,,,34.5,,Quick Attack,Hyper Fang,Dig,7,7,1,10000
+Raticate (Shadow),25.7,20,normal,none,,,,,34.5,,Quick Attack,Hyper Fang,Dig,7,7,1,10000
+Solosis (Shadow),25.1,577,psychic,none,,,,,49,,Hidden Power (Psychic),Psyshock,Night Shade,5,6,3,50000
+Duosion (Shadow),24.9,578,psychic,none,,,,,27.5,,Hidden Power (Psychic),Psyshock,Night Shade,5,6,3,50000
+Porygon2,24.4,233,normal,none,,,,,20.5,,Lock On,Tri Attack,Zap Cannon,10,16,3,50000
+Staraptor,24.1,398,normal,flying,,,,,19.5,,Wing Attack,Fly,Close Combat,6,6,1,10000
+Staravia (Shadow),24.1,397,normal,flying,,,,,50,,Wing Attack,Brave Bird,Fly,7,6,1,10000
+Watchog (Shadow),24.1,505,normal,none,,,,,31.5,,Low Kick,Crunch,Hyper Fang,6,7,1,10000
+Reuniclus,23.8,579,psychic,none,,,,,19,,Hidden Power (Fighting),Psyshock,Shadow Ball,5,7,3,50000
+Duosion,23.6,578,psychic,none,,,,,27.5,,Hidden Power (Psychic),Psyshock,Night Shade,5,6,3,50000
+Kabuto (Shadow),23.6,140,rock,water,,,,,49,,Mud Shot,Aqua Jet,Rock Tomb,5,6,5,75000
+Regigigas,23.6,486,normal,none,,,,,12.5,,Hidden Power (Ground),Crush Grip,Focus Blast,7,10,20,100000
+Staraptor (Shadow),23.6,398,normal,flying,,,,,19.5,,Wing Attack,Fly,Close Combat,6,6,1,10000
+Swellow (Shadow),23.6,277,normal,flying,,,,,29,,Wing Attack,Brave Bird,Sky Attack,7,7,1,10000
+Indeedee (Male),23.3,876,psychic,normal,,,,,22.5,,Extrasensory,Shadow Ball,Psychic,5,6,3,50000
+Solosis,23,577,psychic,none,,,,,49,,Hidden Power (Psychic),Psyshock,Night Shade,5,6,3,50000
+Unown,22.8,201,psychic,none,,,,,50,,Hidden Power (Psychic),Struggle,,13,0,5,75000
+Frogadier,21.7,657,water,none,,,,,38.5,,Bubble,Surf,Aerial Ace,5,5,3,10000
+Frogadier (Shadow),21.4,657,water,none,,,,,38.5,,Bubble,Surf,Aerial Ace,5,5,3,10000
+Flabebe,21.2,669,fairy,none,,,,,50,,Vine Whip,Dazzling Gleam,Psychic,7,7,3,50000
+Piplup,20.6,393,water,none,,,,,50,,Bubble,Drill Peck,Icy Wind,4,5,3,10000
+Porygon2 (Shadow),20.4,233,normal,none,,,,,20.5,,Lock On,Tri Attack,Zap Cannon,10,16,3,50000
+Regigigas (Shadow),20.4,486,normal,none,,,,,12.5,,Hidden Power (Ice),Crush Grip,Thunder,7,8,20,100000
+Munna,20.1,517,psychic,none,,,,,50,,Charge Beam,Psyshock,Dazzling Gleam,4,5,3,50000
+Ribombee,20.1,743,bug,fairy,,,,,25.5,,Fairy Wind,Dazzling Gleam,Bug Buzz,7,7,1,10000
+Krabby,19.6,98,water,none,,,,,42,,Bubble,Vise Grip,Razor Shell,4,4,3,50000
+Kingler,19.3,99,water,none,,,,,19.5,,Bubble,Crabhammer,X-Scissor,5,4,3,50000
+Corphish,18.8,341,water,none,,,,,50,,Bubble,Aqua Jet,Vise Grip,4,4,3,50000
+Deoxys (Speed),18.5,386,psychic,none,,,,,18.5,,Charge Beam,Psycho Boost,Swift,4,4,20,100000
+Komala,18.5,775,normal,none,,,,,21.5,,Rollout,Payback,Bulldoze,5,4,3,50000
+Clefairy,18.3,35,fairy,none,,,,,50,,Zen Headbutt,Disarming Voice,Body Slam,8,6,1,10000
+Corphish (Shadow),18,341,water,none,,,,,50,,Bubble,Aqua Jet,Vise Grip,4,4,3,50000
+Granbull (Shadow),17.2,210,fairy,none,,,,,22,,Snarl,Close Combat,Crunch,4,4,3,50000
+Octillery,17.2,224,water,none,,,,,24,,Lock On,Octazooka,Gunk Shot,10,15,1,10000
+Alakazam,16.4,65,psychic,none,,,,,18,,Psycho Cut,Fire Punch,Shadow Ball,5,6,3,50000
+Piplup (Shadow),16.4,393,water,none,,,,,50,,Bubble,Drill Peck,Icy Wind,4,5,3,10000
+Alakazam (Shadow),15.6,65,psychic,none,,,,,18,,Psycho Cut,Fire Punch,Shadow Ball,5,6,3,50000
+Kadabra (Shadow),15.1,64,psychic,none,,,,,27,,Psycho Cut,Shadow Ball,Dazzling Gleam,6,7,3,50000
+Mewtwo (Shadow),15.1,150,psychic,none,,,,,13,,Psycho Cut,Psystrike,Thunderbolt,5,7,20,100000
+Porygon-Z (Shadow),12.2,474,normal,none,,,,,17,,Lock On,Tri Attack,Zap Cannon,10,16,3,50000
+Porygon-Z,11.6,474,normal,none,,,,,17,,Lock On,Tri Attack,Zap Cannon,10,16,3,50000
+Slaking,5.5,289,normal,none,,,,,12.5,,Yawn,Body Slam,Earthquake,3,6,5,75000
+Slaking (Shadow),5.3,289,normal,none,,,,,12.5,,Yawn,Body Slam,Earthquake,3,6,5,75000
