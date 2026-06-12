@@ -695,7 +695,7 @@
         "Typecheck passes"
       ],
       "priority": 37,
-      "passes": false,
+      "passes": true,
       "notes": "Recommended agent: python-pro. Add these as small reusable application/scoring helpers first, then wire them into team scoring in a later story. Avoid replacing exporter diagnostics in this story."
     },
     {

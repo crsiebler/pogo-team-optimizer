@@ -17,7 +17,13 @@ from pogo_team_optimizer.application.scoring import (
     SafetyScore,
     SynergyScore,
     ThreatCoverageScore,
+    aggregate_shield_matchup_score,
     calculate_ranking_aware_roster_score,
+    classify_soft_matchup_score,
+    count_playable_soft_answers,
+    shield_stability_score,
+    soft_matchup_quality,
+    soft_matchup_risk,
 )
 from pogo_team_optimizer.domain.models import RankingCategory, RankingProfile, RankingRow
 
@@ -249,6 +255,58 @@ def test_pvpoke_normalization_output_order_is_deterministic() -> None:
 def test_pvpoke_normalization_rejects_invalid_fallback_scores(fallback_score: float) -> None:
     with pytest.raises(ValueError, match="fallback_score"):
         PvPokeScoreNormalizationPolicy(fallback_score=fallback_score)
+
+
+def test_shield_aggregation_uses_weighted_available_scenarios() -> None:
+    assert aggregate_shield_matchup_score((300, 700, 500)) == pytest.approx(
+        (300 * 0.30) + (700 * 0.50) + (500 * 0.20)
+    )
+    assert aggregate_shield_matchup_score((300, 700)) == pytest.approx(
+        ((300 * 0.30) + (700 * 0.50)) / (0.30 + 0.50)
+    )
+
+
+@pytest.mark.parametrize("scores", [(), (500, 500, 500, 500), (500, float("nan"), 500)])
+def test_shield_aggregation_rejects_invalid_inputs(scores: tuple[float, ...]) -> None:
+    with pytest.raises(ValueError, match="shield matchup scores"):
+        aggregate_shield_matchup_score(scores)
+
+
+def test_soft_matchup_scoring_distinguishes_quality_bands() -> None:
+    hard_loss = soft_matchup_quality(300)
+    soft_loss = soft_matchup_quality(450)
+    neutral = soft_matchup_quality(500)
+    playable = soft_matchup_quality(560)
+    strong = soft_matchup_quality(650)
+
+    assert hard_loss < soft_loss < neutral < playable < strong
+    assert classify_soft_matchup_score(650) == "strong_answer"
+    assert classify_soft_matchup_score(560) == "playable_answer"
+    assert classify_soft_matchup_score(500) == "neutral_matchup"
+    assert classify_soft_matchup_score(450) == "soft_loss"
+    assert classify_soft_matchup_score(300) == "hard_loss"
+
+
+@pytest.mark.parametrize("score", [float("nan"), float("inf")])
+def test_soft_matchup_classification_rejects_non_finite_scores(score: float) -> None:
+    with pytest.raises(ValueError, match="matchup score"):
+        classify_soft_matchup_score(score)
+
+
+def test_soft_matchup_risk_penalizes_hard_losses_more_than_marginal_losses() -> None:
+    assert soft_matchup_risk(300) > soft_matchup_risk(475)
+    assert soft_matchup_risk(475) > soft_matchup_risk(525)
+
+
+def test_playable_answer_count_rewards_multiple_stable_answers() -> None:
+    stable_team = ((540, 550, 545), (530, 535, 525))
+    volatile_team = ((700, 300, 300),)
+
+    assert count_playable_soft_answers(stable_team) > count_playable_soft_answers(volatile_team)
+
+
+def test_shield_stability_penalizes_isolated_shield_spikes() -> None:
+    assert shield_stability_score((540, 550, 545)) > shield_stability_score((700, 300, 300))
 
 
 def test_ranking_aware_roster_score_weights_top_threat_misses_above_full_meta_misses() -> None:

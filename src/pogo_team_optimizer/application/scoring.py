@@ -7,6 +7,13 @@ from typing import ClassVar, Literal
 
 from pogo_team_optimizer.domain.models import RankingCategory, RankingProfile, RankingRow
 
+SoftMatchupBand = Literal[
+    "strong_answer",
+    "playable_answer",
+    "neutral_matchup",
+    "soft_loss",
+    "hard_loss",
+]
 ScoreComponentName = Literal[
     "synergy",
     "threat_coverage",
@@ -28,6 +35,10 @@ WIN_SCORE_THRESHOLD = 500
 OVERWHELMING_LOSS_SCORE_THRESHOLD = 400
 TOP_THREAT_COVERAGE_WEIGHT = 0.75
 FULL_META_COVERAGE_WEIGHT = 0.25
+SHIELD_SCENARIO_WEIGHTS: tuple[float, float, float] = (0.30, 0.50, 0.20)
+STRONG_ANSWER_SCORE_THRESHOLD = 600
+PLAYABLE_ANSWER_SCORE_THRESHOLD = 525
+NEUTRAL_MATCHUP_SCORE_THRESHOLD = 475
 
 ROSTER_COMPONENT_ORDER: tuple[ScoreComponentName, ...] = (
     "synergy",
@@ -404,6 +415,67 @@ def calculate_ranking_aware_roster_score(
             NORMALIZED_PVPOKE_SCORE_FALLBACK,
             diagnostics=(("neutral_fallback", True),),
         ),
+    )
+
+
+def aggregate_shield_matchup_score(scores_by_shield: Sequence[float]) -> float:
+    """Return weighted matchup strength across available 0-, 1-, and 2-shield scores."""
+    if not scores_by_shield or len(scores_by_shield) > len(SHIELD_SCENARIO_WEIGHTS):
+        raise ValueError("shield matchup scores must contain one to three values")
+    if any(not math.isfinite(score) for score in scores_by_shield):
+        raise ValueError("shield matchup scores must be finite")
+
+    available_weights = SHIELD_SCENARIO_WEIGHTS[: len(scores_by_shield)]
+    weight_total = sum(available_weights)
+    return sum(
+        score * weight for score, weight in zip(scores_by_shield, available_weights, strict=True)
+    ) / weight_total
+
+
+def classify_soft_matchup_score(score: float) -> SoftMatchupBand:
+    if not math.isfinite(score):
+        raise ValueError("matchup score must be finite")
+    if score >= STRONG_ANSWER_SCORE_THRESHOLD:
+        return "strong_answer"
+    if score >= PLAYABLE_ANSWER_SCORE_THRESHOLD:
+        return "playable_answer"
+    if score >= NEUTRAL_MATCHUP_SCORE_THRESHOLD:
+        return "neutral_matchup"
+    if score >= OVERWHELMING_LOSS_SCORE_THRESHOLD:
+        return "soft_loss"
+    return "hard_loss"
+
+
+def soft_matchup_quality(score: float) -> float:
+    """Map a PvPoke-style battle rating to bounded higher-is-better quality."""
+    if not math.isfinite(score):
+        raise ValueError("matchup score must be finite")
+    return _clamp(score / 1000.0)
+
+
+def soft_matchup_risk(score: float) -> float:
+    """Return lower-is-better risk, with hard losses worse than marginal losses."""
+    if not math.isfinite(score):
+        raise ValueError("matchup score must be finite")
+    if score >= WIN_SCORE_THRESHOLD:
+        return 0.0
+    loss_severity = (WIN_SCORE_THRESHOLD - max(0.0, score)) / WIN_SCORE_THRESHOLD
+    return _clamp(loss_severity * loss_severity)
+
+
+def shield_stability_score(scores_by_shield: Sequence[float]) -> float:
+    """Score matchup quality after penalizing shield-path volatility."""
+    aggregate_score = aggregate_shield_matchup_score(scores_by_shield)
+    spread = max(scores_by_shield) - min(scores_by_shield)
+    volatility_penalty = _clamp(spread / 1000.0)
+    return _clamp(soft_matchup_quality(aggregate_score) * (1.0 - volatility_penalty))
+
+
+def count_playable_soft_answers(scores_by_member: Sequence[Sequence[float]]) -> int:
+    return sum(
+        1
+        for scores_by_shield in scores_by_member
+        if aggregate_shield_matchup_score(scores_by_shield) >= PLAYABLE_ANSWER_SCORE_THRESHOLD
     )
 
 

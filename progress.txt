@@ -48,6 +48,7 @@
 - Ranked candidate eligibility belongs in `AnalyzeMetaUseCase`: when a ranking profile is configured, candidate rows must match active `overall` rankings after `parse_species()` normalization before optimizer inputs are built; role categories remain scoring inputs only.
 - Threat pools should use ranked simulation targets only: derive top-meta threats from active `overall` rankings intersected with simulation columns, derive broad/full-meta threats from configured `full_meta_ranking_paths` when present, and exclude unranked target columns from threat scoring.
 - Full-team scoring should use soft shield-aggregated matchup quality with weights `0.30` for 0-shield, `0.50` for 1-shield, and `0.20` for 2-shield. Add A-F grades for coverage, bulk, safety, and consistency, plus a lower-is-better Threat Score that weights top-meta risk above broad-meta risk and penalizes no-answer, single-answer, hard-loss, and severe single-point weakness patterns.
+- Reusable soft matchup helpers live in `application/scoring.py`: aggregate 0-/1-/2-shield scores with weights `0.30`/`0.50`/`0.20`, classify soft quality bands, compute lower-is-better risk, count playable soft answers, and penalize shield volatility before later optimizer wiring.
 - Preserve existing architecture boundaries: infrastructure parses raw CSV/JSON data, application filters and scores, `AnalyzeMetaUseCase` assembles payload diagnostics, CLI validates/wires repositories, and exporters render structured fields without recomputing scoring.
 
 ## 2026-04-14 11:49:44 MST - US-001
@@ -1498,4 +1499,36 @@
   - Local-only `.DS_Store`, vendor submodule dirtiness, unrelated OpenCode skill edits, and `tasks/prd-pvp-team-optimizer-scoring.md` remain outside this story and should not be staged.
 - Next iteration start:
   - Implement `US-037` by adding soft shield-aggregated matchup scoring helpers without replacing exporter diagnostics.
+---
+## 2026-06-12 03:29:02 MST - US-037
+- What was implemented
+  - Added reusable application-layer helpers for soft shield-aggregated matchup scoring without changing optimizer selection or exporter diagnostics.
+  - Implemented weighted 0-/1-/2-shield aggregation with `0.30`, `0.50`, and `0.20` weights, including renormalization when fewer shield scenarios are available.
+  - Added soft matchup quality bands, lower-is-better risk scoring, playable soft-answer counting, and shield-stability scoring that penalizes isolated shield spikes.
+  - Added focused unit tests for shield aggregation, invalid inputs, quality bands, non-finite classification rejection, hard-loss risk, multiple playable answers, and shield volatility.
+- Files changed: `AGENTS.md`, `prd.json`, `progress.txt`, `src/pogo_team_optimizer/application/scoring.py`, `tests/unit/test_scoring.py`
+- Commit message: `feat: US-037 - Add soft shield-aggregated matchup scoring`
+- Checks:
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m pytest tests/unit/test_scoring.py -q` (pass, 35 tests)
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m mypy src` (pass)
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m ruff check src tests` (pass)
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m pytest` (pass, 251 passed, 2 skipped)
+- Implementation agents:
+  - Recommended: `python-pro`
+  - Used: `python-pro`
+- Specialist review:
+  - Agents used: `code-reviewer`, `qa-expert`
+  - Findings: fixed before commit; added finite-score validation and regression coverage for `classify_soft_matchup_score()` after QA noted non-finite values were handled inconsistently with other soft matchup helpers.
+- Decisions (why):
+  - Chose helper-only application-layer functions because US-037 explicitly asks to add reusable soft scoring first and wire them into team scoring in a later story.
+  - Chose direct public helpers instead of changing existing `_answer_counts()`, `_safety_component()`, or exporter output so current optimizer semantics and result schemas remain stable.
+  - Chose continuous bounded quality/risk helpers plus categorical band classification so later scoring can distinguish close losses from hard losses without losing explainable labels.
+- **Learnings for future iterations:**
+  - Soft matchup scoring should aggregate available shield scores before classifying answer quality; isolated favorable shield paths should be penalized through `shield_stability_score()` rather than counted as stable coverage.
+  - Gotcha encountered: existing ranking-aware safety still uses legacy max-shield answer counts until later wiring stories intentionally replace or blend that behavior.
+- Known issues / follow-ups:
+  - US-038 remains pending to add full-team grades and Threat Score that consume these helpers.
+  - Local-only vendor submodule dirtiness, unrelated OpenCode skill edits, and `tasks/prd-pvp-team-optimizer-scoring.md` remain outside this story and should not be staged.
+- Next iteration start:
+  - Implement `US-038` by adding full-team grades and lower-is-better Threat Score in application/use-case payloads without moving scoring into exporters.
 ---
