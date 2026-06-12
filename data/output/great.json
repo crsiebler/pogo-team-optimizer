@@ -2,206 +2,508 @@
   "recommended_team": {
     "members": [
       {
-        "index": 2,
-        "label": "Diggersby MS+FiP/ScS 4/15/14",
-        "species": "Diggersby",
-        "base_species": "Diggersby",
+        "index": 47,
+        "label": "Lapras Psy+IB/SpA 0/10/14",
+        "species": "Lapras",
+        "base_species": "Lapras",
         "types": [
-          "normal",
-          "ground"
+          "water",
+          "ice"
         ]
       },
       {
-        "index": 1,
-        "label": "Grumpig Psy+DyP/SB 4/15/15",
-        "species": "Grumpig",
-        "base_species": "Grumpig",
+        "index": 54,
+        "label": "Mandibuzz Sn+SB/FoP 0/13/15",
+        "species": "Mandibuzz",
+        "base_species": "Mandibuzz",
         "types": [
-          "psychic",
-          "none"
-        ]
-      },
-      {
-        "index": 3,
-        "label": "Lickilicky RO+BS/SB 4/15/8",
-        "species": "Lickilicky",
-        "base_species": "Lickilicky",
-        "types": [
-          "normal",
-          "none"
-        ]
-      },
-      {
-        "index": 7,
-        "label": "Togekiss Pk+Psh/AuS 4/15/15",
-        "species": "Togekiss",
-        "base_species": "Togekiss",
-        "types": [
-          "fairy",
+          "dark",
           "flying"
         ]
       },
       {
-        "index": 0,
-        "label": "Corsola (Galarian) A+NSh/PG 4/15/14",
-        "species": "Corsola (Galarian)",
-        "base_species": "Corsola (Galarian)",
+        "index": 6,
+        "label": "Carbink RTh+M/RS 5/15/15",
+        "species": "Carbink",
+        "base_species": "Carbink",
         "types": [
-          "ghost",
-          "none"
+          "rock",
+          "fairy"
         ]
       },
       {
-        "index": 5,
-        "label": "Forretress (Shadow) BBi+ST/RT 5/15/13",
-        "species": "Forretress (Shadow)",
-        "base_species": "Forretress",
+        "index": 91,
+        "label": "Toxapex PJ+SW/Bri 0/15/15",
+        "species": "Toxapex",
+        "base_species": "Toxapex",
         "types": [
-          "bug",
-          "steel"
+          "poison",
+          "water"
+        ]
+      },
+      {
+        "index": 15,
+        "label": "Dewgong IS+IW/DR 0/12/15",
+        "species": "Dewgong",
+        "base_species": "Dewgong",
+        "types": [
+          "water",
+          "ice"
+        ]
+      },
+      {
+        "index": 44,
+        "label": "Jumpluff (Shadow) FW+Acr/EB 2/13/14",
+        "species": "Jumpluff (Shadow)",
+        "base_species": "Jumpluff",
+        "types": [
+          "grass",
+          "flying"
         ]
       }
     ],
     "score": [
-      24.0,
-      8.0,
+      139.0,
+      45.0,
+      -2.0,
+      -20.0,
+      679.2127659574468,
+      326.67583326273785,
+      80.56666666666666,
+      779.3971631205675,
+      119.0,
+      98.0,
+      722.4822695035461,
+      107.0,
       0.0,
-      -3.0,
-      648.1666666666666,
-      236.59739191911981,
-      81.71666666666667,
-      767.1666666666666,
-      21.0,
-      21.0,
-      710.9166666666666,
-      18.0,
-      0.0
+      606.5207198581561,
+      696.7922695035461,
+      694.9104964539008,
+      60.0,
+      -33.0,
+      28.80000000000001,
+      0.7807434351450654
     ],
-    "bulk_score": 236.59739191911981,
-    "safety_score": 81.71666666666667,
+    "bulk_score": 326.67583326273785,
+    "safety_score": 80.56666666666666,
     "metrics": {
-      "pair_coverage": 24,
-      "full_col_coverage": 8,
-      "redundant_coverage_2plus": 21,
-      "redundant_coverage_3plus": 21,
-      "single_cover_pairs": 3,
-      "single_cover_rate": 0.125,
-      "no_cover_pairs": 0,
-      "no_cover_rate": 0.0,
-      "bulk_score": 236.59739191911981,
-      "safety_score": 81.71666666666667,
-      "consistency_score": 767.1666666666666,
-      "weighted_worst_best_score": 648.1666666666666,
-      "mean_best_score": 710.9166666666666,
-      "dominate_count": 18,
-      "dominate_rate": 0.75,
+      "pair_coverage": 139,
+      "full_col_coverage": 45,
+      "redundant_coverage_2plus": 119,
+      "redundant_coverage_3plus": 98,
+      "single_cover_pairs": 20,
+      "single_cover_rate": 0.14184397163120568,
+      "no_cover_pairs": 2,
+      "no_cover_rate": 0.014184397163120567,
+      "bulk_score": 326.67583326273785,
+      "safety_score": 80.56666666666666,
+      "consistency_score": 779.3971631205675,
+      "weighted_worst_best_score": 679.2127659574468,
+      "mean_best_score": 722.4822695035461,
+      "dominate_count": 107,
+      "dominate_rate": 0.7588652482269503,
       "overwhelming_count": 0,
       "overwhelming_rate": 0.0,
-      "total_pairs": 24,
-      "bulk_pool_min": 190.96,
-      "bulk_pool_max": 274.01785714285717,
-      "bulk_pool_mean": 226.81748198411617,
-      "safety_pool_min": 62.3,
-      "safety_pool_max": 92.7,
-      "safety_pool_mean": 82.99090909090908,
+      "total_pairs": 141,
+      "bulk_pool_min": 96.35964912280701,
+      "bulk_pool_max": 411.0,
+      "bulk_pool_mean": 210.96951512004458,
+      "safety_pool_min": 43.8,
+      "safety_pool_max": 100.0,
+      "safety_pool_mean": 77.97474747474747,
       "safety_priority": "medium",
       "safety_floor_target": 78.0,
       "safe_member_floor": 90.0,
-      "safe_member_target": 1
+      "safe_member_target": 1,
+      "lineup_objective_score": 606.5207198581561,
+      "lineup_best_score": 696.7922695035461,
+      "lineup_top_n_mean_score": 694.9104964539008,
+      "lineup_viable_count": 60,
+      "defensive_type_score": -33.0,
+      "offensive_move_score": 28.80000000000001,
+      "ranking_aware_score": 0.7807434351450654,
+      "legacy_full_roster_mean_best_score": 722.4822695035461,
+      "legacy_full_roster_dominate_count": 107,
+      "legacy_full_roster_overwhelming_count": 0,
+      "coverage_grade": "A",
+      "bulk_grade": "C",
+      "safety_grade": "A",
+      "consistency_grade": "B",
+      "threat_score": 12.804
     },
+    "score_breakdown": {
+      "final_score": 0.7807434351450654,
+      "components": [
+        {
+          "name": "synergy",
+          "raw_value": 0.5,
+          "weight": 0.24,
+          "weighted_score": 0.12,
+          "diagnostics": [
+            {
+              "key": "neutral_fallback",
+              "value": true
+            }
+          ]
+        },
+        {
+          "name": "threat_coverage",
+          "raw_value": 1.0,
+          "weight": 0.21,
+          "weighted_score": 0.21,
+          "diagnostics": [
+            {
+              "key": "full_meta_no_answer",
+              "value": 0
+            },
+            {
+              "key": "full_meta_single_answer",
+              "value": 0
+            },
+            {
+              "key": "top_threat_no_answer",
+              "value": 0
+            },
+            {
+              "key": "top_threat_single_answer",
+              "value": 0
+            }
+          ]
+        },
+        {
+          "name": "safety",
+          "raw_value": 0.9634855128205129,
+          "weight": 0.17,
+          "weighted_score": 0.1637925371794872,
+          "diagnostics": [
+            {
+              "key": "overwhelming_losses",
+              "value": 0
+            },
+            {
+              "key": "shield_fragility",
+              "value": 0.086641
+            }
+          ]
+        },
+        {
+          "name": "consistency",
+          "raw_value": 0.8339534427597718,
+          "weight": 0.13,
+          "weighted_score": 0.10841394755877033,
+          "diagnostics": [
+            {
+              "key": "bait_dependence_proxy",
+              "value": 0.086641
+            },
+            {
+              "key": "move_dpe_proxy",
+              "value": 0.5
+            },
+            {
+              "key": "shield_stability",
+              "value": 0.913359
+            }
+          ]
+        },
+        {
+          "name": "bulk",
+          "raw_value": 0.7319982433843184,
+          "weight": 0.1,
+          "weighted_score": 0.07319982433843185,
+          "diagnostics": [
+            {
+              "key": "pool_max",
+              "value": 411.0
+            },
+            {
+              "key": "pool_min",
+              "value": 96.35964912280701
+            }
+          ]
+        },
+        {
+          "name": "defensive_ratio",
+          "raw_value": 0.5762446581196581,
+          "weight": 0.07,
+          "weighted_score": 0.04033712606837607,
+          "diagnostics": []
+        },
+        {
+          "name": "offensive_ratio",
+          "raw_value": 1.0,
+          "weight": 0.05,
+          "weighted_score": 0.05,
+          "diagnostics": []
+        },
+        {
+          "name": "role_fit",
+          "raw_value": 0.5,
+          "weight": 0.03,
+          "weighted_score": 0.015,
+          "diagnostics": [
+            {
+              "key": "neutral_fallback",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "ranking_diagnostics": {
+      "key_covered_threats": [
+        "Aegislash (Shield) PC+SB/GB 4/14/15",
+        "Altaria DB+SA/Ft 4/12/13",
+        "Annihilape LK+RF/CC 4/13/13",
+        "Annihilape (Shadow) C+RF/IP 4/13/13",
+        "Azumarill B+IB/PR 4/15/13"
+      ],
+      "remaining_threats": [],
+      "major_top_meta_threats": [],
+      "major_broad_meta_threats": [],
+      "no_answer_threats": [],
+      "single_answer_threats": [],
+      "shared_weaknesses": [
+        {
+          "type": "electric",
+          "members": [
+            "Lapras Psy+IB/SpA 0/10/14",
+            "Mandibuzz Sn+SB/FoP 0/13/15",
+            "Toxapex PJ+SW/Bri 0/15/15",
+            "Dewgong IS+IW/DR 0/12/15"
+          ]
+        },
+        {
+          "type": "fighting",
+          "members": [
+            "Lapras Psy+IB/SpA 0/10/14",
+            "Dewgong IS+IW/DR 0/12/15"
+          ]
+        },
+        {
+          "type": "grass",
+          "members": [
+            "Lapras Psy+IB/SpA 0/10/14",
+            "Carbink RTh+M/RS 5/15/15",
+            "Dewgong IS+IW/DR 0/12/15"
+          ]
+        },
+        {
+          "type": "ground",
+          "members": [
+            "Carbink RTh+M/RS 5/15/15",
+            "Toxapex PJ+SW/Bri 0/15/15"
+          ]
+        },
+        {
+          "type": "ice",
+          "members": [
+            "Mandibuzz Sn+SB/FoP 0/13/15",
+            "Jumpluff (Shadow) FW+Acr/EB 2/13/14"
+          ]
+        },
+        {
+          "type": "rock",
+          "members": [
+            "Lapras Psy+IB/SpA 0/10/14",
+            "Mandibuzz Sn+SB/FoP 0/13/15",
+            "Dewgong IS+IW/DR 0/12/15",
+            "Jumpluff (Shadow) FW+Acr/EB 2/13/14"
+          ]
+        }
+      ],
+      "role_assumptions": [
+        "Leads use PvPoke leads rankings when available.",
+        "Back pairs use unordered PvPoke switches, closers, attackers, chargers, and consistency blends when available."
+      ],
+      "lineup_dependency": {
+        "dependent": false,
+        "reason": "Recommended roster has multiple viable ordered lineups.",
+        "best_lineup_score": 696.7922695035461,
+        "top_lineup_mean_score": 694.9104964539008,
+        "viable_lineup_count": 60
+      }
+    },
+    "bench_utility": [],
     "shadow_count": 1
   },
   "coverage": [
     {
       "shield": 0,
-      "wins": 8,
+      "wins": 47,
       "draws": 0,
       "losses": 0,
       "weighted_wins": 1.0
     },
     {
       "shield": 1,
-      "wins": 8,
+      "wins": 47,
       "draws": 0,
       "losses": 0,
       "weighted_wins": 1.0
     },
     {
       "shield": 2,
-      "wins": 8,
+      "wins": 45,
       "draws": 0,
-      "losses": 0,
-      "weighted_wins": 1.0
+      "losses": 2,
+      "weighted_wins": 0.957447
     }
   ],
   "threats": [
     {
-      "opponent_label": "Togekiss Pk+Psh/AuS 4/15/15",
-      "min_best_score": 553,
-      "avg_best_score": 660.0,
+      "opponent_label": "Stunfisk (Galarian) MS+RS/Eq 5/15/13",
+      "min_best_score": 482,
+      "avg_best_score": 554.3333333333334,
       "shield_best_scores": [
-        744,
-        683,
-        553
+        673,
+        508,
+        482
       ],
       "shield_best_members": [
-        "Corsola (Galarian) A+NSh/PG 4/15/14",
-        "Corsola (Galarian) A+NSh/PG 4/15/14",
-        "Grumpig Psy+DyP/SB 4/15/15"
+        "Lapras Psy+IB/SpA 0/10/14",
+        "Mandibuzz Sn+SB/FoP 0/13/15",
+        "Jumpluff (Shadow) FW+Acr/EB 2/13/14"
       ],
       "single_cover_count": 1,
+      "no_cover_count": 1,
+      "fragile_shields": [
+        {
+          "shield": 1,
+          "winner_count": 1,
+          "only_answer": "Mandibuzz Sn+SB/FoP 0/13/15",
+          "only_answer_score": 508,
+          "best_loser": null,
+          "best_loser_score": null
+        },
+        {
+          "shield": 2,
+          "winner_count": 0,
+          "only_answer": null,
+          "only_answer_score": null,
+          "best_loser": "Jumpluff (Shadow) FW+Acr/EB 2/13/14",
+          "best_loser_score": 482
+        }
+      ]
+    },
+    {
+      "opponent_label": "Forretress VS+RT/ST 5/15/13",
+      "min_best_score": 532,
+      "avg_best_score": 565.0,
+      "shield_best_scores": [
+        612,
+        532,
+        551
+      ],
+      "shield_best_members": [
+        "Jumpluff (Shadow) FW+Acr/EB 2/13/14",
+        "Jumpluff (Shadow) FW+Acr/EB 2/13/14",
+        "Carbink RTh+M/RS 5/15/15"
+      ],
+      "single_cover_count": 2,
       "no_cover_count": 0,
       "fragile_shields": [
         {
+          "shield": 1,
+          "winner_count": 1,
+          "only_answer": "Jumpluff (Shadow) FW+Acr/EB 2/13/14",
+          "only_answer_score": 532,
+          "best_loser": null,
+          "best_loser_score": null
+        },
+        {
           "shield": 2,
           "winner_count": 1,
-          "only_answer": "Grumpig Psy+DyP/SB 4/15/15",
-          "only_answer_score": 553,
+          "only_answer": "Carbink RTh+M/RS 5/15/15",
+          "only_answer_score": 551,
           "best_loser": null,
           "best_loser_score": null
         }
       ]
     },
     {
-      "opponent_label": "Piloswine (Shadow) PS+ISp/SE 4/14/11",
-      "min_best_score": 604,
-      "avg_best_score": 732.3333333333334,
+      "opponent_label": "Tinkaton FW+GH/Bd 4/15/14",
+      "min_best_score": 538,
+      "avg_best_score": 561.0,
       "shield_best_scores": [
-        804,
-        604,
-        789
+        562,
+        583,
+        538
       ],
       "shield_best_members": [
-        "Togekiss Pk+Psh/AuS 4/15/15",
-        "Togekiss Pk+Psh/AuS 4/15/15",
-        "Forretress (Shadow) BBi+ST/RT 5/15/13"
+        "Dewgong IS+IW/DR 0/12/15",
+        "Dewgong IS+IW/DR 0/12/15",
+        "Lapras Psy+IB/SpA 0/10/14"
       ],
-      "single_cover_count": 1,
+      "single_cover_count": 2,
       "no_cover_count": 0,
       "fragile_shields": [
         {
-          "shield": 2,
+          "shield": 0,
           "winner_count": 1,
-          "only_answer": "Forretress (Shadow) BBi+ST/RT 5/15/13",
-          "only_answer_score": 789,
+          "only_answer": "Dewgong IS+IW/DR 0/12/15",
+          "only_answer_score": 562,
+          "best_loser": null,
+          "best_loser_score": null
+        },
+        {
+          "shield": 1,
+          "winner_count": 1,
+          "only_answer": "Dewgong IS+IW/DR 0/12/15",
+          "only_answer_score": 583,
           "best_loser": null,
           "best_loser_score": null
         }
       ]
     },
     {
-      "opponent_label": "Forretress (Shadow) VS+ST/RT 5/15/13",
-      "min_best_score": 704,
-      "avg_best_score": 774.6666666666666,
+      "opponent_label": "Clodsire PSt+SE/Eq 4/14/10",
+      "min_best_score": 620,
+      "avg_best_score": 707.0,
       "shield_best_scores": [
-        879,
-        741,
-        704
+        664,
+        620,
+        837
       ],
       "shield_best_members": [
-        "Diggersby MS+FiP/ScS 4/15/14",
-        "Diggersby MS+FiP/ScS 4/15/14",
-        "Diggersby MS+FiP/ScS 4/15/14"
+        "Lapras Psy+IB/SpA 0/10/14",
+        "Lapras Psy+IB/SpA 0/10/14",
+        "Lapras Psy+IB/SpA 0/10/14"
+      ],
+      "single_cover_count": 2,
+      "no_cover_count": 0,
+      "fragile_shields": [
+        {
+          "shield": 0,
+          "winner_count": 1,
+          "only_answer": "Lapras Psy+IB/SpA 0/10/14",
+          "only_answer_score": 664,
+          "best_loser": null,
+          "best_loser_score": null
+        },
+        {
+          "shield": 1,
+          "winner_count": 1,
+          "only_answer": "Lapras Psy+IB/SpA 0/10/14",
+          "only_answer_score": 620,
+          "best_loser": null,
+          "best_loser_score": null
+        }
+      ]
+    },
+    {
+      "opponent_label": "Seaking Pk+DR/IW 4/13/14",
+      "min_best_score": 519,
+      "avg_best_score": 565.0,
+      "shield_best_scores": [
+        606,
+        570,
+        519
+      ],
+      "shield_best_members": [
+        "Carbink RTh+M/RS 5/15/15",
+        "Carbink RTh+M/RS 5/15/15",
+        "Carbink RTh+M/RS 5/15/15"
       ],
       "single_cover_count": 1,
       "no_cover_count": 0,
@@ -209,988 +511,1971 @@
         {
           "shield": 2,
           "winner_count": 1,
-          "only_answer": "Diggersby MS+FiP/ScS 4/15/14",
-          "only_answer_score": 704,
+          "only_answer": "Carbink RTh+M/RS 5/15/15",
+          "only_answer_score": 519,
+          "best_loser": null,
+          "best_loser_score": null
+        }
+      ]
+    },
+    {
+      "opponent_label": "Empoleon MSo+HC/DrlP 5/15/13",
+      "min_best_score": 541,
+      "avg_best_score": 586.0,
+      "shield_best_scores": [
+        590,
+        541,
+        627
+      ],
+      "shield_best_members": [
+        "Dewgong IS+IW/DR 0/12/15",
+        "Mandibuzz Sn+SB/FoP 0/13/15",
+        "Mandibuzz Sn+SB/FoP 0/13/15"
+      ],
+      "single_cover_count": 1,
+      "no_cover_count": 0,
+      "fragile_shields": [
+        {
+          "shield": 2,
+          "winner_count": 1,
+          "only_answer": "Mandibuzz Sn+SB/FoP 0/13/15",
+          "only_answer_score": 627,
+          "best_loser": null,
+          "best_loser_score": null
+        }
+      ]
+    },
+    {
+      "opponent_label": "Stunfisk TS+MB/D 5/15/13",
+      "min_best_score": 590,
+      "avg_best_score": 641.3333333333334,
+      "shield_best_scores": [
+        693,
+        641,
+        590
+      ],
+      "shield_best_members": [
+        "Jumpluff (Shadow) FW+Acr/EB 2/13/14",
+        "Jumpluff (Shadow) FW+Acr/EB 2/13/14",
+        "Jumpluff (Shadow) FW+Acr/EB 2/13/14"
+      ],
+      "single_cover_count": 1,
+      "no_cover_count": 0,
+      "fragile_shields": [
+        {
+          "shield": 1,
+          "winner_count": 1,
+          "only_answer": "Jumpluff (Shadow) FW+Acr/EB 2/13/14",
+          "only_answer_score": 641,
+          "best_loser": null,
+          "best_loser_score": null
+        }
+      ]
+    },
+    {
+      "opponent_label": "Cradily Ac+RT/GK 4/14/14",
+      "min_best_score": 600,
+      "avg_best_score": 616.0,
+      "shield_best_scores": [
+        600,
+        618,
+        630
+      ],
+      "shield_best_members": [
+        "Toxapex PJ+SW/Bri 0/15/15",
+        "Dewgong IS+IW/DR 0/12/15",
+        "Dewgong IS+IW/DR 0/12/15"
+      ],
+      "single_cover_count": 1,
+      "no_cover_count": 0,
+      "fragile_shields": [
+        {
+          "shield": 2,
+          "winner_count": 1,
+          "only_answer": "Dewgong IS+IW/DR 0/12/15",
+          "only_answer_score": 630,
+          "best_loser": null,
+          "best_loser_score": null
+        }
+      ]
+    },
+    {
+      "opponent_label": "Furret SkP+Sw/TBl 4/14/13",
+      "min_best_score": 601,
+      "avg_best_score": 626.0,
+      "shield_best_scores": [
+        601,
+        666,
+        611
+      ],
+      "shield_best_members": [
+        "Lapras Psy+IB/SpA 0/10/14",
+        "Toxapex PJ+SW/Bri 0/15/15",
+        "Mandibuzz Sn+SB/FoP 0/13/15"
+      ],
+      "single_cover_count": 1,
+      "no_cover_count": 0,
+      "fragile_shields": [
+        {
+          "shield": 2,
+          "winner_count": 1,
+          "only_answer": "Mandibuzz Sn+SB/FoP 0/13/15",
+          "only_answer_score": 611,
+          "best_loser": null,
+          "best_loser_score": null
+        }
+      ]
+    },
+    {
+      "opponent_label": "Annihilape LK+RF/CC 4/13/13",
+      "min_best_score": 616,
+      "avg_best_score": 720.0,
+      "shield_best_scores": [
+        822,
+        616,
+        722
+      ],
+      "shield_best_members": [
+        "Jumpluff (Shadow) FW+Acr/EB 2/13/14",
+        "Jumpluff (Shadow) FW+Acr/EB 2/13/14",
+        "Jumpluff (Shadow) FW+Acr/EB 2/13/14"
+      ],
+      "single_cover_count": 1,
+      "no_cover_count": 0,
+      "fragile_shields": [
+        {
+          "shield": 1,
+          "winner_count": 1,
+          "only_answer": "Jumpluff (Shadow) FW+Acr/EB 2/13/14",
+          "only_answer_score": 616,
           "best_loser": null,
           "best_loser_score": null
         }
       ]
     }
   ],
-  "safe_cores": [
-    {
-      "members": [
-        {
-          "index": 2,
-          "label": "Diggersby MS+FiP/ScS 4/15/14",
-          "species": "Diggersby",
-          "base_species": "Diggersby",
-          "types": [
-            "normal",
-            "ground"
-          ]
-        },
-        {
-          "index": 1,
-          "label": "Grumpig Psy+DyP/SB 4/15/15",
-          "species": "Grumpig",
-          "base_species": "Grumpig",
-          "types": [
-            "psychic",
-            "none"
-          ]
-        },
-        {
-          "index": 5,
-          "label": "Forretress (Shadow) BBi+ST/RT 5/15/13",
-          "species": "Forretress (Shadow)",
-          "base_species": "Forretress",
-          "types": [
-            "bug",
-            "steel"
-          ]
-        }
-      ],
-      "score": [
-        24.0,
-        8.0,
-        0.0,
-        -12.0,
-        595.9999999999999,
-        237.7908615136876,
-        75.8,
-        721.2916666666666,
-        12.0,
-        3.0,
-        677.5416666666666,
-        14.0,
-        0.0
-      ],
-      "strategy": "ABC",
-      "recommended_order": [
-        {
-          "role": "lead",
-          "label": "Diggersby MS+FiP/ScS 4/15/14",
-          "index": 2
-        },
-        {
-          "role": "switch",
-          "label": "Forretress (Shadow) BBi+ST/RT 5/15/13",
-          "index": 5
-        },
-        {
-          "role": "closer",
-          "label": "Grumpig Psy+DyP/SB 4/15/15",
-          "index": 1
-        }
-      ],
-      "role_scores": {
-        "Diggersby MS+FiP/ScS 4/15/14": {
-          "lead": 478.625,
-          "switch": 604.225,
-          "closer": 544.625
-        },
-        "Grumpig Psy+DyP/SB 4/15/15": {
-          "lead": 468.25,
-          "switch": 566.042,
-          "closer": 596.875
-        },
-        "Forretress (Shadow) BBi+ST/RT 5/15/13": {
-          "lead": 445.5,
-          "switch": 577.133,
-          "closer": 517.375
-        }
-      },
-      "shared_weaknesses": [],
-      "shared_strengths": []
-    },
-    {
-      "members": [
-        {
-          "index": 1,
-          "label": "Grumpig Psy+DyP/SB 4/15/15",
-          "species": "Grumpig",
-          "base_species": "Grumpig",
-          "types": [
-            "psychic",
-            "none"
-          ]
-        },
-        {
-          "index": 0,
-          "label": "Corsola (Galarian) A+NSh/PG 4/15/14",
-          "species": "Corsola (Galarian)",
-          "base_species": "Corsola (Galarian)",
-          "types": [
-            "ghost",
-            "none"
-          ]
-        },
-        {
-          "index": 5,
-          "label": "Forretress (Shadow) BBi+ST/RT 5/15/13",
-          "species": "Forretress (Shadow)",
-          "base_species": "Forretress",
-          "types": [
-            "bug",
-            "steel"
-          ]
-        }
-      ],
-      "score": [
-        23.0,
-        7.0,
-        -1.0,
-        -8.0,
-        574.1666666666666,
-        227.51479419020646,
-        72.26666666666667,
-        689.0833333333334,
-        15.0,
-        4.0,
-        651.5833333333334,
-        12.0,
-        0.0
-      ],
-      "strategy": "ABC",
-      "recommended_order": [
-        {
-          "role": "lead",
-          "label": "Corsola (Galarian) A+NSh/PG 4/15/14",
-          "index": 0
-        },
-        {
-          "role": "switch",
-          "label": "Forretress (Shadow) BBi+ST/RT 5/15/13",
-          "index": 5
-        },
-        {
-          "role": "closer",
-          "label": "Grumpig Psy+DyP/SB 4/15/15",
-          "index": 1
-        }
-      ],
-      "role_scores": {
-        "Grumpig Psy+DyP/SB 4/15/15": {
-          "lead": 468.25,
-          "switch": 566.042,
-          "closer": 596.875
-        },
-        "Corsola (Galarian) A+NSh/PG 4/15/14": {
-          "lead": 571.625,
-          "switch": 626.542,
-          "closer": 562.75
-        },
-        "Forretress (Shadow) BBi+ST/RT 5/15/13": {
-          "lead": 445.5,
-          "switch": 577.133,
-          "closer": 517.375
-        }
-      },
-      "shared_weaknesses": [],
-      "shared_strengths": []
-    },
-    {
-      "members": [
-        {
-          "index": 2,
-          "label": "Diggersby MS+FiP/ScS 4/15/14",
-          "species": "Diggersby",
-          "base_species": "Diggersby",
-          "types": [
-            "normal",
-            "ground"
-          ]
-        },
-        {
-          "index": 1,
-          "label": "Grumpig Psy+DyP/SB 4/15/15",
-          "species": "Grumpig",
-          "base_species": "Grumpig",
-          "types": [
-            "psychic",
-            "none"
-          ]
-        },
-        {
-          "index": 3,
-          "label": "Lickilicky RO+BS/SB 4/15/8",
-          "species": "Lickilicky",
-          "base_species": "Lickilicky",
-          "types": [
-            "normal",
-            "none"
-          ]
-        }
-      ],
-      "score": [
-        23.0,
-        7.0,
-        -1.0,
-        -9.0,
-        580.0833333333333,
-        251.65628594432943,
-        85.93333333333334,
-        688.875,
-        14.0,
-        3.0,
-        648.25,
-        13.0,
-        0.0
-      ],
-      "strategy": "ABC",
-      "recommended_order": [
-        {
-          "role": "lead",
-          "label": "Diggersby MS+FiP/ScS 4/15/14",
-          "index": 2
-        },
-        {
-          "role": "switch",
-          "label": "Lickilicky RO+BS/SB 4/15/8",
-          "index": 3
-        },
-        {
-          "role": "closer",
-          "label": "Grumpig Psy+DyP/SB 4/15/15",
-          "index": 1
-        }
-      ],
-      "role_scores": {
-        "Diggersby MS+FiP/ScS 4/15/14": {
-          "lead": 478.625,
-          "switch": 604.225,
-          "closer": 544.625
-        },
-        "Grumpig Psy+DyP/SB 4/15/15": {
-          "lead": 468.25,
-          "switch": 566.042,
-          "closer": 596.875
-        },
-        "Lickilicky RO+BS/SB 4/15/8": {
-          "lead": 459.125,
-          "switch": 593.033,
-          "closer": 535.75
-        }
-      },
-      "shared_weaknesses": [],
-      "shared_strengths": []
-    },
-    {
-      "members": [
-        {
-          "index": 1,
-          "label": "Grumpig Psy+DyP/SB 4/15/15",
-          "species": "Grumpig",
-          "base_species": "Grumpig",
-          "types": [
-            "psychic",
-            "none"
-          ]
-        },
-        {
-          "index": 7,
-          "label": "Togekiss Pk+Psh/AuS 4/15/15",
-          "species": "Togekiss",
-          "base_species": "Togekiss",
-          "types": [
-            "fairy",
-            "flying"
-          ]
-        },
-        {
-          "index": 5,
-          "label": "Forretress (Shadow) BBi+ST/RT 5/15/13",
-          "species": "Forretress (Shadow)",
-          "base_species": "Forretress",
-          "types": [
-            "bug",
-            "steel"
-          ]
-        }
-      ],
-      "score": [
-        23.0,
-        7.0,
-        -1.0,
-        -12.0,
-        574.5833333333333,
-        210.1049091327352,
-        75.0,
-        686.2083333333334,
-        11.0,
-        2.0,
-        648.7083333333334,
-        12.0,
-        0.0
-      ],
-      "strategy": "ABC",
-      "recommended_order": [
-        {
-          "role": "lead",
-          "label": "Togekiss Pk+Psh/AuS 4/15/15",
-          "index": 7
-        },
-        {
-          "role": "switch",
-          "label": "Forretress (Shadow) BBi+ST/RT 5/15/13",
-          "index": 5
-        },
-        {
-          "role": "closer",
-          "label": "Grumpig Psy+DyP/SB 4/15/15",
-          "index": 1
-        }
-      ],
-      "role_scores": {
-        "Grumpig Psy+DyP/SB 4/15/15": {
-          "lead": 468.25,
-          "switch": 566.042,
-          "closer": 596.875
-        },
-        "Togekiss Pk+Psh/AuS 4/15/15": {
-          "lead": 515.0,
-          "switch": 582.117,
-          "closer": 455.375
-        },
-        "Forretress (Shadow) BBi+ST/RT 5/15/13": {
-          "lead": 445.5,
-          "switch": 577.133,
-          "closer": 517.375
-        }
-      },
-      "shared_weaknesses": [],
-      "shared_strengths": []
-    },
-    {
-      "members": [
-        {
-          "index": 2,
-          "label": "Diggersby MS+FiP/ScS 4/15/14",
-          "species": "Diggersby",
-          "base_species": "Diggersby",
-          "types": [
-            "normal",
-            "ground"
-          ]
-        },
-        {
-          "index": 7,
-          "label": "Togekiss Pk+Psh/AuS 4/15/15",
-          "species": "Togekiss",
-          "base_species": "Togekiss",
-          "types": [
-            "fairy",
-            "flying"
-          ]
-        },
-        {
-          "index": 5,
-          "label": "Forretress (Shadow) BBi+ST/RT 5/15/13",
-          "species": "Forretress (Shadow)",
-          "base_species": "Forretress",
-          "types": [
-            "bug",
-            "steel"
-          ]
-        }
-      ],
-      "score": [
-        22.0,
-        7.0,
-        -2.0,
-        -11.0,
-        595.6666666666665,
-        231.8145652173913,
-        81.03333333333333,
-        727.8333333333334,
-        11.0,
-        1.0,
-        680.9583333333334,
-        15.0,
-        0.0
-      ],
-      "strategy": "ABC",
-      "recommended_order": [
-        {
-          "role": "lead",
-          "label": "Togekiss Pk+Psh/AuS 4/15/15",
-          "index": 7
-        },
-        {
-          "role": "switch",
-          "label": "Forretress (Shadow) BBi+ST/RT 5/15/13",
-          "index": 5
-        },
-        {
-          "role": "closer",
-          "label": "Diggersby MS+FiP/ScS 4/15/14",
-          "index": 2
-        }
-      ],
-      "role_scores": {
-        "Diggersby MS+FiP/ScS 4/15/14": {
-          "lead": 478.625,
-          "switch": 604.225,
-          "closer": 544.625
-        },
-        "Togekiss Pk+Psh/AuS 4/15/15": {
-          "lead": 515.0,
-          "switch": 582.117,
-          "closer": 455.375
-        },
-        "Forretress (Shadow) BBi+ST/RT 5/15/13": {
-          "lead": 445.5,
-          "switch": 577.133,
-          "closer": 517.375
-        }
-      },
-      "shared_weaknesses": [],
-      "shared_strengths": []
-    },
-    {
-      "members": [
-        {
-          "index": 2,
-          "label": "Diggersby MS+FiP/ScS 4/15/14",
-          "species": "Diggersby",
-          "base_species": "Diggersby",
-          "types": [
-            "normal",
-            "ground"
-          ]
-        },
-        {
-          "index": 3,
-          "label": "Lickilicky RO+BS/SB 4/15/8",
-          "species": "Lickilicky",
-          "base_species": "Lickilicky",
-          "types": [
-            "normal",
-            "none"
-          ]
-        },
-        {
-          "index": 5,
-          "label": "Forretress (Shadow) BBi+ST/RT 5/15/13",
-          "species": "Forretress (Shadow)",
-          "base_species": "Forretress",
-          "types": [
-            "bug",
-            "steel"
-          ]
-        }
-      ],
-      "score": [
-        22.0,
-        6.0,
-        -2.0,
-        -6.0,
-        565.4999999999999,
-        258.84860248447205,
-        82.2,
-        682.375,
-        16.0,
-        1.0,
-        651.125,
-        10.0,
-        0.0
-      ],
-      "strategy": "ABC",
-      "recommended_order": [
-        {
-          "role": "lead",
-          "label": "Diggersby MS+FiP/ScS 4/15/14",
-          "index": 2
-        },
-        {
-          "role": "switch",
-          "label": "Forretress (Shadow) BBi+ST/RT 5/15/13",
-          "index": 5
-        },
-        {
-          "role": "closer",
-          "label": "Lickilicky RO+BS/SB 4/15/8",
-          "index": 3
-        }
-      ],
-      "role_scores": {
-        "Diggersby MS+FiP/ScS 4/15/14": {
-          "lead": 478.625,
-          "switch": 604.225,
-          "closer": 544.625
-        },
-        "Lickilicky RO+BS/SB 4/15/8": {
-          "lead": 459.125,
-          "switch": 593.033,
-          "closer": 535.75
-        },
-        "Forretress (Shadow) BBi+ST/RT 5/15/13": {
-          "lead": 445.5,
-          "switch": 577.133,
-          "closer": 517.375
-        }
-      },
-      "shared_weaknesses": [],
-      "shared_strengths": []
-    },
-    {
-      "members": [
-        {
-          "index": 3,
-          "label": "Lickilicky RO+BS/SB 4/15/8",
-          "species": "Lickilicky",
-          "base_species": "Lickilicky",
-          "types": [
-            "normal",
-            "none"
-          ]
-        },
-        {
-          "index": 0,
-          "label": "Corsola (Galarian) A+NSh/PG 4/15/14",
-          "species": "Corsola (Galarian)",
-          "base_species": "Corsola (Galarian)",
-          "types": [
-            "ghost",
-            "none"
-          ]
-        },
-        {
-          "index": 5,
-          "label": "Forretress (Shadow) BBi+ST/RT 5/15/13",
-          "species": "Forretress (Shadow)",
-          "base_species": "Forretress",
-          "types": [
-            "bug",
-            "steel"
-          ]
-        }
-      ],
-      "score": [
-        22.0,
-        6.0,
-        -2.0,
-        -6.0,
-        529.0,
-        248.57253516099092,
-        78.66666666666667,
-        665.375,
-        16.0,
-        4.0,
-        634.125,
-        10.0,
-        0.0
-      ],
-      "strategy": "ABC",
-      "recommended_order": [
-        {
-          "role": "lead",
-          "label": "Corsola (Galarian) A+NSh/PG 4/15/14",
-          "index": 0
-        },
-        {
-          "role": "switch",
-          "label": "Forretress (Shadow) BBi+ST/RT 5/15/13",
-          "index": 5
-        },
-        {
-          "role": "closer",
-          "label": "Lickilicky RO+BS/SB 4/15/8",
-          "index": 3
-        }
-      ],
-      "role_scores": {
-        "Lickilicky RO+BS/SB 4/15/8": {
-          "lead": 459.125,
-          "switch": 593.033,
-          "closer": 535.75
-        },
-        "Corsola (Galarian) A+NSh/PG 4/15/14": {
-          "lead": 571.625,
-          "switch": 626.542,
-          "closer": 562.75
-        },
-        "Forretress (Shadow) BBi+ST/RT 5/15/13": {
-          "lead": 445.5,
-          "switch": 577.133,
-          "closer": 517.375
-        }
-      },
-      "shared_weaknesses": [],
-      "shared_strengths": []
-    },
-    {
-      "members": [
-        {
-          "index": 1,
-          "label": "Grumpig Psy+DyP/SB 4/15/15",
-          "species": "Grumpig",
-          "base_species": "Grumpig",
-          "types": [
-            "psychic",
-            "none"
-          ]
-        },
-        {
-          "index": 7,
-          "label": "Togekiss Pk+Psh/AuS 4/15/15",
-          "species": "Togekiss",
-          "base_species": "Togekiss",
-          "types": [
-            "fairy",
-            "flying"
-          ]
-        },
-        {
-          "index": 0,
-          "label": "Corsola (Galarian) A+NSh/PG 4/15/14",
-          "species": "Corsola (Galarian)",
-          "base_species": "Corsola (Galarian)",
-          "types": [
-            "ghost",
-            "none"
-          ]
-        }
-      ],
-      "score": [
-        22.0,
-        6.0,
-        -2.0,
-        -7.0,
-        559.8333333333333,
-        214.34618135376755,
-        81.23333333333333,
-        675.7916666666666,
-        15.0,
-        1.0,
-        638.2916666666666,
-        12.0,
-        0.0
-      ],
-      "strategy": "ABC",
-      "recommended_order": [
-        {
-          "role": "lead",
-          "label": "Corsola (Galarian) A+NSh/PG 4/15/14",
-          "index": 0
-        },
-        {
-          "role": "switch",
-          "label": "Togekiss Pk+Psh/AuS 4/15/15",
-          "index": 7
-        },
-        {
-          "role": "closer",
-          "label": "Grumpig Psy+DyP/SB 4/15/15",
-          "index": 1
-        }
-      ],
-      "role_scores": {
-        "Grumpig Psy+DyP/SB 4/15/15": {
-          "lead": 468.25,
-          "switch": 566.042,
-          "closer": 596.875
-        },
-        "Togekiss Pk+Psh/AuS 4/15/15": {
-          "lead": 515.0,
-          "switch": 582.117,
-          "closer": 455.375
-        },
-        "Corsola (Galarian) A+NSh/PG 4/15/14": {
-          "lead": 571.625,
-          "switch": 626.542,
-          "closer": 562.75
-        }
-      },
-      "shared_weaknesses": [],
-      "shared_strengths": []
-    },
-    {
-      "members": [
-        {
-          "index": 7,
-          "label": "Togekiss Pk+Psh/AuS 4/15/15",
-          "species": "Togekiss",
-          "base_species": "Togekiss",
-          "types": [
-            "fairy",
-            "flying"
-          ]
-        },
-        {
-          "index": 0,
-          "label": "Corsola (Galarian) A+NSh/PG 4/15/14",
-          "species": "Corsola (Galarian)",
-          "base_species": "Corsola (Galarian)",
-          "types": [
-            "ghost",
-            "none"
-          ]
-        },
-        {
-          "index": 5,
-          "label": "Forretress (Shadow) BBi+ST/RT 5/15/13",
-          "species": "Forretress (Shadow)",
-          "base_species": "Forretress",
-          "types": [
-            "bug",
-            "steel"
-          ]
-        }
-      ],
-      "score": [
-        22.0,
-        6.0,
-        -2.0,
-        -7.0,
-        553.6666666666666,
-        221.53849789391018,
-        77.5,
-        697.2083333333334,
-        15.0,
-        0.0,
-        656.5833333333334,
-        13.0,
-        0.0
-      ],
-      "strategy": "ABC",
-      "recommended_order": [
-        {
-          "role": "lead",
-          "label": "Corsola (Galarian) A+NSh/PG 4/15/14",
-          "index": 0
-        },
-        {
-          "role": "switch",
-          "label": "Togekiss Pk+Psh/AuS 4/15/15",
-          "index": 7
-        },
-        {
-          "role": "closer",
-          "label": "Forretress (Shadow) BBi+ST/RT 5/15/13",
-          "index": 5
-        }
-      ],
-      "role_scores": {
-        "Togekiss Pk+Psh/AuS 4/15/15": {
-          "lead": 515.0,
-          "switch": 582.117,
-          "closer": 455.375
-        },
-        "Corsola (Galarian) A+NSh/PG 4/15/14": {
-          "lead": 571.625,
-          "switch": 626.542,
-          "closer": 562.75
-        },
-        "Forretress (Shadow) BBi+ST/RT 5/15/13": {
-          "lead": 445.5,
-          "switch": 577.133,
-          "closer": 517.375
-        }
-      },
-      "shared_weaknesses": [],
-      "shared_strengths": []
-    },
-    {
-      "members": [
-        {
-          "index": 1,
-          "label": "Grumpig Psy+DyP/SB 4/15/15",
-          "species": "Grumpig",
-          "base_species": "Grumpig",
-          "types": [
-            "psychic",
-            "none"
-          ]
-        },
-        {
-          "index": 3,
-          "label": "Lickilicky RO+BS/SB 4/15/8",
-          "species": "Lickilicky",
-          "base_species": "Lickilicky",
-          "types": [
-            "normal",
-            "none"
-          ]
-        },
-        {
-          "index": 0,
-          "label": "Corsola (Galarian) A+NSh/PG 4/15/14",
-          "species": "Corsola (Galarian)",
-          "base_species": "Corsola (Galarian)",
-          "types": [
-            "ghost",
-            "none"
-          ]
-        }
-      ],
-      "score": [
-        22.0,
-        6.0,
-        -2.0,
-        -7.0,
-        534.0,
-        241.3802186208483,
-        82.39999999999999,
-        650.625,
-        15.0,
-        6.0,
-        619.375,
-        10.0,
-        0.0
-      ],
-      "strategy": "ABC",
-      "recommended_order": [
-        {
-          "role": "lead",
-          "label": "Corsola (Galarian) A+NSh/PG 4/15/14",
-          "index": 0
-        },
-        {
-          "role": "switch",
-          "label": "Lickilicky RO+BS/SB 4/15/8",
-          "index": 3
-        },
-        {
-          "role": "closer",
-          "label": "Grumpig Psy+DyP/SB 4/15/15",
-          "index": 1
-        }
-      ],
-      "role_scores": {
-        "Grumpig Psy+DyP/SB 4/15/15": {
-          "lead": 468.25,
-          "switch": 566.042,
-          "closer": 596.875
-        },
-        "Lickilicky RO+BS/SB 4/15/8": {
-          "lead": 459.125,
-          "switch": 593.033,
-          "closer": 535.75
-        },
-        "Corsola (Galarian) A+NSh/PG 4/15/14": {
-          "lead": 571.625,
-          "switch": 626.542,
-          "closer": 562.75
-        }
-      },
-      "shared_weaknesses": [],
-      "shared_strengths": []
-    }
-  ],
+  "safe_cores": [],
   "target_map": [
     {
-      "opponent_label": "Togekiss Pk+Psh/AuS 4/15/15",
+      "opponent_label": "Aegislash (Shield) PC+SB/GB 4/14/15",
       "shield_best_scores": [
-        744,
-        683,
-        553
-      ],
-      "shield_best_members": [
-        "Corsola (Galarian) A+NSh/PG 4/15/14",
-        "Corsola (Galarian) A+NSh/PG 4/15/14",
-        "Grumpig Psy+DyP/SB 4/15/15"
-      ],
-      "confidence": "fragile"
-    },
-    {
-      "opponent_label": "Feraligatr SC+HC/IB 5/11/14",
-      "shield_best_scores": [
-        609,
-        553,
-        789
-      ],
-      "shield_best_members": [
-        "Forretress (Shadow) BBi+ST/RT 5/15/13",
-        "Corsola (Galarian) A+NSh/PG 4/15/14",
-        "Forretress (Shadow) BBi+ST/RT 5/15/13"
-      ],
-      "confidence": "fragile"
-    },
-    {
-      "opponent_label": "Feraligatr SC+HC/Cr 5/11/14",
-      "shield_best_scores": [
-        609,
-        553,
-        789
-      ],
-      "shield_best_members": [
-        "Forretress (Shadow) BBi+ST/RT 5/15/13",
-        "Corsola (Galarian) A+NSh/PG 4/15/14",
-        "Forretress (Shadow) BBi+ST/RT 5/15/13"
-      ],
-      "confidence": "fragile"
-    },
-    {
-      "opponent_label": "Forretress (Shadow) VS+ST/RT 5/15/13",
-      "shield_best_scores": [
-        879,
+        758,
         741,
-        704
+        922
       ],
       "shield_best_members": [
-        "Diggersby MS+FiP/ScS 4/15/14",
-        "Diggersby MS+FiP/ScS 4/15/14",
-        "Diggersby MS+FiP/ScS 4/15/14"
+        "Mandibuzz Sn+SB/FoP 0/13/15",
+        "Mandibuzz Sn+SB/FoP 0/13/15",
+        "Mandibuzz Sn+SB/FoP 0/13/15"
       ],
       "confidence": "swingy"
     },
     {
-      "opponent_label": "Forretress (Shadow) BBi+ST/RT 5/15/13",
+      "opponent_label": "Altaria DB+SA/Ft 4/12/13",
       "shield_best_scores": [
-        750,
-        682,
-        686
+        842,
+        791,
+        770
       ],
       "shield_best_members": [
-        "Diggersby MS+FiP/ScS 4/15/14",
-        "Togekiss Pk+Psh/AuS 4/15/15",
-        "Togekiss Pk+Psh/AuS 4/15/15"
+        "Carbink RTh+M/RS 5/15/15",
+        "Carbink RTh+M/RS 5/15/15",
+        "Dewgong IS+IW/DR 0/12/15"
       ],
       "confidence": "stable"
     },
     {
-      "opponent_label": "Gourgeist (Super) I+SB/SeB 6/15/13",
+      "opponent_label": "Annihilape LK+RF/CC 4/13/13",
       "shield_best_scores": [
-        765,
-        786,
-        776
+        822,
+        616,
+        722
       ],
       "shield_best_members": [
-        "Grumpig Psy+DyP/SB 4/15/15",
-        "Togekiss Pk+Psh/AuS 4/15/15",
-        "Corsola (Galarian) A+NSh/PG 4/15/14"
-      ],
-      "confidence": "stable"
-    },
-    {
-      "opponent_label": "Piloswine (Shadow) PS+ISp/SE 4/14/11",
-      "shield_best_scores": [
-        804,
-        604,
-        789
-      ],
-      "shield_best_members": [
-        "Togekiss Pk+Psh/AuS 4/15/15",
-        "Togekiss Pk+Psh/AuS 4/15/15",
-        "Forretress (Shadow) BBi+ST/RT 5/15/13"
+        "Jumpluff (Shadow) FW+Acr/EB 2/13/14",
+        "Jumpluff (Shadow) FW+Acr/EB 2/13/14",
+        "Jumpluff (Shadow) FW+Acr/EB 2/13/14"
       ],
       "confidence": "fragile"
     },
     {
-      "opponent_label": "Stunfisk TS+MB/D 5/15/13",
+      "opponent_label": "Annihilape (Shadow) C+RF/IP 4/13/13",
       "shield_best_scores": [
-        755,
-        738,
-        721
+        716,
+        825,
+        719
       ],
       "shield_best_members": [
-        "Diggersby MS+FiP/ScS 4/15/14",
-        "Diggersby MS+FiP/ScS 4/15/14",
-        "Diggersby MS+FiP/ScS 4/15/14"
+        "Carbink RTh+M/RS 5/15/15",
+        "Jumpluff (Shadow) FW+Acr/EB 2/13/14",
+        "Jumpluff (Shadow) FW+Acr/EB 2/13/14"
       ],
       "confidence": "stable"
+    },
+    {
+      "opponent_label": "Azumarill B+IB/PR 4/15/13",
+      "shield_best_scores": [
+        791,
+        829,
+        858
+      ],
+      "shield_best_members": [
+        "Toxapex PJ+SW/Bri 0/15/15",
+        "Toxapex PJ+SW/Bri 0/15/15",
+        "Jumpluff (Shadow) FW+Acr/EB 2/13/14"
+      ],
+      "confidence": "stable"
+    },
+    {
+      "opponent_label": "Charjabug VS+XS/D 4/14/15",
+      "shield_best_scores": [
+        842,
+        759,
+        834
+      ],
+      "shield_best_members": [
+        "Carbink RTh+M/RS 5/15/15",
+        "Carbink RTh+M/RS 5/15/15",
+        "Carbink RTh+M/RS 5/15/15"
+      ],
+      "confidence": "stable"
+    },
+    {
+      "opponent_label": "Clodsire PSt+SE/Eq 4/14/10",
+      "shield_best_scores": [
+        664,
+        620,
+        837
+      ],
+      "shield_best_members": [
+        "Lapras Psy+IB/SpA 0/10/14",
+        "Lapras Psy+IB/SpA 0/10/14",
+        "Lapras Psy+IB/SpA 0/10/14"
+      ],
+      "confidence": "swingy"
+    },
+    {
+      "opponent_label": "Corsola (Galarian) A+NSh/PG 4/15/14",
+      "shield_best_scores": [
+        750,
+        725,
+        838
+      ],
+      "shield_best_members": [
+        "Mandibuzz Sn+SB/FoP 0/13/15",
+        "Mandibuzz Sn+SB/FoP 0/13/15",
+        "Mandibuzz Sn+SB/FoP 0/13/15"
+      ],
+      "confidence": "stable"
+    },
+    {
+      "opponent_label": "Corviknight SdA+AC/Pbk 4/12/14",
+      "shield_best_scores": [
+        700,
+        704,
+        702
+      ],
+      "shield_best_members": [
+        "Mandibuzz Sn+SB/FoP 0/13/15",
+        "Carbink RTh+M/RS 5/15/15",
+        "Mandibuzz Sn+SB/FoP 0/13/15"
+      ],
+      "confidence": "stable"
+    },
+    {
+      "opponent_label": "Cradily Ac+RT/GK 4/14/14",
+      "shield_best_scores": [
+        600,
+        618,
+        630
+      ],
+      "shield_best_members": [
+        "Toxapex PJ+SW/Bri 0/15/15",
+        "Dewgong IS+IW/DR 0/12/15",
+        "Dewgong IS+IW/DR 0/12/15"
+      ],
+      "confidence": "fragile"
+    },
+    {
+      "opponent_label": "Dewgong IS+IW/DR 4/15/14",
+      "shield_best_scores": [
+        684,
+        736,
+        750
+      ],
+      "shield_best_members": [
+        "Lapras Psy+IB/SpA 0/10/14",
+        "Carbink RTh+M/RS 5/15/15",
+        "Lapras Psy+IB/SpA 0/10/14"
+      ],
+      "confidence": "stable"
+    },
+    {
+      "opponent_label": "Diggersby MS+FiP/ScS 4/15/14",
+      "shield_best_scores": [
+        706,
+        677,
+        770
+      ],
+      "shield_best_members": [
+        "Lapras Psy+IB/SpA 0/10/14",
+        "Dewgong IS+IW/DR 0/12/15",
+        "Dewgong IS+IW/DR 0/12/15"
+      ],
+      "confidence": "stable"
+    },
+    {
+      "opponent_label": "Empoleon MSo+HC/DrlP 5/15/13",
+      "shield_best_scores": [
+        590,
+        541,
+        627
+      ],
+      "shield_best_members": [
+        "Dewgong IS+IW/DR 0/12/15",
+        "Mandibuzz Sn+SB/FoP 0/13/15",
+        "Mandibuzz Sn+SB/FoP 0/13/15"
+      ],
+      "confidence": "fragile"
+    },
+    {
+      "opponent_label": "Fearow Pk+DrlP/DR 4/15/13",
+      "shield_best_scores": [
+        783,
+        732,
+        881
+      ],
+      "shield_best_members": [
+        "Carbink RTh+M/RS 5/15/15",
+        "Carbink RTh+M/RS 5/15/15",
+        "Carbink RTh+M/RS 5/15/15"
+      ],
+      "confidence": "stable"
+    },
+    {
+      "opponent_label": "Feraligatr SC+HC/IB 5/11/14",
+      "shield_best_scores": [
+        679,
+        867,
+        800
+      ],
+      "shield_best_members": [
+        "Toxapex PJ+SW/Bri 0/15/15",
+        "Jumpluff (Shadow) FW+Acr/EB 2/13/14",
+        "Jumpluff (Shadow) FW+Acr/EB 2/13/14"
+      ],
+      "confidence": "swingy"
+    },
+    {
+      "opponent_label": "Feraligatr (Shadow) SC+HC/IB 5/11/14",
+      "shield_best_scores": [
+        919,
+        835,
+        751
+      ],
+      "shield_best_members": [
+        "Jumpluff (Shadow) FW+Acr/EB 2/13/14",
+        "Jumpluff (Shadow) FW+Acr/EB 2/13/14",
+        "Jumpluff (Shadow) FW+Acr/EB 2/13/14"
+      ],
+      "confidence": "stable"
+    },
+    {
+      "opponent_label": "Florges FW+DV/CW 6/13/14",
+      "shield_best_scores": [
+        870,
+        762,
+        729
+      ],
+      "shield_best_members": [
+        "Toxapex PJ+SW/Bri 0/15/15",
+        "Toxapex PJ+SW/Bri 0/15/15",
+        "Dewgong IS+IW/DR 0/12/15"
+      ],
+      "confidence": "stable"
+    },
+    {
+      "opponent_label": "Forretress VS+RT/ST 5/15/13",
+      "shield_best_scores": [
+        612,
+        532,
+        551
+      ],
+      "shield_best_members": [
+        "Jumpluff (Shadow) FW+Acr/EB 2/13/14",
+        "Jumpluff (Shadow) FW+Acr/EB 2/13/14",
+        "Carbink RTh+M/RS 5/15/15"
+      ],
+      "confidence": "fragile"
+    },
+    {
+      "opponent_label": "Forretress (Shadow) VS+ST/RT 5/15/13",
+      "shield_best_scores": [
+        529,
+        598,
+        433
+      ],
+      "shield_best_members": [
+        "Jumpluff (Shadow) FW+Acr/EB 2/13/14",
+        "Carbink RTh+M/RS 5/15/15",
+        "Carbink RTh+M/RS 5/15/15"
+      ],
+      "confidence": "fragile"
+    },
+    {
+      "opponent_label": "Furret SkP+Sw/TBl 4/14/13",
+      "shield_best_scores": [
+        601,
+        666,
+        611
+      ],
+      "shield_best_members": [
+        "Lapras Psy+IB/SpA 0/10/14",
+        "Toxapex PJ+SW/Bri 0/15/15",
+        "Mandibuzz Sn+SB/FoP 0/13/15"
+      ],
+      "confidence": "fragile"
+    },
+    {
+      "opponent_label": "Gourgeist (Super) I+SB/SeB 6/15/13",
+      "shield_best_scores": [
+        829,
+        713,
+        769
+      ],
+      "shield_best_members": [
+        "Jumpluff (Shadow) FW+Acr/EB 2/13/14",
+        "Mandibuzz Sn+SB/FoP 0/13/15",
+        "Mandibuzz Sn+SB/FoP 0/13/15"
+      ],
+      "confidence": "stable"
+    },
+    {
+      "opponent_label": "Grumpig Psy+DyP/SB 4/15/15",
+      "shield_best_scores": [
+        816,
+        788,
+        777
+      ],
+      "shield_best_members": [
+        "Mandibuzz Sn+SB/FoP 0/13/15",
+        "Mandibuzz Sn+SB/FoP 0/13/15",
+        "Mandibuzz Sn+SB/FoP 0/13/15"
+      ],
+      "confidence": "stable"
+    },
+    {
+      "opponent_label": "Guzzlord DT+BrS/SlB 4/13/10",
+      "shield_best_scores": [
+        842,
+        770,
+        669
+      ],
+      "shield_best_members": [
+        "Carbink RTh+M/RS 5/15/15",
+        "Dewgong IS+IW/DR 0/12/15",
+        "Carbink RTh+M/RS 5/15/15"
+      ],
+      "confidence": "swingy"
+    },
+    {
+      "opponent_label": "Jellicent H+S/SB 4/15/14",
+      "shield_best_scores": [
+        713,
+        800,
+        772
+      ],
+      "shield_best_members": [
+        "Mandibuzz Sn+SB/FoP 0/13/15",
+        "Mandibuzz Sn+SB/FoP 0/13/15",
+        "Mandibuzz Sn+SB/FoP 0/13/15"
+      ],
+      "confidence": "stable"
+    },
+    {
+      "opponent_label": "Jumpluff FW+EB/Acr 4/15/12",
+      "shield_best_scores": [
+        717,
+        775,
+        741
+      ],
+      "shield_best_members": [
+        "Dewgong IS+IW/DR 0/12/15",
+        "Toxapex PJ+SW/Bri 0/15/15",
+        "Toxapex PJ+SW/Bri 0/15/15"
+      ],
+      "confidence": "stable"
+    },
+    {
+      "opponent_label": "Kingdra DB+S/Sw 5/15/12",
+      "shield_best_scores": [
+        606,
+        651,
+        625
+      ],
+      "shield_best_members": [
+        "Jumpluff (Shadow) FW+Acr/EB 2/13/14",
+        "Jumpluff (Shadow) FW+Acr/EB 2/13/14",
+        "Mandibuzz Sn+SB/FoP 0/13/15"
+      ],
+      "confidence": "fragile"
+    },
+    {
+      "opponent_label": "Lickilicky RO+BS/SB 4/15/8",
+      "shield_best_scores": [
+        645,
+        673,
+        637
+      ],
+      "shield_best_members": [
+        "Carbink RTh+M/RS 5/15/15",
+        "Carbink RTh+M/RS 5/15/15",
+        "Carbink RTh+M/RS 5/15/15"
+      ],
+      "confidence": "stable"
+    },
+    {
+      "opponent_label": "Malamar Psy+SP/FoP 4/15/15",
+      "shield_best_scores": [
+        708,
+        766,
+        738
+      ],
+      "shield_best_members": [
+        "Mandibuzz Sn+SB/FoP 0/13/15",
+        "Mandibuzz Sn+SB/FoP 0/13/15",
+        "Mandibuzz Sn+SB/FoP 0/13/15"
+      ],
+      "confidence": "stable"
+    },
+    {
+      "opponent_label": "Mantine WA+Tw/WP 4/14/12",
+      "shield_best_scores": [
+        708,
+        696,
+        818
+      ],
+      "shield_best_members": [
+        "Carbink RTh+M/RS 5/15/15",
+        "Carbink RTh+M/RS 5/15/15",
+        "Carbink RTh+M/RS 5/15/15"
+      ],
+      "confidence": "stable"
+    },
+    {
+      "opponent_label": "Medicham PC+IP/DyP 7/15/14",
+      "shield_best_scores": [
+        722,
+        702,
+        688
+      ],
+      "shield_best_members": [
+        "Mandibuzz Sn+SB/FoP 0/13/15",
+        "Mandibuzz Sn+SB/FoP 0/13/15",
+        "Mandibuzz Sn+SB/FoP 0/13/15"
+      ],
+      "confidence": "stable"
+    },
+    {
+      "opponent_label": "Morpeko (Full Belly) TS+AuW/PsF 5/14/15",
+      "shield_best_scores": [
+        596,
+        577,
+        625
+      ],
+      "shield_best_members": [
+        "Jumpluff (Shadow) FW+Acr/EB 2/13/14",
+        "Jumpluff (Shadow) FW+Acr/EB 2/13/14",
+        "Carbink RTh+M/RS 5/15/15"
+      ],
+      "confidence": "fragile"
+    },
+    {
+      "opponent_label": "Ninetales E+WBF/EB 4/15/14",
+      "shield_best_scores": [
+        759,
+        708,
+        783
+      ],
+      "shield_best_members": [
+        "Carbink RTh+M/RS 5/15/15",
+        "Toxapex PJ+SW/Bri 0/15/15",
+        "Carbink RTh+M/RS 5/15/15"
+      ],
+      "confidence": "stable"
+    },
+    {
+      "opponent_label": "Ninetales (Shadow) E+WBF/EB 4/15/14",
+      "shield_best_scores": [
+        755,
+        745,
+        881
+      ],
+      "shield_best_members": [
+        "Carbink RTh+M/RS 5/15/15",
+        "Toxapex PJ+SW/Bri 0/15/15",
+        "Carbink RTh+M/RS 5/15/15"
+      ],
+      "confidence": "stable"
+    },
+    {
+      "opponent_label": "Quagsire MS+AT/MB 4/15/10",
+      "shield_best_scores": [
+        912,
+        893,
+        874
+      ],
+      "shield_best_members": [
+        "Jumpluff (Shadow) FW+Acr/EB 2/13/14",
+        "Jumpluff (Shadow) FW+Acr/EB 2/13/14",
+        "Jumpluff (Shadow) FW+Acr/EB 2/13/14"
+      ],
+      "confidence": "stable"
+    },
+    {
+      "opponent_label": "Quagsire (Shadow) MS+AT/MB 4/15/10",
+      "shield_best_scores": [
+        896,
+        877,
+        858
+      ],
+      "shield_best_members": [
+        "Jumpluff (Shadow) FW+Acr/EB 2/13/14",
+        "Jumpluff (Shadow) FW+Acr/EB 2/13/14",
+        "Jumpluff (Shadow) FW+Acr/EB 2/13/14"
+      ],
+      "confidence": "stable"
+    },
+    {
+      "opponent_label": "Sableye SC+FoP/PG 4/15/15",
+      "shield_best_scores": [
+        763,
+        688,
+        625
+      ],
+      "shield_best_members": [
+        "Carbink RTh+M/RS 5/15/15",
+        "Carbink RTh+M/RS 5/15/15",
+        "Mandibuzz Sn+SB/FoP 0/13/15"
+      ],
+      "confidence": "stable"
+    },
+    {
+      "opponent_label": "Sableye (Shadow) SC+FoP/PG 4/15/15",
+      "shield_best_scores": [
+        744,
+        669,
+        703
+      ],
+      "shield_best_members": [
+        "Carbink RTh+M/RS 5/15/15",
+        "Carbink RTh+M/RS 5/15/15",
+        "Jumpluff (Shadow) FW+Acr/EB 2/13/14"
+      ],
+      "confidence": "stable"
+    },
+    {
+      "opponent_label": "Seaking Pk+DR/IW 4/13/14",
+      "shield_best_scores": [
+        606,
+        570,
+        519
+      ],
+      "shield_best_members": [
+        "Carbink RTh+M/RS 5/15/15",
+        "Carbink RTh+M/RS 5/15/15",
+        "Carbink RTh+M/RS 5/15/15"
+      ],
+      "confidence": "fragile"
+    },
+    {
+      "opponent_label": "Sealeo (Shadow) PS+S/BS 5/15/12",
+      "shield_best_scores": [
+        708,
+        695,
+        755
+      ],
+      "shield_best_members": [
+        "Toxapex PJ+SW/Bri 0/15/15",
+        "Toxapex PJ+SW/Bri 0/15/15",
+        "Carbink RTh+M/RS 5/15/15"
+      ],
+      "confidence": "stable"
+    },
+    {
+      "opponent_label": "Seismitoad MS+EP/IW 4/11/13",
+      "shield_best_scores": [
+        683,
+        661,
+        704
+      ],
+      "shield_best_members": [
+        "Jumpluff (Shadow) FW+Acr/EB 2/13/14",
+        "Jumpluff (Shadow) FW+Acr/EB 2/13/14",
+        "Dewgong IS+IW/DR 0/12/15"
+      ],
+      "confidence": "stable"
+    },
+    {
+      "opponent_label": "Stunfisk TS+MB/D 5/15/13",
+      "shield_best_scores": [
+        693,
+        641,
+        590
+      ],
+      "shield_best_members": [
+        "Jumpluff (Shadow) FW+Acr/EB 2/13/14",
+        "Jumpluff (Shadow) FW+Acr/EB 2/13/14",
+        "Jumpluff (Shadow) FW+Acr/EB 2/13/14"
+      ],
+      "confidence": "fragile"
+    },
+    {
+      "opponent_label": "Stunfisk (Galarian) MS+RS/Eq 5/15/13",
+      "shield_best_scores": [
+        673,
+        508,
+        482
+      ],
+      "shield_best_members": [
+        "Lapras Psy+IB/SpA 0/10/14",
+        "Mandibuzz Sn+SB/FoP 0/13/15",
+        "Jumpluff (Shadow) FW+Acr/EB 2/13/14"
+      ],
+      "confidence": "fragile"
+    },
+    {
+      "opponent_label": "Talonflame I+Fl/FmC 4/12/15",
+      "shield_best_scores": [
+        866,
+        854,
+        854
+      ],
+      "shield_best_members": [
+        "Carbink RTh+M/RS 5/15/15",
+        "Carbink RTh+M/RS 5/15/15",
+        "Carbink RTh+M/RS 5/15/15"
+      ],
+      "confidence": "stable"
+    },
+    {
+      "opponent_label": "Tinkaton FW+GH/Bd 4/15/14",
+      "shield_best_scores": [
+        562,
+        583,
+        538
+      ],
+      "shield_best_members": [
+        "Dewgong IS+IW/DR 0/12/15",
+        "Dewgong IS+IW/DR 0/12/15",
+        "Lapras Psy+IB/SpA 0/10/14"
+      ],
+      "confidence": "fragile"
+    },
+    {
+      "opponent_label": "Togekiss Pk+Psh/AuS 4/15/15",
+      "shield_best_scores": [
+        834,
+        775,
+        874
+      ],
+      "shield_best_members": [
+        "Carbink RTh+M/RS 5/15/15",
+        "Carbink RTh+M/RS 5/15/15",
+        "Carbink RTh+M/RS 5/15/15"
+      ],
+      "confidence": "stable"
+    },
+    {
+      "opponent_label": "Weezing (Galarian) FW+Sl/BrS 4/14/13",
+      "shield_best_scores": [
+        654,
+        722,
+        653
+      ],
+      "shield_best_members": [
+        "Toxapex PJ+SW/Bri 0/15/15",
+        "Lapras Psy+IB/SpA 0/10/14",
+        "Lapras Psy+IB/SpA 0/10/14"
+      ],
+      "confidence": "stable"
+    },
+    {
+      "opponent_label": "Wigglytuff Ch+IW/Sw 4/15/15",
+      "shield_best_scores": [
+        833,
+        779,
+        829
+      ],
+      "shield_best_members": [
+        "Toxapex PJ+SW/Bri 0/15/15",
+        "Toxapex PJ+SW/Bri 0/15/15",
+        "Toxapex PJ+SW/Bri 0/15/15"
+      ],
+      "confidence": "stable"
+    }
+  ],
+  "recommended_lineups": [
+    {
+      "lead": {
+        "index": 47,
+        "label": "Lapras Psy+IB/SpA 0/10/14",
+        "species": "Lapras",
+        "base_species": "Lapras",
+        "types": [
+          "water",
+          "ice"
+        ]
+      },
+      "back_pair": [
+        {
+          "index": 6,
+          "label": "Carbink RTh+M/RS 5/15/15",
+          "species": "Carbink",
+          "base_species": "Carbink",
+          "types": [
+            "rock",
+            "fairy"
+          ]
+        },
+        {
+          "index": 44,
+          "label": "Jumpluff (Shadow) FW+Acr/EB 2/13/14",
+          "species": "Jumpluff (Shadow)",
+          "base_species": "Jumpluff",
+          "types": [
+            "grass",
+            "flying"
+          ]
+        }
+      ],
+      "team_shape": "ABC",
+      "lineup_score": 702.1393557529688,
+      "score_summary": {
+        "mean_score": 675.8652482269504,
+        "dominating_matchups": 105,
+        "overwhelming_matchups": 0,
+        "resource_mean_score": 675.8652482269504,
+        "role_fit_score": 0.8541014565410376,
+        "synergy_score": 0.974822695035461
+      },
+      "resource_paths": [
+        {
+          "name": "balanced",
+          "lead_shield": 1,
+          "back_shield": 1,
+          "mean_best_score": 660.3191489361702,
+          "dominating_matchups": 34,
+          "overwhelming_matchups": 0
+        },
+        {
+          "name": "shield_spend",
+          "lead_shield": 2,
+          "back_shield": 0,
+          "mean_best_score": 690.936170212766,
+          "dominating_matchups": 38,
+          "overwhelming_matchups": 0
+        },
+        {
+          "name": "shield_save",
+          "lead_shield": 0,
+          "back_shield": 2,
+          "mean_best_score": 676.3404255319149,
+          "dominating_matchups": 33,
+          "overwhelming_matchups": 0
+        }
+      ],
+      "score_breakdown": {
+        "final_score": 702.1393557529688,
+        "components": [
+          {
+            "name": "resource_path",
+            "raw_value": 675.8652482269504,
+            "weight": 0.9,
+            "weighted_score": 608.2787234042554
+          },
+          {
+            "name": "role_fit",
+            "raw_value": 854.1014565410377,
+            "weight": 0.03,
+            "weighted_score": 25.62304369623113
+          },
+          {
+            "name": "synergy",
+            "raw_value": 974.822695035461,
+            "weight": 0.07,
+            "weighted_score": 68.23758865248227
+          }
+        ]
+      },
+      "ranking_diagnostics": {
+        "role_assumptions": [
+          "Lead uses PvPoke leads ranking; backs use unordered switch/closer support rankings."
+        ],
+        "shared_weaknesses": [
+          {
+            "type": "grass",
+            "members": [
+              "Lapras Psy+IB/SpA 0/10/14",
+              "Carbink RTh+M/RS 5/15/15"
+            ]
+          },
+          {
+            "type": "rock",
+            "members": [
+              "Lapras Psy+IB/SpA 0/10/14",
+              "Jumpluff (Shadow) FW+Acr/EB 2/13/14"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "lead": {
+        "index": 6,
+        "label": "Carbink RTh+M/RS 5/15/15",
+        "species": "Carbink",
+        "base_species": "Carbink",
+        "types": [
+          "rock",
+          "fairy"
+        ]
+      },
+      "back_pair": [
+        {
+          "index": 47,
+          "label": "Lapras Psy+IB/SpA 0/10/14",
+          "species": "Lapras",
+          "base_species": "Lapras",
+          "types": [
+            "water",
+            "ice"
+          ]
+        },
+        {
+          "index": 54,
+          "label": "Mandibuzz Sn+SB/FoP 0/13/15",
+          "species": "Mandibuzz",
+          "base_species": "Mandibuzz",
+          "types": [
+            "dark",
+            "flying"
+          ]
+        }
+      ],
+      "team_shape": "ABC",
+      "lineup_score": 701.9358797753316,
+      "score_summary": {
+        "mean_score": 675.4964539007092,
+        "dominating_matchups": 110,
+        "overwhelming_matchups": 1,
+        "resource_mean_score": 675.4964539007092,
+        "role_fit_score": 0.8803094676883563,
+        "synergy_score": 0.9654255319148937
+      },
+      "resource_paths": [
+        {
+          "name": "balanced",
+          "lead_shield": 1,
+          "back_shield": 1,
+          "mean_best_score": 658.7021276595744,
+          "dominating_matchups": 35,
+          "overwhelming_matchups": 0
+        },
+        {
+          "name": "shield_spend",
+          "lead_shield": 2,
+          "back_shield": 0,
+          "mean_best_score": 676.4468085106383,
+          "dominating_matchups": 35,
+          "overwhelming_matchups": 0
+        },
+        {
+          "name": "shield_save",
+          "lead_shield": 0,
+          "back_shield": 2,
+          "mean_best_score": 691.3404255319149,
+          "dominating_matchups": 40,
+          "overwhelming_matchups": 1
+        }
+      ],
+      "score_breakdown": {
+        "final_score": 701.9358797753316,
+        "components": [
+          {
+            "name": "resource_path",
+            "raw_value": 675.4964539007092,
+            "weight": 0.9,
+            "weighted_score": 607.9468085106383
+          },
+          {
+            "name": "role_fit",
+            "raw_value": 880.3094676883562,
+            "weight": 0.03,
+            "weighted_score": 26.409284030650685
+          },
+          {
+            "name": "synergy",
+            "raw_value": 965.4255319148937,
+            "weight": 0.07,
+            "weighted_score": 67.57978723404257
+          }
+        ]
+      },
+      "ranking_diagnostics": {
+        "role_assumptions": [
+          "Lead uses PvPoke leads ranking; backs use unordered switch/closer support rankings."
+        ],
+        "shared_weaknesses": [
+          {
+            "type": "electric",
+            "members": [
+              "Lapras Psy+IB/SpA 0/10/14",
+              "Mandibuzz Sn+SB/FoP 0/13/15"
+            ]
+          },
+          {
+            "type": "grass",
+            "members": [
+              "Carbink RTh+M/RS 5/15/15",
+              "Lapras Psy+IB/SpA 0/10/14"
+            ]
+          },
+          {
+            "type": "rock",
+            "members": [
+              "Lapras Psy+IB/SpA 0/10/14",
+              "Mandibuzz Sn+SB/FoP 0/13/15"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "lead": {
+        "index": 54,
+        "label": "Mandibuzz Sn+SB/FoP 0/13/15",
+        "species": "Mandibuzz",
+        "base_species": "Mandibuzz",
+        "types": [
+          "dark",
+          "flying"
+        ]
+      },
+      "back_pair": [
+        {
+          "index": 6,
+          "label": "Carbink RTh+M/RS 5/15/15",
+          "species": "Carbink",
+          "base_species": "Carbink",
+          "types": [
+            "rock",
+            "fairy"
+          ]
+        },
+        {
+          "index": 47,
+          "label": "Lapras Psy+IB/SpA 0/10/14",
+          "species": "Lapras",
+          "base_species": "Lapras",
+          "types": [
+            "water",
+            "ice"
+          ]
+        }
+      ],
+      "team_shape": "ABC",
+      "lineup_score": 701.7180492345834,
+      "score_summary": {
+        "mean_score": 675.8581560283689,
+        "dominating_matchups": 109,
+        "overwhelming_matchups": 0,
+        "resource_mean_score": 675.8581560283689,
+        "role_fit_score": 0.8621973858336301,
+        "synergy_score": 0.9654255319148937
+      },
+      "resource_paths": [
+        {
+          "name": "balanced",
+          "lead_shield": 1,
+          "back_shield": 1,
+          "mean_best_score": 658.7021276595744,
+          "dominating_matchups": 35,
+          "overwhelming_matchups": 0
+        },
+        {
+          "name": "shield_spend",
+          "lead_shield": 2,
+          "back_shield": 0,
+          "mean_best_score": 689.4468085106383,
+          "dominating_matchups": 38,
+          "overwhelming_matchups": 0
+        },
+        {
+          "name": "shield_save",
+          "lead_shield": 0,
+          "back_shield": 2,
+          "mean_best_score": 679.4255319148937,
+          "dominating_matchups": 36,
+          "overwhelming_matchups": 0
+        }
+      ],
+      "score_breakdown": {
+        "final_score": 701.7180492345834,
+        "components": [
+          {
+            "name": "resource_path",
+            "raw_value": 675.8581560283689,
+            "weight": 0.9,
+            "weighted_score": 608.272340425532
+          },
+          {
+            "name": "role_fit",
+            "raw_value": 862.1973858336302,
+            "weight": 0.03,
+            "weighted_score": 25.865921575008905
+          },
+          {
+            "name": "synergy",
+            "raw_value": 965.4255319148937,
+            "weight": 0.07,
+            "weighted_score": 67.57978723404257
+          }
+        ]
+      },
+      "ranking_diagnostics": {
+        "role_assumptions": [
+          "Lead uses PvPoke leads ranking; backs use unordered switch/closer support rankings."
+        ],
+        "shared_weaknesses": [
+          {
+            "type": "electric",
+            "members": [
+              "Mandibuzz Sn+SB/FoP 0/13/15",
+              "Lapras Psy+IB/SpA 0/10/14"
+            ]
+          },
+          {
+            "type": "grass",
+            "members": [
+              "Carbink RTh+M/RS 5/15/15",
+              "Lapras Psy+IB/SpA 0/10/14"
+            ]
+          },
+          {
+            "type": "rock",
+            "members": [
+              "Mandibuzz Sn+SB/FoP 0/13/15",
+              "Lapras Psy+IB/SpA 0/10/14"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "lead": {
+        "index": 47,
+        "label": "Lapras Psy+IB/SpA 0/10/14",
+        "species": "Lapras",
+        "base_species": "Lapras",
+        "types": [
+          "water",
+          "ice"
+        ]
+      },
+      "back_pair": [
+        {
+          "index": 6,
+          "label": "Carbink RTh+M/RS 5/15/15",
+          "species": "Carbink",
+          "base_species": "Carbink",
+          "types": [
+            "rock",
+            "fairy"
+          ]
+        },
+        {
+          "index": 54,
+          "label": "Mandibuzz Sn+SB/FoP 0/13/15",
+          "species": "Mandibuzz",
+          "base_species": "Mandibuzz",
+          "types": [
+            "dark",
+            "flying"
+          ]
+        }
+      ],
+      "team_shape": "ABC",
+      "lineup_score": 701.7162304228623,
+      "score_summary": {
+        "mean_score": 676.0212765957447,
+        "dominating_matchups": 109,
+        "overwhelming_matchups": 0,
+        "resource_mean_score": 676.0212765957447,
+        "role_fit_score": 0.8572431417549834,
+        "synergy_score": 0.9654255319148937
+      },
+      "resource_paths": [
+        {
+          "name": "balanced",
+          "lead_shield": 1,
+          "back_shield": 1,
+          "mean_best_score": 658.7021276595744,
+          "dominating_matchups": 35,
+          "overwhelming_matchups": 0
+        },
+        {
+          "name": "shield_spend",
+          "lead_shield": 2,
+          "back_shield": 0,
+          "mean_best_score": 683.9574468085107,
+          "dominating_matchups": 36,
+          "overwhelming_matchups": 0
+        },
+        {
+          "name": "shield_save",
+          "lead_shield": 0,
+          "back_shield": 2,
+          "mean_best_score": 685.4042553191489,
+          "dominating_matchups": 38,
+          "overwhelming_matchups": 0
+        }
+      ],
+      "score_breakdown": {
+        "final_score": 701.7162304228623,
+        "components": [
+          {
+            "name": "resource_path",
+            "raw_value": 676.0212765957447,
+            "weight": 0.9,
+            "weighted_score": 608.4191489361702
+          },
+          {
+            "name": "role_fit",
+            "raw_value": 857.2431417549834,
+            "weight": 0.03,
+            "weighted_score": 25.717294252649502
+          },
+          {
+            "name": "synergy",
+            "raw_value": 965.4255319148937,
+            "weight": 0.07,
+            "weighted_score": 67.57978723404257
+          }
+        ]
+      },
+      "ranking_diagnostics": {
+        "role_assumptions": [
+          "Lead uses PvPoke leads ranking; backs use unordered switch/closer support rankings."
+        ],
+        "shared_weaknesses": [
+          {
+            "type": "electric",
+            "members": [
+              "Lapras Psy+IB/SpA 0/10/14",
+              "Mandibuzz Sn+SB/FoP 0/13/15"
+            ]
+          },
+          {
+            "type": "grass",
+            "members": [
+              "Lapras Psy+IB/SpA 0/10/14",
+              "Carbink RTh+M/RS 5/15/15"
+            ]
+          },
+          {
+            "type": "rock",
+            "members": [
+              "Lapras Psy+IB/SpA 0/10/14",
+              "Mandibuzz Sn+SB/FoP 0/13/15"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "lead": {
+        "index": 44,
+        "label": "Jumpluff (Shadow) FW+Acr/EB 2/13/14",
+        "species": "Jumpluff (Shadow)",
+        "base_species": "Jumpluff",
+        "types": [
+          "grass",
+          "flying"
+        ]
+      },
+      "back_pair": [
+        {
+          "index": 6,
+          "label": "Carbink RTh+M/RS 5/15/15",
+          "species": "Carbink",
+          "base_species": "Carbink",
+          "types": [
+            "rock",
+            "fairy"
+          ]
+        },
+        {
+          "index": 47,
+          "label": "Lapras Psy+IB/SpA 0/10/14",
+          "species": "Lapras",
+          "base_species": "Lapras",
+          "types": [
+            "water",
+            "ice"
+          ]
+        }
+      ],
+      "team_shape": "ABC",
+      "lineup_score": 700.324520865789,
+      "score_summary": {
+        "mean_score": 673.7872340425532,
+        "dominating_matchups": 104,
+        "overwhelming_matchups": 0,
+        "resource_mean_score": 673.7872340425532,
+        "role_fit_score": 0.8559473858336301,
+        "synergy_score": 0.974822695035461
+      },
+      "resource_paths": [
+        {
+          "name": "balanced",
+          "lead_shield": 1,
+          "back_shield": 1,
+          "mean_best_score": 660.3191489361702,
+          "dominating_matchups": 34,
+          "overwhelming_matchups": 0
+        },
+        {
+          "name": "shield_spend",
+          "lead_shield": 2,
+          "back_shield": 0,
+          "mean_best_score": 681.2978723404256,
+          "dominating_matchups": 34,
+          "overwhelming_matchups": 0
+        },
+        {
+          "name": "shield_save",
+          "lead_shield": 0,
+          "back_shield": 2,
+          "mean_best_score": 679.7446808510638,
+          "dominating_matchups": 36,
+          "overwhelming_matchups": 0
+        }
+      ],
+      "score_breakdown": {
+        "final_score": 700.324520865789,
+        "components": [
+          {
+            "name": "resource_path",
+            "raw_value": 673.7872340425532,
+            "weight": 0.9,
+            "weighted_score": 606.4085106382979
+          },
+          {
+            "name": "role_fit",
+            "raw_value": 855.94738583363,
+            "weight": 0.03,
+            "weighted_score": 25.6784215750089
+          },
+          {
+            "name": "synergy",
+            "raw_value": 974.822695035461,
+            "weight": 0.07,
+            "weighted_score": 68.23758865248227
+          }
+        ]
+      },
+      "ranking_diagnostics": {
+        "role_assumptions": [
+          "Lead uses PvPoke leads ranking; backs use unordered switch/closer support rankings."
+        ],
+        "shared_weaknesses": [
+          {
+            "type": "grass",
+            "members": [
+              "Carbink RTh+M/RS 5/15/15",
+              "Lapras Psy+IB/SpA 0/10/14"
+            ]
+          },
+          {
+            "type": "rock",
+            "members": [
+              "Jumpluff (Shadow) FW+Acr/EB 2/13/14",
+              "Lapras Psy+IB/SpA 0/10/14"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "lead": {
+        "index": 6,
+        "label": "Carbink RTh+M/RS 5/15/15",
+        "species": "Carbink",
+        "base_species": "Carbink",
+        "types": [
+          "rock",
+          "fairy"
+        ]
+      },
+      "back_pair": [
+        {
+          "index": 44,
+          "label": "Jumpluff (Shadow) FW+Acr/EB 2/13/14",
+          "species": "Jumpluff (Shadow)",
+          "base_species": "Jumpluff",
+          "types": [
+            "grass",
+            "flying"
+          ]
+        },
+        {
+          "index": 47,
+          "label": "Lapras Psy+IB/SpA 0/10/14",
+          "species": "Lapras",
+          "base_species": "Lapras",
+          "types": [
+            "water",
+            "ice"
+          ]
+        }
+      ],
+      "team_shape": "ABC",
+      "lineup_score": 700.2973029777785,
+      "score_summary": {
+        "mean_score": 673.049645390071,
+        "dominating_matchups": 101,
+        "overwhelming_matchups": 1,
+        "resource_mean_score": 673.049645390071,
+        "role_fit_score": 0.8771677824744104,
+        "synergy_score": 0.974822695035461
+      },
+      "resource_paths": [
+        {
+          "name": "balanced",
+          "lead_shield": 1,
+          "back_shield": 1,
+          "mean_best_score": 660.3191489361702,
+          "dominating_matchups": 34,
+          "overwhelming_matchups": 0
+        },
+        {
+          "name": "shield_spend",
+          "lead_shield": 2,
+          "back_shield": 0,
+          "mean_best_score": 681.1276595744681,
+          "dominating_matchups": 35,
+          "overwhelming_matchups": 1
+        },
+        {
+          "name": "shield_save",
+          "lead_shield": 0,
+          "back_shield": 2,
+          "mean_best_score": 677.7021276595744,
+          "dominating_matchups": 32,
+          "overwhelming_matchups": 0
+        }
+      ],
+      "score_breakdown": {
+        "final_score": 700.2973029777785,
+        "components": [
+          {
+            "name": "resource_path",
+            "raw_value": 673.049645390071,
+            "weight": 0.9,
+            "weighted_score": 605.7446808510639
+          },
+          {
+            "name": "role_fit",
+            "raw_value": 877.1677824744104,
+            "weight": 0.03,
+            "weighted_score": 26.31503347423231
+          },
+          {
+            "name": "synergy",
+            "raw_value": 974.822695035461,
+            "weight": 0.07,
+            "weighted_score": 68.23758865248227
+          }
+        ]
+      },
+      "ranking_diagnostics": {
+        "role_assumptions": [
+          "Lead uses PvPoke leads ranking; backs use unordered switch/closer support rankings."
+        ],
+        "shared_weaknesses": [
+          {
+            "type": "grass",
+            "members": [
+              "Carbink RTh+M/RS 5/15/15",
+              "Lapras Psy+IB/SpA 0/10/14"
+            ]
+          },
+          {
+            "type": "rock",
+            "members": [
+              "Jumpluff (Shadow) FW+Acr/EB 2/13/14",
+              "Lapras Psy+IB/SpA 0/10/14"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "lead": {
+        "index": 6,
+        "label": "Carbink RTh+M/RS 5/15/15",
+        "species": "Carbink",
+        "base_species": "Carbink",
+        "types": [
+          "rock",
+          "fairy"
+        ]
+      },
+      "back_pair": [
+        {
+          "index": 54,
+          "label": "Mandibuzz Sn+SB/FoP 0/13/15",
+          "species": "Mandibuzz",
+          "base_species": "Mandibuzz",
+          "types": [
+            "dark",
+            "flying"
+          ]
+        },
+        {
+          "index": 91,
+          "label": "Toxapex PJ+SW/Bri 0/15/15",
+          "species": "Toxapex",
+          "base_species": "Toxapex",
+          "types": [
+            "poison",
+            "water"
+          ]
+        }
+      ],
+      "team_shape": "ABC",
+      "lineup_score": 700.1605850775717,
+      "score_summary": {
+        "mean_score": 674.3617021276596,
+        "dominating_matchups": 107,
+        "overwhelming_matchups": 7,
+        "resource_mean_score": 674.3617021276596,
+        "role_fit_score": 0.8506247035313472,
+        "synergy_score": 0.9673758865248228
+      },
+      "resource_paths": [
+        {
+          "name": "balanced",
+          "lead_shield": 1,
+          "back_shield": 1,
+          "mean_best_score": 664.3617021276596,
+          "dominating_matchups": 35,
+          "overwhelming_matchups": 2
+        },
+        {
+          "name": "shield_spend",
+          "lead_shield": 2,
+          "back_shield": 0,
+          "mean_best_score": 681.4042553191489,
+          "dominating_matchups": 35,
+          "overwhelming_matchups": 2
+        },
+        {
+          "name": "shield_save",
+          "lead_shield": 0,
+          "back_shield": 2,
+          "mean_best_score": 677.3191489361702,
+          "dominating_matchups": 37,
+          "overwhelming_matchups": 3
+        }
+      ],
+      "score_breakdown": {
+        "final_score": 700.1605850775717,
+        "components": [
+          {
+            "name": "resource_path",
+            "raw_value": 674.3617021276596,
+            "weight": 0.9,
+            "weighted_score": 606.9255319148937
+          },
+          {
+            "name": "role_fit",
+            "raw_value": 850.6247035313472,
+            "weight": 0.03,
+            "weighted_score": 25.518741105940414
+          },
+          {
+            "name": "synergy",
+            "raw_value": 967.3758865248227,
+            "weight": 0.07,
+            "weighted_score": 67.71631205673759
+          }
+        ]
+      },
+      "ranking_diagnostics": {
+        "role_assumptions": [
+          "Lead uses PvPoke leads ranking; backs use unordered switch/closer support rankings."
+        ],
+        "shared_weaknesses": [
+          {
+            "type": "electric",
+            "members": [
+              "Mandibuzz Sn+SB/FoP 0/13/15",
+              "Toxapex PJ+SW/Bri 0/15/15"
+            ]
+          },
+          {
+            "type": "ground",
+            "members": [
+              "Carbink RTh+M/RS 5/15/15",
+              "Toxapex PJ+SW/Bri 0/15/15"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "lead": {
+        "index": 54,
+        "label": "Mandibuzz Sn+SB/FoP 0/13/15",
+        "species": "Mandibuzz",
+        "base_species": "Mandibuzz",
+        "types": [
+          "dark",
+          "flying"
+        ]
+      },
+      "back_pair": [
+        {
+          "index": 6,
+          "label": "Carbink RTh+M/RS 5/15/15",
+          "species": "Carbink",
+          "base_species": "Carbink",
+          "types": [
+            "rock",
+            "fairy"
+          ]
+        },
+        {
+          "index": 91,
+          "label": "Toxapex PJ+SW/Bri 0/15/15",
+          "species": "Toxapex",
+          "base_species": "Toxapex",
+          "types": [
+            "poison",
+            "water"
+          ]
+        }
+      ],
+      "team_shape": "ABC",
+      "lineup_score": 698.6853077283128,
+      "score_summary": {
+        "mean_score": 673.3262411347517,
+        "dominating_matchups": 106,
+        "overwhelming_matchups": 9,
+        "resource_mean_score": 673.3262411347517,
+        "role_fit_score": 0.8325126216766213,
+        "synergy_score": 0.9673758865248228
+      },
+      "resource_paths": [
+        {
+          "name": "balanced",
+          "lead_shield": 1,
+          "back_shield": 1,
+          "mean_best_score": 664.3617021276596,
+          "dominating_matchups": 35,
+          "overwhelming_matchups": 2
+        },
+        {
+          "name": "shield_spend",
+          "lead_shield": 2,
+          "back_shield": 0,
+          "mean_best_score": 687.936170212766,
+          "dominating_matchups": 38,
+          "overwhelming_matchups": 3
+        },
+        {
+          "name": "shield_save",
+          "lead_shield": 0,
+          "back_shield": 2,
+          "mean_best_score": 667.6808510638298,
+          "dominating_matchups": 33,
+          "overwhelming_matchups": 4
+        }
+      ],
+      "score_breakdown": {
+        "final_score": 698.6853077283128,
+        "components": [
+          {
+            "name": "resource_path",
+            "raw_value": 673.3262411347517,
+            "weight": 0.9,
+            "weighted_score": 605.9936170212766
+          },
+          {
+            "name": "role_fit",
+            "raw_value": 832.5126216766213,
+            "weight": 0.03,
+            "weighted_score": 24.975378650298637
+          },
+          {
+            "name": "synergy",
+            "raw_value": 967.3758865248227,
+            "weight": 0.07,
+            "weighted_score": 67.71631205673759
+          }
+        ]
+      },
+      "ranking_diagnostics": {
+        "role_assumptions": [
+          "Lead uses PvPoke leads ranking; backs use unordered switch/closer support rankings."
+        ],
+        "shared_weaknesses": [
+          {
+            "type": "electric",
+            "members": [
+              "Mandibuzz Sn+SB/FoP 0/13/15",
+              "Toxapex PJ+SW/Bri 0/15/15"
+            ]
+          },
+          {
+            "type": "ground",
+            "members": [
+              "Carbink RTh+M/RS 5/15/15",
+              "Toxapex PJ+SW/Bri 0/15/15"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "lead": {
+        "index": 91,
+        "label": "Toxapex PJ+SW/Bri 0/15/15",
+        "species": "Toxapex",
+        "base_species": "Toxapex",
+        "types": [
+          "poison",
+          "water"
+        ]
+      },
+      "back_pair": [
+        {
+          "index": 6,
+          "label": "Carbink RTh+M/RS 5/15/15",
+          "species": "Carbink",
+          "base_species": "Carbink",
+          "types": [
+            "rock",
+            "fairy"
+          ]
+        },
+        {
+          "index": 54,
+          "label": "Mandibuzz Sn+SB/FoP 0/13/15",
+          "species": "Mandibuzz",
+          "base_species": "Mandibuzz",
+          "types": [
+            "dark",
+            "flying"
+          ]
+        }
+      ],
+      "team_shape": "ABC",
+      "lineup_score": 698.3548829051318,
+      "score_summary": {
+        "mean_score": 673.1347517730496,
+        "dominating_matchups": 106,
+        "overwhelming_matchups": 9,
+        "resource_mean_score": 673.1347517730496,
+        "role_fit_score": 0.8272431417549835,
+        "synergy_score": 0.9673758865248228
+      },
+      "resource_paths": [
+        {
+          "name": "balanced",
+          "lead_shield": 1,
+          "back_shield": 1,
+          "mean_best_score": 664.3617021276596,
+          "dominating_matchups": 35,
+          "overwhelming_matchups": 2
+        },
+        {
+          "name": "shield_spend",
+          "lead_shield": 2,
+          "back_shield": 0,
+          "mean_best_score": 671.1063829787234,
+          "dominating_matchups": 33,
+          "overwhelming_matchups": 4
+        },
+        {
+          "name": "shield_save",
+          "lead_shield": 0,
+          "back_shield": 2,
+          "mean_best_score": 683.936170212766,
+          "dominating_matchups": 38,
+          "overwhelming_matchups": 3
+        }
+      ],
+      "score_breakdown": {
+        "final_score": 698.3548829051318,
+        "components": [
+          {
+            "name": "resource_path",
+            "raw_value": 673.1347517730496,
+            "weight": 0.9,
+            "weighted_score": 605.8212765957447
+          },
+          {
+            "name": "role_fit",
+            "raw_value": 827.2431417549835,
+            "weight": 0.03,
+            "weighted_score": 24.817294252649504
+          },
+          {
+            "name": "synergy",
+            "raw_value": 967.3758865248227,
+            "weight": 0.07,
+            "weighted_score": 67.71631205673759
+          }
+        ]
+      },
+      "ranking_diagnostics": {
+        "role_assumptions": [
+          "Lead uses PvPoke leads ranking; backs use unordered switch/closer support rankings."
+        ],
+        "shared_weaknesses": [
+          {
+            "type": "electric",
+            "members": [
+              "Toxapex PJ+SW/Bri 0/15/15",
+              "Mandibuzz Sn+SB/FoP 0/13/15"
+            ]
+          },
+          {
+            "type": "ground",
+            "members": [
+              "Toxapex PJ+SW/Bri 0/15/15",
+              "Carbink RTh+M/RS 5/15/15"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "lead": {
+        "index": 15,
+        "label": "Dewgong IS+IW/DR 0/12/15",
+        "species": "Dewgong",
+        "base_species": "Dewgong",
+        "types": [
+          "water",
+          "ice"
+        ]
+      },
+      "back_pair": [
+        {
+          "index": 6,
+          "label": "Carbink RTh+M/RS 5/15/15",
+          "species": "Carbink",
+          "base_species": "Carbink",
+          "types": [
+            "rock",
+            "fairy"
+          ]
+        },
+        {
+          "index": 44,
+          "label": "Jumpluff (Shadow) FW+Acr/EB 2/13/14",
+          "species": "Jumpluff (Shadow)",
+          "base_species": "Jumpluff",
+          "types": [
+            "grass",
+            "flying"
+          ]
+        }
+      ],
+      "team_shape": "ABC",
+      "lineup_score": 697.4164834125432,
+      "score_summary": {
+        "mean_score": 671.2836879432624,
+        "dominating_matchups": 99,
+        "overwhelming_matchups": 1,
+        "resource_mean_score": 671.2836879432624,
+        "role_fit_score": 0.8366014565410376,
+        "synergy_score": 0.973758865248227
+      },
+      "resource_paths": [
+        {
+          "name": "balanced",
+          "lead_shield": 1,
+          "back_shield": 1,
+          "mean_best_score": 659.4468085106383,
+          "dominating_matchups": 32,
+          "overwhelming_matchups": 0
+        },
+        {
+          "name": "shield_spend",
+          "lead_shield": 2,
+          "back_shield": 0,
+          "mean_best_score": 691.3829787234042,
+          "dominating_matchups": 38,
+          "overwhelming_matchups": 0
+        },
+        {
+          "name": "shield_save",
+          "lead_shield": 0,
+          "back_shield": 2,
+          "mean_best_score": 663.0212765957447,
+          "dominating_matchups": 29,
+          "overwhelming_matchups": 1
+        }
+      ],
+      "score_breakdown": {
+        "final_score": 697.4164834125432,
+        "components": [
+          {
+            "name": "resource_path",
+            "raw_value": 671.2836879432624,
+            "weight": 0.9,
+            "weighted_score": 604.1553191489362
+          },
+          {
+            "name": "role_fit",
+            "raw_value": 836.6014565410376,
+            "weight": 0.03,
+            "weighted_score": 25.098043696231127
+          },
+          {
+            "name": "synergy",
+            "raw_value": 973.7588652482269,
+            "weight": 0.07,
+            "weighted_score": 68.16312056737588
+          }
+        ]
+      },
+      "ranking_diagnostics": {
+        "role_assumptions": [
+          "Lead uses PvPoke leads ranking; backs use unordered switch/closer support rankings."
+        ],
+        "shared_weaknesses": [
+          {
+            "type": "grass",
+            "members": [
+              "Dewgong IS+IW/DR 0/12/15",
+              "Carbink RTh+M/RS 5/15/15"
+            ]
+          },
+          {
+            "type": "rock",
+            "members": [
+              "Dewgong IS+IW/DR 0/12/15",
+              "Jumpluff (Shadow) FW+Acr/EB 2/13/14"
+            ]
+          }
+        ]
+      }
     }
   ],
   "meta": "great",

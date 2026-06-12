@@ -1,0 +1,7 @@
+[
+  {"moveId": "MUD_SHOT", "name": "Mud Shot", "abbreviation": "MS", "type": "ground"},
+  {"moveId": "BODY_SLAM", "name": "Body Slam", "abbreviation": "BS", "type": "normal"},
+  {"moveId": "HYDRO_CANNON", "name": "Hydro Cannon", "abbreviation": "HC", "type": "water"},
+  {"moveId": "DRAGON_CLAW", "name": "Dragon Claw", "abbreviation": "DC", "type": "dragon"},
+  {"moveId": "FRENZY_PLANT", "name": "Frenzy Plant", "abbreviation": "FP", "type": "grass"}
+]

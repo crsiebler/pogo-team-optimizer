@@ -1,0 +1,7 @@
+{
+  "dragon": {"dragon": 1.6, "fairy": 0.39, "steel": 0.625},
+  "ground": {"poison": 1.6, "steel": 1.6, "flying": 0.39, "fire": 1.6},
+  "normal": {"ghost": 0.39, "steel": 0.625},
+  "water": {"fire": 1.6, "ground": 1.6, "grass": 0.625},
+  "grass": {"water": 1.6, "ground": 1.6, "fire": 0.625, "flying": 0.625}
+}

@@ -1,0 +1,12 @@
+[
+  {"speciesName": "Aegislash", "types": ["steel", "ghost"], "baseStats": {"atk": 97, "def": 291, "hp": 155}},
+  {"speciesName": "Blastoise", "types": ["water"], "baseStats": {"atk": 171, "def": 207, "hp": 188}},
+  {"speciesName": "Clodsire", "types": ["poison", "ground"], "baseStats": {"atk": 127, "def": 151, "hp": 277}},
+  {"speciesName": "Dragonite", "types": ["dragon", "flying"], "baseStats": {"atk": 263, "def": 198, "hp": 209}},
+  {"speciesName": "Dragonite (Shadow)", "types": ["dragon", "flying"], "baseStats": {"atk": 263, "def": 198, "hp": 209}},
+  {"speciesName": "Lickilicky", "types": ["normal"], "baseStats": {"atk": 161, "def": 181, "hp": 242}},
+  {"speciesName": "Talonflame", "types": ["fire", "flying"], "baseStats": {"atk": 176, "def": 155, "hp": 186}},
+  {"speciesName": "Venusaur", "types": ["grass", "poison"], "baseStats": {"atk": 198, "def": 189, "hp": 190}},
+  {"speciesName": "Umbreon", "types": ["dark"], "baseStats": {"atk": 126, "def": 240, "hp": 216}},
+  {"speciesName": "Whiscash", "types": ["water", "ground"], "baseStats": {"atk": 151, "def": 141, "hp": 242}}
+]

@@ -1,46 +1,120 @@
 Meta: great
 
-Recommended Team
-- Diggersby MS+FiP/ScS 4/15/14 [normal/ground]
-- Grumpig Psy+DyP/SB 4/15/15 [psychic/none]
-- Lickilicky RO+BS/SB 4/15/8 [normal/none]
-- Togekiss Pk+Psh/AuS 4/15/15 [fairy/flying]
-- Corsola (Galarian) A+NSh/PG 4/15/14 [ghost/none]
-- Forretress (Shadow) BBi+ST/RT 5/15/13 [bug/steel]
+Recommended Bring-6 Roster
+- Lapras Psy+IB/SpA 0/10/14 [water/ice]
+- Mandibuzz Sn+SB/FoP 0/13/15 [dark/flying]
+- Carbink RTh+M/RS 5/15/15 [rock/fairy]
+- Toxapex PJ+SW/Bri 0/15/15 [poison/water]
+- Dewgong IS+IW/DR 0/12/15 [water/ice]
+- Jumpluff (Shadow) FW+Acr/EB 2/13/14 [grass/flying]
 
 Team Analysis
-- bulk score: 236.60 (team avg def*hp/atk; pool min/mean/max 190.96/226.82/274.02)
-- safety score: 81.72 (PvPoke switch score avg; pool min/mean/max 62.30/82.99/92.70)
+- Coverage Grade: A
+- Bulk Grade: C
+- Safety Grade: A
+- Consistency Grade: B
+- Threat Score: 12.80
+- bulk score: 326.68 (team avg def*hp/atk; pool min/mean/max 96.36/210.97/411.00)
+- safety score: 80.57 (PvPoke switch score avg; pool min/mean/max 43.80/77.97/100.00)
 - safety target: medium priority | avg >= 78.00 | members >= 90.00: 1
-- consistency score: 767.17 (internal matchup stability metric; not PvPoke bait-dependency consistency) = mean 710.92 + dominate bonus - overwhelming penalty
-- redundancy (2+ winners): 21/24 (87.5%)
-- redundancy (3+ winners): 21/24 (87.5%)
-- single-coverage pairs: 3/24 (12.5%)
-- no-coverage pairs: 0/24 (0.0%)
-- dominate: 18/24 (75.0%) where score > 650
-- overwhelming: 0/24 (0.0%) where score < 350
+- consistency score: 779.40 (internal matchup stability metric; not PvPoke bait-dependency consistency) = mean 722.48 + dominate bonus - overwhelming penalty
+- redundancy (2+ winners): 119/141 (84.4%)
+- redundancy (3+ winners): 98/141 (69.5%)
+- single-coverage pairs: 20/141 (14.2%)
+- no-coverage pairs: 2/141 (1.4%)
+- full-roster dominate count: 107/141 (75.9%)
+- full-roster overwhelming count: 0/141 (0.0%)
+- ranking-aware score: 0.781
+- key covered threats: Aegislash (Shield) PC+SB/GB 4/14/15, Altaria DB+SA/Ft 4/12/13, Annihilape LK+RF/CC 4/13/13, Annihilape (Shadow) C+RF/IP 4/13/13, Azumarill B+IB/PR 4/15/13
+- shared weaknesses: electric (Lapras Psy+IB/SpA 0/10/14, Mandibuzz Sn+SB/FoP 0/13/15, Toxapex PJ+SW/Bri 0/15/15, Dewgong IS+IW/DR 0/12/15), fighting (Lapras Psy+IB/SpA 0/10/14, Dewgong IS+IW/DR 0/12/15), grass (Lapras Psy+IB/SpA 0/10/14, Carbink RTh+M/RS 5/15/15, Dewgong IS+IW/DR 0/12/15)
+- role assumptions: Leads use PvPoke leads rankings when available.
 
-Coverage
-- 0-shield: W 8 | D 0 | L 0 | weighted wins 1.000
-- 1-shield: W 8 | D 0 | L 0 | weighted wins 1.000
-- 2-shield: W 8 | D 0 | L 0 | weighted wins 1.000
-
-Safe Cores
-- #1 ABC: Lead Diggersby MS+FiP/ScS 4/15/14 | Switch Forretress (Shadow) BBi+ST/RT 5/15/13 | Closer Grumpig Psy+DyP/SB 4/15/15
-- #2 ABC: Lead Corsola (Galarian) A+NSh/PG 4/15/14 | Switch Forretress (Shadow) BBi+ST/RT 5/15/13 | Closer Grumpig Psy+DyP/SB 4/15/15
-- #3 ABC: Lead Diggersby MS+FiP/ScS 4/15/14 | Switch Lickilicky RO+BS/SB 4/15/8 | Closer Grumpig Psy+DyP/SB 4/15/15
-- #4 ABC: Lead Togekiss Pk+Psh/AuS 4/15/15 | Switch Forretress (Shadow) BBi+ST/RT 5/15/13 | Closer Grumpig Psy+DyP/SB 4/15/15
-- #5 ABC: Lead Togekiss Pk+Psh/AuS 4/15/15 | Switch Forretress (Shadow) BBi+ST/RT 5/15/13 | Closer Diggersby MS+FiP/ScS 4/15/14
-- #6 ABC: Lead Diggersby MS+FiP/ScS 4/15/14 | Switch Forretress (Shadow) BBi+ST/RT 5/15/13 | Closer Lickilicky RO+BS/SB 4/15/8
-- #7 ABC: Lead Corsola (Galarian) A+NSh/PG 4/15/14 | Switch Forretress (Shadow) BBi+ST/RT 5/15/13 | Closer Lickilicky RO+BS/SB 4/15/8
-- #8 ABC: Lead Corsola (Galarian) A+NSh/PG 4/15/14 | Switch Togekiss Pk+Psh/AuS 4/15/15 | Closer Grumpig Psy+DyP/SB 4/15/15
-- #9 ABC: Lead Corsola (Galarian) A+NSh/PG 4/15/14 | Switch Togekiss Pk+Psh/AuS 4/15/15 | Closer Forretress (Shadow) BBi+ST/RT 5/15/13
-- #10 ABC: Lead Corsola (Galarian) A+NSh/PG 4/15/14 | Switch Lickilicky RO+BS/SB 4/15/8 | Closer Grumpig Psy+DyP/SB 4/15/15
+Recommended Lineups
+- lineup dominating uses resource-path matchup score > 600
+- lineup overwhelming uses resource-path matchup score < 400
+- #1: Lead Lapras Psy+IB/SpA 0/10/14 | Back Carbink RTh+M/RS 5/15/15, Jumpluff (Shadow) FW+Acr/EB 2/13/14 | shape ABC | score 702.14
+  - lineup dominating: 105
+  - lineup overwhelming: 0
+  - resources: balanced mean 660.32 / dom 34 overwhelm 0 | spend mean 690.94 / dom 38 overwhelm 0 | save mean 676.34 / dom 33 overwhelm 0
+  - components: resource_path 608.28, role_fit 25.62, synergy 68.24
+  - lineup notes: shared weaknesses grass (Lapras Psy+IB/SpA 0/10/14, Carbink RTh+M/RS 5/15/15), rock (Lapras Psy+IB/SpA 0/10/14, Jumpluff (Shadow) FW+Acr/EB 2/13/14); Lead uses PvPoke leads ranking; backs use unordered switch/closer support rankings.
+- #2: Lead Carbink RTh+M/RS 5/15/15 | Back Lapras Psy+IB/SpA 0/10/14, Mandibuzz Sn+SB/FoP 0/13/15 | shape ABC | score 701.94
+  - lineup dominating: 110
+  - lineup overwhelming: 1
+  - resources: balanced mean 658.70 / dom 35 overwhelm 0 | spend mean 676.45 / dom 35 overwhelm 0 | save mean 691.34 / dom 40 overwhelm 1
+  - components: resource_path 607.95, role_fit 26.41, synergy 67.58
+  - lineup notes: shared weaknesses electric (Lapras Psy+IB/SpA 0/10/14, Mandibuzz Sn+SB/FoP 0/13/15), grass (Carbink RTh+M/RS 5/15/15, Lapras Psy+IB/SpA 0/10/14), rock (Lapras Psy+IB/SpA 0/10/14, Mandibuzz Sn+SB/FoP 0/13/15); Lead uses PvPoke leads ranking; backs use unordered switch/closer support rankings.
+- #3: Lead Mandibuzz Sn+SB/FoP 0/13/15 | Back Carbink RTh+M/RS 5/15/15, Lapras Psy+IB/SpA 0/10/14 | shape ABC | score 701.72
+  - lineup dominating: 109
+  - lineup overwhelming: 0
+  - resources: balanced mean 658.70 / dom 35 overwhelm 0 | spend mean 689.45 / dom 38 overwhelm 0 | save mean 679.43 / dom 36 overwhelm 0
+  - components: resource_path 608.27, role_fit 25.87, synergy 67.58
+  - lineup notes: shared weaknesses electric (Mandibuzz Sn+SB/FoP 0/13/15, Lapras Psy+IB/SpA 0/10/14), grass (Carbink RTh+M/RS 5/15/15, Lapras Psy+IB/SpA 0/10/14), rock (Mandibuzz Sn+SB/FoP 0/13/15, Lapras Psy+IB/SpA 0/10/14); Lead uses PvPoke leads ranking; backs use unordered switch/closer support rankings.
+- #4: Lead Lapras Psy+IB/SpA 0/10/14 | Back Carbink RTh+M/RS 5/15/15, Mandibuzz Sn+SB/FoP 0/13/15 | shape ABC | score 701.72
+  - lineup dominating: 109
+  - lineup overwhelming: 0
+  - resources: balanced mean 658.70 / dom 35 overwhelm 0 | spend mean 683.96 / dom 36 overwhelm 0 | save mean 685.40 / dom 38 overwhelm 0
+  - components: resource_path 608.42, role_fit 25.72, synergy 67.58
+  - lineup notes: shared weaknesses electric (Lapras Psy+IB/SpA 0/10/14, Mandibuzz Sn+SB/FoP 0/13/15), grass (Lapras Psy+IB/SpA 0/10/14, Carbink RTh+M/RS 5/15/15), rock (Lapras Psy+IB/SpA 0/10/14, Mandibuzz Sn+SB/FoP 0/13/15); Lead uses PvPoke leads ranking; backs use unordered switch/closer support rankings.
+- #5: Lead Jumpluff (Shadow) FW+Acr/EB 2/13/14 | Back Carbink RTh+M/RS 5/15/15, Lapras Psy+IB/SpA 0/10/14 | shape ABC | score 700.32
+  - lineup dominating: 104
+  - lineup overwhelming: 0
+  - resources: balanced mean 660.32 / dom 34 overwhelm 0 | spend mean 681.30 / dom 34 overwhelm 0 | save mean 679.74 / dom 36 overwhelm 0
+  - components: resource_path 606.41, role_fit 25.68, synergy 68.24
+  - lineup notes: shared weaknesses grass (Carbink RTh+M/RS 5/15/15, Lapras Psy+IB/SpA 0/10/14), rock (Jumpluff (Shadow) FW+Acr/EB 2/13/14, Lapras Psy+IB/SpA 0/10/14); Lead uses PvPoke leads ranking; backs use unordered switch/closer support rankings.
+- #6: Lead Carbink RTh+M/RS 5/15/15 | Back Jumpluff (Shadow) FW+Acr/EB 2/13/14, Lapras Psy+IB/SpA 0/10/14 | shape ABC | score 700.30
+  - lineup dominating: 101
+  - lineup overwhelming: 1
+  - resources: balanced mean 660.32 / dom 34 overwhelm 0 | spend mean 681.13 / dom 35 overwhelm 1 | save mean 677.70 / dom 32 overwhelm 0
+  - components: resource_path 605.74, role_fit 26.32, synergy 68.24
+  - lineup notes: shared weaknesses grass (Carbink RTh+M/RS 5/15/15, Lapras Psy+IB/SpA 0/10/14), rock (Jumpluff (Shadow) FW+Acr/EB 2/13/14, Lapras Psy+IB/SpA 0/10/14); Lead uses PvPoke leads ranking; backs use unordered switch/closer support rankings.
+- #7: Lead Carbink RTh+M/RS 5/15/15 | Back Mandibuzz Sn+SB/FoP 0/13/15, Toxapex PJ+SW/Bri 0/15/15 | shape ABC | score 700.16
+  - lineup dominating: 107
+  - lineup overwhelming: 7
+  - resources: balanced mean 664.36 / dom 35 overwhelm 2 | spend mean 681.40 / dom 35 overwhelm 2 | save mean 677.32 / dom 37 overwhelm 3
+  - components: resource_path 606.93, role_fit 25.52, synergy 67.72
+  - lineup notes: shared weaknesses electric (Mandibuzz Sn+SB/FoP 0/13/15, Toxapex PJ+SW/Bri 0/15/15), ground (Carbink RTh+M/RS 5/15/15, Toxapex PJ+SW/Bri 0/15/15); Lead uses PvPoke leads ranking; backs use unordered switch/closer support rankings.
+- #8: Lead Mandibuzz Sn+SB/FoP 0/13/15 | Back Carbink RTh+M/RS 5/15/15, Toxapex PJ+SW/Bri 0/15/15 | shape ABC | score 698.69
+  - lineup dominating: 106
+  - lineup overwhelming: 9
+  - resources: balanced mean 664.36 / dom 35 overwhelm 2 | spend mean 687.94 / dom 38 overwhelm 3 | save mean 667.68 / dom 33 overwhelm 4
+  - components: resource_path 605.99, role_fit 24.98, synergy 67.72
+  - lineup notes: shared weaknesses electric (Mandibuzz Sn+SB/FoP 0/13/15, Toxapex PJ+SW/Bri 0/15/15), ground (Carbink RTh+M/RS 5/15/15, Toxapex PJ+SW/Bri 0/15/15); Lead uses PvPoke leads ranking; backs use unordered switch/closer support rankings.
+- #9: Lead Toxapex PJ+SW/Bri 0/15/15 | Back Carbink RTh+M/RS 5/15/15, Mandibuzz Sn+SB/FoP 0/13/15 | shape ABC | score 698.35
+  - lineup dominating: 106
+  - lineup overwhelming: 9
+  - resources: balanced mean 664.36 / dom 35 overwhelm 2 | spend mean 671.11 / dom 33 overwhelm 4 | save mean 683.94 / dom 38 overwhelm 3
+  - components: resource_path 605.82, role_fit 24.82, synergy 67.72
+  - lineup notes: shared weaknesses electric (Toxapex PJ+SW/Bri 0/15/15, Mandibuzz Sn+SB/FoP 0/13/15), ground (Toxapex PJ+SW/Bri 0/15/15, Carbink RTh+M/RS 5/15/15); Lead uses PvPoke leads ranking; backs use unordered switch/closer support rankings.
+- #10: Lead Dewgong IS+IW/DR 0/12/15 | Back Carbink RTh+M/RS 5/15/15, Jumpluff (Shadow) FW+Acr/EB 2/13/14 | shape ABC | score 697.42
+  - lineup dominating: 99
+  - lineup overwhelming: 1
+  - resources: balanced mean 659.45 / dom 32 overwhelm 0 | spend mean 691.38 / dom 38 overwhelm 0 | save mean 663.02 / dom 29 overwhelm 1
+  - components: resource_path 604.16, role_fit 25.10, synergy 68.16
+  - lineup notes: shared weaknesses grass (Dewgong IS+IW/DR 0/12/15, Carbink RTh+M/RS 5/15/15), rock (Dewgong IS+IW/DR 0/12/15, Jumpluff (Shadow) FW+Acr/EB 2/13/14); Lead uses PvPoke leads ranking; backs use unordered switch/closer support rankings.
 
 Potential Threats
-- Togekiss Pk+Psh/AuS 4/15/15 | single-coverage: 1 | no-coverage: 0
-  - 2-shield: only answer Grumpig Psy+DyP/SB 4/15/15 (553)
-- Piloswine (Shadow) PS+ISp/SE 4/14/11 | single-coverage: 1 | no-coverage: 0
-  - 2-shield: only answer Forretress (Shadow) BBi+ST/RT 5/15/13 (789)
-- Forretress (Shadow) VS+ST/RT 5/15/13 | single-coverage: 1 | no-coverage: 0
-  - 2-shield: only answer Diggersby MS+FiP/ScS 4/15/14 (704)
+- Stunfisk (Galarian) MS+RS/Eq 5/15/13 | single-coverage: 1 | no-coverage: 1
+  - 1-shield: only answer Mandibuzz Sn+SB/FoP 0/13/15 (508)
+  - 2-shield: no cover; best loser Jumpluff (Shadow) FW+Acr/EB 2/13/14 (482)
+- Forretress VS+RT/ST 5/15/13 | single-coverage: 2 | no-coverage: 0
+  - 1-shield: only answer Jumpluff (Shadow) FW+Acr/EB 2/13/14 (532)
+  - 2-shield: only answer Carbink RTh+M/RS 5/15/15 (551)
+- Tinkaton FW+GH/Bd 4/15/14 | single-coverage: 2 | no-coverage: 0
+  - 0-shield: only answer Dewgong IS+IW/DR 0/12/15 (562)
+  - 1-shield: only answer Dewgong IS+IW/DR 0/12/15 (583)
+- Clodsire PSt+SE/Eq 4/14/10 | single-coverage: 2 | no-coverage: 0
+  - 0-shield: only answer Lapras Psy+IB/SpA 0/10/14 (664)
+  - 1-shield: only answer Lapras Psy+IB/SpA 0/10/14 (620)
+- Seaking Pk+DR/IW 4/13/14 | single-coverage: 1 | no-coverage: 0
+  - 2-shield: only answer Carbink RTh+M/RS 5/15/15 (519)
+- Empoleon MSo+HC/DrlP 5/15/13 | single-coverage: 1 | no-coverage: 0
+  - 2-shield: only answer Mandibuzz Sn+SB/FoP 0/13/15 (627)
+- Stunfisk TS+MB/D 5/15/13 | single-coverage: 1 | no-coverage: 0
+  - 1-shield: only answer Jumpluff (Shadow) FW+Acr/EB 2/13/14 (641)
+- Cradily Ac+RT/GK 4/14/14 | single-coverage: 1 | no-coverage: 0
+  - 2-shield: only answer Dewgong IS+IW/DR 0/12/15 (630)
+- Furret SkP+Sw/TBl 4/14/13 | single-coverage: 1 | no-coverage: 0
+  - 2-shield: only answer Mandibuzz Sn+SB/FoP 0/13/15 (611)
+- Annihilape LK+RF/CC 4/13/13 | single-coverage: 1 | no-coverage: 0
+  - 1-shield: only answer Jumpluff (Shadow) FW+Acr/EB 2/13/14 (616)

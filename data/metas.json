@@ -5,28 +5,75 @@
         "data/simulations/great_0-shield.csv",
         "data/simulations/great_1-shield.csv",
         "data/simulations/great_2-shield.csv"
-      ]
-    },
-    "crucible": {
-      "matrix_files": [
-        "data/simulations/crucible_0-shield.csv",
-        "data/simulations/crucible_1-shield.csv",
-        "data/simulations/crucible_2-shield.csv"
-      ]
+      ],
+      "ranking_paths": {
+        "overall": "data/rankings/cp1500_all_overall_rankings.csv",
+        "leads": "data/rankings/cp1500_all_leads_rankings.csv",
+        "switches": "data/rankings/cp1500_all_switches_rankings.csv",
+        "closers": "data/rankings/cp1500_all_closers_rankings.csv",
+        "attackers": "data/rankings/cp1500_all_attackers_rankings.csv",
+        "chargers": "data/rankings/cp1500_all_chargers_rankings.csv",
+        "consistency": "data/rankings/cp1500_all_consistency_rankings.csv"
+      },
+      "full_meta_ranking_paths": {
+        "overall": "data/rankings/cp1500_all_overall_rankings.csv",
+        "leads": "data/rankings/cp1500_all_leads_rankings.csv",
+        "switches": "data/rankings/cp1500_all_switches_rankings.csv",
+        "closers": "data/rankings/cp1500_all_closers_rankings.csv",
+        "attackers": "data/rankings/cp1500_all_attackers_rankings.csv",
+        "chargers": "data/rankings/cp1500_all_chargers_rankings.csv",
+        "consistency": "data/rankings/cp1500_all_consistency_rankings.csv"
+      }
     },
     "majestic": {
       "matrix_files": [
         "data/simulations/majestic_0-shield.csv",
         "data/simulations/majestic_1-shield.csv",
         "data/simulations/majestic_2-shield.csv"
-      ]
+      ],
+      "ranking_paths": {
+        "overall": "data/rankings/cp1500_all_overall_rankings.csv",
+        "leads": "data/rankings/cp1500_all_leads_rankings.csv",
+        "switches": "data/rankings/cp1500_all_switches_rankings.csv",
+        "closers": "data/rankings/cp1500_all_closers_rankings.csv",
+        "attackers": "data/rankings/cp1500_all_attackers_rankings.csv",
+        "chargers": "data/rankings/cp1500_all_chargers_rankings.csv",
+        "consistency": "data/rankings/cp1500_all_consistency_rankings.csv"
+      },
+      "full_meta_ranking_paths": {
+        "overall": "data/rankings/cp1500_all_overall_rankings.csv",
+        "leads": "data/rankings/cp1500_all_leads_rankings.csv",
+        "switches": "data/rankings/cp1500_all_switches_rankings.csv",
+        "closers": "data/rankings/cp1500_all_closers_rankings.csv",
+        "attackers": "data/rankings/cp1500_all_attackers_rankings.csv",
+        "chargers": "data/rankings/cp1500_all_chargers_rankings.csv",
+        "consistency": "data/rankings/cp1500_all_consistency_rankings.csv"
+      }
     },
     "euic": {
       "matrix_files": [
         "data/simulations/euic_0-shield.csv",
         "data/simulations/euic_1-shield.csv",
         "data/simulations/euic_2-shield.csv"
-      ]
+      ],
+      "ranking_paths": {
+        "overall": "data/rankings/cp1500_all_overall_rankings.csv",
+        "leads": "data/rankings/cp1500_all_leads_rankings.csv",
+        "switches": "data/rankings/cp1500_all_switches_rankings.csv",
+        "closers": "data/rankings/cp1500_all_closers_rankings.csv",
+        "attackers": "data/rankings/cp1500_all_attackers_rankings.csv",
+        "chargers": "data/rankings/cp1500_all_chargers_rankings.csv",
+        "consistency": "data/rankings/cp1500_all_consistency_rankings.csv"
+      },
+      "full_meta_ranking_paths": {
+        "overall": "data/rankings/cp1500_all_overall_rankings.csv",
+        "leads": "data/rankings/cp1500_all_leads_rankings.csv",
+        "switches": "data/rankings/cp1500_all_switches_rankings.csv",
+        "closers": "data/rankings/cp1500_all_closers_rankings.csv",
+        "attackers": "data/rankings/cp1500_all_attackers_rankings.csv",
+        "chargers": "data/rankings/cp1500_all_chargers_rankings.csv",
+        "consistency": "data/rankings/cp1500_all_consistency_rankings.csv"
+      }
     },
     "naic": {
       "matrix_files": [
@@ -34,21 +81,74 @@
         "data/simulations/naic_1-shield.csv",
         "data/simulations/naic_2-shield.csv"
       ],
-      "switch_rankings_path": "data/rankings/cp1500_naic2026_switches_rankings.csv"
+      "ranking_paths": {
+        "overall": "data/rankings/cp1500_naic2026_overall_rankings.csv",
+        "leads": "data/rankings/cp1500_naic2026_leads_rankings.csv",
+        "switches": "data/rankings/cp1500_naic2026_switches_rankings.csv",
+        "closers": "data/rankings/cp1500_naic2026_closers_rankings.csv",
+        "attackers": "data/rankings/cp1500_naic2026_attackers_rankings.csv",
+        "chargers": "data/rankings/cp1500_naic2026_chargers_rankings.csv",
+        "consistency": "data/rankings/cp1500_naic2026_consistency_rankings.csv"
+      },
+      "full_meta_ranking_paths": {
+        "overall": "data/rankings/cp1500_all_overall_rankings.csv",
+        "leads": "data/rankings/cp1500_all_leads_rankings.csv",
+        "switches": "data/rankings/cp1500_all_switches_rankings.csv",
+        "closers": "data/rankings/cp1500_all_closers_rankings.csv",
+        "attackers": "data/rankings/cp1500_all_attackers_rankings.csv",
+        "chargers": "data/rankings/cp1500_all_chargers_rankings.csv",
+        "consistency": "data/rankings/cp1500_all_consistency_rankings.csv"
+      }
     },
     "master": {
       "matrix_files": [
         "data/simulations/master_0-shield.csv",
         "data/simulations/master_1-shield.csv",
         "data/simulations/master_2-shield.csv"
-      ]
+      ],
+      "ranking_paths": {
+        "overall": "data/rankings/cp10000_all_overall_rankings.csv",
+        "leads": "data/rankings/cp10000_all_leads_rankings.csv",
+        "switches": "data/rankings/cp10000_all_switches_rankings.csv",
+        "closers": "data/rankings/cp10000_all_closers_rankings.csv",
+        "attackers": "data/rankings/cp10000_all_attackers_rankings.csv",
+        "chargers": "data/rankings/cp10000_all_chargers_rankings.csv",
+        "consistency": "data/rankings/cp10000_all_consistency_rankings.csv"
+      },
+      "full_meta_ranking_paths": {
+        "overall": "data/rankings/cp10000_all_overall_rankings.csv",
+        "leads": "data/rankings/cp10000_all_leads_rankings.csv",
+        "switches": "data/rankings/cp10000_all_switches_rankings.csv",
+        "closers": "data/rankings/cp10000_all_closers_rankings.csv",
+        "attackers": "data/rankings/cp10000_all_attackers_rankings.csv",
+        "chargers": "data/rankings/cp10000_all_chargers_rankings.csv",
+        "consistency": "data/rankings/cp10000_all_consistency_rankings.csv"
+      }
     },
     "bfretro": {
       "matrix_files": [
         "data/simulations/bfretro_0-shield.csv",
         "data/simulations/bfretro_1-shield.csv",
         "data/simulations/bfretro_2-shield.csv"
-      ]
+      ],
+      "ranking_paths": {
+        "overall": "data/rankings/cp2500_bfretro_overall_rankings.csv",
+        "leads": "data/rankings/cp2500_bfretro_leads_rankings.csv",
+        "switches": "data/rankings/cp2500_bfretro_switches_rankings.csv",
+        "closers": "data/rankings/cp2500_bfretro_closers_rankings.csv",
+        "attackers": "data/rankings/cp2500_bfretro_attackers_rankings.csv",
+        "chargers": "data/rankings/cp2500_bfretro_chargers_rankings.csv",
+        "consistency": "data/rankings/cp2500_bfretro_consistency_rankings.csv"
+      },
+      "full_meta_ranking_paths": {
+        "overall": "data/rankings/cp2500_all_overall_rankings.csv",
+        "leads": "data/rankings/cp2500_all_leads_rankings.csv",
+        "switches": "data/rankings/cp2500_all_switches_rankings.csv",
+        "closers": "data/rankings/cp2500_all_closers_rankings.csv",
+        "attackers": "data/rankings/cp2500_all_attackers_rankings.csv",
+        "chargers": "data/rankings/cp2500_all_chargers_rankings.csv",
+        "consistency": "data/rankings/cp2500_all_consistency_rankings.csv"
+      }
     },
     "bayou": {
       "matrix_files": [
@@ -56,7 +156,24 @@
         "data/simulations/bayou_1-shield.csv",
         "data/simulations/bayou_2-shield.csv"
       ],
-      "switch_rankings_path": "data/rankings/cp1500_bayou_switches_rankings.csv"
+      "ranking_paths": {
+        "overall": "data/rankings/cp1500_bayou_overall_rankings.csv",
+        "leads": "data/rankings/cp1500_bayou_leads_rankings.csv",
+        "switches": "data/rankings/cp1500_bayou_switches_rankings.csv",
+        "closers": "data/rankings/cp1500_bayou_closers_rankings.csv",
+        "attackers": "data/rankings/cp1500_bayou_attackers_rankings.csv",
+        "chargers": "data/rankings/cp1500_bayou_chargers_rankings.csv",
+        "consistency": "data/rankings/cp1500_bayou_consistency_rankings.csv"
+      },
+      "full_meta_ranking_paths": {
+        "overall": "data/rankings/cp1500_all_overall_rankings.csv",
+        "leads": "data/rankings/cp1500_all_leads_rankings.csv",
+        "switches": "data/rankings/cp1500_all_switches_rankings.csv",
+        "closers": "data/rankings/cp1500_all_closers_rankings.csv",
+        "attackers": "data/rankings/cp1500_all_attackers_rankings.csv",
+        "chargers": "data/rankings/cp1500_all_chargers_rankings.csv",
+        "consistency": "data/rankings/cp1500_all_consistency_rankings.csv"
+      }
     },
     "spellcraft": {
       "matrix_files": [
@@ -64,7 +181,24 @@
         "data/simulations/spellcraft_1-shield.csv",
         "data/simulations/spellcraft_2-shield.csv"
       ],
-      "switch_rankings_path": "data/rankings/cp1500_spellcraft_switches_rankings.csv"
+      "ranking_paths": {
+        "overall": "data/rankings/cp1500_spellcraft_overall_rankings.csv",
+        "leads": "data/rankings/cp1500_spellcraft_leads_rankings.csv",
+        "switches": "data/rankings/cp1500_spellcraft_switches_rankings.csv",
+        "closers": "data/rankings/cp1500_spellcraft_closers_rankings.csv",
+        "attackers": "data/rankings/cp1500_spellcraft_attackers_rankings.csv",
+        "chargers": "data/rankings/cp1500_spellcraft_chargers_rankings.csv",
+        "consistency": "data/rankings/cp1500_spellcraft_consistency_rankings.csv"
+      },
+      "full_meta_ranking_paths": {
+        "overall": "data/rankings/cp1500_all_overall_rankings.csv",
+        "leads": "data/rankings/cp1500_all_leads_rankings.csv",
+        "switches": "data/rankings/cp1500_all_switches_rankings.csv",
+        "closers": "data/rankings/cp1500_all_closers_rankings.csv",
+        "attackers": "data/rankings/cp1500_all_attackers_rankings.csv",
+        "chargers": "data/rankings/cp1500_all_chargers_rankings.csv",
+        "consistency": "data/rankings/cp1500_all_consistency_rankings.csv"
+      }
     },
     "bfmaster": {
       "matrix_files": [
@@ -72,7 +206,24 @@
         "data/simulations/bfmaster_1-shield.csv",
         "data/simulations/bfmaster_2-shield.csv"
       ],
-      "switch_rankings_path": "data/rankings/cp10000_battlefrontiermaster_switches_rankings.csv",
+      "ranking_paths": {
+        "overall": "data/rankings/cp10000_battlefrontiermaster_overall_rankings.csv",
+        "leads": "data/rankings/cp10000_battlefrontiermaster_leads_rankings.csv",
+        "switches": "data/rankings/cp10000_battlefrontiermaster_switches_rankings.csv",
+        "closers": "data/rankings/cp10000_battlefrontiermaster_closers_rankings.csv",
+        "attackers": "data/rankings/cp10000_battlefrontiermaster_attackers_rankings.csv",
+        "chargers": "data/rankings/cp10000_battlefrontiermaster_chargers_rankings.csv",
+        "consistency": "data/rankings/cp10000_battlefrontiermaster_consistency_rankings.csv"
+      },
+      "full_meta_ranking_paths": {
+        "overall": "data/rankings/cp10000_all_overall_rankings.csv",
+        "leads": "data/rankings/cp10000_all_leads_rankings.csv",
+        "switches": "data/rankings/cp10000_all_switches_rankings.csv",
+        "closers": "data/rankings/cp10000_all_closers_rankings.csv",
+        "attackers": "data/rankings/cp10000_all_attackers_rankings.csv",
+        "chargers": "data/rankings/cp10000_all_chargers_rankings.csv",
+        "consistency": "data/rankings/cp10000_all_consistency_rankings.csv"
+      },
       "required_files": [
         "data/battle_frontier/bfmaster_cycle_points.csv"
       ]

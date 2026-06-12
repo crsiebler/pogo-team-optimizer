@@ -1,3 +1,7 @@
+from pathlib import Path
+
+import pytest
+
 from pogo_team_optimizer.application.use_case import AnalyzeMetaUseCase
 from pogo_team_optimizer.application.optimizer import TeamOptimizer
 from pogo_team_optimizer.application.normalization import parse_species
@@ -19,27 +23,22 @@ def test_use_case_returns_required_sections() -> None:
     use_case = AnalyzeMetaUseCase(
         simulation_repository=CsvSimulationMatrixRepository(
             [
-                "data/simulations/crucible_0-shield.csv",
-                "data/simulations/crucible_1-shield.csv",
-                "data/simulations/crucible_2-shield.csv",
+                "data/simulations/great_0-shield.csv",
+                "data/simulations/great_1-shield.csv",
+                "data/simulations/great_2-shield.csv",
             ]
         ),
         pokemon_repository=PokemonJsonRepository("data/pokemon.json"),
     )
 
-    result = use_case.execute(top_threats=5, top_cores=3, seed=7, restarts=10)
+    result = use_case.execute(top_threats=5, top_lineups=3, seed=7, restarts=10)
 
     assert "recommended_team" in result
     assert len(result["recommended_team"]["members"]) == 6
     assert len(result["coverage"]) == 3
     assert 0 < len(result["threats"]) <= 5
-    assert len(result["safe_cores"]) == 3
-    assert result["safe_cores"][0]["strategy"] in {"ABC", "ABB", "ABA"}
-    assert [item["role"] for item in result["safe_cores"][0]["recommended_order"]] == [
-        "lead",
-        "switch",
-        "closer",
-    ]
+    assert len(result["recommended_lineups"]) == 3
+    assert result["safe_cores"] == []
     assert len(result["target_map"]) > 0
     assert "safety_score" in result["recommended_team"]["metrics"]
     assert "safety_pool_mean" in result["recommended_team"]["metrics"]
@@ -47,14 +46,16 @@ def test_use_case_returns_required_sections() -> None:
 
 
 def test_bfmaster_use_case_returns_legal_team() -> None:
+    matrix_files = [
+        "data/simulations/bfmaster_0-shield.csv",
+        "data/simulations/bfmaster_1-shield.csv",
+        "data/simulations/bfmaster_2-shield.csv",
+    ]
+    if any(not Path(path).exists() for path in matrix_files):
+        pytest.skip("bfmaster simulation matrices are not checked into this fixture set")
+
     use_case = AnalyzeMetaUseCase(
-        simulation_repository=CsvSimulationMatrixRepository(
-            [
-                "data/simulations/bfmaster_0-shield.csv",
-                "data/simulations/bfmaster_1-shield.csv",
-                "data/simulations/bfmaster_2-shield.csv",
-            ]
-        ),
+        simulation_repository=CsvSimulationMatrixRepository(matrix_files),
         pokemon_repository=PokemonJsonRepository("data/pokemon.json"),
         switch_rankings_repository=CsvSwitchRankingsRepository(
             "data/rankings/cp10000_battlefrontiermaster_switches_rankings.csv"
@@ -64,7 +65,7 @@ def test_bfmaster_use_case_returns_legal_team() -> None:
         ),
     )
 
-    result = use_case.execute(top_threats=5, top_cores=3, seed=7, restarts=10)
+    result = use_case.execute(top_threats=5, top_lineups=3, seed=7, restarts=10)
 
     team_members = result["recommended_team"]["members"]
     metrics = result["recommended_team"]["metrics"]

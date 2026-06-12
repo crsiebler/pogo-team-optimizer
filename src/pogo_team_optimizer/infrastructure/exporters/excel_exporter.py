@@ -76,13 +76,129 @@ class ExcelExporter(AnalysisExporter):
                 ]
             )
 
+        lineup_rows = self._lineup_rows(result.get("recommended_lineups", []))
+        lineup_resource_rows = self._lineup_resource_rows(result.get("recommended_lineups", []))
+        bench_rows, bench_warning_rows = self._bench_utility_rows(
+            result["recommended_team"].get("bench_utility", [])
+        )
+
         return [
             ("Recommended", recommended_rows),
             ("Metrics", metric_rows),
             ("Coverage", coverage_rows),
             ("Safe Cores", core_rows),
             ("Threats", threat_rows),
+            ("Lineups", lineup_rows),
+            ("Lineup Resources", lineup_resource_rows),
+            ("Bench Utility", bench_rows),
+            ("Bench Warnings", bench_warning_rows),
         ]
+
+    def _lineup_rows(self, lineups: list[dict[str, Any]]) -> list[list[object]]:
+        include_battle_frontier_points = any(
+            "battle_frontier_points_used" in lineup for lineup in lineups
+        )
+        header: list[object] = [
+            "Rank",
+            "Lead",
+            "Back 1",
+            "Back 2",
+            "Team Shape",
+            "Lineup Score",
+            "Mean Score",
+            "Dominating Matchups",
+            "Overwhelming Matchups",
+        ]
+        if include_battle_frontier_points:
+            header.append("Battle Frontier Points Used")
+        rows: list[list[object]] = [header]
+        for index, lineup in enumerate(lineups, start=1):
+            back_pair = lineup.get("back_pair", [])
+            score_summary = lineup.get("score_summary", {})
+            row: list[object] = [
+                index,
+                lineup["lead"]["label"],
+                back_pair[0]["label"] if len(back_pair) > 0 else "",
+                back_pair[1]["label"] if len(back_pair) > 1 else "",
+                lineup.get("team_shape", ""),
+                lineup.get("lineup_score", ""),
+                score_summary.get("mean_score", ""),
+                score_summary.get("dominating_matchups", ""),
+                score_summary.get("overwhelming_matchups", ""),
+            ]
+            if include_battle_frontier_points:
+                row.append(lineup.get("battle_frontier_points_used", ""))
+            rows.append(row)
+        return rows
+
+    def _lineup_resource_rows(self, lineups: list[dict[str, Any]]) -> list[list[object]]:
+        rows: list[list[object]] = [
+            [
+                "Lineup Rank",
+                "Path",
+                "Lead Shield",
+                "Back Shield",
+                "Mean Best Score",
+                "Dominating Matchups",
+                "Overwhelming Matchups",
+            ]
+        ]
+        for index, lineup in enumerate(lineups, start=1):
+            for resource_path in lineup.get("resource_paths", []):
+                rows.append(
+                    [
+                        index,
+                        resource_path["name"],
+                        resource_path["lead_shield"],
+                        resource_path["back_shield"],
+                        resource_path.get("mean_best_score", ""),
+                        resource_path.get("dominating_matchups", ""),
+                        resource_path.get("overwhelming_matchups", ""),
+                    ]
+                )
+        return rows
+
+    def _bench_utility_rows(
+        self, bench_utility: list[dict[str, Any]]
+    ) -> tuple[list[list[object]], list[list[object]]]:
+        rows: list[list[object]] = [
+            [
+                "Pokemon",
+                "Tier",
+                "Lineups Used",
+                "Lead Lineups Used",
+                "Back Lineups Used",
+                "Viable Lineup Rate",
+                "All Lineup Rate",
+                "Best Lineup Score",
+            ]
+        ]
+        warning_rows: list[list[object]] = [["Pokemon", "Category", "Code", "Severity", "Message"]]
+        for item in bench_utility:
+            member_label = item["member"]["label"]
+            rows.append(
+                [
+                    member_label,
+                    item["tier"],
+                    item["lineups_used"],
+                    item["lead_lineups_used"],
+                    item["back_lineups_used"],
+                    item["viable_lineup_rate"],
+                    item["all_lineup_rate"],
+                    item["best_lineup_score"],
+                ]
+            )
+            for warning in item.get("warnings", []):
+                warning_rows.append(
+                    [
+                        member_label,
+                        warning["category"],
+                        warning["code"],
+                        warning["severity"],
+                        warning["message"],
+                    ]
+                )
+        return rows, warning_rows
 
     def _content_types(self, sheet_count: int) -> str:
         sheet_overrides = "".join(
@@ -158,7 +274,7 @@ class ExcelExporter(AnalysisExporter):
 
     def _cell_xml(self, column_name: str, row_index: int, value: object) -> str:
         cell_reference = f"{column_name}{row_index}"
-        if isinstance(value, int | float) and not isinstance(value, bool):
+        if isinstance(value, (int, float)) and not isinstance(value, bool):
             return f'<c r="{cell_reference}"><v>{value}</v></c>'
         return (
             f'<c r="{cell_reference}" t="inlineStr"><is><t>{escape(str(value))}</t></is></c>'

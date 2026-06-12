@@ -1,110 +1,774 @@
 {
   "project": "pogo-team-optimizer",
-  "branchName": "ralph/battle-frontier-master",
-  "description": "Add support for the Battle Frontier (Master) meta with CSV-backed cycle point rules, optimizer legality enforcement, and output-visible legality metrics.",
+  "branchName": "ralph/bring-6-pick-3-lineup-optimization",
+  "description": "Add ordered bring-6-pick-3 lineup optimization with 60 lead/back-pair lineups, fixed shield resource paths, lineup-aware roster scoring, diagnostics, Battle Frontier support, and documentation updates.",
   "userStories": [
     {
       "id": "US-001",
-      "title": "Register the bfmaster meta and config fields",
-      "description": "As a CLI user, I want to choose the Battle Frontier (Master) meta so that I can analyze that league without editing code or config manually.",
+      "title": "Add ordered lineup models and enumeration",
+      "description": "As a team optimizer user, I want the system to evaluate each possible lead and back-pair choice so that roster scoring reflects the actual bring-6-pick-3 battle format.",
       "acceptanceCriteria": [
-        "--meta bfmaster is accepted by the CLI parser",
-        "bfmaster resolves to data/simulations/bfmaster_0-shield.csv, data/simulations/bfmaster_1-shield.csv, and data/simulations/bfmaster_2-shield.csv",
-        "Meta configuration supports optional per-meta fields needed for Battle Frontier rule files and switch rankings",
-        "Missing required Battle Frontier files raise a clear validation error before execution",
-        "Existing metas continue to load without behavior changes",
+        "Add immutable application-level structures for an ordered lineup with one lead and an unordered two-Pokemon back pair",
+        "A six-Pokemon roster produces exactly 60 ordered lineups",
+        "Each ordered lineup has one lead and two distinct back Pokemon",
+        "Back-pair order is canonicalized so Lead A plus B/C and Lead A plus C/B are treated as the same lineup",
+        "Lead order remains distinct so Lead A plus B/C and Lead B plus A/C are different lineups",
+        "Lineup enumeration is deterministic for the same input order",
+        "Focused tests pass",
         "Typecheck passes"
       ],
       "priority": 1,
       "passes": true,
-      "notes": ""
+      "notes": "Recommended agent: python-pro. Keep this story focused on typed lineup structures and enumeration only; do not implement scoring or exporters in this story. Keep new optimizer models in the application layer unless a stronger existing domain pattern applies."
     },
     {
       "id": "US-002",
-      "title": "Add Battle Frontier points CSV and repository",
-      "description": "As a developer, I want Battle Frontier point values stored in a CSV file so that the current cycle rules are easy to audit and update.",
+      "title": "Score ordered lineups with fixed resource paths",
+      "description": "As a competitive player, I want shield scenarios evaluated as connected resource paths so that a lead that spends shields is paired with backs that can function without shields.",
       "acceptanceCriteria": [
-        "Add a checked-in CSV file in data containing species-to-points mappings for the current Battle Frontier cycle",
-        "The CSV uses species names that match the normalized names produced by parse_species()",
-        "Add an infrastructure repository that loads point values by species name",
-        "Species not present in the point CSV are treated as 0 points for bfmaster",
-        "Add unit tests covering point CSV loading",
-        "Typecheck passes",
-        "Tests pass"
+        "Each ordered lineup is evaluated using fixed resource paths: balanced, shield-spend, and shield-save",
+        "Balanced path evaluates lead in 1-shield and backs in 1-shield",
+        "Shield-spend path evaluates lead in 2-shield and backs in 0-shield",
+        "Shield-save path evaluates lead in 0-shield and backs in 2-shield",
+        "Back-pair score for a shield state uses the better matchup result from either back Pokemon",
+        "Lineup metrics count dominating matchups where the best available score is greater than 600",
+        "Lineup metrics count overwhelming losses where the best available score is less than 400",
+        "Tests cover threshold behavior below, equal to, and above the 400 and 600 boundaries",
+        "Focused tests pass",
+        "Typecheck passes"
       ],
       "priority": 2,
       "passes": true,
-      "notes": ""
+      "notes": "Recommended agent: python-pro. Depends on US-001. Preserve deterministic scoring and keep resource-path scoring in application code, not CLI or exporters."
     },
     {
       "id": "US-003",
-      "title": "Use the correct bfmaster switch rankings",
-      "description": "As a user, I want Battle Frontier analysis to use the correct switch rankings file so that safety scoring reflects the selected meta.",
+      "title": "Refactor roster scoring to use lineup strength and depth",
+      "description": "As a team optimizer user, I want a six-Pokemon roster ranked by its best playable lineups and useful alternatives so that the recommendation is not one strong trio plus three dead roster slots.",
       "acceptanceCriteria": [
-        "bfmaster uses data/rankings/cp10000_battlefrontiermaster_switches_rankings.csv automatically",
-        "The application no longer relies on the Great League default switch rankings file for bfmaster unless the user explicitly overrides it",
-        "Existing metas continue to support their current switch ranking behavior",
-        "Typecheck passes",
-        "Tests pass"
+        "Candidate six-Pokemon rosters are primarily compared by lineup-aware score instead of full-roster best-answer coverage",
+        "Roster comparison uses a weighted combination of best lineup strength, top-N lineup quality, and viable lineup count",
+        "Roster scoring does not average all 60 lineups equally as the primary objective",
+        "Roster scoring does not optimize only the single best lineup as the primary objective",
+        "Existing base-species uniqueness rules remain enforced",
+        "Optimizer results remain deterministic for the same seed and input data",
+        "Tests cover a case where a roster with better full-six paper coverage loses to a roster with stronger ordered pick-3 lineups",
+        "Tests cover a case where one excellent lineup plus weak alternatives loses to a roster with comparable top-lineup strength and better depth",
+        "Focused tests pass",
+        "Typecheck passes"
       ],
       "priority": 3,
       "passes": true,
-      "notes": ""
+      "notes": "Recommended agent: refactoring-specialist. Depends on US-001 and US-002. This changes the optimizer objective, so keep the refactor minimal and preserve architectural boundaries."
     },
     {
       "id": "US-004",
-      "title": "Enforce Battle Frontier legality in optimizer",
-      "description": "As a user, I want every recommended Battle Frontier team to obey the league rules so that the optimizer never suggests an illegal team.",
+      "title": "Expose lineup-aware analysis results",
+      "description": "As a user, I want recommended ordered lineups included in analysis output so that I can see which lead/back-pair combinations to use across a multi-battle match.",
       "acceptanceCriteria": [
-        "The optimizer rejects any bfmaster candidate team whose total points exceed 11",
-        "The optimizer rejects any bfmaster candidate team containing more than one 5-point Pokemon",
-        "The optimizer rejects any bfmaster candidate team containing more than one Mega Pokemon",
-        "Existing duplicate-base-species prevention still applies",
-        "Randomly seeded starting teams for bfmaster are legal",
-        "Swap-based local search for bfmaster preserves legality after each accepted replacement",
-        "Add unit tests covering optimizer rejection of over-budget teams",
-        "Add unit tests covering optimizer rejection of teams with two 5-point Pokemon",
-        "Add unit tests covering optimizer rejection of teams with two Mega Pokemon",
-        "Typecheck passes",
-        "Tests pass"
+        "AnalyzeMetaUseCase result exposes structured recommended_lineups",
+        "Each recommended lineup includes lead, back pair, score summary, and key resource-path diagnostics",
+        "Recommended lineups are ranked by lineup score with deterministic tie-breaking",
+        "Output does not frame a single lineup as the only default or mandatory choice",
+        "Recommended lineups include enough viable alternatives for a typical three-battle match when available",
+        "Roster-level metrics clearly distinguish lineup-derived metrics from legacy full-roster diagnostics",
+        "CLI remains wiring and validation only and does not compute lineup scores",
+        "Focused tests pass",
+        "Typecheck passes"
       ],
       "priority": 4,
       "passes": true,
-      "notes": ""
+      "notes": "Recommended agent: refactoring-specialist. Depends on US-003. This touches use-case/result boundaries; do not add exporter formatting logic to the application layer."
     },
     {
       "id": "US-005",
-      "title": "Expose Battle Frontier legality metrics in results",
-      "description": "As a user, I want the output to show point usage and constraint summary so that I can verify the team is legal without recalculating it manually.",
+      "title": "Add bench utility and unbringable warnings",
+      "description": "As a player, I want to know whether each roster member is actually useful in viable pick-3 lineups so that I can identify paper-coverage picks and weak bench slots.",
       "acceptanceCriteria": [
-        "Result metrics include total points used for the recommended team",
-        "Result metrics include the number of 5-point members on the recommended team",
-        "Result metrics include the number of Mega members on the recommended team",
-        "Result metrics include the Battle Frontier team rule limits used for the analysis",
-        "Text and markdown outputs render the new legality metrics clearly",
-        "Existing output formats continue to work when the new metrics are present",
-        "Typecheck passes",
-        "Tests pass"
+        "Each roster member has usage metrics across viable lineups",
+        "Bench utility identifies whether a Pokemon is core, flexible, specialist, low utility, or unbringable",
+        "Warnings are generated when a roster member appears in few or no viable lineups",
+        "Warning model supports Battle Frontier-specific warnings even if point diagnostics are added separately",
+        "Tests cover utility classification for core, flexible, specialist, low utility, and unbringable members",
+        "Tests cover warning generation for low-usage and unbringable roster members",
+        "Focused tests pass",
+        "Typecheck passes"
       ],
       "priority": 5,
       "passes": true,
-      "notes": ""
+      "notes": "Recommended agent: python-pro. Depends on US-004. Keep bench utility as diagnostics; do not make it a new primary ranking input unless explicitly required by a later story."
     },
     {
       "id": "US-006",
-      "title": "Validate bfmaster end-to-end behavior",
-      "description": "As a developer, I want automated integration coverage for Battle Frontier so that future changes do not break format legality enforcement.",
+      "title": "Add Battle Frontier lineup diagnostics",
+      "description": "As a Battle Frontier player, I want point usage explained for recommended lineups so that I can tell whether points are concentrated in playable Pokemon or wasted on the bench.",
       "acceptanceCriteria": [
-        "Add integration coverage showing bfmaster produces a legal six-Pokemon team",
-        "The recommended bfmaster team always has total points less than or equal to 11",
-        "The recommended bfmaster team always contains at most one 5-point Pokemon",
-        "The recommended bfmaster team always contains at most one Mega Pokemon",
-        "Typecheck passes",
-        "Tests pass"
+        "Existing Battle Frontier legality remains enforced at the six-roster level",
+        "Individual pick-3 lineups are not rejected for point legality in this MVP",
+        "Result includes total roster points used for Battle Frontier metas",
+        "Each recommended lineup includes its point total for Battle Frontier metas",
+        "Result includes free or low-point Pokemon usage rate across viable lineups",
+        "Result includes high-point Pokemon usage rate across viable lineups",
+        "Warnings are generated for expensive mostly-bench members",
+        "Warnings are generated for free or low-point paper coverage that is rarely bringable",
+        "Non-Battle-Frontier metas do not emit placeholder Battle Frontier diagnostics",
+        "Focused tests pass",
+        "Typecheck passes"
       ],
       "priority": 6,
       "passes": true,
-      "notes": ""
+      "notes": "Recommended agent: python-pro. Depends on US-004 and US-005. Preserve the current Battle Frontier roster legality gate in TeamOptimizer and add lineup point data as diagnostics only."
+    },
+    {
+      "id": "US-007",
+      "title": "Add ABC ABB ABA diagnostic lineup labels",
+      "description": "As a competitive player, I want each ordered lineup labeled by team shape so that I can interpret whether it behaves like ABC, ABB, or ABA.",
+      "acceptanceCriteria": [
+        "Recommended lineup model includes an optional team-shape label",
+        "Labels can include ABC, ABB, ABA, or an unclassified value",
+        "ABC/ABB/ABA labels are diagnostic only and do not directly affect optimization scoring",
+        "Tests verify recommended lineups include the shape label field",
+        "Tests verify shape classification does not change lineup or roster score",
+        "Focused tests pass",
+        "Typecheck passes"
+      ],
+      "priority": 7,
+      "passes": true,
+      "notes": "Recommended agent: python-pro. Depends on US-004. Keep classification isolated and testable; do not let labels influence ranking in the MVP."
+    },
+    {
+      "id": "US-008",
+      "title": "Render lineup recommendations in JSON text and Markdown exporters",
+      "description": "As a user, I want JSON, text, and Markdown output to show recommended lineups and diagnostics so that the new optimizer results are usable from the CLI and reports.",
+      "acceptanceCriteria": [
+        "JSON output includes structured recommended_lineups",
+        "JSON output includes bench utility and warnings",
+        "Text output includes readable sections for Recommended Bring-6 Roster, Recommended Lineups, Bench Utility, Resource / Shield Safety, and Warnings",
+        "Markdown output renders equivalent lineup-aware sections",
+        "Lineup-aware dominating and overwhelming metrics are rendered with thresholds score greater than 600 and score less than 400",
+        "Legacy full-six dominate and overwhelming summaries are not presented as battle coverage",
+        "Exporter tests cover JSON, text, and Markdown lineup output",
+        "Focused tests pass",
+        "Typecheck passes"
+      ],
+      "priority": 8,
+      "passes": true,
+      "notes": "Recommended agent: python-pro. Depends on US-004 through US-007. Keep formatting in infrastructure exporters and avoid adding scoring logic to exporters."
+    },
+    {
+      "id": "US-009",
+      "title": "Render lineup-aware CSV and Excel exports",
+      "description": "As a user, I want CSV and Excel exports to include lineup-aware fields so that recommended lineups and diagnostics can be analyzed outside the text report.",
+      "acceptanceCriteria": [
+        "CSV output includes lineup-aware fields for recommended lineups using stable headers",
+        "CSV output includes bench utility fields or rows using stable headers",
+        "Excel output includes recommended lineups and bench utility in sheets or columns appropriate to the existing exporter design",
+        "Battle Frontier point diagnostics are included in CSV and Excel output when present",
+        "Tests verify generated CSV headers or rows for lineup output",
+        "Tests verify generated Excel sheets or columns for lineup output",
+        "Focused tests pass",
+        "Typecheck passes"
+      ],
+      "priority": 9,
+      "passes": true,
+      "notes": "Recommended agent: python-pro. Depends on US-004 through US-007. Keep this separate from human-readable exporters to keep the story one-iteration-sized."
+    },
+    {
+      "id": "US-010",
+      "title": "Update repository documentation for lineup-aware optimization",
+      "description": "As a user and contributor, I want README.md and AGENTS.md to explain lineup-aware optimization so that I can run, interpret, and maintain the feature correctly.",
+      "acceptanceCriteria": [
+        "README.md explains that bring-6 rosters are scored from ordered pick-3 lineups",
+        "README.md states that each six-Pokemon roster yields 60 ordered lead/back-pair lineups",
+        "README.md explains the fixed resource paths: lead 1/back 1, lead 2/back 0, and lead 0/back 2",
+        "README.md explains recommended lineups, bench utility, Battle Frontier diagnostics, and warnings",
+        "README.md states ABC/ABB/ABA labels are heuristic diagnostics and not scoring inputs in the MVP",
+        "AGENTS.md records architectural guidance for lineup scoring, diagnostics, exporter responsibilities, and Battle Frontier considerations",
+        "AGENTS.md warns that legacy full-six dominate and overwhelming output must not be presented as battle coverage",
+        "Documentation includes validation command guidance for make lint, make typecheck, and make test",
+        "Typecheck passes"
+      ],
+      "priority": 10,
+      "passes": true,
+      "notes": "Recommended agent: documentation-engineer. Depends on implementation/output contracts being stable. This story must update documentation only; do not implement optimizer behavior here."
+    },
+    {
+      "id": "US-011",
+      "title": "Run final integration and regression gate",
+      "description": "As a maintainer, I want a final integration pass so that lineup-aware optimization, exporters, Battle Frontier diagnostics, and documentation are verified together.",
+      "acceptanceCriteria": [
+        "make lint passes",
+        "make typecheck passes",
+        "make test passes",
+        "No accidental CLI behavior regressions remain beyond documented lineup-aware output changes",
+        "No accidental exporter schema regressions remain beyond documented lineup-aware output changes",
+        "Battle Frontier legality tests still pass",
+        "Deterministic optimizer tests still pass"
+      ],
+      "priority": 11,
+      "passes": true,
+      "notes": "Recommended agent: refactoring-specialist. Depends on all previous stories. This is a verification and cleanup story only; do not add new feature scope here."
+    },
+    {
+      "id": "US-012",
+      "title": "Add bulk viability guard to lineup-aware scoring",
+      "description": "As a team optimizer user, I want lineup-aware recommendations to preserve minimum team bulk so that strong coverage does not produce unusably frail rosters.",
+      "acceptanceCriteria": [
+        "Optimizer comparison penalizes teams below a meta-relative bulk floor before lineup objective",
+        "Bulk floor is derived from the loaded candidate pool and documented in code or metrics",
+        "Teams at or above the bulk floor continue to compete primarily on lineup quality",
+        "Add tests proving a below-floor frail high-lineup team loses to a viable bulkier alternative",
+        "Focused tests pass",
+        "Typecheck passes"
+      ],
+      "priority": 12,
+      "passes": true,
+      "notes": "Recommended agent: refactoring-specialist. Keep this in TeamOptimizer comparison logic and do not alter CLI/exporter layers. This follow-up was added after real great meta runs selected glass-cannon lineups with insufficient roster bulk."
+    },
+    {
+      "id": "US-013",
+      "title": "Cache repeated lineup and team scoring",
+      "description": "As a CLI user, I want lineup-aware optimization to complete faster by avoiding repeated scoring of identical teams and lineups.",
+      "acceptanceCriteria": [
+        "TeamOptimizer caches full candidate team score tuples by canonical team identity",
+        "TeamOptimizer caches ordered lineup mean scores by ordered lineup identity",
+        "Caching preserves deterministic optimizer output for the same seed",
+        "Runtime for a one-restart bfmaster diagnostic run improves compared to uncached scoring",
+        "Focused optimizer tests pass",
+        "Typecheck passes"
+      ],
+      "priority": 13,
+      "passes": true,
+      "notes": "Recommended agent: python-pro. This is the first performance story and should not change scoring semantics. Cache only deterministic pure score results derived from loaded matrices and team composition."
+    },
+    {
+      "id": "US-014",
+      "title": "Simplify human-readable lineup reports",
+      "description": "As a report reader, I want the text and Markdown output to focus on recommended lineups and threats so that noisy diagnostic sections do not obscure the team recommendation.",
+      "acceptanceCriteria": [
+        "Text output omits Bench Utility when there are no actionable warnings",
+        "Text output omits standalone Resource / Shield Safety section",
+        "Text output omits legacy Coverage section",
+        "Text output omits Safe Cores section",
+        "Markdown output follows the same simplified section policy",
+        "Recommended Lineups include concise inline resource summaries",
+        "Potential Threats remains visible",
+        "Exporter tests cover removed and retained sections",
+        "Focused tests pass",
+        "Typecheck passes"
+      ],
+      "priority": 14,
+      "passes": true,
+      "notes": "Recommended agent: python-pro. Keep formatting in infrastructure exporters. Do not move scoring, threat analysis, or lineup scoring into exporters. Machine-readable compatibility can be addressed separately if needed."
+    },
+    {
+      "id": "US-015",
+      "title": "Replace top cores with top lineups",
+      "description": "As a CLI user, I want to control the number of recommended ordered lineups instead of obsolete safe cores.",
+      "acceptanceCriteria": [
+        "CLI accepts --top-lineups with default 5",
+        "--top-lineups rejects values greater than 10",
+        "Makefile run target uses --top-lineups instead of --top-cores",
+        "AnalyzeMetaUseCase uses top_lineups to limit recommended_lineups",
+        "Safe core ranking is not computed for normal report output",
+        "CLI tests cover valid, capped, and invalid top-lineups behavior",
+        "Focused tests pass",
+        "Typecheck passes"
+      ],
+      "priority": 15,
+      "passes": true,
+      "notes": "Recommended agent: refactoring-specialist. This removes the older safe-core report path from normal execution. Keep CLI as validation and wiring only."
+    },
+    {
+      "id": "US-016",
+      "title": "Remove unused bench utility computation from normal execution",
+      "description": "As a CLI user, I want the optimizer to skip non-actionable bench utility diagnostics so report generation is cleaner and avoids unnecessary work.",
+      "acceptanceCriteria": [
+        "AnalyzeMetaUseCase does not compute bench_utility for normal non-warning output",
+        "Bench warning logic is retained only if actionable warnings are still required",
+        "Text and Markdown reports do not render all-core bench utility rows",
+        "JSON, CSV, and Excel schema changes are documented or tests are intentionally updated",
+        "Tests verify no Bench Utility section appears when all members are core",
+        "Focused tests pass",
+        "Typecheck passes"
+      ],
+      "priority": 16,
+      "passes": true,
+      "notes": "Recommended agent: python-pro. Remove computation if no downstream output depends on it; otherwise gate it behind warnings or diagnostics. Keep resource path details inside recommended_lineups rather than a standalone human-readable section."
+    },
+    {
+      "id": "US-017",
+      "title": "Add multiprocessing restart batching",
+      "description": "As a user with a multi-core CPU, I want optimizer restarts to run in separate processes so large metas complete faster.",
+      "acceptanceCriteria": [
+        "CLI accepts --workers with default 1",
+        "Makefile exposes WORKERS variable and passes it to the CLI",
+        "TeamOptimizer uses the existing single-process path when workers is 1",
+        "When workers is greater than 1, restarts are split into deterministic process batches",
+        "Each worker uses a deterministic seed derived from the base seed and worker index",
+        "Parent process selects the global best solution using the same comparison key",
+        "Tests verify workers=1 remains deterministic",
+        "Tests verify workers=2 returns a legal deterministic result for fixed inputs",
+        "Focused tests pass",
+        "Typecheck passes"
+      ],
+      "priority": 17,
+      "passes": true,
+      "notes": "Recommended agent: python-pro. Use ProcessPoolExecutor, not threads. Parallelize restart chunks, not individual matchup cells or resource-path calculations. Preserve deterministic behavior for fixed seed and worker count."
+    },
+    {
+      "id": "US-018",
+      "title": "Document performance and output controls",
+      "description": "As a contributor and CLI user, I want documentation for top-lineups, diagnostics, workers, Conda Makefile usage, and simplified output semantics.",
+      "acceptanceCriteria": [
+        "README documents --top-lineups and maximum 10",
+        "README documents WORKERS and DIAGNOSTICS Makefile variables",
+        "README explains that multiprocessing uses processes over restart batches",
+        "README explains omitted human-readable sections and where structured diagnostics remain if retained",
+        "AGENTS.md records that Safe Cores and full-roster Coverage should not be reintroduced into normal text output",
+        "AGENTS.md records that process-based parallelism is preferred over threads for CPU-bound optimizer work",
+        "Typecheck passes"
+      ],
+      "priority": 18,
+      "passes": true,
+      "notes": "Recommended agent: documentation-engineer. Documentation-only story after behavior stabilizes. Do not implement optimizer behavior in this story."
+    },
+    {
+      "id": "US-019",
+      "title": "Run final performance and regression gate",
+      "description": "As a maintainer, I want final validation that output cleanup and performance changes preserve optimizer correctness.",
+      "acceptanceCriteria": [
+        "make lint passes",
+        "make typecheck passes",
+        "make test passes",
+        "make run META=great completes successfully",
+        "make run META=bfmaster completes successfully",
+        "make run META=great WORKERS=2 completes successfully if workers are implemented",
+        "Text output contains Recommended Lineups and Potential Threats",
+        "Text output does not contain Safe Cores, Coverage, or non-warning Bench Utility",
+        "Battle Frontier legality remains enforced",
+        "Deterministic optimizer tests still pass"
+      ],
+      "priority": 19,
+      "passes": true,
+      "notes": "Recommended agent: refactoring-specialist. Verification and cleanup only; do not add feature scope here. Capture any remaining output compatibility decisions as separate follow-up work."
+    },
+    {
+      "id": "US-020",
+      "title": "Remove Crucible meta support",
+      "description": "As a maintainer, I want Crucible-specific meta configuration and fixtures removed so the optimizer focuses on current supported GBL metas.",
+      "acceptanceCriteria": [
+        "crucible is removed from data/metas.json",
+        "crucible is removed from CLI-supported meta choices",
+        "CLI rejects --meta crucible with an actionable error",
+        "Crucible-specific docs, tests, and examples are removed or archived as historical data only",
+        "Tests that assumed Crucible availability are updated",
+        "Focused tests pass",
+        "Typecheck passes"
+      ],
+      "priority": 20,
+      "passes": true,
+      "notes": "Recommended agent: refactoring-specialist. Cleanup/config story only; do not preserve legacy Crucible behavior because the meta is outdated and no longer played."
+    },
+    {
+      "id": "US-021",
+      "title": "Add generic PvPoke ranking category models and repository",
+      "description": "As the optimizer, I need a generic ranking repository that loads PvPoke category rankings for overall, leads, switches, closers, attackers, chargers, and consistency so scoring can use role-specific category strength instead of only switch scores.",
+      "acceptanceCriteria": [
+        "Add a typed ranking category model for all supported PvPoke categories",
+        "Add immutable ranking row and profile structures for raw and normalized category scores",
+        "Add or replace repository interfaces so category ranking access is generic rather than switch-only",
+        "CSV repository loads PvPoke Pokemon,Score rows for all configured categories",
+        "Repository normalizes species names using existing normalization helpers",
+        "Missing species or category scores are handled by application-level policy, not infrastructure defaults",
+        "Existing switch-ranking behavior remains covered by compatibility tests or explicit migration tests",
+        "Focused tests pass",
+        "Typecheck passes"
+      ],
+      "priority": 21,
+      "passes": true,
+      "notes": "Recommended agent: python-pro. Likely files: domain/interfaces.py, domain/models.py, new infrastructure/repositories/csv_rankings_repository.py, compatibility tests for existing switch ranking behavior."
+    },
+    {
+      "id": "US-022",
+      "title": "Extend meta config with ranking paths for active metas",
+      "description": "As a maintainer, I want active metas to declare all available PvPoke category ranking CSV paths so ranking-aware optimization is configured explicitly and validated before execution.",
+      "acceptanceCriteria": [
+        "MetaConfig supports a typed ranking_paths mapping by category",
+        "Active metas declare available ranking paths for overall, leads, switches, closers, attackers, chargers, and consistency",
+        "Full-meta ranking paths can be associated with active metas for broad coverage pools",
+        "Config loading rejects unsupported ranking category keys",
+        "Missing configured ranking files are detected before repository construction",
+        "Legacy switch_rankings_path behavior is migrated or explicitly deprecated",
+        "CLI remains validation and wiring only",
+        "Focused tests pass",
+        "Typecheck passes"
+      ],
+      "priority": 22,
+      "passes": true,
+      "notes": "Recommended agent: refactoring-specialist. Likely files: data/metas.json, application/meta_config.py, cli/main.py, meta config tests, CLI tests."
+    },
+    {
+      "id": "US-023",
+      "title": "Build top-threat and full-meta scoring pools",
+      "description": "As the optimizer, I need explicit threat pools built from active-meta and full-meta ranking inputs so roster scoring can evaluate both practical top threats and broad meta robustness.",
+      "acceptanceCriteria": [
+        "Add an application-level pool builder that consumes ranking profiles and matrix labels",
+        "Builder produces an active-meta pool, a full-meta pool, and a weighted top-threat pool",
+        "Top-threat pool is derived primarily from configured overall rankings and matrix-aligned labels",
+        "Pool builder aligns ranking species to matrix row and column labels using existing normalization",
+        "Duplicate forms and base species are handled deterministically according to optimizer uniqueness rules",
+        "Missing ranking entries use deterministic fallback behavior and do not crash analysis",
+        "Tests cover label alignment, missing species, duplicate normalized names, and deterministic ordering",
+        "Focused tests pass",
+        "Typecheck passes"
+      ],
+      "priority": 23,
+      "passes": true,
+      "notes": "Recommended agent: python-pro. Likely files: new application/ranking_pools.py, application/use_case.py, application/normalization.py, ranking pool tests."
+    },
+    {
+      "id": "US-024",
+      "title": "Add weighted score structures for ranking-aware optimization",
+      "description": "As a contributor, I want ranking-derived score components represented by explicit structures so optimizer weighting is readable, testable, and explainable.",
+      "acceptanceCriteria": [
+        "Add immutable score structures for weighted components and score breakdowns",
+        "Add role-fit, threat-coverage, synergy, safety, consistency, bulk, defensive ratio, offensive ratio, and roster score structures",
+        "Score objects expose final numeric score and component diagnostics",
+        "Weight values are centralized as named constants or config dataclasses",
+        "Existing tuple score consumers are migrated safely or preserved until a dedicated migration story updates them",
+        "Infrastructure repository details do not leak into application scoring structures",
+        "Tests cover weighted sum calculation, missing component handling, and deterministic component ordering",
+        "Focused tests pass",
+        "Typecheck passes"
+      ],
+      "priority": 24,
+      "passes": true,
+      "notes": "Recommended agent: refactoring-specialist. Likely files: new application/scoring.py, application/lineups.py, application/optimizer.py, scoring tests. Keep scoring explainable and non-lexicographic."
+    },
+    {
+      "id": "US-025",
+      "title": "Normalize PvPoke category scores",
+      "description": "As the optimizer, I need PvPoke category scores normalized consistently so overall, leads, switches, closers, attackers, chargers, and consistency values can be combined without scale accidents.",
+      "acceptanceCriteria": [
+        "Add a normalization policy for PvPoke category scores",
+        "Policy handles PvPoke scores on the 0 to 100 scale",
+        "Policy handles degenerate categories where all scores are equal",
+        "Policy handles missing species or category values through explicit defaults",
+        "Raw scores remain available for diagnostics",
+        "Normalized score range and fallback behavior are documented",
+        "Tests cover high and low values, equal-value categories, missing scores, malformed rows, and deterministic output",
+        "Focused tests pass",
+        "Typecheck passes"
+      ],
+      "priority": 25,
+      "passes": true,
+      "notes": "Recommended agent: python-pro. Prefer score-based normalization over raw rank because PvPoke rank gaps are not uniform."
+    },
+    {
+      "id": "US-026",
+      "title": "Score ordered lineups with role fit",
+      "description": "As a competitive player, I want recommended lineups to account for PvPoke role fit so leads are evaluated as leads and backline Pokemon are evaluated by switch, closer, attacker, charger, and consistency utility.",
+      "acceptanceCriteria": [
+        "Ordered lineup scoring includes role-fit components in addition to matrix resource-path scores",
+        "Lead role fit uses the leads ranking category",
+        "Back pair role fit uses a deterministic blend of switches and closers",
+        "Secondary role modifiers can use attackers, chargers, and consistency",
+        "Role-fit scoring does not reorder an unordered back pair unless a future fully ordered switch/closer model is implemented",
+        "Role-fit weights are explicit and test-covered",
+        "Existing resource-path matchup scoring remains intact",
+        "Tests prove role fit can change ranking between otherwise similar lineups",
+        "Focused tests pass",
+        "Typecheck passes"
+      ],
+      "priority": 26,
+      "passes": true,
+      "notes": "Recommended agent: python-pro. Role is a lower-priority weighted component and must not dominate synergy, coverage, safety, consistency, or bulk."
+    },
+    {
+      "id": "US-027",
+      "title": "Implement synergy and ABC ABB ABA scoring",
+      "description": "As a competitive player, I want ABC, ABB, and ABA lineup strategy to contribute to weighted synergy scoring so recommended teams reflect real GBL alignment decisions.",
+      "acceptanceCriteria": [
+        "ABC, ABB, and ABA shape labels remain explainable diagnostics and also feed tested synergy components",
+        "ABC lineups are rewarded for complementary strengths and low shared weakness exposure",
+        "Valid ABB lineups are rewarded when the singleton covers the pair shared weakness or the pair covers the singleton weakness",
+        "Unsafe ABA shared weakness is penalized when the shared weakness can appear in the lead and the B Pokemon is the only reliable answer",
+        "ABA shared strength is rewarded when it creates redundant answers to important top threats",
+        "Tests cover ABC, intentional ABB, unsafe ABA shared weakness, and beneficial ABA shared strength",
+        "Focused tests pass",
+        "Typecheck passes"
+      ],
+      "priority": 27,
+      "passes": true,
+      "notes": "Recommended agent: refactoring-specialist. This is the highest-priority strategic score component; avoid making labels the only scoring basis."
+    },
+    {
+      "id": "US-028",
+      "title": "Add weighted coverage safety consistency bulk and type ratio components",
+      "description": "As a trainer, I want lineup and roster scoring to incorporate practical coverage, safety, consistency, bulk, defensive ratios, and offensive ratios so recommendations maximize all aspects of GBL play.",
+      "acceptanceCriteria": [
+        "Coverage scoring separates top-threat coverage from full-meta coverage",
+        "Top-threat misses carry higher weight than long-tail full-meta misses",
+        "Safety scoring accounts for overwhelming losses, no-answer threats, single-answer threats, safe-swap quality, and shield-path fragility",
+        "Consistency scoring uses PvPoke consistency ranking and proxies for bait dependence, move DPE, and shield stability where available",
+        "Bulk uses stat product or defense times hp divided by attack fallback and remains normalized to the candidate pool",
+        "Defensive ratios use data/type-effectiveness.json, dual-type multiplication, and meta-weighted shared weakness exposure",
+        "Offensive ratios use selected move types, type effectiveness, and top-threat/full-meta resistance pressure",
+        "Tests cover each component and weighted tradeoffs between components",
+        "Focused tests pass",
+        "Typecheck passes"
+      ],
+      "priority": 28,
+      "passes": true,
+      "notes": "Recommended agent: python-pro. Keep type/move calculations in application services and use data/type-effectiveness.json as source of truth."
+    },
+    {
+      "id": "US-029",
+      "title": "Preserve deterministic performance with ranking-aware scores",
+      "description": "As a user, I want ranking-aware optimization to remain deterministic and performant when caching and multiprocessing are enabled.",
+      "acceptanceCriteria": [
+        "Team score cache keys include all deterministic ranking-aware scoring inputs",
+        "Lineup score cache keys account for role-fit or ranking profile identity",
+        "Cached scores do not depend on mutable repository instances",
+        "Multiprocessing payloads contain picklable dataclasses or plain data only",
+        "workers=1 continues to use the existing single-process path",
+        "workers greater than 1 produces deterministic results for fixed seed, worker count, and input files",
+        "Parent process selects the best solution using the same weighted comparison result",
+        "Tests cover deterministic results for workers 1 and 2",
+        "Focused tests pass",
+        "Typecheck passes"
+      ],
+      "priority": 29,
+      "passes": true,
+      "notes": "Recommended agent: python-pro. Preserve process-based restart batching and avoid mutable repository objects in worker payloads."
+    },
+    {
+      "id": "US-030",
+      "title": "Add explainable ranking-aware output",
+      "description": "As a trainer, I want reports to explain why a bring-6 roster and its lineups were selected so I can understand tradeoffs and improve play.",
+      "acceptanceCriteria": [
+        "Result payload includes weighted component scores for the recommended roster",
+        "Result payload includes weighted component scores for recommended lineups",
+        "Output identifies key covered threats, remaining threats, no-answer threats, single-answer threats, shared weaknesses, and role assumptions",
+        "Output identifies when a roster is too dependent on one lineup",
+        "JSON includes structured ranking-aware diagnostics when available",
+        "Text and Markdown summarize only high-value ranking-aware diagnostics without reintroducing noisy legacy sections",
+        "CSV and Excel preserve stable schemas or update tests and docs intentionally",
+        "Exporters do not compute scores",
+        "Focused tests pass",
+        "Typecheck passes"
+      ],
+      "priority": 30,
+      "passes": true,
+      "notes": "Recommended agent: python-pro. Keep normal human-readable output focused; diagnostics should explain trainer-relevant tradeoffs without resurrecting Safe Cores or Coverage sections."
+    },
+    {
+      "id": "US-031",
+      "title": "Add deterministic regression fixtures for weighted GBL scoring",
+      "description": "As a maintainer, I want small deterministic fixtures for rankings, typing, moves, matrices, and meta pools so future scoring changes do not silently regress strategic quality.",
+      "acceptanceCriteria": [
+        "Add minimal ranking CSV fixtures for all PvPoke categories",
+        "Fixtures include overlapping species, missing species, duplicate normalized species, tied scores, and category gaps",
+        "Tests do not rely on large production ranking CSVs unless explicitly marked integration",
+        "Tests cover active-meta ranking profile loading and full-meta/top-threat pool construction",
+        "Tests cover weighted score ordering and multiple-lineup roster preference",
+        "Tests cover Crucible removal behavior",
+        "Optimizer tests use explicit seeds",
+        "Focused tests pass",
+        "Typecheck passes"
+      ],
+      "priority": 31,
+      "passes": true,
+      "notes": "Recommended agent: python-pro. Add deterministic fixtures before broad scoring rewrites so changes are testable and reviewable."
+    },
+    {
+      "id": "US-032",
+      "title": "Document ranking-aware optimization architecture",
+      "description": "As a contributor and future agent, I want documentation explaining category ranking inputs, meta config paths, pool construction, weighted score outputs, explainability metrics, validation, and architecture boundaries.",
+      "acceptanceCriteria": [
+        "README documents category ranking CSV inputs and current active meta behavior",
+        "README documents that Crucible is no longer supported",
+        "docs/pokemon-go-team-optimization.md and docs/team-optimization subdocs are updated to match implemented ranking-aware behavior",
+        ".opencode/skills/gbl-optimizer/SKILL.md is updated with any new implementation obligations",
+        "AGENTS.md records that repositories load rankings, application builds pools and scores, CLI wires dependencies only, and exporters render diagnostics only",
+        "Documentation explains deterministic testing expectations and multiprocessing/caching implications",
+        "Documentation distinguishes optimizer objectives from explainability-only diagnostics",
+        "Typecheck passes"
+      ],
+      "priority": 32,
+      "passes": true,
+      "notes": "Recommended agent: documentation-engineer. Documentation should stay aligned with scoring behavior and avoid reintroducing deprecated full-roster Coverage, Safe Cores, or Resource / Shield Safety sections."
+    },
+    {
+      "id": "US-033",
+      "title": "Add local PvPoke CSV data sync",
+      "description": "As a maintainer, I want a Makefile-backed sync workflow that reads from the local vendor/pvpoke source tree and reproduces the PvPoke rankings page CSV export so pokemon.json, moves.json, and flat ranking CSV files stay current without changing the optimizer to read ranking JSON.",
+      "acceptanceCriteria": [
+        "https://github.com/crsiebler/pvpoke is available as a git submodule at vendor/pvpoke",
+        "Makefile exposes a sync target, such as make sync, that runs the local data synchronization workflow",
+        "Sync reads gamemaster inputs from vendor/pvpoke/src/data/gamemaster/pokemon.json and vendor/pvpoke/src/data/gamemaster/moves.json",
+        "Sync uses PvPoke ranking source data only as an intermediate source and does not make ranking JSON a runtime optimizer input",
+        "Sync reproduces the PvPoke rankings page Export to CSV format from vendor/pvpoke/src/js/interface/RankingInterface.js, including the full header: Pokemon,Score,Dex,Type 1,Type 2,Attack,Defense,Stamina,Stat Product,Level,CP,Fast Move,Charged Move 1,Charged Move 2,Charged Move 1 Count,Charged Move 2 Count,Buddy Distance,Charged Move Cost",
+        "Sync writes deterministic outputs to this repository's data/pokemon.json, data/moves.json, and flat ranking CSV files under data/rankings/",
+        "Sync preserves the existing flat ranking filename convention: data/rankings/cp{cp}_{cup}_{category}_rankings.csv",
+        "Sync supports categories: overall, leads, switches, closers, attackers, chargers, and consistency",
+        "Sync maps PvPoke cup/category/league paths to the data/metas.json ranking paths introduced by ranking-aware meta configuration without requiring nested ranking directories",
+        "Sync validates generated rankings page-compatible CSVs before replacing existing files",
+        "Sync can skip missing optional ranking files with a clear warning while failing on missing required gamemaster files",
+        "Sync does not generate or overwrite simulation matrix CSVs; meta matrices remain manually supplied",
+        "README documents submodule setup, git submodule update --init --recursive, and the Makefile sync command",
+        "Tests cover path mapping, rankings page-compatible CSV generation, missing optional rankings, required gamemaster failures, flat filename preservation, and the no-simulation-sync guarantee",
+        "Focused tests pass",
+        "Typecheck passes"
+      ],
+      "priority": 33,
+      "passes": true,
+      "notes": "Recommended agent: refactoring-specialist. Use pogo-team-generator lib/sync as reference for local source resolution and gamemaster copying, but preserve this repository's CSV ranking contract. Replicate PvPoke rankings page CSV export fields and flat data/rankings/cp{cp}_{cup}_{category}_rankings.csv outputs. Do not refactor the optimizer to consume ranking JSON. Exclude simulation generation for this repository. Wire through Makefile and keep file I/O in scripts/infrastructure, not optimizer scoring."
+    },
+    {
+      "id": "US-034",
+      "title": "Parse simulation matrices with eligibility filtering",
+      "description": "As a CLI user, I want simulation CSVs parsed by matchup columns and filtered for complete candidate data so missing PvPoke exports do not corrupt optimizer inputs.",
+      "acceptanceCriteria": [
+        "Simulation CSV parsing ignores summary columns by header name, including Wins, Losses, Draws, and Average",
+        "All configured shield files must have matching matchup column labels after excluding summary columns",
+        "Blank or non-numeric matchup cells are treated as missing matchup data",
+        "Any candidate row with missing matchup data in any loaded shield scenario is excluded before optimization",
+        "If fewer than six candidate rows remain, the run fails clearly with the eligible count and reason",
+        "Unit tests cover summary-column detection and missing-cell filtering",
+        "Tests pass",
+        "Typecheck passes"
+      ],
+      "priority": 34,
+      "passes": true,
+      "notes": "Recommended agent: python-pro. Keep CSV parsing in infrastructure and any candidate eligibility reporting in application/use-case code. Preserve matrix row/column alignment guarantees across 0-, 1-, and 2-shield files."
+    },
+    {
+      "id": "US-035",
+      "title": "Enforce ranked candidate eligibility",
+      "description": "As a CLI user, I want only Pokemon with active overall rankings to be eligible for team selection so recommendations stay grounded in current PvPoke data.",
+      "acceptanceCriteria": [
+        "A candidate Pokemon row must have a normalized species match in the active overall ranking profile to be eligible",
+        "Candidate species normalization remains deterministic for move suffixes, IV suffixes, shadows, and base species handling",
+        "Unranked candidate rows are filtered out before optimization",
+        "If fewer than six ranked candidates remain, the run fails clearly with the eligible count and reason",
+        "Eligibility requires active overall rankings only; other role categories remain scoring inputs unless explicitly validated by meta config",
+        "Unit tests cover ranked and unranked candidate filtering",
+        "Tests pass",
+        "Typecheck passes"
+      ],
+      "priority": 35,
+      "passes": true,
+      "notes": "Recommended agent: refactoring-specialist. This revises earlier neutral-fallback behavior for team eligibility: unranked owned Pokemon must not be selected. Keep infrastructure repositories raw and apply eligibility in the application/use-case layer."
+    },
+    {
+      "id": "US-036",
+      "title": "Wire ranked top-meta and broad-meta threat pools",
+      "description": "As the optimizer, I need ranked top-meta and broad-meta threat pools intersected with simulation targets so full-team scoring evaluates realistic opponents without unranked target noise.",
+      "acceptanceCriteria": [
+        "Top-meta threats are derived from active overall rankings intersected with simulation target columns",
+        "Broad-meta threats are derived from configured full_meta_ranking_paths when present and intersected with simulation target columns",
+        "Unranked simulation target columns are excluded from threat pools and threat scoring",
+        "Threat-pool ordering is deterministic for duplicate forms, tied scores, and normalized base species",
+        "Top-meta threats carry more scoring weight than broad-meta threats",
+        "Unit tests cover top-meta weighting and unranked target exclusion",
+        "Tests pass",
+        "Typecheck passes"
+      ],
+      "priority": 36,
+      "passes": true,
+      "notes": "Recommended agent: python-pro. Extend the existing ranking_pools/use_case path rather than creating CLI scoring logic. Preserve deterministic species normalization and existing matrix-column alignment behavior."
+    },
+    {
+      "id": "US-037",
+      "title": "Add soft shield-aggregated matchup scoring",
+      "description": "As a CLI user, I want matchup strength and shield stability to affect full-team quality beyond binary win/loss thresholds so close losses and hard losses are valued differently.",
+      "acceptanceCriteria": [
+        "Combined matchup score uses all available shield scenarios with weights 0.30 for 0-shield, 0.50 for 1-shield, and 0.20 for 2-shield",
+        "Soft matchup scoring distinguishes strong answers, playable answers, neutral matchups, soft losses, and hard losses",
+        "A hard loss contributes more threat risk than a marginal loss",
+        "A team with multiple playable answers scores better than a team with one volatile answer",
+        "Shield-stable Pokemon score better than Pokemon that rely on one isolated favorable shield scenario and collapse in others",
+        "Unit tests cover shield aggregation, soft matchup differences, and shield stability",
+        "Tests pass",
+        "Typecheck passes"
+      ],
+      "priority": 37,
+      "passes": true,
+      "notes": "Recommended agent: python-pro. Add these as small reusable application/scoring helpers first, then wire them into team scoring in a later story. Avoid replacing exporter diagnostics in this story."
+    },
+    {
+      "id": "US-038",
+      "title": "Add full-team grades and Threat Score",
+      "description": "As a CLI user, I want concise full-team diagnostics so I can understand coverage, bulk, safety, consistency, and lower-is-better threat exposure for the recommended bring-6 roster.",
+      "acceptanceCriteria": [
+        "The result payload includes coverage_grade, bulk_grade, safety_grade, and consistency_grade for the recommended team",
+        "Grades are limited to A, B, C, D, and F with no plus/minus variants",
+        "The result payload includes lower-is-better threat_score",
+        "Threat Score penalizes no-answer threats, single-answer threats, hard losses, and severe single-point weaknesses",
+        "Threat Score rewards redundant answers, broad playable matchups, and shield-stable coverage",
+        "Top-meta risk contributes more to Threat Score than broad-meta long-tail risk",
+        "Unit tests cover grade mapping and Threat Score ordering for obviously good and bad fixture teams",
+        "Tests pass",
+        "Typecheck passes"
+      ],
+      "priority": 38,
+      "passes": true,
+      "notes": "Recommended agent: python-pro. Keep grade and threat-score calculations in application scoring/use-case code. Exporters should only render payload fields added here or in a follow-up story."
+    },
+    {
+      "id": "US-039",
+      "title": "Prioritize full bring-6 objective in optimizer",
+      "description": "As a CLI user, I want the selected team to be the strongest full bring-6 roster while existing pick-3 lineup diagnostics remain available for interpretation.",
+      "acceptanceCriteria": [
+        "TeamOptimizer keeps existing legality checks and Battle Frontier point rules",
+        "Full-team objective and ranking-aware roster quality are considered before pick-3 lineup objective in optimizer comparison",
+        "Existing pick-3 lineup diagnostics remain computed and exported where currently supported",
+        "Existing score tuple indexes used by exporters and tests are preserved where practical; new fields are appended when additional metrics are needed",
+        "Optimizer output remains deterministic for the same inputs and seed",
+        "Unit tests cover cases where full bring-6 quality beats a stronger pick-3 lineup objective",
+        "Tests pass",
+        "Typecheck passes"
+      ],
+      "priority": 39,
+      "passes": true,
+      "notes": "Recommended agent: refactoring-specialist. This is the core revised objective: keep recommended_lineups as diagnostics and low-priority tie-breakers, but full-team bring-6 quality must drive selection before pick-3 lineup objective."
+    },
+    {
+      "id": "US-040",
+      "title": "Render improved full-team CLI diagnostics",
+      "description": "As a CLI user, I want text and Markdown output to show full-team grades, Threat Score, and ranked threat groups without losing existing recommended lineup sections.",
+      "acceptanceCriteria": [
+        "Text output shows the recommended bring-6 roster, coverage grade, bulk grade, safety grade, consistency grade, and Threat Score",
+        "Markdown output shows the same full-team diagnostics",
+        "Output distinguishes major top-meta threats from major broad-meta threats when both are available",
+        "Existing recommended lineup sections remain present when lineups are produced",
+        "Exporters render structured result payload fields and do not recompute scoring logic",
+        "Unit tests cover text and Markdown rendering of new metrics",
+        "Tests pass",
+        "Typecheck passes"
+      ],
+      "priority": 40,
+      "passes": true,
+      "notes": "Recommended agent: python-pro. Keep formatting in infrastructure exporters and render only use-case payload fields. Do not reintroduce standalone Coverage, Safe Cores, or Resource / Shield Safety sections."
+    },
+    {
+      "id": "US-041",
+      "title": "Document full bring-6 scoring assumptions",
+      "description": "As a maintainer, I want the revised full bring-6 scoring assumptions documented so future tuning preserves architecture boundaries and the distinction between optimizer objectives and lineup diagnostics.",
+      "acceptanceCriteria": [
+        "Documentation states that PvPoke rankings and simulations are calibration inputs, not runtime tooling",
+        "Documentation explains candidate eligibility, missing-matchup filtering, top-meta weighting, broad-meta weighting, shield aggregation, and grade mapping",
+        "Documentation states that scoring weights and thresholds are internal implementation details and not CLI options",
+        "Documentation notes that pick-3 lineups remain diagnostics but full bring-6 quality is the primary selection objective",
+        "Documentation updates AGENTS.md guidance if implementation boundaries change",
+        "Tests pass if documentation changes affect tested examples",
+        "Typecheck passes"
+      ],
+      "priority": 41,
+      "passes": true,
+      "notes": "Recommended agent: documentation-engineer. Documentation-only story after behavior stabilizes. Align README, docs/team-optimization, AGENTS.md, and the gbl-optimizer skill if needed."
     }
   ]
 }

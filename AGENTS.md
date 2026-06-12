@@ -69,10 +69,10 @@ make run-pvpoke
 
 Direct invocation example:
 ```bash
-PYTHONPATH=src python -m pogo_team_optimizer.cli.main --meta crucible --format text
+PYTHONPATH=src python -m pogo_team_optimizer.cli.main --meta bayou --format text
 ```
 
-For `markdown`, `json`, `csv`, `excel`, and `pvpoke`, pass `--output`.
+Each CLI run emits all supported formats; use `--output-dir` to control the destination.
 
 ## Architecture and Boundaries
 Respect the existing layers:
@@ -134,6 +134,8 @@ Boundary rules:
 - Integration tests live in `tests/integration`.
 - Keep optimizer-related tests deterministic with explicit seeds.
 - Cover parsing edge cases and matrix label alignment behavior.
+- Use `tests/fixtures/us031_weighted_scoring/` for small ranking-aware unit regressions instead of production ranking CSVs when testing category rankings, top-threat/full-meta pools, type/move inputs, and weighted optimizer ordering.
+- Documentation for ranking-aware optimization should distinguish optimizer objectives from explainability-only diagnostics and keep Crucible documented as unsupported.
 
 Recommended local gate before completion:
 ```bash
@@ -143,15 +145,50 @@ make test
 ```
 
 ## Repository-Specific Notes
+- Project-agnostic Pokemon GO Battle League optimization guidance lives in `docs/pokemon-go-team-optimization.md`; read it before changing roster or lineup scoring strategy.
+- Detailed optimization subdocs live under `docs/team-optimization/`, including `scoring-model.md`, `lineup-structures.md`, `coverage-threat-pools.md`, `safety-consistency-bulk.md`, `type-effectiveness.md`, `role-scoring.md`, `data-inputs.md`, and `validation.md`.
+- OpenCode skill `gbl-optimizer` lives in `.opencode/skills/gbl-optimizer/SKILL.md`; use it when changing GBL optimizer scoring, show-6 pick-3 lineups, PvPoke ranking inputs, type effectiveness, coverage, safety, consistency, bulk, roles, or ABC/ABB/ABA strategy.
+- Type effectiveness implementation guidance is in `docs/team-optimization/type-effectiveness.md`, and the Pokemon GO type chart source data is `data/type-effectiveness.json`.
 - Matrix CSVs must align on row/column labels across shield scenarios.
+- Simulation matrix repositories represent blank or non-numeric matchup cells as `None`; `AnalyzeMetaUseCase` must filter incomplete candidate rows and narrow matrices back to `int` before optimizer/scoring code receives them.
 - `AnalyzeMetaUseCase` expects repository dependencies through interfaces.
 - `pvpoke` export requires both `pokemon.json` and `moves.json`.
-- Non-text outputs require explicit output file paths.
-- Meta-specific auxiliary inputs belong in `data/metas.json` via optional `switch_rankings_path` and `required_files`; validate them in the CLI before constructing repositories.
-- Switch rankings resolution in the CLI is ordered as explicit `--switch-rankings-path` override, then per-meta `switch_rankings_path`, then the legacy Great League default path.
+- CLI runs emit all supported output formats to `--output-dir`; do not use deprecated `--output`.
+- Meta-specific PvPoke ranking inputs belong in `data/metas.json` via typed `ranking_paths` and optional `full_meta_ranking_paths` keyed by `RankingCategory`; keep legacy `switch_rankings_path` as a compatibility shim only.
+- Local PvPoke data sync belongs in `scripts/sync_pvpoke_data.py`; it reads the `vendor/pvpoke` submodule, copies gamemaster JSON, converts ranking JSON into flat `data/rankings/cp{cp}_{cup}_{category}_rankings.csv` files, and must not generate or overwrite simulation matrices.
+- Validate all configured ranking paths in the CLI before constructing repositories; switch rankings resolution remains explicit `--switch-rankings-path`, then per-meta `ranking_paths.switches`, then the legacy Great League default path.
+- Ranking threat pools belong in `application/ranking_pools.py`; align ranking profiles to normalized matrix opponent labels, deduplicate by `parse_base_species()` like the optimizer, and keep missing ranking entries deterministic instead of failing.
+- Threat pools should contain ranked simulation targets only: derive active top-meta targets from active overall rankings, derive broad-meta targets from configured full-meta overall rankings, and exclude unranked target columns from threat scoring.
+- Ranking-aware weighted score structures belong in `application/scoring.py`; keep component order deterministic, missing components neutral with diagnostics, and default weights centralized in `RosterScoreWeights`.
+- PvPoke category score normalization belongs in `application/scoring.py`; keep raw `RankingRow.score` values for diagnostics, put derived valid `normalized_score` values on a `0.0` to `1.0` scale, store invalid values as `None`, and use neutral `0.5` fallback for missing, invalid, or degenerate category lookups.
 - Battle Frontier point files should live under `data/battle_frontier/` with `species,points` headers, use names normalized like `parse_species()`, and rely on repository fallback-to-`0` for species omitted from the current cycle.
 - Battle Frontier legality belongs in `TeamOptimizer`; wire per-row point costs from the CLI/use case into the optimizer so both initial seeding and swap search share the same legality checks.
 - Battle Frontier output metrics belong in `recommended_team.metrics`; keep them optional and have human-readable exporters render a conditional legality section so non-`bfmaster` metas do not need placeholder fields.
+- Battle Frontier lineup point diagnostics are optional result fields assembled in `AnalyzeMetaUseCase` from `application/lineups.py`; do not reject individual pick-3 lineups for point totals in the MVP.
+- Ordered bring-6 pick-3 lineup enumeration belongs in `application/lineups.py`; keep lead order distinct and canonicalize the unordered back pair by sorted row index.
+- Ordered lineup resource-path scoring belongs in `application/lineups.py`; keep the fixed paths as lead 1/back 1, lead 2/back 0, and lead 0/back 2, with lineup thresholds of score greater than `600` for dominating and less than `400` for overwhelming losses.
+- Ordered lineup role-fit scoring belongs in `application/lineups.py` and should consume normalized `RankingRow.normalized_score` values from a use-case-normalized `RankingProfile`; leads use `leads`, unordered backs are averaged across `switches`/`closers` plus secondary role categories, and role weight stays low (`0.03`) versus resource-path matchup score.
+- Ordered lineup synergy scoring belongs in `application/lineups.py`; keep ABC/ABB/ABA labels explainable, but derive synergy from type/matchup evidence and wire it through `TeamOptimizer._lineup_mean_score()` so it affects cached lineup objective scoring.
+- Skip ordered-lineup synergy when any lineup member has missing type data or incomplete type-effectiveness mappings; viability filters should require both resource-path mean and blended lineup score to meet `LINEUP_VIABILITY_THRESHOLD`.
+- Ranking-aware coverage, safety, consistency, bulk, defensive ratio, and offensive ratio components belong in `application/scoring.py`; `TeamOptimizer` appends the weighted final score after existing tuple indexes and `_comparison_key()` consumes safety-floor deficit, safe-member deficit, bulk deficit, ranking-aware full-team score, legacy full-team quality metrics, then pick-3 lineup diagnostics as lower-priority tie-breakers without reordering legacy score fields.
+- Soft shield-aggregated matchup helpers belong in `application/scoring.py`; use `0.30`, `0.50`, and `0.20` weights for 0-, 1-, and 2-shield scores, renormalize when fewer scenarios are available, and keep exporter/CLI layers from recomputing these diagnostics.
+- Full-team grade mapping and lower-is-better Threat Score calculations belong in `application/scoring.py`; `AnalyzeMetaUseCase` should expose the resulting `coverage_grade`, `bulk_grade`, `safety_grade`, `consistency_grade`, and `threat_score` metrics, while exporters only render those payload fields.
+- Ranking-aware explainability belongs in `AnalyzeMetaUseCase`: expose structured score breakdowns and diagnostics in the result payload, and keep exporters limited to rendering those fields without recomputing scoring, coverage, role, or shared-weakness logic.
+- Ranking-aware architecture boundaries are strict: infrastructure repositories load raw ranking files, the application layer normalizes category scores, builds ranking pools, and computes weighted roster/lineup scores, `AnalyzeMetaUseCase` assembles explainability payloads, the CLI validates and wires dependencies only, and exporters render existing diagnostics only.
+- Use ranking-pool matrix indices from the use case for top-threat weighting, normalized PvPoke consistency scores for ranking-aware consistency, shield-path stability as the bait-dependence proxy, and neutral move DPE fallback until move power/energy data is modeled.
+- Derive opponent type pressure from matrix column labels through the Pokemon repository in the use case, then pass explicit `opponent_types_by_col` into `TeamOptimizer`; keep missing opponent type data neutral rather than inferring it in exporters or CLI logic.
+- Six-Pokemon roster objective scoring belongs in `TeamOptimizer` consuming lineup-depth metrics from `application/lineups.py`; append new optimizer score tuple fields instead of reordering existing indexes consumed by use-case metrics and exporters.
+- Meta-relative bulk viability belongs in `TeamOptimizer._comparison_key()` as a below-floor penalty before full-team and lineup objective fields; derive the floor from the loaded candidate pool and do not treat it as a legality filter.
+- `TeamOptimizer` caches pure score results per optimizer instance: full team scores by sorted row-index identity and ordered lineup mean scores by `OrderedLineup`; cache keys include deterministic scoring-context fingerprints from snapshot inputs, and comparison keys stay uncached because safety and policy inputs vary per call.
+- `TeamOptimizer.optimize(workers=...)` uses the existing single-process restart loop for `workers=1`; process-based parallelism is preferred over threads for CPU-bound optimizer work, should split restart batches with deterministic per-worker seeds, cap worker counts via `MAX_OPTIMIZER_WORKERS`, and reduce results through `_comparison_key()` in the parent.
+- Structured `recommended_lineups` assembly belongs in `AnalyzeMetaUseCase`; keep ranking and diagnostics based on `application/lineups.py`, and keep CLI/exporters from computing lineup scores.
+- CLI lineup count control is `--top-lineups` with a maximum of `10`; pass it as `top_lineups` to `AnalyzeMetaUseCase` and do not compute safe-core rankings during normal execution.
+- Bench utility diagnostics belong in `application/lineups.py` and stay diagnostic-only; normal `AnalyzeMetaUseCase` results keep `recommended_team.bench_utility` empty unless actionable Battle Frontier warnings are emitted.
+- ABC/ABB/ABA lineup shape labels are heuristic diagnostics from `application/lineups.py`; expose them on `recommended_lineups`, but derive any scoring impact from type/matchup evidence rather than the label alone.
+- CSV lineup-aware exports preserve the `section,key,value` schema using `recommended_lineup`, `recommended_lineup_resource_path`, `bench_utility`, and `bench_utility_warning` sections; Excel uses dedicated `Lineups`, `Lineup Resources`, `Bench Utility`, and `Bench Warnings` sheets.
+- Legacy full-six dominate and overwhelming metrics must not be presented as battle coverage; actual battle interpretation belongs to ordered pick-3 lineup diagnostics and their fixed resource paths.
+- Human-readable text and Markdown reports should keep normal output focused on Recommended Bring-6 Roster, Team Analysis, Recommended Lineups, actionable warnings, and Potential Threats; do not reintroduce standalone Coverage, Safe Cores, full-roster Coverage, or Resource / Shield Safety sections.
+- Bench utility diagnostics remain structured data, but normal text and Markdown output should render them only when actionable warnings exist.
 
 ## Cursor / Copilot Rule Files
 Checked repository-local instruction files:

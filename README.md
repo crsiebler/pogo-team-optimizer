@@ -1,14 +1,15 @@
 # pogo-team-optimizer
 
-`pogo-team-optimizer` analyzes Pokemon GO PvP simulation matrices and recommends strong six-member teams for a selected meta.
+`pogo-team-optimizer` analyzes local Pokemon GO PvP simulation matrices and PvPoke ranking exports to recommend strong six-member teams for a selected meta.
 
 It evaluates matchup coverage across shield scenarios, identifies fragile matchups, and exports reports in multiple formats.
 
 ## Features
 
-- Optimize a 6-Pokemon team from simulation matrix data
-- Rank safe 3-member cores from the recommended team
-- Report coverage by shield scenario
+- Optimize a 6-Pokemon team from local simulation matrix and ranking data
+- Recommend playable lead/back-pair lineups from the selected bring-6 roster
+- Report lineup resource-path safety across shield scenarios
+- Explain bench utility, warnings, and Battle Frontier point diagnostics when available
 - Highlight threats with single-cover and no-cover fragility
 - Export as `text`, `markdown`, `json`, `csv`, `excel`, or `pvpoke`
 
@@ -32,6 +33,9 @@ All commands should run with `PYTHONPATH=src`.
 
 ## Development Commands
 
+The Makefile runs commands through the `pogo-team-optimizer` Conda environment by
+default. Use these targets for the local quality gate:
+
 ```bash
 make lint
 make typecheck
@@ -54,17 +58,18 @@ PYTHONPATH=src python -m pytest --cov=src --cov-report=term-missing
 Basic run:
 
 ```bash
-PYTHONPATH=src python -m pogo_team_optimizer.cli.main --meta crucible
+PYTHONPATH=src python -m pogo_team_optimizer.cli.main --meta bayou
 ```
 
-Supported metas include `bayou`, `bfretro`, `bfmaster`, `crucible`, `euic`, `great`,
-`majestic`, `master`, `naic`, and `spellcraft`.
+Supported metas include `bayou`, `bfretro`, `bfmaster`, `euic`, `great`, `majestic`,
+`master`, `naic`, and `spellcraft`. Crucible is no longer supported because it is
+outdated and no longer played.
 
 Each CLI execution runs the optimizer once, prints the text report, and writes every supported
 format to `data/output/`:
 
 ```bash
-PYTHONPATH=src python -m pogo_team_optimizer.cli.main --meta crucible
+PYTHONPATH=src python -m pogo_team_optimizer.cli.main --meta bayou
 ```
 
 Generated files use the selected meta name: `<meta>.txt`, `<meta>.md`, `<meta>.json`,
@@ -74,9 +79,149 @@ The Make target uses the same single-run workflow:
 
 ```bash
 make run META=bayou
+make run META=bayou WORKERS=2
+make run META=bayou DIAGNOSTICS=1
 ```
 
 If `META` is omitted, Makefile run targets default to `bfmaster`.
+
+Useful CLI controls:
+
+- `--top-lineups N` controls how many recommended ordered pick-3 lineups appear in
+  reports. The CLI accepts values from `1` through `10`; the Makefile run target uses
+  `--top-lineups 10`.
+- `--workers N` runs optimizer restarts across process workers. `WORKERS=N` passes the
+  same value through `make run`.
+- `--diagnostics` enables progress and diagnostic logging. `DIAGNOSTICS=1` passes this
+  flag through `make run`; the `POGO_TEAM_OPTIMIZER_DIAGNOSTICS` environment variable
+  enables the same logging for direct CLI invocations.
+
+Multiprocessing is process-based, not thread-based. Worker runs split optimizer restarts
+into deterministic batches and reduce the best result in the parent process, which keeps
+CPU-bound scoring work parallel without parallelizing individual matchup cells or lineup
+resource-path calculations.
+
+## Syncing PvPoke Data
+
+PvPoke is vendored as a git submodule at `vendor/pvpoke`. Initialize it before running
+the local sync workflow:
+
+```bash
+git submodule update --init --recursive
+```
+
+The sync target reads local PvPoke gamemaster files and ranking JSON exports, then writes
+this repository's runtime inputs:
+
+```bash
+make sync
+```
+
+The workflow copies `vendor/pvpoke/src/data/gamemaster/pokemon.json` and `moves.json` to
+`data/pokemon.json` and `data/moves.json`. It also converts configured ranking JSON files
+into flat PvPoke rankings-page-compatible CSV files under `data/rankings/`, preserving the
+`cp{cp}_{cup}_{category}_rankings.csv` filename convention used by `data/metas.json`.
+Ranking JSON remains an intermediate sync source only; the optimizer continues to read the
+flat CSV files at runtime. Simulation matrix CSVs are not generated or overwritten by sync.
+PvPoke rankings and simulations are local calibration inputs, not runtime external tooling;
+normal CLI runs do not call PvPoke or execute PvPoke code.
+
+## Ranking-Aware Inputs
+
+Active metas declare PvPoke category ranking CSVs in `data/metas.json`. The supported
+categories are `overall`, `leads`, `switches`, `closers`, `attackers`, `chargers`, and
+`consistency`; each file is loaded as `Pokemon,Score` rows plus any extra PvPoke export
+columns. The repository keeps raw PvPoke scores available for diagnostics, while the
+application layer normalizes valid category scores onto a `0.0` to `1.0` scale for scoring.
+
+Each meta can define two ranking-path maps:
+
+- `ranking_paths` describes the active cup or format used for candidate quality, role fit,
+  and top-threat weighting.
+- `full_meta_ranking_paths` is optional broader league context for use cases that wire a
+  separate full-meta ranking profile.
+
+The legacy `switch_rankings_path` field remains only as a compatibility shim. New ranking
+inputs should use typed `ranking_paths` entries, and the CLI validates configured files
+before constructing repositories.
+
+Current CLI execution loads the active `ranking_paths` profile for category scoring,
+candidate eligibility, and top-threat weighting. Candidate rows must have complete matchup
+data across the configured shield matrices and a normalized species match in the active
+`overall` rankings before they are eligible for selection. Configured
+`full_meta_ranking_paths` provide the broader ranked meta context when present. Missing,
+invalid, or degenerate non-eligibility ranking values use deterministic neutral fallback
+behavior instead of making scoring crash or depend on file ordering.
+
+## Interpreting Lineup-Aware Results
+
+The optimizer recommends a bring-6 roster using full-team quality as the primary selection
+objective. Ordered pick-3 lineups remain recommended battle plans, diagnostics, and
+lower-priority tie-breakers after full bring-6 quality has been evaluated. Each six-Pokemon
+roster produces exactly `60` ordered lineups: `6` possible leads multiplied by `10`
+unordered back pairs from the remaining five Pokemon.
+
+Each ordered lineup has one lead and a canonical unordered back pair. Lead order remains
+meaningful, so `A` leading with `B/C` is different from `B` leading with `A/C`, while the
+back pair `B/C` is the same as `C/B` for the same lead.
+
+Lineup scoring uses fixed resource paths that connect the lead's shield use to the backs'
+remaining shields:
+
+- Balanced: lead `1` shield, backs `1` shield
+- Shield-spend: lead `2` shields, backs `0` shields
+- Shield-save: lead `0` shields, backs `2` shields
+
+For each matchup in a resource path, the back-pair result uses the better score from either
+back Pokemon. Lineup diagnostics count dominating matchups with score `> 600` and
+overwhelming losses with score `< 400`.
+
+The report includes recommended lineups as viable options for multi-battle play, not as a
+single mandatory default lineup. Bench utility explains how often each roster member appears
+in viable lineups and classifies members as core, flexible, specialist, low utility, or
+unbringable. Warnings call out low-usage or unbringable roster members and should be read as
+diagnostic caveats, not hard failures unless the output says otherwise.
+
+Normal text and Markdown reports intentionally focus on Recommended Bring-6 Roster, Team
+Analysis, Recommended Lineups, actionable warnings, and Potential Threats. They omit
+standalone Safe Cores, full-roster Coverage, and Resource / Shield Safety sections because
+actual battle interpretation belongs to ordered pick-3 lineup diagnostics. Bench utility
+appears in human-readable output only when there are actionable warnings.
+
+Structured diagnostics are retained where they remain useful for automation and analysis.
+JSON includes the full result payload, CSV keeps stable sections such as
+`recommended_lineup`, `recommended_lineup_resource_path`, `bench_utility`, and
+`bench_utility_warning`, and Excel uses dedicated sheets for lineup and bench diagnostics.
+
+For Battle Frontier metas, optional diagnostics show roster point totals, lineup point totals,
+free or low-point usage rates, high-point usage rates, and point-aware bench warnings. The MVP
+keeps Battle Frontier legality at the six-roster level and does not reject individual pick-3
+lineups for point totals.
+
+ABC, ABB, and ABA lineup labels remain heuristic diagnostics for interpreting team shape. When
+complete type and matchup data are available, evidence-derived synergy can affect `lineup_score`
+and is surfaced in the structured result payload as `score_summary.synergy_score`; labels alone
+are not tie-breakers or scoring inputs.
+
+Ranking-aware roster score breakdowns include weighted components for synergy, threat
+coverage, safety, consistency, bulk, defensive type ratio, offensive move ratio, and role fit.
+Today, roster-level threat coverage, safety, consistency, bulk, defensive ratio, and offensive
+ratio distinguish teams in the appended ranking-aware score, while roster-level synergy and
+role fit use neutral fallback diagnostics. Top-meta threats come from active `overall`
+rankings intersected with simulation columns; broad-meta threats come from configured
+full-meta rankings when present. Unranked simulation targets are excluded from threat
+scoring. Soft matchup diagnostics aggregate available 0-, 1-, and 2-shield scores with
+`0.30`, `0.50`, and `0.20` weights, renormalized when a scenario is absent. Full-team
+diagnostics expose A-F coverage, bulk, safety, and consistency grades plus a lower-is-better
+Threat Score. Scoring weights, thresholds, and grade cutoffs are internal implementation
+details, not CLI options. Explainability fields such as covered threats, remaining threats,
+no-answer threats, single-answer threats, shared weaknesses, role assumptions, and lineup
+dependency explain the selected roster but should not be treated as separate exporter-computed
+objectives.
+
+Deterministic ranking-aware regression fixtures live under
+`tests/fixtures/us031_weighted_scoring/`. Use those fixtures for small tests involving category
+rankings, top-threat/full-meta pools, type and move inputs, and weighted optimizer ordering.
 
 ## Fast Test Iteration
 
@@ -92,14 +237,16 @@ PYTHONPATH=src python -m pytest tests/unit/test_normalization.py::test_parse_spe
 
 - Keep matrix CSV row/column labels aligned across all shield files for a meta.
 - `pvpoke` export requires both `data/pokemon.json` and `data/moves.json`.
+- Legacy full-six dominate and overwhelming diagnostics are not battle coverage for actual
+  pick-3 play; use the ordered lineup sections for battle interpretation.
 
 ## Contributing
 
 For code changes, follow this local quality gate before opening a PR:
 
 ```bash
-make typecheck
 make lint
+make typecheck
 make test
 ```
 

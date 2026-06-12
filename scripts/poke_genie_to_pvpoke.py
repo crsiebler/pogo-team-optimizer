@@ -286,11 +286,12 @@ def _parse_ivs(row: dict[str, str]) -> tuple[int, int, int] | None:
     return atk, defense, stamina
 
 
-def export_marked_g_to_pvpoke(
+def export_marked_to_pvpoke(
     input_csv: Path,
     output_file: Path,
     pokemon_path: Path,
     moves_path: Path,
+    mark: str = "G",
     skip_report_path: Path | None = None,
 ) -> tuple[int, int, list[dict[str, str]]]:
     (
@@ -309,7 +310,7 @@ def export_marked_g_to_pvpoke(
     with input_csv.open(newline="", encoding="utf-8") as handle:
         reader = csv.DictReader(handle)
         for row in reader:
-            if row.get("Marked for PvP use", "").strip() != "U":
+            if row.get("Marked for PvP use", "").strip() != mark:
                 continue
 
             name = row.get("Name", "").strip()
@@ -431,7 +432,7 @@ def export_marked_g_to_pvpoke(
 
 def main() -> int:
     parser = argparse.ArgumentParser(
-        description="Convert Poke Genie CSV to PvPoke import lines for entries marked with G"
+        description="Convert Poke Genie CSV to PvPoke import lines for marked entries"
     )
     parser.add_argument(
         "--input", default="poke_genie_export.csv", help="Path to Poke Genie CSV"
@@ -452,21 +453,28 @@ def main() -> int:
         help="Path to moves dataset used for moveId resolution",
     )
     parser.add_argument(
+        "--mark",
+        default="G",
+        choices=("G", "U", "L"),
+        help="Marked for PvP use value to export",
+    )
+    parser.add_argument(
         "--skip-report",
         default=None,
         help="Optional CSV path for skipped row diagnostics",
     )
     args = parser.parse_args()
 
-    exported, skipped, skipped_rows = export_marked_g_to_pvpoke(
+    exported, skipped, skipped_rows = export_marked_to_pvpoke(
         input_csv=Path(args.input),
         output_file=Path(args.output),
         pokemon_path=Path(args.pokemon_path),
         moves_path=Path(args.moves_path),
+        mark=args.mark,
         skip_report_path=Path(args.skip_report) if args.skip_report else None,
     )
-    print(f"Exported {exported} rows to {args.output}")
-    print(f"Skipped {skipped} marked rows due to missing/invalid data")
+    print(f"Exported {exported} rows marked {args.mark} to {args.output}")
+    print(f"Skipped {skipped} rows marked {args.mark} due to missing/invalid data")
     if args.skip_report:
         print(f"Wrote skip diagnostics to {args.skip_report}")
     if skipped_rows:

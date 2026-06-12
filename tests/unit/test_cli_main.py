@@ -3,6 +3,7 @@ from pathlib import Path
 import pytest
 
 from pogo_team_optimizer.cli.main import build_parser, main
+from pogo_team_optimizer.domain.models import RankingCategory
 
 
 @pytest.mark.parametrize("meta", ["bfmaster", "bayou", "naic", "spellcraft"])
@@ -12,6 +13,57 @@ def test_build_parser_accepts_supported_metas(meta: str) -> None:
     args = parser.parse_args(["--meta", meta])
 
     assert args.meta == meta
+
+
+def test_build_parser_rejects_unsupported_crucible_meta() -> None:
+    parser = build_parser()
+
+    with pytest.raises(SystemExit, match="2"):
+        parser.parse_args(["--meta", "crucible"])
+
+
+def test_build_parser_defaults_to_five_top_lineups() -> None:
+    parser = build_parser()
+
+    args = parser.parse_args([])
+
+    assert args.top_lineups == 5
+
+
+def test_build_parser_defaults_to_one_worker() -> None:
+    parser = build_parser()
+
+    args = parser.parse_args([])
+
+    assert args.workers == 1
+
+
+def test_main_rejects_more_than_ten_top_lineups(monkeypatch) -> None:
+    monkeypatch.setattr("sys.argv", ["prog", "--top-lineups", "11"])
+
+    with pytest.raises(SystemExit, match="2"):
+        main()
+
+
+def test_main_rejects_negative_top_lineups(monkeypatch) -> None:
+    monkeypatch.setattr("sys.argv", ["prog", "--top-lineups", "-1"])
+
+    with pytest.raises(SystemExit, match="2"):
+        main()
+
+
+def test_main_rejects_zero_workers(monkeypatch) -> None:
+    monkeypatch.setattr("sys.argv", ["prog", "--workers", "0"])
+
+    with pytest.raises(SystemExit, match="2"):
+        main()
+
+
+def test_main_rejects_too_many_workers(monkeypatch) -> None:
+    monkeypatch.setattr("sys.argv", ["prog", "--workers", "33"])
+
+    with pytest.raises(SystemExit, match="2"):
+        main()
 
 
 def test_main_rejects_deprecated_output_argument(monkeypatch) -> None:
@@ -73,8 +125,10 @@ def test_main_uses_meta_switch_rankings_when_no_cli_override(tmp_path, monkeypat
     metas_config = tmp_path / "metas.json"
     pokemon_path = tmp_path / "pokemon.json"
     moves_path = tmp_path / "moves.json"
+    type_effectiveness_path = tmp_path / "type-effectiveness.json"
     pokemon_path.write_text("[]", encoding="utf-8")
     moves_path.write_text("[]", encoding="utf-8")
+    type_effectiveness_path.write_text("{}", encoding="utf-8")
     metas_config.write_text(
         f"""
         {{
@@ -85,7 +139,9 @@ def test_main_uses_meta_switch_rankings_when_no_cli_override(tmp_path, monkeypat
                 "{matrix_paths[1]}",
                 "{matrix_paths[2]}"
               ],
-              "switch_rankings_path": "{rankings_path}",
+              "ranking_paths": {{
+                "switches": "{rankings_path}"
+              }},
               "required_files": ["{points_path}"]
             }}
           }}
@@ -121,6 +177,10 @@ def test_main_uses_meta_switch_rankings_when_no_cli_override(tmp_path, monkeypat
             pokemon_repo: object,
             switch_repo: object,
             battle_frontier_points_repo: object | None = None,
+            move_repo: object | None = None,
+            type_effectiveness_repo: object | None = None,
+            rankings_repository: object | None = None,
+            full_meta_rankings_repository: object | None = None,
         ) -> None:
             captured["switch_repo"] = switch_repo
 
@@ -149,6 +209,8 @@ def test_main_uses_meta_switch_rankings_when_no_cli_override(tmp_path, monkeypat
             str(pokemon_path),
             "--moves-path",
             str(moves_path),
+            "--type-effectiveness-path",
+            str(type_effectiveness_path),
             "--output-dir",
             str(tmp_path / "output"),
         ],
@@ -156,6 +218,303 @@ def test_main_uses_meta_switch_rankings_when_no_cli_override(tmp_path, monkeypat
 
     assert main() == 0
     assert captured["switch_rankings_path"] == str(rankings_path)
+
+
+def test_main_reports_missing_configured_ranking_files_before_repositories(
+    tmp_path,
+    monkeypatch,
+) -> None:
+    matrix_paths = [tmp_path / f"great_{shield}-shield.csv" for shield in range(3)]
+    for path in matrix_paths:
+        path.write_text("", encoding="utf-8")
+
+    metas_config = tmp_path / "metas.json"
+    pokemon_path = tmp_path / "pokemon.json"
+    moves_path = tmp_path / "moves.json"
+    type_effectiveness_path = tmp_path / "type-effectiveness.json"
+    pokemon_path.write_text("[]", encoding="utf-8")
+    moves_path.write_text("[]", encoding="utf-8")
+    type_effectiveness_path.write_text("{}", encoding="utf-8")
+    missing_rankings_path = tmp_path / "missing_overall.csv"
+    metas_config.write_text(
+        f"""
+        {{
+          "metas": {{
+            "great": {{
+              "matrix_files": [
+                "{matrix_paths[0]}",
+                "{matrix_paths[1]}",
+                "{matrix_paths[2]}"
+              ],
+              "ranking_paths": {{
+                "overall": "{missing_rankings_path}"
+              }}
+            }}
+          }}
+        }}
+        """.strip(),
+        encoding="utf-8",
+    )
+
+    def fail_repository_construction(*_: object) -> object:
+        raise AssertionError("repositories should not be constructed")
+
+    monkeypatch.setattr(
+        "pogo_team_optimizer.cli.main.CsvSimulationMatrixRepository",
+        fail_repository_construction,
+    )
+    monkeypatch.setattr(
+        "sys.argv",
+        [
+            "prog",
+            "--meta",
+            "great",
+            "--metas-config",
+            str(metas_config),
+            "--pokemon-path",
+            str(pokemon_path),
+            "--moves-path",
+            str(moves_path),
+            "--type-effectiveness-path",
+            str(type_effectiveness_path),
+        ],
+    )
+
+    with pytest.raises(SystemExit, match="2"):
+        main()
+
+
+def test_main_switch_override_replaces_stale_configured_switch_path(tmp_path, monkeypatch) -> None:
+    matrix_paths = [tmp_path / f"great_{shield}-shield.csv" for shield in range(3)]
+    for path in matrix_paths:
+        path.write_text("", encoding="utf-8")
+
+    valid_overall_path = tmp_path / "overall.csv"
+    valid_override_path = tmp_path / "override_switches.csv"
+    valid_overall_path.write_text("Pokemon,Score\nLickilicky,93\n", encoding="utf-8")
+    valid_override_path.write_text("Pokemon,Score\nLickilicky,92\n", encoding="utf-8")
+
+    metas_config = tmp_path / "metas.json"
+    pokemon_path = tmp_path / "pokemon.json"
+    moves_path = tmp_path / "moves.json"
+    type_effectiveness_path = tmp_path / "type-effectiveness.json"
+    pokemon_path.write_text("[]", encoding="utf-8")
+    moves_path.write_text("[]", encoding="utf-8")
+    type_effectiveness_path.write_text("{}", encoding="utf-8")
+    metas_config.write_text(
+        f"""
+        {{
+          "metas": {{
+            "great": {{
+              "matrix_files": [
+                "{matrix_paths[0]}",
+                "{matrix_paths[1]}",
+                "{matrix_paths[2]}"
+              ],
+              "ranking_paths": {{
+                "overall": "{valid_overall_path}",
+                "switches": "{tmp_path / 'missing_switches.csv'}"
+              }}
+            }}
+          }}
+        }}
+        """.strip(),
+        encoding="utf-8",
+    )
+
+    captured: dict[str, object | None] = {"switch_rankings_path": None}
+    monkeypatch.setattr(
+        "pogo_team_optimizer.cli.main.CsvSimulationMatrixRepository",
+        lambda files: object(),
+    )
+    monkeypatch.setattr(
+        "pogo_team_optimizer.cli.main.PokemonJsonRepository",
+        lambda path: object(),
+    )
+
+    def fake_switch_rankings_repository(path: str) -> object:
+        captured["switch_rankings_path"] = path
+        return object()
+
+    monkeypatch.setattr(
+        "pogo_team_optimizer.cli.main.CsvSwitchRankingsRepository",
+        fake_switch_rankings_repository,
+    )
+
+    class FakeUseCase:
+        def __init__(self, *_: object, **__: object) -> None:
+            pass
+
+        def execute(self, **_: object) -> dict[str, object]:
+            return {}
+
+    monkeypatch.setattr("pogo_team_optimizer.cli.main.AnalyzeMetaUseCase", FakeUseCase)
+
+    class FakeExporter:
+        def export(self, result: dict[str, object], output_path: str | None = None) -> None:
+            return None
+
+    monkeypatch.setattr(
+        "pogo_team_optimizer.cli.main.ExporterFactory.create",
+        lambda *args, **kwargs: FakeExporter(),
+    )
+    monkeypatch.setattr(
+        "sys.argv",
+        [
+            "prog",
+            "--meta",
+            "great",
+            "--metas-config",
+            str(metas_config),
+            "--pokemon-path",
+            str(pokemon_path),
+            "--moves-path",
+            str(moves_path),
+            "--type-effectiveness-path",
+            str(type_effectiveness_path),
+            "--switch-rankings-path",
+            str(valid_override_path),
+            "--output-dir",
+            str(tmp_path / "output"),
+        ],
+    )
+
+    assert main() == 0
+    assert captured["switch_rankings_path"] == str(valid_override_path)
+
+
+def test_main_wires_category_rankings_repository_with_switch_override(tmp_path, monkeypatch) -> None:
+    matrix_paths = [tmp_path / f"great_{shield}-shield.csv" for shield in range(3)]
+    for path in matrix_paths:
+        path.write_text("", encoding="utf-8")
+
+    leads_path = tmp_path / "leads.csv"
+    configured_switches_path = tmp_path / "configured_switches.csv"
+    override_switches_path = tmp_path / "override_switches.csv"
+    full_meta_overall_path = tmp_path / "full_meta_overall.csv"
+    for path in (
+        leads_path,
+        configured_switches_path,
+        override_switches_path,
+        full_meta_overall_path,
+    ):
+        path.write_text("Pokemon,Score\nLickilicky,92\n", encoding="utf-8")
+
+    metas_config = tmp_path / "metas.json"
+    pokemon_path = tmp_path / "pokemon.json"
+    moves_path = tmp_path / "moves.json"
+    type_effectiveness_path = tmp_path / "type-effectiveness.json"
+    pokemon_path.write_text("[]", encoding="utf-8")
+    moves_path.write_text("[]", encoding="utf-8")
+    type_effectiveness_path.write_text("{}", encoding="utf-8")
+    metas_config.write_text(
+        f"""
+        {{
+          "metas": {{
+            "great": {{
+              "matrix_files": [
+                "{matrix_paths[0]}",
+                "{matrix_paths[1]}",
+                "{matrix_paths[2]}"
+              ],
+              "ranking_paths": {{
+                "leads": "{leads_path}",
+                "switches": "{configured_switches_path}"
+              }},
+              "full_meta_ranking_paths": {{
+                "overall": "{full_meta_overall_path}"
+              }}
+            }}
+          }}
+        }}
+        """.strip(),
+        encoding="utf-8",
+    )
+
+    captured: dict[str, object | None] = {
+        "ranking_paths_calls": [],
+        "rankings_repository": None,
+        "full_meta_rankings_repository": None,
+    }
+
+    monkeypatch.setattr(
+        "pogo_team_optimizer.cli.main.CsvSimulationMatrixRepository",
+        lambda files: object(),
+    )
+    monkeypatch.setattr(
+        "pogo_team_optimizer.cli.main.PokemonJsonRepository",
+        lambda path: object(),
+    )
+    monkeypatch.setattr(
+        "pogo_team_optimizer.cli.main.CsvSwitchRankingsRepository",
+        lambda path: object(),
+    )
+
+    class FakeRankingsRepository:
+        def __init__(self, ranking_paths: dict[RankingCategory | str, str]) -> None:
+            ranking_paths_calls = captured["ranking_paths_calls"]
+            assert isinstance(ranking_paths_calls, list)
+            ranking_paths_calls.append(dict(ranking_paths))
+
+    monkeypatch.setattr(
+        "pogo_team_optimizer.cli.main.CsvRankingsRepository",
+        FakeRankingsRepository,
+    )
+
+    class FakeUseCase:
+        def __init__(
+            self,
+            *_: object,
+            rankings_repository: object | None = None,
+            full_meta_rankings_repository: object | None = None,
+        ) -> None:
+            captured["rankings_repository"] = rankings_repository
+            captured["full_meta_rankings_repository"] = full_meta_rankings_repository
+
+        def execute(self, **_: object) -> dict[str, object]:
+            return {}
+
+    monkeypatch.setattr("pogo_team_optimizer.cli.main.AnalyzeMetaUseCase", FakeUseCase)
+
+    class FakeExporter:
+        def export(self, result: dict[str, object], output_path: str | None = None) -> None:
+            return None
+
+    monkeypatch.setattr(
+        "pogo_team_optimizer.cli.main.ExporterFactory.create",
+        lambda *args, **kwargs: FakeExporter(),
+    )
+    monkeypatch.setattr(
+        "sys.argv",
+        [
+            "prog",
+            "--meta",
+            "great",
+            "--metas-config",
+            str(metas_config),
+            "--pokemon-path",
+            str(pokemon_path),
+            "--moves-path",
+            str(moves_path),
+            "--type-effectiveness-path",
+            str(type_effectiveness_path),
+            "--switch-rankings-path",
+            str(override_switches_path),
+            "--output-dir",
+            str(tmp_path / "output"),
+        ],
+    )
+
+    assert main() == 0
+    assert captured["rankings_repository"] is not None
+    assert captured["full_meta_rankings_repository"] is not None
+    assert captured["ranking_paths_calls"] == [
+        {
+            RankingCategory.LEADS: str(leads_path),
+            RankingCategory.SWITCHES: str(override_switches_path),
+        },
+        {RankingCategory.OVERALL: str(full_meta_overall_path)},
+    ]
 
 
 def test_main_uses_legacy_default_switch_rankings_for_other_metas(tmp_path, monkeypatch) -> None:
@@ -169,8 +528,10 @@ def test_main_uses_legacy_default_switch_rankings_for_other_metas(tmp_path, monk
     metas_config = tmp_path / "metas.json"
     pokemon_path = tmp_path / "pokemon.json"
     moves_path = tmp_path / "moves.json"
+    type_effectiveness_path = tmp_path / "type-effectiveness.json"
     pokemon_path.write_text("[]", encoding="utf-8")
     moves_path.write_text("[]", encoding="utf-8")
+    type_effectiveness_path.write_text("{}", encoding="utf-8")
     metas_config.write_text(
         f"""
         {{
@@ -215,6 +576,10 @@ def test_main_uses_legacy_default_switch_rankings_for_other_metas(tmp_path, monk
             pokemon_repo: object,
             switch_repo: object,
             battle_frontier_points_repo: object | None = None,
+            move_repo: object | None = None,
+            type_effectiveness_repo: object | None = None,
+            rankings_repository: object | None = None,
+            full_meta_rankings_repository: object | None = None,
         ) -> None:
             captured["switch_repo"] = switch_repo
 
@@ -244,6 +609,8 @@ def test_main_uses_legacy_default_switch_rankings_for_other_metas(tmp_path, monk
             str(pokemon_path),
             "--moves-path",
             str(moves_path),
+            "--type-effectiveness-path",
+            str(type_effectiveness_path),
             "--switch-rankings-path",
             str(default_rankings_path),
             "--output-dir",
@@ -293,15 +660,17 @@ def test_main_exports_all_formats_from_one_analysis_result(tmp_path, monkeypatch
     )
 
     execute_calls = 0
+    execute_kwargs: dict[str, object] = {}
     result = {"recommended_team": {"members": [], "metrics": {}}, "coverage": [], "safe_cores": [], "threats": []}
 
     class FakeUseCase:
-        def __init__(self, *_: object) -> None:
+        def __init__(self, *_: object, **__: object) -> None:
             pass
 
-        def execute(self, **_: object) -> dict[str, object]:
+        def execute(self, **kwargs: object) -> dict[str, object]:
             nonlocal execute_calls
             execute_calls += 1
+            execute_kwargs.update(kwargs)
             return result
 
     monkeypatch.setattr("pogo_team_optimizer.cli.main.AnalyzeMetaUseCase", FakeUseCase)
@@ -337,12 +706,18 @@ def test_main_exports_all_formats_from_one_analysis_result(tmp_path, monkeypatch
             str(moves_path),
             "--output-dir",
             str(output_dir),
+            "--top-lineups",
+            "10",
+            "--workers",
+            "2",
         ],
     )
 
     assert main() == 0
 
     assert execute_calls == 1
+    assert execute_kwargs["top_lineups"] == 10
+    assert execute_kwargs["workers"] == 2
     assert capsys.readouterr().out == "text report\n"
     assert exports == [
         ("text", None, id(result)),

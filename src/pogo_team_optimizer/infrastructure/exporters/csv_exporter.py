@@ -47,6 +47,74 @@ class CsvExporter(AnalysisExporter):
                         f"none={metrics['no_cover_pairs']}/{metrics['total_pairs']}",
                     ]
                 )
+                if "battle_frontier_points_used" in metrics:
+                    writer.writerow(
+                        [
+                            "recommended_team",
+                            "battle_frontier_points_used",
+                            f"{metrics['battle_frontier_points_used']}/"
+                            f"{metrics['battle_frontier_max_points']}",
+                        ]
+                    )
+                if "battle_frontier_five_point_members" in metrics:
+                    writer.writerow(
+                        [
+                            "recommended_team",
+                            "battle_frontier_five_point_members",
+                            f"{metrics['battle_frontier_five_point_members']}/"
+                            f"{metrics['battle_frontier_max_five_point_members']}",
+                        ]
+                    )
+                if "battle_frontier_mega_members" in metrics:
+                    writer.writerow(
+                        [
+                            "recommended_team",
+                            "battle_frontier_mega_members",
+                            f"{metrics['battle_frontier_mega_members']}/"
+                            f"{metrics['battle_frontier_max_mega_members']}",
+                        ]
+                    )
+                if "battle_frontier_free_low_point_usage_rate" in metrics:
+                    writer.writerow(
+                        [
+                            "recommended_team",
+                            "battle_frontier_free_low_point_usage_rate",
+                            self._format_float(
+                                metrics["battle_frontier_free_low_point_usage_rate"], 4
+                            ),
+                        ]
+                    )
+                if "battle_frontier_high_point_usage_rate" in metrics:
+                    writer.writerow(
+                        [
+                            "recommended_team",
+                            "battle_frontier_high_point_usage_rate",
+                            self._format_float(metrics["battle_frontier_high_point_usage_rate"], 4),
+                        ]
+                    )
+
+            for index, lineup in enumerate(result.get("recommended_lineups", []), start=1):
+                writer.writerow(["recommended_lineup", f"#{index}", self._lineup_value(lineup)])
+                for resource_path in lineup.get("resource_paths", []):
+                    writer.writerow(
+                        [
+                            "recommended_lineup_resource_path",
+                            f"#{index} {resource_path['name']}",
+                            self._resource_path_value(resource_path),
+                        ]
+                    )
+
+            for item in result["recommended_team"].get("bench_utility", []):
+                member_label = self._sanitize_cell(item["member"]["label"])
+                writer.writerow(["bench_utility", member_label, self._bench_utility_value(item)])
+                for warning in item.get("warnings", []):
+                    writer.writerow(
+                        [
+                            "bench_utility_warning",
+                            member_label,
+                            self._bench_warning_value(warning),
+                        ]
+                    )
 
             for item in result["coverage"]:
                 writer.writerow(
@@ -94,3 +162,62 @@ class CsvExporter(AnalysisExporter):
                 )
 
         return None
+
+    def _lineup_value(self, lineup: dict[str, Any]) -> str:
+        score_summary = lineup.get("score_summary", {})
+        back_pair = lineup.get("back_pair", [])
+        value_parts = [
+            f"lead={lineup['lead']['label']}",
+            f"backs={', '.join(member['label'] for member in back_pair)}",
+            f"shape={lineup.get('team_shape', '')}",
+            f"score={self._format_float(lineup.get('lineup_score', 0.0), 2)}",
+            f"mean={self._format_float(score_summary.get('mean_score', 0.0), 2)}",
+            f"dominating={score_summary.get('dominating_matchups', 0)}",
+            f"overwhelming={score_summary.get('overwhelming_matchups', 0)}",
+        ]
+        if "battle_frontier_points_used" in lineup:
+            value_parts.append(f"points={lineup['battle_frontier_points_used']}")
+        return ";".join(value_parts)
+
+    def _resource_path_value(self, resource_path: dict[str, Any]) -> str:
+        return ";".join(
+            [
+                f"lead_shield={resource_path['lead_shield']}",
+                f"back_shield={resource_path['back_shield']}",
+                f"mean_best_score={self._format_float(resource_path.get('mean_best_score', 0.0), 2)}",
+                f"dominating={resource_path.get('dominating_matchups', 0)}",
+                f"overwhelming={resource_path.get('overwhelming_matchups', 0)}",
+            ]
+        )
+
+    def _bench_utility_value(self, item: dict[str, Any]) -> str:
+        return ";".join(
+            [
+                f"tier={item['tier']}",
+                f"lineups_used={item['lineups_used']}",
+                f"lead_lineups_used={item['lead_lineups_used']}",
+                f"back_lineups_used={item['back_lineups_used']}",
+                f"viable_lineup_rate={self._format_float(item['viable_lineup_rate'], 4)}",
+                f"all_lineup_rate={self._format_float(item['all_lineup_rate'], 4)}",
+                f"best_lineup_score={self._format_float(item['best_lineup_score'], 2)}",
+            ]
+        )
+
+    def _bench_warning_value(self, warning: dict[str, Any]) -> str:
+        return ";".join(
+            [
+                f"category={warning['category']}",
+                f"code={warning['code']}",
+                f"severity={warning['severity']}",
+                f"message={warning['message']}",
+            ]
+        )
+
+    def _format_float(self, value: Any, digits: int) -> str:
+        return f"{float(value):.{digits}f}"
+
+    def _sanitize_cell(self, value: Any) -> str:
+        rendered = str(value)
+        if rendered.startswith(("=", "+", "-", "@", "\t", "\r")):
+            return f"'{rendered}"
+        return rendered

@@ -1,0 +1,212 @@
+Pokemon,Score,Dex,Type 1,Type 2,Attack,Defense,Stamina,Stat Product,Level,CP,Fast Move,Charged Move 1,Charged Move 2,Charged Move 1 Count,Charged Move 2 Count,Buddy Distance,Charged Move Cost
+Hypno,100,97,psychic,none,,,,,27,,Confusion,Shadow Ball,Psyshock,4,3,3,50000
+Dartrix,99.7,723,grass,flying,,,,,36.5,,Peck,Brave Bird,Seed Bomb,7,5,3,10000
+Emolga,95.1,587,electric,flying,,,,,39.5,,Thunder Shock,Acrobatics,Discharge,7,5,1,10000
+Tropius,94.2,357,grass,flying,,,,,29,,Air Slash,Brutal Swing,Leaf Blade,4,4,5,75000
+Orbeetle,93.4,826,bug,psychic,,,,,25.5,,Psycho Cut,Psyshock,Bug Buzz,5,7,1,10000
+Uxie,90.5,480,psychic,none,,,,,22,,Confusion,Swift,Future Sight,3,5,20,100000
+Venomoth,88.5,49,bug,poison,,,,,27,,Psywave,Poison Fang,Silver Wind,10,12,3,50000
+Swadloon,86.8,541,bug,grass,,,,,50,,Bug Bite,Silver Wind,Bug Buzz,15,20,1,10000
+Weezing (Galarian),86.8,110,poison,fairy,,,,,24.5,,Fairy Wind,Brutal Swing,Sludge,4,5,3,50000
+Grumpig,85.4,326,psychic,none,,,,,23.5,,Psywave,Shadow Ball,Dynamic Punch,13,12,1,10000
+Kricketune,85.1,402,bug,none,,,,,38,,Fury Cutter,X-Scissor,Aerial Ace,10,12,1,10000
+Butterfree,83.7,12,bug,flying,,,,,31.5,,Bug Bite,Bug Buzz,Signal Beam,20,19,1,10000
+Girafarig,83.4,203,normal,psychic,,,,,27.5,,Confusion,Psychic Fangs,Trailblaze,3,4,3,50000
+Muk,82.8,89,poison,none,,,,,20,,Poison Jab,Dark Pulse,Thunder Punch,8,6,3,50000
+Grafaiai,80.8,945,poison,normal,,,,,24.5,,Poison Jab,Poison Fang,Sludge Bomb,6,8,3,50000
+Wyrdeer,80,899,normal,psychic,,,,,20,,Confusion,Wild Charge,Megahorn,4,4,5,75000
+Parasect,78.5,47,bug,grass,,,,,30.5,,Fury Cutter,X-Scissor,Cross Poison,10,9,3,50000
+Tentacruel,78.2,73,water,poison,,,,,23,,Acid,Scald,Payback,7,8,3,50000
+Electrode,78,101,electric,none,,,,,27,,Volt Switch,Foul Play,Hyper Beam,3,5,3,50000
+Misdreavus,77.4,200,ghost,none,,,,,29,,Astonish,Shadow Sneak,Dark Pulse,5,5,3,50000
+Houndstone,76.5,972,ghost,none,,,,,22,,Lick,Shadow Ball,Psychic Fangs,17,12,3,50000
+Scolipede,76.5,545,bug,poison,,,,,22.5,,Bug Bite,X-Scissor,Aqua Tail,14,12,1,10000
+Grotle,76,388,grass,none,,,,,30,,Bite,Body Slam,Energy Ball,18,23,3,10000
+Dustox,75.7,269,bug,poison,,,,,50,,Confusion,Sludge Bomb,Silver Wind,4,4,1,10000
+Mothim,75.7,414,bug,flying,,,,,31.5,,Bug Bite,Aerial Ace,Bug Buzz,15,20,1,10000
+Pineco,75.7,204,bug,none,,,,,50,,Bug Bite,Rock Tomb,Sand Tomb,17,14,5,75000
+Grimer,75.1,88,poison,none,,,,,50,,Poison Jab,Sludge,Mud Bomb,6,7,3,50000
+Ampharos,74.8,181,electric,none,,,,,19.5,,Volt Switch,Brutal Swing,Power Gem,3,4,5,75000
+Delphox,74.8,655,fire,psychic,,,,,18,,Fire Spin,Psyshock,Blast Burn,4,5,3,10000
+Scyther,74.8,123,bug,flying,,,,,20.5,,Fury Cutter,X-Scissor,Night Slash,10,9,5,75000
+Slowbro (Galarian),74.5,80,poison,psychic,,,,,22.5,,Confusion,Brutal Swing,Sludge Bomb,3,4,3,50000
+Vivillon,74,666,bug,flying,,,,,30,,Gust,Aerial Ace,Bug Buzz,4,5,1,10000
+Ludicolo,73.7,272,water,grass,,,,,24,,Astonish,Weather Ball (Water),Ice Beam,4,6,3,50000
+Dedenne,73.1,702,electric,fairy,,,,,30,,Thunder Shock,Parabolic Charge,Play Rough,6,7,3,50000
+Eelektrik,73.1,603,electric,none,,,,,35.5,,Acid,Crunch,Discharge,6,5,1,10000
+Wormadam (Plant),72.2,413,bug,grass,,,,,34.5,,Sucker Punch,Bug Buzz,Energy Ball,9,7,1,10000
+Crobat,71.7,169,poison,flying,,,,,21,,Air Slash,Air Cutter,Cross Poison,4,4,1,10000
+Oricorio (Pom-Pom),71.4,741,electric,flying,,,,,24,,Air Slash,Air Cutter,Aerial Ace,4,5,3,75000
+Decidueye,71.1,724,grass,ghost,,,,,20,,Astonish,Frenzy Plant,Spirit Shackle,5,4,3,10000
+Shiinotic,70.8,756,grass,fairy,,,,,31,,Astonish,Moonblast,Sludge Bomb,6,5,3,50000
+Golisopod,70.5,768,bug,water,,,,,17.5,,Shadow Claw,X-Scissor,Aqua Jet,5,5,1,10000
+Swoobat,70.5,528,psychic,flying,,,,,34.5,,Confusion,Fly,Psychic Fangs,4,3,1,10000
+Ariados,70.2,168,bug,poison,,,,,33.5,,Poison Sting,Shadow Sneak,Lunge,6,5,1,10000
+Meowstic (Male),70.2,678,psychic,none,,,,,26,,Sucker Punch,Psychic,Thunderbolt,8,8,3,50000
+Hoopa,70,720,psychic,ghost,,,,,16,,Astonish,Shadow Ball,Psychic,5,6,20,100000
+Masquerain,69.7,284,bug,flying,,,,,24.5,,Infestation,Air Cutter,Lunge,3,4,1,10000
+Slowpoke (Galarian),69.4,79,psychic,none,,,,,50,,Confusion,Psyshock,Surf,3,4,3,50000
+Medicham,69.1,308,fighting,psychic,,,,,49,,Psycho Cut,Ice Punch,Dynamic Punch,5,5,3,50000
+Dolliv,68.8,929,grass,normal,,,,,50,,Tackle,Trailblaze,Seed Bomb,15,14,3,50000
+Sinistcha,68,1013,grass,ghost,,,,,18.5,,Astonish,Shadow Ball,Energy Ball,5,5,3,50000
+Slowpoke,68,79,water,psychic,,,,,50,,Confusion,Psyshock,Water Pulse,3,4,3,50000
+Xatu,68,178,psychic,flying,,,,,25.5,,Peck,Psyshock,Aerial Ace,5,6,3,50000
+Bellossom,67.7,182,grass,none,,,,,24.5,,Acid,Leaf Blade,Dazzling Gleam,5,7,3,50000
+Chimecho,65.7,358,psychic,none,,,,,25,,Astonish,Psyshock,Shadow Ball,4,5,5,75000
+Appletun,65.4,842,grass,dragon,,,,,23,,Astonish,Outrage,Dragon Pulse,6,6,5,75000
+Galvantula,65.1,596,bug,electric,,,,,25.5,,Fury Cutter,Cross Poison,Lunge,9,12,3,50000
+Lurantis,65.1,754,grass,none,,,,,23,,Fury Cutter,Leaf Blade,X-Scissor,9,10,3,50000
+Slowking,65.1,199,water,psychic,,,,,22,,Confusion,Surf,Blizzard,4,6,3,50000
+Wobbuffet,65.1,202,psychic,none,,,,,50,,Charm,Return,Mirror Coat,9,7,3,50000
+Slowbro,64,80,water,psychic,,,,,22,,Confusion,Surf,Ice Beam,4,4,3,50000
+Beedrill,63.7,15,bug,poison,,,,,30.5,,Poison Sting,X-Scissor,Drill Run,5,5,1,10000
+Servine,63.7,496,grass,none,,,,,50,,Vine Whip,Wrap,Grass Knot,6,7,3,10000
+Mew,62.2,151,psychic,none,,,,,16.5,,Shadow Claw,Dark Pulse,Psyshock,7,5,20,100000
+Gengar,61.1,94,ghost,poison,,,,,19,,Shadow Claw,Shadow Punch,Shadow Ball,5,7,3,50000
+Seviper,61.1,336,poison,none,,,,,26.5,,Poison Jab,Poison Fang,Crunch,6,7,3,50000
+Electrode (Hisuian),60.5,101,electric,grass,,,,,26,,Thunder Shock,Wild Charge,Swift,5,4,3,50000
+Weezing,60.2,110,poison,none,,,,,25,,Rollout,Shadow Ball,Sludge Bomb,4,4,3,50000
+Gothorita,59.4,575,psychic,none,,,,,40,,Confusion,Future Sight,Psychic,5,4,3,50000
+Sigilyph,59.4,561,psychic,flying,,,,,21.5,,Air Slash,Air Cutter,Ancient Power,4,5,5,75000
+Gothitelle,58.2,576,psychic,none,,,,,23,,Confusion,Rock Slide,Future Sight,4,5,3,50000
+Oricorio (Pa'u),58.2,741,psychic,flying,,,,,24,,Air Slash,Air Cutter,Aerial Ace,4,5,3,75000
+Leavanny,58,542,bug,grass,,,,,21.5,,Shadow Claw,X-Scissor,Leaf Blade,5,5,1,10000
+Drowzee,57.7,96,psychic,none,,,,,50,,Confusion,Psyshock,Return,3,5,3,50000
+Sceptile,57.7,254,grass,none,,,,,20,,Fury Cutter,Leaf Blade,Aerial Ace,9,12,3,10000
+Arboliva,57.1,930,grass,normal,,,,,18.5,,Tackle,Trailblaze,Seed Bomb,15,14,3,50000
+Sneasel (Hisuian),57.1,215,fighting,poison,,,,,27,,Poison Jab,X-Scissor,Close Combat,6,7,3,50000
+Trevenant,57.1,709,ghost,grass,,,,,22,,Shadow Claw,Shadow Ball,Foul Play,7,5,5,75000
+Nidorino,56.5,33,poison,none,,,,,47.5,,Poison Sting,Sludge Bomb,Ice Beam,6,7,3,50000
+Raichu,56.5,26,electric,none,,,,,25.5,,Volt Switch,Wild Charge,Brick Break,3,3,1,10000
+Tentacool,56.5,72,water,poison,,,,,50,,Poison Sting,Wrap,Water Pulse,5,6,3,50000
+Arbok,56.2,24,poison,none,,,,,29,,Acid,Dark Pulse,Sludge Wave,7,9,3,50000
+Frosmoth,56.2,873,ice,bug,,,,,20.5,,Powder Snow,Icy Wind,Bug Buzz,6,8,5,75000
+Haunter,55.7,93,ghost,poison,,,,,28,,Shadow Claw,Shadow Punch,Ice Punch,5,5,3,50000
+Meowstic (Female),55.4,678,psychic,none,,,,,26,,Confusion,Shadow Ball,Psychic,4,4,3,50000
+Qwilfish,54.8,211,water,poison,,,,,27,,Poison Sting,Aqua Tail,Ice Beam,4,7,3,50000
+Gogoat,54,673,grass,none,,,,,19.5,,Vine Whip,Leaf Blade,Rock Slide,5,6,3,50000
+Jolteon,54,135,electric,none,,,,,19,,Volt Switch,Discharge,Last Resort,3,4,5,75000
+Mesprit,54,481,psychic,none,,,,,18,,Confusion,Swift,Future Sight,3,5,20,100000
+Victreebel,53.1,71,grass,poison,,,,,23,,Acid,Leaf Blade,Sludge Bomb,5,7,3,50000
+Volbeat,53.1,313,bug,none,,,,,33.5,,Struggle Bug,Bug Buzz,Signal Beam,8,7,3,50000
+Illumise,52.8,314,bug,none,,,,,33.5,,Struggle Bug,Silver Wind,Bug Buzz,6,8,3,50000
+Pinsir,52.8,127,bug,none,,,,,18.5,,Fury Cutter,X-Scissor,Close Combat,10,12,5,75000
+Rapidash (Galarian),52.8,78,psychic,fairy,,,,,22.5,,Psycho Cut,Body Slam,Megahorn,4,7,3,50000
+Heliolisk,52.5,695,electric,normal,,,,,21.5,,Volt Switch,Parabolic Charge,Grass Knot,4,4,3,50000
+Luxray,52.5,405,electric,none,,,,,19,,Spark,Crunch,Psychic Fangs,7,5,5,75000
+Braviary (Hisuian),52.2,628,psychic,flying,,,,,19.5,,Air Slash,Brave Bird,Fly,7,5,5,75000
+Espurr,52,677,psychic,none,,,,,50,,Confusion,Psyshock,Energy Ball,3,4,3,50000
+Serperior,51.7,497,grass,none,,,,,25,,Vine Whip,Frenzy Plant,Aerial Ace,6,6,3,10000
+Ninjask,50.5,291,bug,flying,,,,,28.5,,Fury Cutter,Shadow Ball,Aerial Ace,13,12,5,75000
+Raichu (Alolan),50.5,26,electric,psychic,,,,,24,,Thunder Shock,Wild Charge,Psyshock,5,5,1,10000
+Snover,50.5,459,grass,ice,,,,,50,,Powder Snow,Ice Beam,Stomp,7,5,3,50000
+Heracross,50.2,214,bug,fighting,,,,,17.5,,Fury Cutter,Megahorn,Rock Tomb,14,13,3,50000
+Skorupi,49.7,451,poison,bug,,,,,50,,Poison Sting,Cross Poison,Aqua Tail,4,4,5,75000
+Yanma,49.7,193,bug,flying,,,,,46.5,,Wing Attack,Aerial Ace,Silver Wind,6,6,3,50000
+Banette,49.4,354,ghost,none,,,,,24,,Shadow Claw,Shadow Ball,Dazzling Gleam,7,7,3,50000
+Celebi,49.4,251,psychic,grass,,,,,16.5,,Confusion,Aura Sphere,Psychic,3,4,20,100000
+Gardevoir,49.4,282,psychic,fairy,,,,,18,,Confusion,Shadow Ball,Triple Axel,4,4,5,75000
+Shaymin (Sky),49.1,492,grass,flying,,,,,15.5,,Hidden Power (Flying),Grass Knot,Energy Ball,7,6,20,100000
+Electabuzz,48.8,125,electric,none,,,,,24,,Thunder Shock,Thunder Punch,Return,5,8,5,75000
+Deoxys (Defense),48.5,386,psychic,none,,,,,23.5,,Counter,Psycho Boost,Rock Slide,6,8,20,100000
+Electivire,48.5,466,electric,none,,,,,18,,Thunder Shock,Ice Punch,Wild Charge,5,5,5,75000
+Hattrem,48.5,857,psychic,none,,,,,38.5,,Confusion,Dazzling Gleam,Psychic,4,4,5,50000
+Gallade,48.2,475,psychic,fighting,,,,,18,,Confusion,Leaf Blade,Close Combat,3,4,5,75000
+Mr. Mime,48.2,122,psychic,fairy,,,,,25,,Psywave,Shadow Ball,Psychic,13,14,5,75000
+Meganium,47.7,154,grass,none,,,,,23,,Vine Whip,Frenzy Plant,Return,6,9,3,10000
+Roselia,47.7,315,grass,poison,,,,,29.5,,Poison Jab,Sludge Bomb,Dazzling Gleam,8,8,3,50000
+Sawsbuck,47.4,586,normal,grass,,,,,23,,Feint Attack,Wild Charge,Megahorn,8,10,3,50000
+Sneasler,47.4,903,fighting,poison,,,,,17,,Shadow Claw,X-Scissor,Close Combat,5,6,5,75000
+Whirlipede,47.4,544,bug,poison,,,,,50,,Poison Sting,Sludge Bomb,Signal Beam,6,7,1,10000
+Beheeyem,47.1,606,psychic,none,,,,,20,,Confusion,Rock Slide,Dark Pulse,4,4,3,50000
+Indeedee (Female),47.1,876,psychic,normal,,,,,23.5,,Extrasensory,Psychic,Energy Ball,6,5,3,50000
+Skrelp,47.1,690,poison,water,,,,,50,,Acid,Aqua Tail,Twister,5,5,3,50000
+Elgyem,46.8,605,psychic,none,,,,,48,,Confusion,Dark Pulse,Psychic,4,4,3,50000
+Kilowattrel,46.8,941,electric,flying,,,,,22.5,,Thunder Shock,Acrobatics,Aerial Ace,7,5,1,10000
+Mr. Mime (Galarian),46.8,122,ice,psychic,,,,,27,,Confusion,Ice Punch,Triple Axel,3,4,5,75000
+Mr. Rime,46.8,866,ice,psychic,,,,,19.5,,Confusion,Ice Punch,Triple Axel,3,4,5,75000
+Exeggcute,46.5,102,grass,psychic,,,,,50,,Confusion,Ancient Power,Seed Bomb,4,3,3,50000
+Deerling,46.2,585,normal,grass,,,,,50,,Tackle,Wild Charge,Trailblaze,15,15,3,50000
+Thwackey,46.2,811,grass,none,,,,,30,,Scratch,Grass Knot,Energy Ball,25,23,3,10000
+Gloom,46,44,grass,poison,,,,,37,,Acid,Sludge Bomb,Moonblast,7,8,3,50000
+Garbodor,45.7,569,poison,none,,,,,23.5,,Infestation,Body Slam,Gunk Shot,3,7,3,50000
+Bayleef,45.4,153,grass,none,,,,,49.5,,Magical Leaf,Ancient Power,Grass Knot,5,5,3,10000
+Quilladin,45.4,651,grass,none,,,,,35,,Vine Whip,Body Slam,Gyro Ball,5,7,3,10000
+Yanmega,45.4,469,bug,flying,,,,,19,,Wing Attack,Aerial Ace,Bug Buzz,6,8,3,50000
+Elekid,45.1,239,electric,none,,,,,50,,Thunder Shock,Thunder Punch,Brick Break,5,5,5,10000
+Exeggutor,45.1,103,grass,psychic,,,,,18.5,,Confusion,Psychic,Seed Bomb,4,3,3,50000
+Dottler,43.7,825,bug,psychic,,,,,50,,Confusion,Bug Buzz,Psychic,5,4,1,10000
+Jynx,43.7,124,ice,psychic,,,,,21.5,,Confusion,Avalanche,Ice Punch,4,3,5,75000
+Bruxish,43.4,779,water,psychic,,,,,23,,Confusion,Psyshock,Psychic Fangs,3,3,3,50000
+Espeon,43.1,196,psychic,none,,,,,17.5,,Confusion,Shadow Ball,Psychic Fangs,4,3,5,75000
+Flaaffy,43.1,180,electric,none,,,,,44,,Tackle,Power Gem,Discharge,17,14,5,75000
+Azelf,42.8,482,psychic,none,,,,,17,,Confusion,Swift,Future Sight,3,5,20,100000
+Roserade,42.8,407,grass,poison,,,,,18.5,,Poison Sting,Weather Ball (Fire),Sludge Bomb,4,6,3,50000
+Starmie,42.8,121,water,psychic,,,,,21.5,,Psywave,Power Gem,Surf,13,12,3,50000
+Venusaur,42.8,3,grass,poison,,,,,20.5,,Vine Whip,Sludge,Frenzy Plant,5,6,3,10000
+Leafeon,42.5,470,grass,none,,,,,19,,Quick Attack,Leaf Blade,Last Resort,5,7,5,75000
+Karrablast,42.2,588,bug,none,,,,,50,,Fury Cutter,X-Scissor,Drill Run,10,10,3,50000
+Vileplume,42.2,45,grass,poison,,,,,21.5,,Acid,Sludge Bomb,Moonblast,7,8,3,50000
+Rillaboom,42,812,grass,none,,,,,16.5,,Scratch,Drum Beating,Frenzy Plant,18,23,3,10000
+Mismagius,41.4,429,ghost,none,,,,,21,,Hex,Shadow Ball,Dark Pulse,4,4,3,50000
+Oddish,40.8,43,grass,poison,,,,,50,,Acid,Sludge Bomb,Seed Bomb,7,5,3,50000
+Toxicroak,40.8,454,poison,fighting,,,,,22.5,,Poison Sting,Shadow Ball,Sludge Bomb,6,6,3,50000
+Flapple,40,841,grass,dragon,,,,,22.5,,Dragon Breath,Fly,Outrage,12,15,5,75000
+Weepinbell,39.7,70,grass,poison,,,,,40.5,,Acid,Sludge Bomb,Power Whip,7,7,3,50000
+Beautifly,39.4,267,bug,flying,,,,,33,,Infestation,Air Cutter,Silver Wind,3,4,1,10000
+Dipplin,39.4,1011,grass,dragon,,,,,23.5,,Dragon Tail,Outrage,Dragon Pulse,5,5,5,75000
+Koffing,39.4,109,poison,none,,,,,50,,Tackle,Sludge,Dark Pulse,14,17,3,50000
+Eelektross,39.1,604,electric,none,,,,,20,,Acid,Crunch,Thunderbolt,6,7,1,10000
+Manectric,38.8,310,electric,none,,,,,23.5,,Snarl,Wild Charge,Psychic Fangs,4,3,3,50000
+Tangrowth,38.5,465,grass,none,,,,,18,,Vine Whip,Rock Slide,Sludge Bomb,6,7,3,50000
+Lilligant,37.7,549,grass,none,,,,,22,,Charm,Hyper Beam,Petal Blizzard,10,9,1,10000
+Reuniclus,36.8,579,psychic,none,,,,,19,,Charm,Psyshock,Shadow Ball,5,7,3,50000
+Eldegoss,36.5,830,grass,none,,,,,28.5,,Bullet Seed,Grass Knot,Energy Ball,4,4,3,50000
+Cherrim (Sunshine),36.2,421,grass,none,,,,,27.5,,Bullet Seed,Weather Ball (Fire),Dazzling Gleam,3,5,1,10000
+Hydrapple,36,1019,grass,dragon,,,,,17,,Dragon Tail,Outrage,Dragon Pulse,5,5,5,75000
+Pawmo,36,922,electric,fighting,,,,,50,,Thunder Shock,Wild Charge,Thunder Punch,5,5,3,75000
+Exeggutor (Alolan),35.4,103,grass,dragon,,,,,18.5,,Dragon Tail,Dragon Pulse,Seed Bomb,5,4,3,50000
+Maractus,35.4,556,grass,none,,,,,24.5,,Poison Jab,Aerial Ace,Petal Blizzard,7,10,1,10000
+Polteageist,34.5,855,ghost,none,,,,,18,,Hex,Shadow Ball,Dark Pulse,4,4,3,50000
+Minun,33.7,312,electric,none,,,,,36.5,,Quick Attack,Thunderbolt,Grass Knot,7,7,3,50000
+Decidueye (Hisuian),33.4,724,grass,fighting,,,,,19,,Psycho Cut,Night Shade,Aura Sphere,5,5,3,10000
+Indeedee (Male),33.4,876,psychic,normal,,,,,22.5,,Extrasensory,Shadow Ball,Psychic,5,6,3,50000
+Luxio,32.8,404,electric,none,,,,,47.5,,Spark,Wild Charge,Crunch,7,7,5,75000
+Ponyta (Galarian),32.2,77,psychic,none,,,,,36,,Psycho Cut,Swift,Psybeam,4,7,3,50000
+Zebstrika,32,523,electric,none,,,,,23,,Spark,Wild Charge,Flame Charge,7,8,3,50000
+Ivysaur,31.7,2,grass,poison,,,,,37.5,,Vine Whip,Sludge Bomb,Power Whip,7,7,3,10000
+Spoink,31.7,325,psychic,none,,,,,50,,Zen Headbutt,Shadow Ball,Return,9,12,1,10000
+Duosion,31.4,578,psychic,none,,,,,27.5,,Hidden Power (Psychic),Psyshock,Night Shade,5,6,3,50000
+Musharna,31.4,518,psychic,none,,,,,20.5,,Charge Beam,Psyshock,Dazzling Gleam,4,5,3,50000
+Solosis,31.4,577,psychic,none,,,,,49,,Hidden Power (Psychic),Psyshock,Night Shade,5,6,3,50000
+Unown,30.8,201,psychic,none,,,,,50,,Hidden Power (Ice),Struggle,,13,0,5,75000
+Chesnaught,30.5,652,grass,fighting,,,,,19,,Vine Whip,Frenzy Plant,Thunder Punch,6,5,3,10000
+Lilligant (Hisuian),30.5,549,grass,fighting,,,,,22,,Leafage,Leaf Blade,Acrobatics,5,7,1,10000
+Grovyle,30.2,253,grass,none,,,,,36.5,,Quick Attack,Leaf Blade,Aerial Ace,5,6,3,10000
+Tsareena,30,763,grass,none,,,,,18.5,,Magical Leaf,Triple Axel,Grass Knot,5,5,3,10000
+Boltund,29.7,836,electric,none,,,,,26,,Spark,Crunch,Thunder,7,9,1,50000
+Shaymin (Land),29.4,492,grass,none,,,,,17,,Magical Leaf,Grass Knot,Energy Ball,5,5,20,100000
+Rowlet,28.5,722,grass,flying,,,,,50,,Leafage,Seed Bomb,Energy Ball,5,6,3,10000
+Whimsicott,28.5,547,grass,fairy,,,,,28,,Fairy Wind,Moonblast,Hurricane,7,7,1,10000
+Accelgor,28.2,617,bug,none,,,,,22.5,,Acid,Bug Buzz,Signal Beam,8,7,3,50000
+Floragato,28.2,907,grass,none,,,,,37,,Leafage,Grass Knot,Play Rough,7,8,3,10000
+Breloom,28,286,grass,fighting,,,,,21,,Force Palm,Sludge Bomb,Dynamic Punch,5,5,3,50000
+Turtwig,27.7,387,grass,none,,,,,50,,Tackle,Body Slam,Seed Bomb,12,14,3,10000
+Chespin,25.1,650,grass,none,,,,,50,,Vine Whip,Body Slam,Gyro Ball,5,7,3,10000
+Chinchou,25.1,170,water,electric,,,,,50,,Bubble,Water Pulse,Thunderbolt,5,5,3,50000
+Pawmot,24,923,electric,fighting,,,,,21,,Thunder Shock,Wild Charge,Close Combat,5,5,3,75000
+Plusle,23.1,311,electric,none,,,,,33,,Quick Attack,Thunderbolt,Grass Knot,7,7,3,50000
+Ribombee,22.5,743,bug,fairy,,,,,25.5,,Fairy Wind,Bug Buzz,Dazzling Gleam,7,7,1,10000
+Tangela,22.5,114,grass,none,,,,,25,,Vine Whip,Sludge Bomb,Grass Knot,7,7,3,50000
+Alakazam,22,65,psychic,none,,,,,18,,Psycho Cut,Shadow Ball,Fire Punch,6,5,3,50000
+Carnivine,21.4,455,grass,none,,,,,25.5,,Vine Whip,Crunch,Power Whip,6,7,5,75000
+Hatterene,21.1,858,psychic,fairy,,,,,19.5,,Psycho Cut,Power Whip,Dazzling Gleam,6,7,5,50000
+Lombre,20.5,271,water,grass,,,,,50,,Bubble,Ice Beam,Scald,5,5,3,50000
+Simisage,19.1,512,grass,none,,,,,23.5,,Vine Whip,Crunch,Grass Knot,6,7,3,50000
+Bulbasaur,18.5,1,grass,poison,,,,,50,,Vine Whip,Sludge Bomb,Power Whip,7,7,3,10000
+Kadabra,18.2,64,psychic,none,,,,,27,,Psycho Cut,Shadow Ball,Dazzling Gleam,6,7,3,50000
+Munna,18,517,psychic,none,,,,,50,,Charge Beam,Psyshock,Dazzling Gleam,4,5,3,50000
+Sunflora,17.4,192,grass,none,,,,,26,,Bullet Seed,Sludge Bomb,Leaf Storm,4,5,3,50000
+Deoxys (Speed),15.7,386,psychic,none,,,,,18.5,,Charge Beam,Psycho Boost,Swift,4,4,20,100000
+Cherrim (Overcast),15.1,421,grass,none,,,,,27.5,,Bullet Seed,Dazzling Gleam,Hyper Beam,5,7,1,10000
+Skiddo,15.1,672,grass,none,,,,,50,,Rock Smash,Rock Slide,Seed Bomb,7,6,3,50000
