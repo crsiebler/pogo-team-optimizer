@@ -1,0 +1,64 @@
+section,key,value
+recommended_team,member,Lapras Psy+IB/SpA 0/10/14
+recommended_team,member,Mandibuzz Sn+SB/FoP 0/13/15
+recommended_team,member,Carbink RTh+M/RS 5/15/15
+recommended_team,member,Toxapex PJ+SW/Bri 0/15/15
+recommended_team,member,Dewgong IS+IW/DR 0/12/15
+recommended_team,member,Jumpluff (Shadow) FW+Acr/EB 2/13/14
+recommended_team,bulk_score,326.68
+recommended_team,bulk_pool_min_mean_max,96.36/210.97/411.00
+recommended_team,consistency,score=779.40;mean=722.48;dominate=107/141;overwhelming=0/141
+recommended_team,redundancy,2plus=119/141;3plus=98/141;single=20/141;none=2/141
+recommended_lineup,#1,"lead=Lapras Psy+IB/SpA 0/10/14;backs=Carbink RTh+M/RS 5/15/15, Jumpluff (Shadow) FW+Acr/EB 2/13/14;shape=ABC;score=702.14;mean=675.87;dominating=105;overwhelming=0"
+recommended_lineup_resource_path,#1 balanced,lead_shield=1;back_shield=1;mean_best_score=660.32;dominating=34;overwhelming=0
+recommended_lineup_resource_path,#1 shield_spend,lead_shield=2;back_shield=0;mean_best_score=690.94;dominating=38;overwhelming=0
+recommended_lineup_resource_path,#1 shield_save,lead_shield=0;back_shield=2;mean_best_score=676.34;dominating=33;overwhelming=0
+recommended_lineup,#2,"lead=Carbink RTh+M/RS 5/15/15;backs=Lapras Psy+IB/SpA 0/10/14, Mandibuzz Sn+SB/FoP 0/13/15;shape=ABC;score=701.94;mean=675.50;dominating=110;overwhelming=1"
+recommended_lineup_resource_path,#2 balanced,lead_shield=1;back_shield=1;mean_best_score=658.70;dominating=35;overwhelming=0
+recommended_lineup_resource_path,#2 shield_spend,lead_shield=2;back_shield=0;mean_best_score=676.45;dominating=35;overwhelming=0
+recommended_lineup_resource_path,#2 shield_save,lead_shield=0;back_shield=2;mean_best_score=691.34;dominating=40;overwhelming=1
+recommended_lineup,#3,"lead=Mandibuzz Sn+SB/FoP 0/13/15;backs=Carbink RTh+M/RS 5/15/15, Lapras Psy+IB/SpA 0/10/14;shape=ABC;score=701.72;mean=675.86;dominating=109;overwhelming=0"
+recommended_lineup_resource_path,#3 balanced,lead_shield=1;back_shield=1;mean_best_score=658.70;dominating=35;overwhelming=0
+recommended_lineup_resource_path,#3 shield_spend,lead_shield=2;back_shield=0;mean_best_score=689.45;dominating=38;overwhelming=0
+recommended_lineup_resource_path,#3 shield_save,lead_shield=0;back_shield=2;mean_best_score=679.43;dominating=36;overwhelming=0
+recommended_lineup,#4,"lead=Lapras Psy+IB/SpA 0/10/14;backs=Carbink RTh+M/RS 5/15/15, Mandibuzz Sn+SB/FoP 0/13/15;shape=ABC;score=701.72;mean=676.02;dominating=109;overwhelming=0"
+recommended_lineup_resource_path,#4 balanced,lead_shield=1;back_shield=1;mean_best_score=658.70;dominating=35;overwhelming=0
+recommended_lineup_resource_path,#4 shield_spend,lead_shield=2;back_shield=0;mean_best_score=683.96;dominating=36;overwhelming=0
+recommended_lineup_resource_path,#4 shield_save,lead_shield=0;back_shield=2;mean_best_score=685.40;dominating=38;overwhelming=0
+recommended_lineup,#5,"lead=Jumpluff (Shadow) FW+Acr/EB 2/13/14;backs=Carbink RTh+M/RS 5/15/15, Lapras Psy+IB/SpA 0/10/14;shape=ABC;score=700.32;mean=673.79;dominating=104;overwhelming=0"
+recommended_lineup_resource_path,#5 balanced,lead_shield=1;back_shield=1;mean_best_score=660.32;dominating=34;overwhelming=0
+recommended_lineup_resource_path,#5 shield_spend,lead_shield=2;back_shield=0;mean_best_score=681.30;dominating=34;overwhelming=0
+recommended_lineup_resource_path,#5 shield_save,lead_shield=0;back_shield=2;mean_best_score=679.74;dominating=36;overwhelming=0
+recommended_lineup,#6,"lead=Carbink RTh+M/RS 5/15/15;backs=Jumpluff (Shadow) FW+Acr/EB 2/13/14, Lapras Psy+IB/SpA 0/10/14;shape=ABC;score=700.30;mean=673.05;dominating=101;overwhelming=1"
+recommended_lineup_resource_path,#6 balanced,lead_shield=1;back_shield=1;mean_best_score=660.32;dominating=34;overwhelming=0
+recommended_lineup_resource_path,#6 shield_spend,lead_shield=2;back_shield=0;mean_best_score=681.13;dominating=35;overwhelming=1
+recommended_lineup_resource_path,#6 shield_save,lead_shield=0;back_shield=2;mean_best_score=677.70;dominating=32;overwhelming=0
+recommended_lineup,#7,"lead=Carbink RTh+M/RS 5/15/15;backs=Mandibuzz Sn+SB/FoP 0/13/15, Toxapex PJ+SW/Bri 0/15/15;shape=ABC;score=700.16;mean=674.36;dominating=107;overwhelming=7"
+recommended_lineup_resource_path,#7 balanced,lead_shield=1;back_shield=1;mean_best_score=664.36;dominating=35;overwhelming=2
+recommended_lineup_resource_path,#7 shield_spend,lead_shield=2;back_shield=0;mean_best_score=681.40;dominating=35;overwhelming=2
+recommended_lineup_resource_path,#7 shield_save,lead_shield=0;back_shield=2;mean_best_score=677.32;dominating=37;overwhelming=3
+recommended_lineup,#8,"lead=Mandibuzz Sn+SB/FoP 0/13/15;backs=Carbink RTh+M/RS 5/15/15, Toxapex PJ+SW/Bri 0/15/15;shape=ABC;score=698.69;mean=673.33;dominating=106;overwhelming=9"
+recommended_lineup_resource_path,#8 balanced,lead_shield=1;back_shield=1;mean_best_score=664.36;dominating=35;overwhelming=2
+recommended_lineup_resource_path,#8 shield_spend,lead_shield=2;back_shield=0;mean_best_score=687.94;dominating=38;overwhelming=3
+recommended_lineup_resource_path,#8 shield_save,lead_shield=0;back_shield=2;mean_best_score=667.68;dominating=33;overwhelming=4
+recommended_lineup,#9,"lead=Toxapex PJ+SW/Bri 0/15/15;backs=Carbink RTh+M/RS 5/15/15, Mandibuzz Sn+SB/FoP 0/13/15;shape=ABC;score=698.35;mean=673.13;dominating=106;overwhelming=9"
+recommended_lineup_resource_path,#9 balanced,lead_shield=1;back_shield=1;mean_best_score=664.36;dominating=35;overwhelming=2
+recommended_lineup_resource_path,#9 shield_spend,lead_shield=2;back_shield=0;mean_best_score=671.11;dominating=33;overwhelming=4
+recommended_lineup_resource_path,#9 shield_save,lead_shield=0;back_shield=2;mean_best_score=683.94;dominating=38;overwhelming=3
+recommended_lineup,#10,"lead=Dewgong IS+IW/DR 0/12/15;backs=Carbink RTh+M/RS 5/15/15, Jumpluff (Shadow) FW+Acr/EB 2/13/14;shape=ABC;score=697.42;mean=671.28;dominating=99;overwhelming=1"
+recommended_lineup_resource_path,#10 balanced,lead_shield=1;back_shield=1;mean_best_score=659.45;dominating=32;overwhelming=0
+recommended_lineup_resource_path,#10 shield_spend,lead_shield=2;back_shield=0;mean_best_score=691.38;dominating=38;overwhelming=0
+recommended_lineup_resource_path,#10 shield_save,lead_shield=0;back_shield=2;mean_best_score=663.02;dominating=29;overwhelming=1
+coverage,0-shield,47/0/0
+coverage,1-shield,47/0/0
+coverage,2-shield,45/0/2
+threat,Stunfisk (Galarian) MS+RS/Eq 5/15/13,single=1;none=1;details=1-shield only Mandibuzz Sn+SB/FoP 0/13/15 | 2-shield no cover
+threat,Forretress VS+RT/ST 5/15/13,single=2;none=0;details=1-shield only Jumpluff (Shadow) FW+Acr/EB 2/13/14 | 2-shield only Carbink RTh+M/RS 5/15/15
+threat,Tinkaton FW+GH/Bd 4/15/14,single=2;none=0;details=0-shield only Dewgong IS+IW/DR 0/12/15 | 1-shield only Dewgong IS+IW/DR 0/12/15
+threat,Clodsire PSt+SE/Eq 4/14/10,single=2;none=0;details=0-shield only Lapras Psy+IB/SpA 0/10/14 | 1-shield only Lapras Psy+IB/SpA 0/10/14
+threat,Seaking Pk+DR/IW 4/13/14,single=1;none=0;details=2-shield only Carbink RTh+M/RS 5/15/15
+threat,Empoleon MSo+HC/DrlP 5/15/13,single=1;none=0;details=2-shield only Mandibuzz Sn+SB/FoP 0/13/15
+threat,Stunfisk TS+MB/D 5/15/13,single=1;none=0;details=1-shield only Jumpluff (Shadow) FW+Acr/EB 2/13/14
+threat,Cradily Ac+RT/GK 4/14/14,single=1;none=0;details=2-shield only Dewgong IS+IW/DR 0/12/15
+threat,Furret SkP+Sw/TBl 4/14/13,single=1;none=0;details=2-shield only Mandibuzz Sn+SB/FoP 0/13/15
+threat,Annihilape LK+RF/CC 4/13/13,single=1;none=0;details=1-shield only Jumpluff (Shadow) FW+Acr/EB 2/13/14
