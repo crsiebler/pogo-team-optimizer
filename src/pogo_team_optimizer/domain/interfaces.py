@@ -5,10 +5,12 @@ from typing import Any
 
 from pogo_team_optimizer.domain.models import RankingProfile
 
+MatchupValue = int | None
+
 
 class SimulationMatrixRepository(ABC):
     @abstractmethod
-    def load(self) -> tuple[list[str], list[str], list[list[list[int]]]]:
+    def load(self) -> tuple[list[str], list[str], list[list[list[MatchupValue]]]]:
         """Return row labels, column labels, and 3 shield matrices."""
 
 

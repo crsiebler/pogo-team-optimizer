@@ -36,6 +36,7 @@ from pogo_team_optimizer.application.scoring import (
 )
 from pogo_team_optimizer.domain.interfaces import (
     BattleFrontierPointsRepository,
+    MatchupValue,
     MoveRepository,
     PokemonRepository,
     RankingsRepository,
@@ -79,9 +80,14 @@ class AnalyzeMetaUseCase:
         safety_priority: str = "medium",
     ) -> dict[str, Any]:
         LOGGER.info("loading simulation matrices")
-        row_labels, col_labels, matrices = self.simulation_repository.load()
+        loaded_row_labels, col_labels, loaded_matrices = self.simulation_repository.load()
+        row_labels, matrices = _filter_complete_candidate_rows(
+            loaded_row_labels,
+            loaded_matrices,
+        )
         LOGGER.info(
-            "loaded matrices rows=%s cols=%s shields=%s",
+            "loaded matrices rows=%s eligible_rows=%s cols=%s shields=%s",
+            len(loaded_row_labels),
             len(row_labels),
             len(col_labels),
             len(matrices),
@@ -392,6 +398,45 @@ class AnalyzeMetaUseCase:
             return self.pokemon_repository.get_types(parse_species(label))
         except KeyError:
             return tuple()
+
+
+def _filter_complete_candidate_rows(
+    row_labels: list[str],
+    matrices: list[list[list[MatchupValue]]],
+) -> tuple[list[str], list[list[list[int]]]]:
+    eligible_indices = [
+        row_idx
+        for row_idx in range(len(row_labels))
+        if _row_has_complete_matchups(row_idx, matrices)
+    ]
+    if len(eligible_indices) < 6:
+        raise ValueError(
+            f"Only {len(eligible_indices)} eligible candidates remain after filtering rows "
+            "with missing matchup data from configured shield matrices; "
+            f"at least 6 are required from {len(row_labels)} loaded candidates."
+        )
+
+    filtered_labels = [row_labels[row_idx] for row_idx in eligible_indices]
+    filtered_matrices = [
+        [[_require_matchup_value(value) for value in matrix[row_idx]] for row_idx in eligible_indices]
+        for matrix in matrices
+    ]
+    return filtered_labels, filtered_matrices
+
+
+def _row_has_complete_matchups(row_idx: int, matrices: list[list[list[MatchupValue]]]) -> bool:
+    for matrix in matrices:
+        if row_idx >= len(matrix):
+            return False
+        if any(value is None for value in matrix[row_idx]):
+            return False
+    return True
+
+
+def _require_matchup_value(value: MatchupValue) -> int:
+    if value is None:
+        raise ValueError("Missing matchup data was not filtered before optimization")
+    return value
 
 
 def _build_recommended_lineups(

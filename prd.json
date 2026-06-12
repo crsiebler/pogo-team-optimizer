@@ -625,6 +625,150 @@
       "priority": 33,
       "passes": true,
       "notes": "Recommended agent: refactoring-specialist. Use pogo-team-generator lib/sync as reference for local source resolution and gamemaster copying, but preserve this repository's CSV ranking contract. Replicate PvPoke rankings page CSV export fields and flat data/rankings/cp{cp}_{cup}_{category}_rankings.csv outputs. Do not refactor the optimizer to consume ranking JSON. Exclude simulation generation for this repository. Wire through Makefile and keep file I/O in scripts/infrastructure, not optimizer scoring."
+    },
+    {
+      "id": "US-034",
+      "title": "Parse simulation matrices with eligibility filtering",
+      "description": "As a CLI user, I want simulation CSVs parsed by matchup columns and filtered for complete candidate data so missing PvPoke exports do not corrupt optimizer inputs.",
+      "acceptanceCriteria": [
+        "Simulation CSV parsing ignores summary columns by header name, including Wins, Losses, Draws, and Average",
+        "All configured shield files must have matching matchup column labels after excluding summary columns",
+        "Blank or non-numeric matchup cells are treated as missing matchup data",
+        "Any candidate row with missing matchup data in any loaded shield scenario is excluded before optimization",
+        "If fewer than six candidate rows remain, the run fails clearly with the eligible count and reason",
+        "Unit tests cover summary-column detection and missing-cell filtering",
+        "Tests pass",
+        "Typecheck passes"
+      ],
+      "priority": 34,
+      "passes": true,
+      "notes": "Recommended agent: python-pro. Keep CSV parsing in infrastructure and any candidate eligibility reporting in application/use-case code. Preserve matrix row/column alignment guarantees across 0-, 1-, and 2-shield files."
+    },
+    {
+      "id": "US-035",
+      "title": "Enforce ranked candidate eligibility",
+      "description": "As a CLI user, I want only Pokemon with active overall rankings to be eligible for team selection so recommendations stay grounded in current PvPoke data.",
+      "acceptanceCriteria": [
+        "A candidate Pokemon row must have a normalized species match in the active overall ranking profile to be eligible",
+        "Candidate species normalization remains deterministic for move suffixes, IV suffixes, shadows, and base species handling",
+        "Unranked candidate rows are filtered out before optimization",
+        "If fewer than six ranked candidates remain, the run fails clearly with the eligible count and reason",
+        "Eligibility requires active overall rankings only; other role categories remain scoring inputs unless explicitly validated by meta config",
+        "Unit tests cover ranked and unranked candidate filtering",
+        "Tests pass",
+        "Typecheck passes"
+      ],
+      "priority": 35,
+      "passes": false,
+      "notes": "Recommended agent: refactoring-specialist. This revises earlier neutral-fallback behavior for team eligibility: unranked owned Pokemon must not be selected. Keep infrastructure repositories raw and apply eligibility in the application/use-case layer."
+    },
+    {
+      "id": "US-036",
+      "title": "Wire ranked top-meta and broad-meta threat pools",
+      "description": "As the optimizer, I need ranked top-meta and broad-meta threat pools intersected with simulation targets so full-team scoring evaluates realistic opponents without unranked target noise.",
+      "acceptanceCriteria": [
+        "Top-meta threats are derived from active overall rankings intersected with simulation target columns",
+        "Broad-meta threats are derived from configured full_meta_ranking_paths when present and intersected with simulation target columns",
+        "Unranked simulation target columns are excluded from threat pools and threat scoring",
+        "Threat-pool ordering is deterministic for duplicate forms, tied scores, and normalized base species",
+        "Top-meta threats carry more scoring weight than broad-meta threats",
+        "Unit tests cover top-meta weighting and unranked target exclusion",
+        "Tests pass",
+        "Typecheck passes"
+      ],
+      "priority": 36,
+      "passes": false,
+      "notes": "Recommended agent: python-pro. Extend the existing ranking_pools/use_case path rather than creating CLI scoring logic. Preserve deterministic species normalization and existing matrix-column alignment behavior."
+    },
+    {
+      "id": "US-037",
+      "title": "Add soft shield-aggregated matchup scoring",
+      "description": "As a CLI user, I want matchup strength and shield stability to affect full-team quality beyond binary win/loss thresholds so close losses and hard losses are valued differently.",
+      "acceptanceCriteria": [
+        "Combined matchup score uses all available shield scenarios with weights 0.30 for 0-shield, 0.50 for 1-shield, and 0.20 for 2-shield",
+        "Soft matchup scoring distinguishes strong answers, playable answers, neutral matchups, soft losses, and hard losses",
+        "A hard loss contributes more threat risk than a marginal loss",
+        "A team with multiple playable answers scores better than a team with one volatile answer",
+        "Shield-stable Pokemon score better than Pokemon that rely on one isolated favorable shield scenario and collapse in others",
+        "Unit tests cover shield aggregation, soft matchup differences, and shield stability",
+        "Tests pass",
+        "Typecheck passes"
+      ],
+      "priority": 37,
+      "passes": false,
+      "notes": "Recommended agent: python-pro. Add these as small reusable application/scoring helpers first, then wire them into team scoring in a later story. Avoid replacing exporter diagnostics in this story."
+    },
+    {
+      "id": "US-038",
+      "title": "Add full-team grades and Threat Score",
+      "description": "As a CLI user, I want concise full-team diagnostics so I can understand coverage, bulk, safety, consistency, and lower-is-better threat exposure for the recommended bring-6 roster.",
+      "acceptanceCriteria": [
+        "The result payload includes coverage_grade, bulk_grade, safety_grade, and consistency_grade for the recommended team",
+        "Grades are limited to A, B, C, D, and F with no plus/minus variants",
+        "The result payload includes lower-is-better threat_score",
+        "Threat Score penalizes no-answer threats, single-answer threats, hard losses, and severe single-point weaknesses",
+        "Threat Score rewards redundant answers, broad playable matchups, and shield-stable coverage",
+        "Top-meta risk contributes more to Threat Score than broad-meta long-tail risk",
+        "Unit tests cover grade mapping and Threat Score ordering for obviously good and bad fixture teams",
+        "Tests pass",
+        "Typecheck passes"
+      ],
+      "priority": 38,
+      "passes": false,
+      "notes": "Recommended agent: python-pro. Keep grade and threat-score calculations in application scoring/use-case code. Exporters should only render payload fields added here or in a follow-up story."
+    },
+    {
+      "id": "US-039",
+      "title": "Prioritize full bring-6 objective in optimizer",
+      "description": "As a CLI user, I want the selected team to be the strongest full bring-6 roster while existing pick-3 lineup diagnostics remain available for interpretation.",
+      "acceptanceCriteria": [
+        "TeamOptimizer keeps existing legality checks and Battle Frontier point rules",
+        "Full-team objective and ranking-aware roster quality are considered before pick-3 lineup objective in optimizer comparison",
+        "Existing pick-3 lineup diagnostics remain computed and exported where currently supported",
+        "Existing score tuple indexes used by exporters and tests are preserved where practical; new fields are appended when additional metrics are needed",
+        "Optimizer output remains deterministic for the same inputs and seed",
+        "Unit tests cover cases where full bring-6 quality beats a stronger pick-3 lineup objective",
+        "Tests pass",
+        "Typecheck passes"
+      ],
+      "priority": 39,
+      "passes": false,
+      "notes": "Recommended agent: refactoring-specialist. This is the core revised objective: keep recommended_lineups as diagnostics and low-priority tie-breakers, but full-team bring-6 quality must drive selection before pick-3 lineup objective."
+    },
+    {
+      "id": "US-040",
+      "title": "Render improved full-team CLI diagnostics",
+      "description": "As a CLI user, I want text and Markdown output to show full-team grades, Threat Score, and ranked threat groups without losing existing recommended lineup sections.",
+      "acceptanceCriteria": [
+        "Text output shows the recommended bring-6 roster, coverage grade, bulk grade, safety grade, consistency grade, and Threat Score",
+        "Markdown output shows the same full-team diagnostics",
+        "Output distinguishes major top-meta threats from major broad-meta threats when both are available",
+        "Existing recommended lineup sections remain present when lineups are produced",
+        "Exporters render structured result payload fields and do not recompute scoring logic",
+        "Unit tests cover text and Markdown rendering of new metrics",
+        "Tests pass",
+        "Typecheck passes"
+      ],
+      "priority": 40,
+      "passes": false,
+      "notes": "Recommended agent: python-pro. Keep formatting in infrastructure exporters and render only use-case payload fields. Do not reintroduce standalone Coverage, Safe Cores, or Resource / Shield Safety sections."
+    },
+    {
+      "id": "US-041",
+      "title": "Document full bring-6 scoring assumptions",
+      "description": "As a maintainer, I want the revised full bring-6 scoring assumptions documented so future tuning preserves architecture boundaries and the distinction between optimizer objectives and lineup diagnostics.",
+      "acceptanceCriteria": [
+        "Documentation states that PvPoke rankings and simulations are calibration inputs, not runtime tooling",
+        "Documentation explains candidate eligibility, missing-matchup filtering, top-meta weighting, broad-meta weighting, shield aggregation, and grade mapping",
+        "Documentation states that scoring weights and thresholds are internal implementation details and not CLI options",
+        "Documentation notes that pick-3 lineups remain diagnostics but full bring-6 quality is the primary selection objective",
+        "Documentation updates AGENTS.md guidance if implementation boundaries change",
+        "Tests pass if documentation changes affect tested examples",
+        "Typecheck passes"
+      ],
+      "priority": 41,
+      "passes": false,
+      "notes": "Recommended agent: documentation-engineer. Documentation-only story after behavior stabilizes. Align README, docs/team-optimization, AGENTS.md, and the gbl-optimizer skill if needed."
     }
   ]
 }

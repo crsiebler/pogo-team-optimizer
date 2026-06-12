@@ -1,5 +1,7 @@
 from typing import Any
 
+import pytest
+
 from pogo_team_optimizer.application import use_case as use_case_module
 from pogo_team_optimizer.application.use_case import AnalyzeMetaUseCase
 from pogo_team_optimizer.domain.models import RankingCategory, RankingProfile, RankingRow
@@ -41,6 +43,26 @@ class LineupSimulationRepository:
             [600, 600],
         ]
         return rows, cols, [matrix, matrix, matrix]
+
+
+class MissingMatchupSimulationRepository:
+    def load(self) -> tuple[list[str], list[str], list[list[list[int | None]]]]:
+        rows = ["Amon", "Bmon", "Cmon", "Dmon", "Emon", "Fmon", "Gmon"]
+        cols = ["Opp1", "Opp2"]
+        matrix = [[620, 620] for _ in rows]
+        missing_matrix = [list(row) for row in matrix]
+        missing_matrix[6][1] = None
+        return rows, cols, [matrix, missing_matrix, matrix]
+
+
+class TooFewCompleteMatchupsSimulationRepository:
+    def load(self) -> tuple[list[str], list[str], list[list[list[int | None]]]]:
+        rows = ["Amon", "Bmon", "Cmon", "Dmon", "Emon", "Fmon"]
+        cols = ["Opp1", "Opp2"]
+        matrix = [[620, 620] for _ in rows]
+        missing_matrix = [list(row) for row in matrix]
+        missing_matrix[5][0] = None
+        return rows, cols, [matrix, missing_matrix, matrix]
 
 
 class TieBreakSimulationRepository:
@@ -274,6 +296,29 @@ def test_use_case_exposes_structured_recommended_lineups() -> None:
             "overwhelming_matchups": 0,
         },
     ]
+
+
+def test_use_case_filters_rows_with_missing_matchups_before_optimization() -> None:
+    result: dict[str, Any] = AnalyzeMetaUseCase(
+        simulation_repository=MissingMatchupSimulationRepository(),
+        pokemon_repository=FakePokemonRepository(),
+    ).execute(seed=7, restarts=1)
+
+    selected_species = {member["species"] for member in result["recommended_team"]["members"]}
+
+    assert selected_species == {"Amon", "Bmon", "Cmon", "Dmon", "Emon", "Fmon"}
+    assert "Gmon" not in selected_species
+
+
+def test_use_case_fails_when_missing_matchups_leave_too_few_candidates() -> None:
+    with pytest.raises(ValueError, match="Only 5 eligible candidates remain") as exc_info:
+        AnalyzeMetaUseCase(
+            simulation_repository=TooFewCompleteMatchupsSimulationRepository(),
+            pokemon_repository=FakePokemonRepository(),
+        ).execute(seed=7, restarts=1)
+
+    assert "missing matchup data" in str(exc_info.value)
+    assert "at least 6 are required" in str(exc_info.value)
 
 
 def test_use_case_limits_recommended_lineups_from_argument() -> None:

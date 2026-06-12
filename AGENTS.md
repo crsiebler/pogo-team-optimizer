@@ -150,6 +150,7 @@ make test
 - OpenCode skill `gbl-optimizer` lives in `.opencode/skills/gbl-optimizer/SKILL.md`; use it when changing GBL optimizer scoring, show-6 pick-3 lineups, PvPoke ranking inputs, type effectiveness, coverage, safety, consistency, bulk, roles, or ABC/ABB/ABA strategy.
 - Type effectiveness implementation guidance is in `docs/team-optimization/type-effectiveness.md`, and the Pokemon GO type chart source data is `data/type-effectiveness.json`.
 - Matrix CSVs must align on row/column labels across shield scenarios.
+- Simulation matrix repositories represent blank or non-numeric matchup cells as `None`; `AnalyzeMetaUseCase` must filter incomplete candidate rows and narrow matrices back to `int` before optimizer/scoring code receives them.
 - `AnalyzeMetaUseCase` expects repository dependencies through interfaces.
 - `pvpoke` export requires both `pokemon.json` and `moves.json`.
 - CLI runs emit all supported output formats to `--output-dir`; do not use deprecated `--output`.

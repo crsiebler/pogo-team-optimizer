@@ -40,6 +40,14 @@
 - Ranking-aware documentation should keep optimizer objectives separate from explainability-only diagnostics, preserve the repository/application/use-case/CLI/exporter boundary split, and keep Crucible documented as unsupported.
 - Ranking-aware docs should state the current optimizer comparison order exactly: safety-floor deficit, safe-member deficit, bulk deficit, primary lineup objective, ranking-aware final score, secondary lineup metrics, then legacy tie-breakers.
 - Local PvPoke data sync lives in `scripts/sync_pvpoke_data.py`; it reads `vendor/pvpoke` as a submodule source, copies gamemaster JSON, converts configured ranking JSON into flat `data/rankings/cp{cp}_{cup}_{category}_rankings.csv` files, and intentionally never writes `data/simulations/`.
+- Simulation matrix parsing excludes summary columns by header name, stores blank/non-numeric matchup cells as `None`, and relies on `AnalyzeMetaUseCase` to filter incomplete candidate rows before optimizer/scoring code receives narrowed integer matrices.
+
+## Revised Approach - Full Bring-6 Scoring
+- New Ralph stories `US-034` through `US-041` revise the optimizer direction from pick-3-lineup-first selection to full bring-6 roster selection. Existing recommended pick-3 lineup diagnostics should remain computed and rendered, but they should become diagnostics or lower-priority tie-breakers rather than the primary objective.
+- Candidate eligibility is now stricter: filter out any owned Pokemon row with missing matchup data in any configured shield matrix, and require an active `overall` PvPoke ranking match before a Pokemon can be considered or selected. If fewer than six eligible candidates remain, fail clearly with the eligible count and filtering reason instead of relaxing constraints.
+- Threat pools should use ranked simulation targets only: derive top-meta threats from active `overall` rankings intersected with simulation columns, derive broad/full-meta threats from configured `full_meta_ranking_paths` when present, and exclude unranked target columns from threat scoring.
+- Full-team scoring should use soft shield-aggregated matchup quality with weights `0.30` for 0-shield, `0.50` for 1-shield, and `0.20` for 2-shield. Add A-F grades for coverage, bulk, safety, and consistency, plus a lower-is-better Threat Score that weights top-meta risk above broad-meta risk and penalizes no-answer, single-answer, hard-loss, and severe single-point weakness patterns.
+- Preserve existing architecture boundaries: infrastructure parses raw CSV/JSON data, application filters and scores, `AnalyzeMetaUseCase` assembles payload diagnostics, CLI validates/wires repositories, and exporters render structured fields without recomputing scoring.
 
 ## 2026-04-14 11:49:44 MST - US-001
 - What was implemented
@@ -1321,4 +1329,38 @@
   - Final specialist review pass is pending after review fixes.
 - Next iteration start:
   - All PRD stories should pass after the local review loop and commit if no findings remain.
+---
+
+## 2026-06-12 02:10:09 MST - US-034
+- What was implemented
+  - Updated simulation CSV parsing to ignore named non-matchup columns and preserve blank or non-numeric matchup cells as `None`.
+  - Added use-case eligibility filtering that removes any candidate row with missing matchup data in any loaded shield matrix before optimizer/scoring code receives narrowed integer matrices.
+  - Added focused unit coverage for named summary-column detection, missing-cell parsing, successful candidate filtering, and clear failure when fewer than six complete candidates remain.
+- Files changed: `AGENTS.md`, `prd.json`, `progress.txt`, `src/pogo_team_optimizer/domain/interfaces.py`, `src/pogo_team_optimizer/infrastructure/repositories/csv_matrix_repository.py`, `src/pogo_team_optimizer/application/use_case.py`, `tests/unit/test_csv_repository.py`, `tests/unit/test_use_case_lineups.py`
+- Commit message: `feat: US-034 - Parse simulation matrices with eligibility filtering`
+- Checks:
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m pytest tests/unit/test_csv_repository.py -q` (pass)
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m pytest tests/unit/test_use_case_lineups.py -k "missing_matchups or too_few" -q` (pass)
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m pytest tests/unit/test_csv_repository.py tests/unit/test_use_case_lineups.py tests/unit/test_use_case_battle_frontier.py tests/unit/test_us031_weighted_scoring_fixtures.py -q` (pass, 36 tests after review fixes)
+  - `make lint` (pass)
+  - `make typecheck` (pass)
+  - `make test` (fail: pre-existing missing local `data/simulations/bfmaster_*` and `data/simulations/naic_*` files required by integration/meta-config tests)
+- Implementation agents:
+  - Recommended: `python-pro`
+  - Used: `python-pro`
+- Specialist review:
+  - Agents used: `code-reviewer`, `qa-expert`, `security-engineer`
+  - Findings: fixed before commit; added a fail-fast parser validation and regression test for CSVs with only non-matchup columns after security review identified a possible downstream divide-by-zero path, and added explicit row/column alignment tests after QA asked to clarify omitted-row behavior.
+- Decisions (why):
+  - Chose `None` as the repository boundary value for missing matchup cells because sentinel numeric scores would corrupt optimizer semantics.
+  - Chose to filter and narrow in `AnalyzeMetaUseCase` immediately after repository load so infrastructure stays raw and all optimizer/scoring code keeps integer matrix contracts.
+  - Chose named non-matchup column exclusion because PvPoke matrix-like CSV fixtures may include summary or metadata columns that are not matchup targets.
+  - Chose to preserve hard failures for row-label mismatches across shield files because story notes require matrix row/column alignment guarantees; eligibility filtering only handles missing matchup cells on aligned candidate rows.
+- **Learnings for future iterations:**
+  - Simulation repositories may now return `int | None` matchup values; use-case code must filter incomplete candidate rows before deriving row-aligned types, stats, rankings, Battle Frontier points, or optimizer inputs.
+  - Gotcha encountered: full-suite validation currently depends on local untracked simulation matrix files for `bfmaster` and `naic`; story-specific tests can still verify changed behavior when those files are absent.
+- Known issues / follow-ups:
+  - `make test` is blocked by missing pre-existing local simulation data files outside this story; no US-034 focused or affected unit tests are failing.
+- Next iteration start:
+  - Implement `US-035` by adding ranked candidate eligibility in the use-case layer after matrix completeness filtering.
 ---
