@@ -91,6 +91,10 @@ class BelowViabilitySimulationRepository:
 
 class FakeRankingsRepository:
     def load(self) -> RankingProfile:
+        overall_scores = {
+            species: RankingRow(species, 100.0 - idx, normalized_score=1.0)
+            for idx, species in enumerate(("Amon", "Bmon", "Cmon", "Dmon", "Emon", "Fmon"))
+        }
         high_back_scores = {
             "Amon": RankingRow("Amon", 100.0, normalized_score=1.0),
             "Bmon": RankingRow("Bmon", 0.0, normalized_score=0.0),
@@ -101,6 +105,7 @@ class FakeRankingsRepository:
         }
         return RankingProfile(
             scores_by_category={
+                RankingCategory.OVERALL: overall_scores,
                 RankingCategory.LEADS: {
                     "Amon": RankingRow("Amon", 0.0, normalized_score=0.0),
                     "Bmon": RankingRow("Bmon", 100.0, normalized_score=1.0),
@@ -114,6 +119,64 @@ class FakeRankingsRepository:
                 RankingCategory.ATTACKERS: high_back_scores,
                 RankingCategory.CHARGERS: high_back_scores,
                 RankingCategory.CONSISTENCY: high_back_scores,
+            }
+        )
+
+
+class RankedEligibilitySimulationRepository:
+    def load(self) -> tuple[list[str], list[str], list[list[list[int]]]]:
+        rows = ["Amon", "Bmon", "Cmon", "Dmon", "Emon", "Fmon", "Unrankedmon"]
+        cols = ["Opp1"]
+        matrix = [[620] for _ in rows]
+        return rows, cols, [matrix, matrix, matrix]
+
+
+class TooFewRankedCandidatesSimulationRepository:
+    def load(self) -> tuple[list[str], list[str], list[list[list[int]]]]:
+        rows = ["Amon", "Bmon", "Cmon", "Dmon", "Emon", "Unrankedmon"]
+        cols = ["Opp1"]
+        matrix = [[620] for _ in rows]
+        return rows, cols, [matrix, matrix, matrix]
+
+
+class NormalizedRankedEligibilitySimulationRepository:
+    def load(self) -> tuple[list[str], list[str], list[list[list[int]]]]:
+        rows = [
+            "Charizard (Shadow) FireSpin+BlastBurn/DragonClaw 4/13/14",
+            "Amon Tackle+BodySlam/HyperBeam 0/15/15",
+            "Bmon VineWhip+PowerWhip/LeafBlade 1/14/14",
+            "Cmon Ember+FlameCharge/BlastBurn 2/13/13",
+            "Dmon Counter+CloseCombat/StoneEdge 3/12/12",
+            "Emon WaterGun+Surf/HydroPump 4/11/11",
+        ]
+        cols = ["Opp1"]
+        matrix = [[620] for _ in rows]
+        return rows, cols, [matrix, matrix, matrix]
+
+
+class OverallRankingsRepository:
+    def __init__(self, ranked_species: tuple[str, ...] | list[str]) -> None:
+        self.ranked_species = tuple(ranked_species)
+
+    def load(self) -> RankingProfile:
+        return RankingProfile(
+            scores_by_category={
+                RankingCategory.OVERALL: {
+                    species: RankingRow(species, 100.0 - idx)
+                    for idx, species in enumerate(self.ranked_species)
+                }
+            }
+        )
+
+
+class RoleOnlyRankingsRepository:
+    def load(self) -> RankingProfile:
+        return RankingProfile(
+            scores_by_category={
+                RankingCategory.SWITCHES: {
+                    species: RankingRow(species, 100.0)
+                    for species in ("Amon", "Bmon", "Cmon", "Dmon", "Emon", "Fmon")
+                }
             }
         )
 
@@ -319,6 +382,68 @@ def test_use_case_fails_when_missing_matchups_leave_too_few_candidates() -> None
 
     assert "missing matchup data" in str(exc_info.value)
     assert "at least 6 are required" in str(exc_info.value)
+
+
+def test_use_case_filters_unranked_candidates_before_optimization() -> None:
+    result: dict[str, Any] = AnalyzeMetaUseCase(
+        simulation_repository=RankedEligibilitySimulationRepository(),
+        pokemon_repository=FakePokemonRepository(),
+        rankings_repository=OverallRankingsRepository(
+            ["Amon", "Bmon", "Cmon", "Dmon", "Emon", "Fmon"]
+        ),
+    ).execute(seed=7, restarts=1)
+
+    selected_species = {member["species"] for member in result["recommended_team"]["members"]}
+
+    assert selected_species == {"Amon", "Bmon", "Cmon", "Dmon", "Emon", "Fmon"}
+    assert "Unrankedmon" not in selected_species
+
+
+def test_use_case_fails_when_overall_rankings_leave_too_few_candidates() -> None:
+    with pytest.raises(ValueError, match="Only 5 eligible candidates remain") as exc_info:
+        AnalyzeMetaUseCase(
+            simulation_repository=TooFewRankedCandidatesSimulationRepository(),
+            pokemon_repository=FakePokemonRepository(),
+            rankings_repository=OverallRankingsRepository(
+                ["Amon", "Bmon", "Cmon", "Dmon", "Emon"]
+            ),
+        ).execute(seed=7, restarts=1)
+
+    assert "active overall rankings" in str(exc_info.value)
+    assert "at least 6 are required" in str(exc_info.value)
+
+
+def test_use_case_requires_overall_rankings_not_role_rankings_for_eligibility() -> None:
+    with pytest.raises(ValueError, match="Only 0 eligible candidates remain") as exc_info:
+        AnalyzeMetaUseCase(
+            simulation_repository=LineupSimulationRepository(),
+            pokemon_repository=FakePokemonRepository(),
+            rankings_repository=RoleOnlyRankingsRepository(),
+        ).execute(seed=7, restarts=1)
+
+    assert "active overall rankings" in str(exc_info.value)
+
+
+def test_use_case_normalizes_ranked_candidate_labels_for_eligibility() -> None:
+    result: dict[str, Any] = AnalyzeMetaUseCase(
+        simulation_repository=NormalizedRankedEligibilitySimulationRepository(),
+        pokemon_repository=FakePokemonRepository(),
+        rankings_repository=OverallRankingsRepository(
+            [
+                "Charizard (Shadow) FireSpin+BlastBurn/DragonClaw 4/13/14",
+                "Amon Tackle+BodySlam/HyperBeam 0/15/15",
+                "Bmon VineWhip+PowerWhip/LeafBlade 1/14/14",
+                "Cmon Ember+FlameCharge/BlastBurn 2/13/13",
+                "Dmon Counter+CloseCombat/StoneEdge 3/12/12",
+                "Emon WaterGun+Surf/HydroPump 4/11/11",
+            ]
+        ),
+    ).execute(seed=7, restarts=1)
+
+    selected_species = {member["species"] for member in result["recommended_team"]["members"]}
+
+    assert "Charizard (Shadow)" in selected_species
+    assert selected_species == {"Charizard (Shadow)", "Amon", "Bmon", "Cmon", "Dmon", "Emon"}
 
 
 def test_use_case_limits_recommended_lineups_from_argument() -> None:

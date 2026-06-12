@@ -81,9 +81,11 @@ class AnalyzeMetaUseCase:
     ) -> dict[str, Any]:
         LOGGER.info("loading simulation matrices")
         loaded_row_labels, col_labels, loaded_matrices = self.simulation_repository.load()
+        ranking_profile = self._load_normalized_ranking_profile()
         row_labels, matrices = _filter_complete_candidate_rows(
             loaded_row_labels,
             loaded_matrices,
+            ranking_profile,
         )
         LOGGER.info(
             "loaded matrices rows=%s eligible_rows=%s cols=%s shields=%s",
@@ -146,7 +148,6 @@ class AnalyzeMetaUseCase:
                 for label in row_labels
             ]
 
-        ranking_profile = self._load_normalized_ranking_profile()
         consistency_by_row = _normalized_category_scores_by_row(
             row_species,
             ranking_profile,
@@ -403,16 +404,23 @@ class AnalyzeMetaUseCase:
 def _filter_complete_candidate_rows(
     row_labels: list[str],
     matrices: list[list[list[MatchupValue]]],
+    ranking_profile: RankingProfile | None = None,
 ) -> tuple[list[str], list[list[list[int]]]]:
+    overall_ranking_species = _active_overall_ranking_species(ranking_profile)
     eligible_indices = [
         row_idx
         for row_idx in range(len(row_labels))
         if _row_has_complete_matchups(row_idx, matrices)
+        and (
+            overall_ranking_species is None
+            or parse_species(row_labels[row_idx]) in overall_ranking_species
+        )
     ]
     if len(eligible_indices) < 6:
         raise ValueError(
             f"Only {len(eligible_indices)} eligible candidates remain after filtering rows "
-            "with missing matchup data from configured shield matrices; "
+            "with missing matchup data from configured shield matrices"
+            f"{_ranking_filter_reason(overall_ranking_species)}; "
             f"at least 6 are required from {len(row_labels)} loaded candidates."
         )
 
@@ -422,6 +430,25 @@ def _filter_complete_candidate_rows(
         for matrix in matrices
     ]
     return filtered_labels, filtered_matrices
+
+
+def _active_overall_ranking_species(ranking_profile: RankingProfile | None) -> set[str] | None:
+    if ranking_profile is None:
+        return None
+
+    overall_rankings = ranking_profile.scores_by_category.get(RankingCategory.OVERALL, {})
+    return {
+        normalized_species
+        for key, row in overall_rankings.items()
+        for normalized_species in (parse_species(row.species), parse_species(key))
+        if normalized_species
+    }
+
+
+def _ranking_filter_reason(overall_ranking_species: set[str] | None) -> str:
+    if overall_ranking_species is None:
+        return ""
+    return " or without active overall rankings"
 
 
 def _row_has_complete_matchups(row_idx: int, matrices: list[list[list[MatchupValue]]]) -> bool:

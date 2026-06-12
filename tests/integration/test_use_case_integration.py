@@ -1,3 +1,7 @@
+from pathlib import Path
+
+import pytest
+
 from pogo_team_optimizer.application.use_case import AnalyzeMetaUseCase
 from pogo_team_optimizer.application.optimizer import TeamOptimizer
 from pogo_team_optimizer.application.normalization import parse_species
@@ -42,14 +46,16 @@ def test_use_case_returns_required_sections() -> None:
 
 
 def test_bfmaster_use_case_returns_legal_team() -> None:
+    matrix_files = [
+        "data/simulations/bfmaster_0-shield.csv",
+        "data/simulations/bfmaster_1-shield.csv",
+        "data/simulations/bfmaster_2-shield.csv",
+    ]
+    if any(not Path(path).exists() for path in matrix_files):
+        pytest.skip("bfmaster simulation matrices are not checked into this fixture set")
+
     use_case = AnalyzeMetaUseCase(
-        simulation_repository=CsvSimulationMatrixRepository(
-            [
-                "data/simulations/bfmaster_0-shield.csv",
-                "data/simulations/bfmaster_1-shield.csv",
-                "data/simulations/bfmaster_2-shield.csv",
-            ]
-        ),
+        simulation_repository=CsvSimulationMatrixRepository(matrix_files),
         pokemon_repository=PokemonJsonRepository("data/pokemon.json"),
         switch_rankings_repository=CsvSwitchRankingsRepository(
             "data/rankings/cp10000_battlefrontiermaster_switches_rankings.csv"

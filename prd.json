@@ -659,7 +659,7 @@
         "Typecheck passes"
       ],
       "priority": 35,
-      "passes": false,
+      "passes": true,
       "notes": "Recommended agent: refactoring-specialist. This revises earlier neutral-fallback behavior for team eligibility: unranked owned Pokemon must not be selected. Keep infrastructure repositories raw and apply eligibility in the application/use-case layer."
     },
     {
