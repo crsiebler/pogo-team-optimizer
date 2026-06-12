@@ -564,8 +564,8 @@
   - Recommended: `refactoring-specialist`
   - Used: `refactoring-specialist`
 - Specialist review:
-  - Agents used: pending
-  - Findings: pending
+  - Agents used: `code-reviewer`, `qa-expert`
+  - Findings: none
 - Decisions (why):
   - Chose the candidate-pool mean as the floor because it is meta-relative, deterministic from loaded inputs, and avoids hard-coding meta-specific bulk thresholds.
   - Chose a comparison penalty instead of rejecting teams because the story asks to penalize below-floor rosters while preserving optimizer legality rules.
@@ -1433,4 +1433,69 @@
   - Local-only `.DS_Store`, vendor submodule dirtiness, unrelated OpenCode skill edits, and `tasks/prd-pvp-team-optimizer-scoring.md` remain outside this story and should not be staged.
 - Next iteration start:
   - Implement `US-036` by deriving ranked top-meta and broad-meta threat pools from ranked simulation targets.
+---
+## 2026-06-12 02:58:10 MST - US-036
+- What was implemented
+  - Updated ranking pool construction so configured ranking profiles exclude unranked, non-finite, and out-of-range simulation target columns from active, top-threat, and full-meta pools.
+  - Wired configured `full_meta_ranking_paths` through the CLI as a separate rankings repository and into `AnalyzeMetaUseCase`.
+  - Passed ranked top-meta and broad-meta matrix indices from `build_ranking_pools()` into `TeamOptimizer`, ranking-aware roster score diagnostics, and Potential Threats diagnostics while preserving all-target fallback when no full-meta ranking profile exists.
+  - Added focused tests for unranked target exclusion, deterministic tied threat ordering, full-meta repository wiring, use-case threat-index propagation, Potential Threat exclusion, and non-ranking fallback coverage.
+- Files changed: `AGENTS.md`, `progress.txt`, `src/pogo_team_optimizer/application/analyzers.py`, `src/pogo_team_optimizer/application/ranking_pools.py`, `src/pogo_team_optimizer/application/use_case.py`, `src/pogo_team_optimizer/cli/main.py`, `tests/unit/test_cli_main.py`, `tests/unit/test_ranking_pools.py`, `tests/unit/test_use_case_lineups.py`, `tests/unit/test_us031_weighted_scoring_fixtures.py`
+- Commit message: `feat: US-036 - Wire ranked top-meta and broad-meta threat pools`
+- Checks:
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m pytest tests/unit/test_ranking_pools.py tests/unit/test_use_case_lineups.py::test_use_case_wires_ranked_active_and_full_meta_threat_indices tests/unit/test_use_case_lineups.py::test_use_case_preserves_all_target_threat_fallback_without_rankings tests/unit/test_cli_main.py::test_main_wires_category_rankings_repository_with_switch_override -q` (pass)
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m pytest tests/unit/test_ranking_pools.py tests/unit/test_use_case_lineups.py tests/unit/test_cli_main.py -q` (pass)
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m mypy src` (pass)
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m ruff check src tests` (pass)
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m pytest` (pass, 239 passed, 2 skipped)
+- Implementation agents:
+  - Recommended: `python-pro`
+  - Used: `python-pro`
+- Specialist review:
+  - Agents used: `code-reviewer`, `qa-expert`
+  - Findings: unresolved after third review pass; filtered Potential Threats diagnostics to ranked indices, but review found the all-target broad fallback must apply only when both active and full-meta ranking profiles are absent. Stop condition reached before commit.
+- Decisions (why):
+  - Chose to skip unranked target columns only when a ranking profile is configured so direct non-ranking callers keep legacy fallback behavior while configured metas use ranked threat pools.
+  - Chose separate active and full-meta ranking repositories because active top-meta and broad-meta pools can come from different configured ranking CSV sets.
+  - Chose to reuse `build_ranking_pools()` indices for optimizer, explainability scoring, and Potential Threat diagnostics instead of recomputing target selection in CLI or exporters.
+- **Learnings for future iterations:**
+  - Threat pool filtering should happen in `application/ranking_pools.py`; consumers should pass the resulting matrix indices through rather than independently filtering columns.
+  - `full_meta_ranking_paths` are a separate broad-meta input, not a fallback for active-meta rankings.
+- Known issues / follow-ups:
+  - Fix `AnalyzeMetaUseCase` so `full_meta_indices` falls back to all columns only when neither active nor full-meta ranking profiles are configured; when active rankings exist without full-meta rankings, broad-meta indices should stay ranked-only/empty instead of reintroducing unranked columns.
+- Next iteration start:
+  - Continue `US-036` by resolving the broad fallback review finding, rerunning checks, and repeating staged specialist review before updating `prd.json` or committing.
+---
+## 2026-06-12 03:20:26 MST - US-036
+- What was implemented
+  - Resolved the prior US-036 review blocker by keeping broad-meta threat indices empty when active rankings are configured without a separate full-meta ranking profile.
+  - Preserved legacy all-target threat fallback only for executions with neither active nor full-meta ranking profiles configured.
+  - Prevented full-meta-only ranking inputs from generating unranked active top-threat fallbacks.
+  - Added focused regression coverage for full-meta-only pool filtering and active-only use-case threat-index propagation.
+- Files changed: `AGENTS.md`, `progress.txt`, `src/pogo_team_optimizer/application/analyzers.py`, `src/pogo_team_optimizer/application/ranking_pools.py`, `src/pogo_team_optimizer/application/use_case.py`, `src/pogo_team_optimizer/cli/main.py`, `tests/unit/test_cli_main.py`, `tests/unit/test_ranking_pools.py`, `tests/unit/test_us031_weighted_scoring_fixtures.py`, `tests/unit/test_use_case_lineups.py`
+- Commit message: `feat: US-036 - Wire ranked top-meta and broad-meta threat pools`
+- Checks:
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m pytest tests/unit/test_ranking_pools.py tests/unit/test_use_case_lineups.py tests/unit/test_cli_main.py -q` (pass, 59 tests)
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m mypy src` (pass)
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m ruff check src tests` (pass)
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m pytest` (pass, 241 passed, 2 skipped)
+  - `make lint` (pass)
+  - `make typecheck` (pass)
+  - `make test` (pass, 241 passed, 2 skipped)
+- Implementation agents:
+  - Recommended: `python-pro`
+  - Used: `python-pro`
+- Specialist review:
+  - Agents used: pending
+  - Findings: pending
+- Decisions (why):
+  - Chose an explicit empty broad-meta index list for active-only ranked runs because falling back to all columns reintroduced unranked target noise after US-035 made rankings eligibility strict.
+  - Chose to preserve all-target fallback only for no-ranking direct callers so legacy non-ranking executions retain broad threat diagnostics.
+  - Chose to adjust `build_ranking_pools()` for full-meta-only inputs so full-meta rankings do not implicitly create active top-meta threats from unranked labels.
+- **Learnings for future iterations:**
+  - Broad-meta all-target fallback is a no-ranking compatibility path only; any configured active or full-meta ranking profile means threat scoring should use ranked intersections and explicit empty pools where a profile is absent.
+- Known issues / follow-ups:
+  - Local-only `.DS_Store`, vendor submodule dirtiness, unrelated OpenCode skill edits, and `tasks/prd-pvp-team-optimizer-scoring.md` remain outside this story and should not be staged.
+- Next iteration start:
+  - Implement `US-037` by adding soft shield-aggregated matchup scoring helpers without replacing exporter diagnostics.
 ---

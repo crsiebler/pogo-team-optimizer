@@ -45,10 +45,13 @@ def build_threats(
     matrices: list[list[list[int]]],
     team_indices: tuple[int, ...],
     top_n: int,
+    threat_indices: list[int] | None = None,
 ) -> list[dict[str, Any]]:
     threats: list[dict[str, Any]] = []
     fallback_threats: list[dict[str, Any]] = []
-    for col_idx, opponent_label in enumerate(col_labels):
+    candidate_indices = threat_indices if threat_indices is not None else list(range(len(col_labels)))
+    for col_idx in candidate_indices:
+        opponent_label = col_labels[col_idx]
         shield_best_scores: list[int] = []
         shield_best_members: list[str] = []
         shield_fragility: list[dict[str, Any]] = []

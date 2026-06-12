@@ -53,7 +53,7 @@ def test_build_ranking_pools_falls_back_to_row_labels_when_columns_are_empty() -
     assert pools.active_meta[0].matrix_index == 0
 
 
-def test_build_ranking_pools_keeps_missing_rankings_deterministic() -> None:
+def test_build_ranking_pools_excludes_unranked_targets_when_profile_is_present() -> None:
     pools = build_ranking_pools(
         active_profile=_profile({"Clodsire": 95.0}),
         full_meta_profile=None,
@@ -62,8 +62,8 @@ def test_build_ranking_pools_keeps_missing_rankings_deterministic() -> None:
         top_threat_count=2,
     )
 
-    assert [entry.species for entry in pools.active_meta] == ["Clodsire", "Unknownmon"]
-    assert pools.active_meta[1].ranking_score is None
+    assert [entry.species for entry in pools.active_meta] == ["Clodsire"]
+    assert [entry.species for entry in pools.top_threats] == ["Clodsire"]
 
 
 def test_build_ranking_pools_deduplicates_normalized_species_by_column_order() -> None:
@@ -128,10 +128,8 @@ def test_build_ranking_pools_treats_non_finite_scores_as_missing() -> None:
         top_threat_count=2,
     )
 
-    assert [entry.species for entry in pools.top_threats] == ["Lickilicky", "Clodsire"]
+    assert [entry.species for entry in pools.top_threats] == ["Lickilicky"]
     assert pools.top_threats[0].weight == 1.0
-    assert pools.top_threats[1].ranking_score is None
-    assert pools.top_threats[1].weight == 0.0
 
 
 def test_build_ranking_pools_treats_out_of_range_scores_as_missing() -> None:
@@ -145,16 +143,8 @@ def test_build_ranking_pools_treats_out_of_range_scores_as_missing() -> None:
         top_threat_count=3,
     )
 
-    assert [entry.species for entry in pools.top_threats] == [
-        "Lickilicky",
-        "Clodsire",
-        "Corviknight",
-    ]
+    assert [entry.species for entry in pools.top_threats] == ["Lickilicky"]
     assert pools.top_threats[0].weight == 1.0
-    assert pools.top_threats[1].ranking_score is None
-    assert pools.top_threats[1].weight == 0.0
-    assert pools.top_threats[2].ranking_score is None
-    assert pools.top_threats[2].weight == 0.0
 
 
 def test_build_ranking_pools_builds_full_meta_pool_from_full_profile() -> None:
@@ -166,6 +156,34 @@ def test_build_ranking_pools_builds_full_meta_pool_from_full_profile() -> None:
         top_threat_count=1,
     )
 
-    assert [entry.species for entry in pools.active_meta] == ["Clodsire", "Lickilicky"]
+    assert [entry.species for entry in pools.active_meta] == ["Clodsire"]
     assert [entry.species for entry in pools.full_meta] == ["Lickilicky", "Clodsire"]
     assert pools.full_meta[0].ranking_score == 96.0
+
+
+def test_build_ranking_pools_excludes_unranked_full_meta_targets() -> None:
+    pools = build_ranking_pools(
+        active_profile=None,
+        full_meta_profile=_profile({"BroadOpp": 98.0}),
+        row_labels=["TopOpp", "UnrankedOpp", "BroadOpp"],
+        col_labels=["TopOpp", "UnrankedOpp", "BroadOpp"],
+        top_threat_count=3,
+    )
+
+    assert [entry.species for entry in pools.full_meta] == ["BroadOpp"]
+    assert pools.top_threats == ()
+
+
+def test_build_ranking_pools_orders_tied_ranked_targets_deterministically() -> None:
+    pools = build_ranking_pools(
+        active_profile=_profile({"Clodsire": 95.0, "Clodsire (Shadow)": 95.0, "Lickilicky": 95.0}),
+        full_meta_profile=None,
+        row_labels=["Lickilicky", "Clodsire (Shadow)", "Clodsire"],
+        col_labels=["Lickilicky", "Clodsire (Shadow)", "Clodsire"],
+        top_threat_count=2,
+    )
+
+    assert [(entry.species, entry.matrix_index) for entry in pools.top_threats] == [
+        ("Lickilicky", 0),
+        ("Clodsire (Shadow)", 1),
+    ]

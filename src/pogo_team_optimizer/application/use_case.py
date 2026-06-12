@@ -61,6 +61,7 @@ class AnalyzeMetaUseCase:
         move_repository: MoveRepository | None = None,
         type_effectiveness_repository: TypeEffectivenessRepository | None = None,
         rankings_repository: RankingsRepository | None = None,
+        full_meta_rankings_repository: RankingsRepository | None = None,
     ) -> None:
         self.simulation_repository = simulation_repository
         self.pokemon_repository = pokemon_repository
@@ -69,6 +70,7 @@ class AnalyzeMetaUseCase:
         self.move_repository = move_repository
         self.type_effectiveness_repository = type_effectiveness_repository
         self.rankings_repository = rankings_repository
+        self.full_meta_rankings_repository = full_meta_rankings_repository
 
     def execute(
         self,
@@ -82,6 +84,9 @@ class AnalyzeMetaUseCase:
         LOGGER.info("loading simulation matrices")
         loaded_row_labels, col_labels, loaded_matrices = self.simulation_repository.load()
         ranking_profile = self._load_normalized_ranking_profile()
+        full_meta_ranking_profile = _load_normalized_ranking_profile(
+            self.full_meta_rankings_repository
+        )
         row_labels, matrices = _filter_complete_candidate_rows(
             loaded_row_labels,
             loaded_matrices,
@@ -155,12 +160,21 @@ class AnalyzeMetaUseCase:
         )
         ranking_pools = build_ranking_pools(
             active_profile=ranking_profile,
-            full_meta_profile=None,
+            full_meta_profile=full_meta_ranking_profile,
             row_labels=row_labels,
             col_labels=col_labels,
             top_threat_count=top_threats,
         )
         top_threat_indices = [entry.matrix_index for entry in ranking_pools.top_threats]
+        has_ranked_threat_inputs = (
+            ranking_profile is not None or full_meta_ranking_profile is not None
+        )
+        if full_meta_ranking_profile is not None:
+            full_meta_indices = [entry.matrix_index for entry in ranking_pools.full_meta]
+        elif has_ranked_threat_inputs:
+            full_meta_indices = []
+        else:
+            full_meta_indices = list(range(len(col_labels)))
 
         safety_priority_rules: dict[str, tuple[float | None, int, float]] = {
             "low": (72.0, 0, 90.0),
@@ -186,7 +200,7 @@ class AnalyzeMetaUseCase:
             move_types_by_row=move_types_by_row,
             type_effectiveness=type_effectiveness,
             top_threat_indices=top_threat_indices,
-            full_meta_indices=list(range(len(col_labels))),
+            full_meta_indices=full_meta_indices,
             battle_frontier_points_by_row=battle_frontier_points_by_row,
             seed=seed,
         )
@@ -308,7 +322,7 @@ class AnalyzeMetaUseCase:
             opponent_types_by_col=opponent_types_by_col,
             type_effectiveness=type_effectiveness,
             top_threat_indices=top_threat_indices,
-            full_meta_indices=list(range(len(col_labels))),
+            full_meta_indices=full_meta_indices,
         )
         bench_utility = _build_actionable_bench_utility(
             row_labels=row_labels,
@@ -326,6 +340,7 @@ class AnalyzeMetaUseCase:
             matrices,
             best_team.member_indices,
             top_n=top_threats,
+            threat_indices=_ordered_unique_indices(top_threat_indices + full_meta_indices),
         )
 
         LOGGER.info("assembling result payload")
@@ -371,9 +386,7 @@ class AnalyzeMetaUseCase:
         return result
 
     def _load_normalized_ranking_profile(self) -> RankingProfile | None:
-        if self.rankings_repository is None:
-            return None
-        return PvPokeScoreNormalizationPolicy().normalize_profile(self.rankings_repository.load())
+        return _load_normalized_ranking_profile(self.rankings_repository)
 
     def _move_types_for_label(self, label: str) -> tuple[str, ...]:
         if self.move_repository is None:
@@ -430,6 +443,18 @@ def _filter_complete_candidate_rows(
         for matrix in matrices
     ]
     return filtered_labels, filtered_matrices
+
+
+def _load_normalized_ranking_profile(
+    repository: RankingsRepository | None,
+) -> RankingProfile | None:
+    if repository is None:
+        return None
+    return PvPokeScoreNormalizationPolicy().normalize_profile(repository.load())
+
+
+def _ordered_unique_indices(indices: list[int]) -> list[int]:
+    return list(dict.fromkeys(indices))
 
 
 def _active_overall_ranking_species(ranking_profile: RankingProfile | None) -> set[str] | None:

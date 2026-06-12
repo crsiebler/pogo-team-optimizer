@@ -180,6 +180,7 @@ def test_main_uses_meta_switch_rankings_when_no_cli_override(tmp_path, monkeypat
             move_repo: object | None = None,
             type_effectiveness_repo: object | None = None,
             rankings_repository: object | None = None,
+            full_meta_rankings_repository: object | None = None,
         ) -> None:
             captured["switch_repo"] = switch_repo
 
@@ -390,7 +391,13 @@ def test_main_wires_category_rankings_repository_with_switch_override(tmp_path, 
     leads_path = tmp_path / "leads.csv"
     configured_switches_path = tmp_path / "configured_switches.csv"
     override_switches_path = tmp_path / "override_switches.csv"
-    for path in (leads_path, configured_switches_path, override_switches_path):
+    full_meta_overall_path = tmp_path / "full_meta_overall.csv"
+    for path in (
+        leads_path,
+        configured_switches_path,
+        override_switches_path,
+        full_meta_overall_path,
+    ):
         path.write_text("Pokemon,Score\nLickilicky,92\n", encoding="utf-8")
 
     metas_config = tmp_path / "metas.json"
@@ -413,6 +420,9 @@ def test_main_wires_category_rankings_repository_with_switch_override(tmp_path, 
               "ranking_paths": {{
                 "leads": "{leads_path}",
                 "switches": "{configured_switches_path}"
+              }},
+              "full_meta_ranking_paths": {{
+                "overall": "{full_meta_overall_path}"
               }}
             }}
           }}
@@ -422,8 +432,9 @@ def test_main_wires_category_rankings_repository_with_switch_override(tmp_path, 
     )
 
     captured: dict[str, object | None] = {
-        "ranking_paths": None,
+        "ranking_paths_calls": [],
         "rankings_repository": None,
+        "full_meta_rankings_repository": None,
     }
 
     monkeypatch.setattr(
@@ -441,7 +452,9 @@ def test_main_wires_category_rankings_repository_with_switch_override(tmp_path, 
 
     class FakeRankingsRepository:
         def __init__(self, ranking_paths: dict[RankingCategory | str, str]) -> None:
-            captured["ranking_paths"] = dict(ranking_paths)
+            ranking_paths_calls = captured["ranking_paths_calls"]
+            assert isinstance(ranking_paths_calls, list)
+            ranking_paths_calls.append(dict(ranking_paths))
 
     monkeypatch.setattr(
         "pogo_team_optimizer.cli.main.CsvRankingsRepository",
@@ -449,8 +462,14 @@ def test_main_wires_category_rankings_repository_with_switch_override(tmp_path, 
     )
 
     class FakeUseCase:
-        def __init__(self, *_: object, rankings_repository: object | None = None) -> None:
+        def __init__(
+            self,
+            *_: object,
+            rankings_repository: object | None = None,
+            full_meta_rankings_repository: object | None = None,
+        ) -> None:
             captured["rankings_repository"] = rankings_repository
+            captured["full_meta_rankings_repository"] = full_meta_rankings_repository
 
         def execute(self, **_: object) -> dict[str, object]:
             return {}
@@ -488,10 +507,14 @@ def test_main_wires_category_rankings_repository_with_switch_override(tmp_path, 
 
     assert main() == 0
     assert captured["rankings_repository"] is not None
-    assert captured["ranking_paths"] == {
-        RankingCategory.LEADS: str(leads_path),
-        RankingCategory.SWITCHES: str(override_switches_path),
-    }
+    assert captured["full_meta_rankings_repository"] is not None
+    assert captured["ranking_paths_calls"] == [
+        {
+            RankingCategory.LEADS: str(leads_path),
+            RankingCategory.SWITCHES: str(override_switches_path),
+        },
+        {RankingCategory.OVERALL: str(full_meta_overall_path)},
+    ]
 
 
 def test_main_uses_legacy_default_switch_rankings_for_other_metas(tmp_path, monkeypatch) -> None:
@@ -556,6 +579,7 @@ def test_main_uses_legacy_default_switch_rankings_for_other_metas(tmp_path, monk
             move_repo: object | None = None,
             type_effectiveness_repo: object | None = None,
             rankings_repository: object | None = None,
+            full_meta_rankings_repository: object | None = None,
         ) -> None:
             captured["switch_repo"] = switch_repo
 

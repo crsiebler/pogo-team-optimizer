@@ -98,8 +98,7 @@ def test_us031_fixture_profiles_build_active_full_meta_and_top_threat_pools() ->
         "Lickilicky",
     ]
     assert [entry.matrix_index for entry in pools.top_threats] == [0, 2, 1, 3]
-    assert pools.active_meta[-1].species == "Missingmon"
-    assert pools.active_meta[-1].ranking_score is None
+    assert "Missingmon" not in {entry.species for entry in pools.active_meta}
 
 
 def test_us031_fixture_weighted_score_prefers_top_threat_coverage() -> None:

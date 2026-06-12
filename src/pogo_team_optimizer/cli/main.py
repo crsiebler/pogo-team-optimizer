@@ -235,6 +235,14 @@ def main() -> int:
     if args.switch_rankings_path is not None:
         ranking_paths[RankingCategory.SWITCHES] = args.switch_rankings_path
     rankings_repo = CsvRankingsRepository(ranking_paths) if ranking_paths else None
+    full_meta_ranking_paths: dict[RankingCategory | str, str] = {
+        category: path for category, path in meta_config.full_meta_ranking_paths.items()
+    }
+    full_meta_rankings_repo = (
+        CsvRankingsRepository(full_meta_ranking_paths)
+        if full_meta_ranking_paths
+        else None
+    )
     use_case = AnalyzeMetaUseCase(
         simulation_repo,
         pokemon_repo,
@@ -243,6 +251,7 @@ def main() -> int:
         move_repo,
         type_effectiveness_repo,
         rankings_repository=rankings_repo,
+        full_meta_rankings_repository=full_meta_rankings_repo,
     )
     LOGGER.info("starting use case execution")
     result = use_case.execute(

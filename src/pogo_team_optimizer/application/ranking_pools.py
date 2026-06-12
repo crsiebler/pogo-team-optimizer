@@ -38,7 +38,11 @@ def build_ranking_pools(
     category: RankingCategory = RankingCategory.OVERALL,
 ) -> RankingPools:
     labels = col_labels if col_labels else row_labels
-    active_entries = _build_pool_entries(labels, active_profile, category)
+    active_entries = (
+        _build_pool_entries(labels, active_profile, category)
+        if active_profile is not None or full_meta_profile is None
+        else ()
+    )
     full_meta_entries = (
         _build_pool_entries(labels, full_meta_profile, category)
         if full_meta_profile is not None
@@ -64,6 +68,8 @@ def _build_pool_entries(
             continue
         base_species = parse_base_species(species)
         ranking_score = _get_finite_score(profile, category, species)
+        if profile is not None and ranking_score is None:
+            continue
         entry = RankingPoolEntry(
             label=label,
             species=species,

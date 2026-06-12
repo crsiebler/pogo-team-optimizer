@@ -677,7 +677,7 @@
         "Typecheck passes"
       ],
       "priority": 36,
-      "passes": false,
+      "passes": true,
       "notes": "Recommended agent: python-pro. Extend the existing ranking_pools/use_case path rather than creating CLI scoring logic. Preserve deterministic species normalization and existing matrix-column alignment behavior."
     },
     {

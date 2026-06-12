@@ -169,6 +169,35 @@ class OverallRankingsRepository:
         )
 
 
+class ThreatPoolSimulationRepository:
+    def load(self) -> tuple[list[str], list[str], list[list[list[int]]]]:
+        rows = ["Amon", "Bmon", "Cmon", "Dmon", "Emon", "Fmon"]
+        cols = ["TopOpp", "UnrankedOpp", "BroadOpp"]
+        matrix = [[620, 300, 500] for _ in rows]
+        return rows, cols, [matrix, matrix, matrix]
+
+
+class NonRankingThreatFallbackSimulationRepository:
+    def load(self) -> tuple[list[str], list[str], list[list[list[int]]]]:
+        rows = ["Amon", "Bmon", "Cmon", "Dmon", "Emon", "Fmon"]
+        cols = ["EarlyOpp", "MiddleOpp", "LateThreat"]
+        matrix = [[620, 620, 300] for _ in rows]
+        return rows, cols, [matrix, matrix, matrix]
+
+
+class ThreatPoolRankingsRepository:
+    def __init__(self, scores: dict[str, float]) -> None:
+        self.scores = scores
+
+    def load(self) -> RankingProfile:
+        overall_scores = {
+            species: RankingRow(species, score) for species, score in self.scores.items()
+        }
+        for idx, species in enumerate(("Amon", "Bmon", "Cmon", "Dmon", "Emon", "Fmon")):
+            overall_scores.setdefault(species, RankingRow(species, 100.0 - idx))
+        return RankingProfile(scores_by_category={RankingCategory.OVERALL: overall_scores})
+
+
 class RoleOnlyRankingsRepository:
     def load(self) -> RankingProfile:
         return RankingProfile(
@@ -444,6 +473,148 @@ def test_use_case_normalizes_ranked_candidate_labels_for_eligibility() -> None:
 
     assert "Charizard (Shadow)" in selected_species
     assert selected_species == {"Charizard (Shadow)", "Amon", "Bmon", "Cmon", "Dmon", "Emon"}
+
+
+def test_use_case_wires_ranked_active_and_full_meta_threat_indices(monkeypatch: Any) -> None:
+    captured: dict[str, list[int]] = {}
+
+    class FakeOptimizer:
+        def __init__(self, *_: object, **kwargs: object) -> None:
+            captured["optimizer_top"] = list(kwargs["top_threat_indices"])
+            captured["optimizer_full"] = list(kwargs["full_meta_indices"])
+
+        def optimize(self, **_: object) -> object:
+            class FakeSolution:
+                member_indices = (0, 1, 2, 3, 4, 5)
+                score = (
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    100.0,
+                    60.0,
+                    0.5,
+                    0.0,
+                    0.0,
+                    600.0,
+                    0.0,
+                    0.0,
+                    600.0,
+                    620.0,
+                    610.0,
+                    60.0,
+                    0.5,
+                    0.5,
+                    0.5,
+                )
+
+            return FakeSolution()
+
+    original_roster_score = use_case_module.calculate_ranking_aware_roster_score
+
+    def capture_roster_score(*args: object, **kwargs: object) -> object:
+        captured["score_top"] = list(kwargs["top_threat_indices"])
+        captured["score_full"] = list(kwargs["full_meta_indices"])
+        return original_roster_score(*args, **kwargs)
+
+    monkeypatch.setattr(use_case_module, "TeamOptimizer", FakeOptimizer)
+    monkeypatch.setattr(
+        use_case_module,
+        "calculate_ranking_aware_roster_score",
+        capture_roster_score,
+    )
+
+    result = AnalyzeMetaUseCase(
+        simulation_repository=ThreatPoolSimulationRepository(),
+        pokemon_repository=FakePokemonRepository(),
+        rankings_repository=ThreatPoolRankingsRepository({"TopOpp": 99.0}),
+        full_meta_rankings_repository=ThreatPoolRankingsRepository({"BroadOpp": 98.0}),
+    ).execute(seed=7, restarts=1, top_threats=3)
+
+    assert captured == {
+        "optimizer_top": [0],
+        "optimizer_full": [2],
+        "score_top": [0],
+        "score_full": [2],
+    }
+    assert {threat["opponent_label"] for threat in result["threats"]} <= {"TopOpp", "BroadOpp"}
+
+
+def test_use_case_does_not_fall_back_full_meta_when_active_rankings_exist(
+    monkeypatch: Any,
+) -> None:
+    captured: dict[str, list[int]] = {}
+
+    class FakeOptimizer:
+        def __init__(self, *_: object, **kwargs: object) -> None:
+            captured["optimizer_top"] = list(kwargs["top_threat_indices"])
+            captured["optimizer_full"] = list(kwargs["full_meta_indices"])
+
+        def optimize(self, **_: object) -> object:
+            class FakeSolution:
+                member_indices = (0, 1, 2, 3, 4, 5)
+                score = (
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    100.0,
+                    60.0,
+                    0.5,
+                    0.0,
+                    0.0,
+                    600.0,
+                    0.0,
+                    0.0,
+                    600.0,
+                    620.0,
+                    610.0,
+                    60.0,
+                    0.5,
+                    0.5,
+                    0.5,
+                )
+
+            return FakeSolution()
+
+    original_roster_score = use_case_module.calculate_ranking_aware_roster_score
+
+    def capture_roster_score(*args: object, **kwargs: object) -> object:
+        captured["score_top"] = list(kwargs["top_threat_indices"])
+        captured["score_full"] = list(kwargs["full_meta_indices"])
+        return original_roster_score(*args, **kwargs)
+
+    monkeypatch.setattr(use_case_module, "TeamOptimizer", FakeOptimizer)
+    monkeypatch.setattr(
+        use_case_module,
+        "calculate_ranking_aware_roster_score",
+        capture_roster_score,
+    )
+
+    result = AnalyzeMetaUseCase(
+        simulation_repository=ThreatPoolSimulationRepository(),
+        pokemon_repository=FakePokemonRepository(),
+        rankings_repository=ThreatPoolRankingsRepository({"TopOpp": 99.0}),
+    ).execute(seed=7, restarts=1, top_threats=3)
+
+    assert captured == {
+        "optimizer_top": [0],
+        "optimizer_full": [],
+        "score_top": [0],
+        "score_full": [],
+    }
+    assert {threat["opponent_label"] for threat in result["threats"]} <= {"TopOpp"}
+
+
+def test_use_case_preserves_all_target_threat_fallback_without_rankings() -> None:
+    result = AnalyzeMetaUseCase(
+        simulation_repository=NonRankingThreatFallbackSimulationRepository(),
+        pokemon_repository=FakePokemonRepository(),
+    ).execute(seed=7, restarts=1, top_threats=1)
+
+    assert [threat["opponent_label"] for threat in result["threats"]] == ["LateThreat"]
 
 
 def test_use_case_limits_recommended_lineups_from_argument() -> None:
