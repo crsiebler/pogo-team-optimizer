@@ -855,8 +855,15 @@ def test_use_case_exposes_ranking_aware_score_breakdown_and_diagnostics() -> Non
     team = result["recommended_team"]
     score_breakdown = team["score_breakdown"]
     diagnostics = team["ranking_diagnostics"]
+    metrics = team["metrics"]
 
-    assert score_breakdown["final_score"] == team["metrics"]["ranking_aware_score"]
+    assert score_breakdown["final_score"] == metrics["ranking_aware_score"]
+    assert metrics["coverage_grade"] in {"A", "B", "C", "D", "F"}
+    assert metrics["bulk_grade"] in {"A", "B", "C", "D", "F"}
+    assert metrics["safety_grade"] in {"A", "B", "C", "D", "F"}
+    assert metrics["consistency_grade"] in {"A", "B", "C", "D", "F"}
+    assert isinstance(metrics["threat_score"], float)
+    assert metrics["threat_score"] >= 0.0
     assert [component["name"] for component in score_breakdown["components"]] == [
         "synergy",
         "threat_coverage",

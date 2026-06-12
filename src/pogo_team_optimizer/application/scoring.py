@@ -14,6 +14,7 @@ SoftMatchupBand = Literal[
     "soft_loss",
     "hard_loss",
 ]
+TeamGrade = Literal["A", "B", "C", "D", "F"]
 ScoreComponentName = Literal[
     "synergy",
     "threat_coverage",
@@ -35,6 +36,8 @@ WIN_SCORE_THRESHOLD = 500
 OVERWHELMING_LOSS_SCORE_THRESHOLD = 400
 TOP_THREAT_COVERAGE_WEIGHT = 0.75
 FULL_META_COVERAGE_WEIGHT = 0.25
+TOP_META_THREAT_SCORE_WEIGHT = 0.70
+BROAD_META_THREAT_SCORE_WEIGHT = 0.30
 SHIELD_SCENARIO_WEIGHTS: tuple[float, float, float] = (0.30, 0.50, 0.20)
 STRONG_ANSWER_SCORE_THRESHOLD = 600
 PLAYABLE_ANSWER_SCORE_THRESHOLD = 525
@@ -307,6 +310,24 @@ class RosterScore:
         return self.breakdown.diagnostics
 
 
+@dataclass(frozen=True)
+class FullTeamDiagnostics:
+    coverage_grade: TeamGrade
+    bulk_grade: TeamGrade
+    safety_grade: TeamGrade
+    consistency_grade: TeamGrade
+    threat_score: float
+
+    def as_metrics(self) -> dict[str, str | float]:
+        return {
+            "coverage_grade": self.coverage_grade,
+            "bulk_grade": self.bulk_grade,
+            "safety_grade": self.safety_grade,
+            "consistency_grade": self.consistency_grade,
+            "threat_score": self.threat_score,
+        }
+
+
 def calculate_ranking_aware_roster_score(
     *,
     team_indices: Sequence[int],
@@ -418,6 +439,74 @@ def calculate_ranking_aware_roster_score(
     )
 
 
+def calculate_full_team_diagnostics(
+    *,
+    roster_score: RosterScore,
+    team_indices: Sequence[int],
+    matrices: Sequence[Sequence[Sequence[int]]],
+    top_threat_indices: Sequence[int] | None = None,
+    full_meta_indices: Sequence[int] | None = None,
+) -> FullTeamDiagnostics:
+    components = {component.name: component for component in roster_score.components}
+    return FullTeamDiagnostics(
+        coverage_grade=grade_normalized_score(components["threat_coverage"].raw_value),
+        bulk_grade=grade_normalized_score(components["bulk"].raw_value),
+        safety_grade=grade_normalized_score(components["safety"].raw_value),
+        consistency_grade=grade_normalized_score(components["consistency"].raw_value),
+        threat_score=calculate_threat_score(
+            team_indices=team_indices,
+            matrices=matrices,
+            top_threat_indices=top_threat_indices,
+            full_meta_indices=full_meta_indices,
+        ),
+    )
+
+
+def grade_normalized_score(score: float | None) -> TeamGrade:
+    normalized = NORMALIZED_PVPOKE_SCORE_FALLBACK if score is None else _clamp(score)
+    if normalized >= 0.90:
+        return "A"
+    if normalized >= 0.75:
+        return "B"
+    if normalized >= 0.60:
+        return "C"
+    if normalized >= 0.45:
+        return "D"
+    return "F"
+
+
+def calculate_threat_score(
+    *,
+    team_indices: Sequence[int],
+    matrices: Sequence[Sequence[Sequence[int]]],
+    top_threat_indices: Sequence[int] | None = None,
+    full_meta_indices: Sequence[int] | None = None,
+) -> float:
+    col_count = len(matrices[0][0]) if matrices and matrices[0] else 0
+    full_meta = tuple(range(col_count)) if full_meta_indices is None else tuple(full_meta_indices)
+    top_threats = (
+        full_meta[: min(10, len(full_meta))]
+        if top_threat_indices is None
+        else tuple(top_threat_indices)
+    )
+    _validate_threat_indices(top_threats, col_count)
+    _validate_threat_indices(full_meta, col_count)
+
+    weighted_scores: list[tuple[float, float]] = []
+    top_score = _average_threat_risk(team_indices, matrices, top_threats)
+    if top_score is not None:
+        weighted_scores.append((TOP_META_THREAT_SCORE_WEIGHT, top_score))
+    broad_score = _average_threat_risk(team_indices, matrices, full_meta)
+    if broad_score is not None:
+        weighted_scores.append((BROAD_META_THREAT_SCORE_WEIGHT, broad_score))
+    if not weighted_scores:
+        return 0.0
+
+    total_weight = sum(weight for weight, _ in weighted_scores)
+    score = sum(weight * value for weight, value in weighted_scores) / total_weight
+    return round(max(0.0, min(100.0, score)), 3)
+
+
 def aggregate_shield_matchup_score(scores_by_shield: Sequence[float]) -> float:
     """Return weighted matchup strength across available 0-, 1-, and 2-shield scores."""
     if not scores_by_shield or len(scores_by_shield) > len(SHIELD_SCENARIO_WEIGHTS):
@@ -477,6 +566,54 @@ def count_playable_soft_answers(scores_by_member: Sequence[Sequence[float]]) -> 
         for scores_by_shield in scores_by_member
         if aggregate_shield_matchup_score(scores_by_shield) >= PLAYABLE_ANSWER_SCORE_THRESHOLD
     )
+
+
+def _average_threat_risk(
+    team_indices: Sequence[int],
+    matrices: Sequence[Sequence[Sequence[int]]],
+    threat_indices: Sequence[int],
+) -> float | None:
+    if not threat_indices:
+        return None
+    return sum(
+        _single_threat_risk(team_indices, matrices, col_idx) for col_idx in threat_indices
+    ) / len(threat_indices)
+
+
+def _single_threat_risk(
+    team_indices: Sequence[int],
+    matrices: Sequence[Sequence[Sequence[int]]],
+    col_idx: int,
+) -> float:
+    scores_by_member = [tuple(matrix[row_idx][col_idx] for matrix in matrices) for row_idx in team_indices]
+    aggregate_scores = [aggregate_shield_matchup_score(scores) for scores in scores_by_member]
+    best_score = max(aggregate_scores) if aggregate_scores else 0.0
+    playable_count = sum(score >= PLAYABLE_ANSWER_SCORE_THRESHOLD for score in aggregate_scores)
+    strong_count = sum(score >= STRONG_ANSWER_SCORE_THRESHOLD for score in aggregate_scores)
+    hard_loss_count = sum(score < OVERWHELMING_LOSS_SCORE_THRESHOLD for score in aggregate_scores)
+    sorted_scores = sorted(aggregate_scores, reverse=True)
+    second_best = sorted_scores[1] if len(sorted_scores) > 1 else 0.0
+    best_stability = max(
+        (
+            shield_stability_score(scores_by_member[index])
+            for index, aggregate_score in enumerate(aggregate_scores)
+            if aggregate_score == best_score
+        ),
+        default=0.0,
+    )
+
+    risk = soft_matchup_risk(best_score) * 45.0
+    if playable_count == 0:
+        risk += 35.0
+    elif playable_count == 1:
+        risk += 15.0
+        if second_best < NEUTRAL_MATCHUP_SCORE_THRESHOLD:
+            risk += 10.0
+    risk += (hard_loss_count / len(team_indices) * 15.0) if team_indices else 15.0
+    risk += (1.0 - best_stability) * 15.0
+    risk -= min(max(playable_count - 1, 0), 3) * 4.0
+    risk -= min(strong_count, 3) * 2.0
+    return max(0.0, min(100.0, risk))
 
 
 def _ordered_diagnostics(

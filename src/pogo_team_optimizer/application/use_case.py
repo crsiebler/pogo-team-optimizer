@@ -32,6 +32,7 @@ from pogo_team_optimizer.application.scoring import (
     PvPokeScoreNormalizationPolicy,
     RosterScore,
     WeightedScoreComponent,
+    calculate_full_team_diagnostics,
     calculate_ranking_aware_roster_score,
 )
 from pogo_team_optimizer.domain.interfaces import (
@@ -323,6 +324,15 @@ class AnalyzeMetaUseCase:
             type_effectiveness=type_effectiveness,
             top_threat_indices=top_threat_indices,
             full_meta_indices=full_meta_indices,
+        )
+        metrics.update(
+            calculate_full_team_diagnostics(
+                roster_score=roster_score,
+                team_indices=best_team.member_indices,
+                matrices=matrices,
+                top_threat_indices=top_threat_indices,
+                full_meta_indices=full_meta_indices,
+            ).as_metrics()
         )
         bench_utility = _build_actionable_bench_utility(
             row_labels=row_labels,

@@ -18,9 +18,12 @@ from pogo_team_optimizer.application.scoring import (
     SynergyScore,
     ThreatCoverageScore,
     aggregate_shield_matchup_score,
+    calculate_full_team_diagnostics,
     calculate_ranking_aware_roster_score,
+    calculate_threat_score,
     classify_soft_matchup_score,
     count_playable_soft_answers,
+    grade_normalized_score,
     shield_stability_score,
     soft_matchup_quality,
     soft_matchup_risk,
@@ -307,6 +310,136 @@ def test_playable_answer_count_rewards_multiple_stable_answers() -> None:
 
 def test_shield_stability_penalizes_isolated_shield_spikes() -> None:
     assert shield_stability_score((540, 550, 545)) > shield_stability_score((700, 300, 300))
+
+
+@pytest.mark.parametrize(
+    ("score", "expected"),
+    [
+        (1.2, "A"),
+        (0.90, "A"),
+        (0.89, "B"),
+        (0.75, "B"),
+        (0.74, "C"),
+        (0.60, "C"),
+        (0.59, "D"),
+        (0.45, "D"),
+        (0.44, "F"),
+        (-0.1, "F"),
+    ],
+)
+def test_grade_mapping_uses_a_to_f_without_plus_minus(score: float, expected: str) -> None:
+    grade = grade_normalized_score(score)
+
+    assert grade == expected
+    assert grade in {"A", "B", "C", "D", "F"}
+
+
+def test_threat_score_rewards_redundant_stable_answers() -> None:
+    good_team = calculate_threat_score(
+        team_indices=(0, 1, 2),
+        matrices=[
+            [[620, 570], [610, 560], [540, 550], [300, 300], [300, 300], [300, 300]],
+            [[630, 580], [620, 570], [545, 555], [300, 300], [300, 300], [300, 300]],
+            [[625, 575], [615, 565], [535, 545], [300, 300], [300, 300], [300, 300]],
+        ],
+        top_threat_indices=(0,),
+        full_meta_indices=(0, 1),
+    )
+    bad_team = calculate_threat_score(
+        team_indices=(3, 4, 5),
+        matrices=[
+            [[620, 570], [610, 560], [540, 550], [300, 300], [520, 300], [300, 300]],
+            [[630, 580], [620, 570], [545, 555], [300, 300], [300, 300], [300, 300]],
+            [[625, 575], [615, 565], [535, 545], [300, 300], [300, 300], [300, 300]],
+        ],
+        top_threat_indices=(0,),
+        full_meta_indices=(0, 1),
+    )
+
+    assert good_team < bad_team
+
+
+def test_threat_score_penalizes_volatile_best_answer_over_stable_losing_teammate() -> None:
+    volatile_best_answer = calculate_threat_score(
+        team_indices=(0, 1),
+        matrices=[[[700], [450]], [[300], [450]], [[300], [450]]],
+        top_threat_indices=(0,),
+        full_meta_indices=(0,),
+    )
+    stable_best_answer = calculate_threat_score(
+        team_indices=(0, 1),
+        matrices=[[[540], [450]], [[540], [450]], [[540], [450]]],
+        top_threat_indices=(0,),
+        full_meta_indices=(0,),
+    )
+
+    assert volatile_best_answer > stable_best_answer
+
+
+def test_threat_score_best_answer_stability_ties_are_order_invariant() -> None:
+    matrices = [
+        [[700], [460]],
+        [[300], [460]],
+        [[500], [460]],
+    ]
+
+    assert calculate_threat_score(
+        team_indices=(0, 1),
+        matrices=matrices,
+        top_threat_indices=(0,),
+        full_meta_indices=(0,),
+    ) == calculate_threat_score(
+        team_indices=(1, 0),
+        matrices=matrices,
+        top_threat_indices=(0,),
+        full_meta_indices=(0,),
+    )
+
+
+def test_threat_score_weights_top_meta_risk_above_broad_meta_risk() -> None:
+    matrices = [
+        [[300, 620], [300, 620], [300, 620], [620, 300], [620, 300], [620, 300]],
+        [[300, 620], [300, 620], [300, 620], [620, 300], [620, 300], [620, 300]],
+        [[300, 620], [300, 620], [300, 620], [620, 300], [620, 300], [620, 300]],
+    ]
+
+    top_meta_weak_team = calculate_threat_score(
+        team_indices=(0, 1, 2),
+        matrices=matrices,
+        top_threat_indices=(0,),
+        full_meta_indices=(1,),
+    )
+    broad_meta_weak_team = calculate_threat_score(
+        team_indices=(3, 4, 5),
+        matrices=matrices,
+        top_threat_indices=(0,),
+        full_meta_indices=(1,),
+    )
+
+    assert top_meta_weak_team > broad_meta_weak_team
+
+
+def test_full_team_diagnostics_expose_component_grades_and_threat_score() -> None:
+    roster_score = RosterScore.from_components(
+        threat_coverage=ThreatCoverageScore(0.91),
+        safety=SafetyScore(0.76),
+        consistency=ConsistencyScore(0.61),
+        bulk=BulkScore(0.46),
+    )
+
+    diagnostics = calculate_full_team_diagnostics(
+        roster_score=roster_score,
+        team_indices=(0, 1, 2),
+        matrices=[[[620], [620], [620]]] * 3,
+        top_threat_indices=(0,),
+        full_meta_indices=(0,),
+    )
+
+    assert diagnostics.coverage_grade == "A"
+    assert diagnostics.safety_grade == "B"
+    assert diagnostics.consistency_grade == "C"
+    assert diagnostics.bulk_grade == "D"
+    assert diagnostics.threat_score < 10.0
 
 
 def test_ranking_aware_roster_score_weights_top_threat_misses_above_full_meta_misses() -> None:

@@ -714,7 +714,7 @@
         "Typecheck passes"
       ],
       "priority": 38,
-      "passes": false,
+      "passes": true,
       "notes": "Recommended agent: python-pro. Keep grade and threat-score calculations in application scoring/use-case code. Exporters should only render payload fields added here or in a follow-up story."
     },
     {
