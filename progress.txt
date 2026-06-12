@@ -1597,3 +1597,34 @@
 - Next iteration start:
   - Implement `US-040` by rendering existing full-team metric payload fields in text and Markdown without recomputing scores in exporters.
 ---
+## 2026-06-12 04:13:03 MST - US-040
+- What was implemented
+- Rendered full-team coverage, bulk, safety, consistency grades, and lower-is-better Threat Score in text and Markdown Team Analysis sections from `recommended_team.metrics`.
+- Added structured `major_top_meta_threats` and `major_broad_meta_threats` diagnostics in `AnalyzeMetaUseCase` from existing ranked threat indices, then rendered those groups in text and Markdown Potential Threats output.
+- Preserved existing Recommended Lineups rendering and avoided reintroducing standalone Coverage, Safe Cores, or Resource / Shield Safety sections.
+- Files changed: `progress.txt`, `src/pogo_team_optimizer/application/use_case.py`, `src/pogo_team_optimizer/infrastructure/exporters/markdown_exporter.py`, `src/pogo_team_optimizer/infrastructure/exporters/text_exporter.py`, `tests/unit/test_battle_frontier_exporters.py`, `tests/unit/test_use_case_lineups.py`
+- Commit message: `feat: US-040 - Render improved full-team CLI diagnostics`
+- Checks:
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m pytest tests/unit/test_battle_frontier_exporters.py tests/unit/test_use_case_lineups.py -q` (pass, 46 tests)
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m mypy src` (pass)
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m ruff check src tests` (pass)
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m pytest` (pass, 272 passed, 2 skipped)
+- Implementation agents:
+  - Recommended: `python-pro`
+  - Used: `python-pro`
+- Specialist review:
+  - Agents used: `code-reviewer`, `qa-expert`
+  - Findings: fixed before commit; gated grouped threat diagnostics to ranking-backed pools, excluded broad-meta entries that duplicate top-meta threats by base species, added use-case wiring coverage for grouped diagnostics, added exporter regressions for empty grouped-threat payloads, and final specialist pass found no actionable findings.
+- Decisions (why):
+  - Chose to keep grade and Threat Score rendering inside the existing Team Analysis section because normal human-readable reports should stay focused and not reintroduce standalone legacy sections.
+  - Chose to assemble top-meta versus broad-meta threat groups in `AnalyzeMetaUseCase` so exporters render structured payload fields without recomputing scoring or ranking logic.
+  - Chose to exclude top-meta indices from broad-meta group rendering so the two report groups are distinguishable when both ranked pools are available.
+  - Chose to suppress grouped threat headings when ranked threat pools are not configured because fallback matrix columns are not meaningful top-meta or broad-meta rankings.
+- **Learnings for future iterations:**
+  - Human-readable full-team diagnostics should be rendered from `recommended_team.metrics`, while ranked threat grouping should be rendered from `recommended_team.ranking_diagnostics`.
+  - Gotcha encountered: existing ranking diagnostics grouped all remaining threats together, so top-meta and broad-meta output needed an explicit payload split before exporters could remain render-only.
+- Known issues / follow-ups:
+  - Documentation for these full bring-6 scoring assumptions remains pending for `US-041`.
+- Next iteration start:
+  - Implement `US-041` by documenting PvPoke calibration inputs, eligibility/filtering, ranked threat weighting, shield aggregation, grade mapping, and full bring-6 objective assumptions.
+---

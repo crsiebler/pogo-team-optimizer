@@ -750,7 +750,7 @@
         "Typecheck passes"
       ],
       "priority": 40,
-      "passes": false,
+      "passes": true,
       "notes": "Recommended agent: python-pro. Keep formatting in infrastructure exporters and render only use-case payload fields. Do not reintroduce standalone Coverage, Safe Cores, or Resource / Shield Safety sections."
     },
     {

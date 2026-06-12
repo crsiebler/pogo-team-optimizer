@@ -25,7 +25,7 @@ from pogo_team_optimizer.application.lineups import (
     score_roster_bench_utility,
     score_ordered_lineup,
 )
-from pogo_team_optimizer.application.normalization import parse_species
+from pogo_team_optimizer.application.normalization import parse_base_species, parse_species
 from pogo_team_optimizer.application.optimizer import TeamOptimizer
 from pogo_team_optimizer.application.ranking_pools import build_ranking_pools
 from pogo_team_optimizer.application.scoring import (
@@ -373,6 +373,10 @@ class AnalyzeMetaUseCase:
                     pokemon_types_by_row=pokemon_types_by_row,
                     type_effectiveness=type_effectiveness,
                     ranking_profile=ranking_profile,
+                    top_threat_indices=top_threat_indices if ranking_profile is not None else [],
+                    full_meta_indices=(
+                        full_meta_indices if full_meta_ranking_profile is not None else []
+                    ),
                 ),
                 "bench_utility": bench_utility,
                 "shadow_count": sum(
@@ -724,12 +728,16 @@ def _build_ranking_diagnostics(
     pokemon_types_by_row: list[tuple[str, ...]],
     type_effectiveness: dict[str, dict[str, float]],
     ranking_profile: RankingProfile | None,
+    top_threat_indices: list[int] | None = None,
+    full_meta_indices: list[int] | None = None,
 ) -> dict[str, Any]:
     key_covered_threats: list[str] = []
     no_answer_threats: list[str] = []
     single_answer_threats: list[str] = []
+    answer_counts: dict[int, int] = {}
     for col_idx, label in enumerate(col_labels):
         answer_count = _threat_answer_count(team_indices, matrices, col_idx)
+        answer_counts[col_idx] = answer_count
         if answer_count == 0:
             no_answer_threats.append(label)
         elif answer_count == 1:
@@ -744,6 +752,20 @@ def _build_ranking_diagnostics(
     return {
         "key_covered_threats": key_covered_threats[:5],
         "remaining_threats": remaining_threats,
+        "major_top_meta_threats": _major_threat_labels(
+            col_labels,
+            answer_counts,
+            top_threat_indices or [],
+        ),
+        "major_broad_meta_threats": _major_threat_labels(
+            col_labels,
+            answer_counts,
+            _broad_meta_only_indices(
+                col_labels,
+                full_meta_indices or [],
+                top_threat_indices or [],
+            ),
+        ),
         "no_answer_threats": no_answer_threats,
         "single_answer_threats": single_answer_threats,
         "shared_weaknesses": _shared_weaknesses(
@@ -754,6 +776,36 @@ def _build_ranking_diagnostics(
         "role_assumptions": _role_assumptions(ranking_profile),
         "lineup_dependency": _lineup_dependency(metrics),
     }
+
+
+def _major_threat_labels(
+    col_labels: list[str],
+    answer_counts: dict[int, int],
+    threat_indices: list[int],
+) -> list[str]:
+    return [
+        col_labels[index]
+        for index in threat_indices
+        if 0 <= index < len(col_labels) and answer_counts.get(index, 0) <= 1
+    ]
+
+
+def _broad_meta_only_indices(
+    col_labels: list[str],
+    full_meta_indices: list[int],
+    top_threat_indices: list[int],
+) -> list[int]:
+    top_threat_base_species = {
+        parse_base_species(parse_species(col_labels[index]))
+        for index in top_threat_indices
+        if 0 <= index < len(col_labels)
+    }
+    return [
+        index
+        for index in full_meta_indices
+        if 0 <= index < len(col_labels)
+        and parse_base_species(parse_species(col_labels[index])) not in top_threat_base_species
+    ]
 
 
 def _threat_answer_count(

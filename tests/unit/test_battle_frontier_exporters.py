@@ -83,6 +83,11 @@ def build_result() -> dict[str, object]:
                 "battle_frontier_max_mega_members": 1,
                 "battle_frontier_free_low_point_usage_rate": 0.6666666667,
                 "battle_frontier_high_point_usage_rate": 0.1754385965,
+                "coverage_grade": "B",
+                "bulk_grade": "A",
+                "safety_grade": "C",
+                "consistency_grade": "D",
+                "threat_score": 27.345,
             },
             "score_breakdown": {
                 "final_score": 0.74,
@@ -102,6 +107,8 @@ def build_result() -> dict[str, object]:
             "ranking_diagnostics": {
                 "key_covered_threats": ["Dialga"],
                 "remaining_threats": ["Zygarde"],
+                "major_top_meta_threats": ["Zygarde"],
+                "major_broad_meta_threats": ["Giratina"],
                 "no_answer_threats": [],
                 "single_answer_threats": ["Zygarde"],
                 "shared_weaknesses": [
@@ -281,6 +288,11 @@ def test_text_exporter_renders_lineup_aware_sections() -> None:
     assert "\nSafe Cores\n" not in rendered
     assert "Bench Utility" not in rendered
     assert "full-roster dominate count" in rendered
+    assert "Coverage Grade: B" in rendered
+    assert "Bulk Grade: A" in rendered
+    assert "Safety Grade: C" in rendered
+    assert "Consistency Grade: D" in rendered
+    assert "Threat Score: 27.34" in rendered
     assert "ranking-aware score: 0.740" in rendered
     assert "key covered threats: Dialga" in rendered
     assert "remaining threats: Zygarde" in rendered
@@ -299,7 +311,25 @@ def test_text_exporter_keeps_potential_threats_visible() -> None:
 
     assert rendered is not None
     assert "Potential Threats" in rendered
+    assert "Major Top-Meta Threats:" in rendered
+    assert "- Zygarde" in rendered
+    assert "Major Broad-Meta Threats:" in rendered
+    assert "- Giratina" in rendered
     assert "Zygarde | single-coverage: 1 | no-coverage: 0" in rendered
+
+
+def test_text_exporter_omits_empty_major_threat_groups() -> None:
+    result = deepcopy(build_result())
+    diagnostics = result["recommended_team"]["ranking_diagnostics"]  # type: ignore[index]
+    diagnostics["major_top_meta_threats"] = []
+    diagnostics["major_broad_meta_threats"] = []
+
+    rendered = TextExporter().export(result)
+
+    assert rendered is not None
+    assert "Potential Threats" in rendered
+    assert "Major Top-Meta Threats:" not in rendered
+    assert "Major Broad-Meta Threats:" not in rendered
 
 
 def test_text_exporter_omits_bench_utility_when_no_warnings() -> None:
@@ -346,6 +376,11 @@ def test_markdown_exporter_renders_lineup_aware_sections() -> None:
     assert "## Safe Cores" not in rendered
     assert "## Bench Utility" not in rendered
     assert "Full-roster dominate count" in rendered
+    assert "**Coverage Grade:** `B`" in rendered
+    assert "**Bulk Grade:** `A`" in rendered
+    assert "**Safety Grade:** `C`" in rendered
+    assert "**Consistency Grade:** `D`" in rendered
+    assert "**Threat Score:** `27.34`" in rendered
     assert "Ranking-aware score: `0.740`" in rendered
     assert "Key covered threats: Dialga" in rendered
     assert "Remaining threats: Zygarde" in rendered
@@ -364,7 +399,25 @@ def test_markdown_exporter_keeps_potential_threats_visible() -> None:
 
     assert rendered is not None
     assert "## Potential Threats" in rendered
+    assert "### Major Top-Meta Threats" in rendered
+    assert "- Zygarde" in rendered
+    assert "### Major Broad-Meta Threats" in rendered
+    assert "- Giratina" in rendered
     assert "| Zygarde | 1 | 0 | 0-shield: only Mewtwo (601) |" in rendered
+
+
+def test_markdown_exporter_omits_empty_major_threat_groups() -> None:
+    result = deepcopy(build_result())
+    diagnostics = result["recommended_team"]["ranking_diagnostics"]  # type: ignore[index]
+    diagnostics["major_top_meta_threats"] = []
+    diagnostics["major_broad_meta_threats"] = []
+
+    rendered = MarkdownExporter().export(result)
+
+    assert rendered is not None
+    assert "## Potential Threats" in rendered
+    assert "### Major Top-Meta Threats" not in rendered
+    assert "### Major Broad-Meta Threats" not in rendered
 
 
 def test_markdown_exporter_omits_bench_utility_when_no_warnings() -> None:

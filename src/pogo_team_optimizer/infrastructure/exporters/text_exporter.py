@@ -21,6 +21,7 @@ class TextExporter(AnalysisExporter):
         lines.append("")
         lines.append("Team Analysis")
         metrics = result["recommended_team"]["metrics"]
+        self._append_full_team_diagnostics(lines, metrics)
         lines.append(
             f"- bulk score: {metrics['bulk_score']:.2f} "
             f"(team avg def*hp/atk; pool min/mean/max "
@@ -87,6 +88,7 @@ class TextExporter(AnalysisExporter):
 
         lines.append("")
         lines.append("Potential Threats")
+        self._append_major_threat_groups(lines, result)
         for threat in result["threats"]:
             if threat.get("no_cover_count", 0) == 0 and threat.get("single_cover_count", 0) == 0:
                 scores = "/".join(str(score) for score in threat["shield_best_scores"])
@@ -120,6 +122,36 @@ class TextExporter(AnalysisExporter):
                 handle.write(rendered)
             return None
         return rendered
+
+    def _append_full_team_diagnostics(
+        self,
+        lines: list[str],
+        metrics: dict[str, Any],
+    ) -> None:
+        grade_fields = (
+            ("Coverage Grade", "coverage_grade"),
+            ("Bulk Grade", "bulk_grade"),
+            ("Safety Grade", "safety_grade"),
+            ("Consistency Grade", "consistency_grade"),
+        )
+        for label, key in grade_fields:
+            if key in metrics:
+                lines.append(f"- {label}: {metrics[key]}")
+        if "threat_score" in metrics:
+            lines.append(f"- Threat Score: {metrics['threat_score']:.2f}")
+
+    def _append_major_threat_groups(self, lines: list[str], result: dict[str, Any]) -> None:
+        diagnostics = result["recommended_team"].get("ranking_diagnostics", {})
+        top_meta_threats = diagnostics.get("major_top_meta_threats", [])
+        broad_meta_threats = diagnostics.get("major_broad_meta_threats", [])
+        if top_meta_threats:
+            lines.append("Major Top-Meta Threats:")
+            for threat in top_meta_threats:
+                lines.append(f"- {threat}")
+        if broad_meta_threats:
+            lines.append("Major Broad-Meta Threats:")
+            for threat in broad_meta_threats:
+                lines.append(f"- {threat}")
 
     def _append_recommended_lineups(self, lines: list[str], result: dict[str, Any]) -> None:
         lineups = result.get("recommended_lineups", [])
