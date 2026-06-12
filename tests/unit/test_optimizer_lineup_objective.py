@@ -1,7 +1,12 @@
 import pickle
 
 import pogo_team_optimizer.application.optimizer as optimizer_module
-from pogo_team_optimizer.application.optimizer import OptimizerRestartBatch
+from pogo_team_optimizer.application.optimizer import (
+    LINEUP_OBJECTIVE_SCORE_INDEX,
+    RANKING_AWARE_SCORE_INDEX,
+    WEIGHTED_WORST_BEST_SCORE_INDEX,
+    OptimizerRestartBatch,
+)
 from pogo_team_optimizer.application.lineups import OrderedLineup, score_roster_lineup_depth
 from pogo_team_optimizer.application.optimizer import TeamOptimizer
 
@@ -83,7 +88,7 @@ def _comparison_key(optimizer: TeamOptimizer, team: list[int]) -> tuple[float, .
     )
 
 
-def test_lineup_objective_prefers_stronger_pick_three_over_full_six_paper_coverage() -> None:
+def test_comparison_prefers_better_ranking_aware_full_team_quality() -> None:
     rows = [
         [700, 300, 300, 300, 300, 300],
         [300, 700, 300, 300, 300, 300],
@@ -105,6 +110,9 @@ def test_lineup_objective_prefers_stronger_pick_three_over_full_six_paper_covera
     assert optimizer._score_team(paper_coverage_team)[1] > optimizer._score_team(
         lineup_strength_team
     )[1]
+    assert optimizer._score_team(lineup_strength_team)[19] > optimizer._score_team(
+        paper_coverage_team
+    )[19]
     assert _comparison_key(optimizer, lineup_strength_team) > _comparison_key(
         optimizer, paper_coverage_team
     )
@@ -170,7 +178,7 @@ def test_bulk_floor_is_derived_from_loaded_candidate_pool() -> None:
     assert optimizer.bulk_floor == 200.0
 
 
-def test_above_floor_teams_continue_to_compare_by_lineup_objective() -> None:
+def test_above_floor_teams_compare_full_team_quality_before_lineup_objective() -> None:
     rows = [
         [760, 760, 760, 760],
         [760, 760, 760, 760],
@@ -198,11 +206,53 @@ def test_above_floor_teams_continue_to_compare_by_lineup_objective() -> None:
     stronger_lineup_team = [0, 1, 2, 3, 4, 5]
     weaker_lineup_team = [6, 7, 8, 9, 10, 11]
 
-    assert optimizer._score_team(stronger_lineup_team)[13] > optimizer._score_team(
-        weaker_lineup_team
-    )[13]
-    assert _comparison_key(optimizer, stronger_lineup_team) > _comparison_key(
-        optimizer, weaker_lineup_team
+    assert optimizer._score_team(stronger_lineup_team)[13] > optimizer._score_team(weaker_lineup_team)[
+        13
+    ]
+    assert optimizer._score_team(weaker_lineup_team)[19] > optimizer._score_team(stronger_lineup_team)[
+        19
+    ]
+    assert _comparison_key(optimizer, weaker_lineup_team) > _comparison_key(
+        optimizer, stronger_lineup_team
+    )
+
+
+def test_full_bring_six_quality_beats_stronger_pick_three_lineup_objective() -> None:
+    rows = [[600, 600, 600, 600, 600, 600] for _ in range(6)] + [
+        [700, 700, 700, 700, 700, 300] for _ in range(6)
+    ]
+    optimizer = _optimizer_with_rows(rows)
+    full_team = [0, 1, 2, 3, 4, 5]
+    lineup_heavy_team = [6, 7, 8, 9, 10, 11]
+
+    assert optimizer._score_team(lineup_heavy_team)[13] > optimizer._score_team(full_team)[13]
+    assert optimizer._score_team(full_team)[19] > optimizer._score_team(lineup_heavy_team)[19]
+    assert _comparison_key(optimizer, full_team) > _comparison_key(optimizer, lineup_heavy_team)
+
+
+def test_legacy_full_team_quality_beats_lineup_objective_when_ranking_score_ties() -> None:
+    optimizer = _optimizer_with_rows([[600, 600] for _ in range(6)])
+    full_team_score = [0.0] * 20
+    lineup_heavy_score = [0.0] * 20
+    full_team_score[RANKING_AWARE_SCORE_INDEX] = 0.5
+    lineup_heavy_score[RANKING_AWARE_SCORE_INDEX] = 0.5
+    full_team_score[WEIGHTED_WORST_BEST_SCORE_INDEX] = 620.0
+    lineup_heavy_score[WEIGHTED_WORST_BEST_SCORE_INDEX] = 580.0
+    full_team_score[LINEUP_OBJECTIVE_SCORE_INDEX] = 500.0
+    lineup_heavy_score[LINEUP_OBJECTIVE_SCORE_INDEX] = 650.0
+
+    assert optimizer._comparison_key(
+        [0, 1, 2, 3, 4, 5],
+        tuple(full_team_score),
+        safety_floor=None,
+        min_safe_members=0,
+        safe_member_floor=90.0,
+    ) > optimizer._comparison_key(
+        [0, 1, 2, 3, 4, 5],
+        tuple(lineup_heavy_score),
+        safety_floor=None,
+        min_safe_members=0,
+        safe_member_floor=90.0,
     )
 
 

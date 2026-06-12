@@ -1,8 +1,8 @@
 ## Codebase Patterns
 - Ordered bring-6 pick-3 lineup enumeration lives in `application/lineups.py`; `OrderedLineup` canonicalizes the unordered back pair by sorted row index while preserving lead order from the input roster.
 - Ordered lineup resource-path scoring lives in `application/lineups.py`; fixed paths are balanced lead 1/back 1, shield-spend lead 2/back 0, and shield-save lead 0/back 2, with lineup thresholds of `> 600` dominating and `< 400` overwhelming.
-- Six-Pokemon roster objective scoring in `TeamOptimizer` should prioritize appended lineup-depth metrics before legacy full-roster coverage tie-breakers; keep score tuple indexes `0` through `12` compatible for existing metrics consumers.
-- `TeamOptimizer` derives a meta-relative bulk floor from the loaded candidate pool mean and applies any below-floor bulk deficit in `_comparison_key()` before lineup objective fields; this is a penalty, not a legality filter.
+- Six-Pokemon roster objective scoring in `TeamOptimizer` should prioritize ranking-aware full-team quality and legacy full-team metrics before appended lineup-depth diagnostics; keep score tuple indexes `0` through `12` compatible for existing metrics consumers.
+- `TeamOptimizer` derives a meta-relative bulk floor from the loaded candidate pool mean and applies any below-floor bulk deficit in `_comparison_key()` before full-team and lineup objective fields; this is a penalty, not a legality filter.
 - `TeamOptimizer` caches pure score results per optimizer instance: full team scores by sorted row-index identity and ordered lineup mean scores by `OrderedLineup`; comparison keys are not cached because safety and policy inputs vary per call.
 - Optimizer multiprocessing should use `ProcessPoolExecutor` over deterministic restart batches with worker seeds derived from the base seed, cap worker counts via `MAX_OPTIMIZER_WORKERS`, and avoid parallelizing matchup cells or lineup resource-path calculations.
 - Structured `recommended_lineups` assembly lives in `AnalyzeMetaUseCase`; rank by lineup score with row-index tie-breakers, source diagnostics from `application/lineups.py`, and keep CLI/exporters from computing lineup scores.
@@ -32,13 +32,13 @@
 - Ordered lineup synergy scoring lives in `application/lineups.py`; derive ABC/ABB/ABA strategy score from type/matchup evidence, then have `TeamOptimizer._lineup_mean_score()` pass row types, type chart, and threat weights so synergy affects cached lineup objective scoring.
 - Skip ordered-lineup synergy when any lineup member has missing type data or incomplete type-effectiveness mappings; viability filters should require both resource-path mean and blended lineup score to meet `LINEUP_VIABILITY_THRESHOLD`.
 - Ranking-aware roster component scoring lives in `application/scoring.py`; keep coverage, safety, consistency, bulk, defensive ratio, and offensive ratio normalized before combining them through `RosterScore`.
-- `TeamOptimizer._score_team()` appends the ranking-aware final score after existing tuple indexes; `_comparison_key()` consumes safety-floor deficit, safe-member deficit, bulk deficit, primary lineup objective, ranking-aware final score, secondary lineup metrics, then legacy tie-breakers without reordering legacy score fields.
+- `TeamOptimizer._score_team()` appends the ranking-aware final score after existing tuple indexes; `_comparison_key()` consumes safety-floor deficit, safe-member deficit, bulk deficit, ranking-aware full-team score, legacy full-team quality metrics, then pick-3 lineup diagnostics as lower-priority tie-breakers without reordering legacy score fields.
 - Use ranking-pool matrix indices from `AnalyzeMetaUseCase` for top-threat weighting, normalized PvPoke consistency for ranking-aware consistency, shield-path stability as the bait-dependence proxy, and neutral move DPE fallback until move power/energy data is modeled.
 - `TeamOptimizer` snapshots caller-owned scoring inputs at construction and uses deterministic SHA-256 scoring-context fingerprints in team and lineup score cache keys so mutable inputs and large matrix keys do not affect cached scoring or integration-test runtime.
 - Ranking-aware explainability payloads are assembled in `AnalyzeMetaUseCase` from application score objects and structured threat/lineup diagnostics; exporters should render those fields without recomputing scoring, coverage, role, or shared-weakness logic.
 - Deterministic weighted GBL regression fixtures live under `tests/fixtures/us031_weighted_scoring/`; use them for small ranking, matrix, Pokemon, move, top-threat, full-meta, and Crucible-removal coverage instead of production ranking CSVs in unit tests.
 - Ranking-aware documentation should keep optimizer objectives separate from explainability-only diagnostics, preserve the repository/application/use-case/CLI/exporter boundary split, and keep Crucible documented as unsupported.
-- Ranking-aware docs should state the current optimizer comparison order exactly: safety-floor deficit, safe-member deficit, bulk deficit, primary lineup objective, ranking-aware final score, secondary lineup metrics, then legacy tie-breakers.
+- Ranking-aware docs should state the current optimizer comparison order exactly: safety-floor deficit, safe-member deficit, bulk deficit, ranking-aware full-team score, legacy full-team quality metrics, then pick-3 lineup diagnostics as lower-priority tie-breakers.
 - Local PvPoke data sync lives in `scripts/sync_pvpoke_data.py`; it reads `vendor/pvpoke` as a submodule source, copies gamemaster JSON, converts configured ranking JSON into flat `data/rankings/cp{cp}_{cup}_{category}_rankings.csv` files, and intentionally never writes `data/simulations/`.
 - Simulation matrix parsing excludes summary columns by header name, stores blank/non-numeric matchup cells as `None`, and relies on `AnalyzeMetaUseCase` to filter incomplete candidate rows before optimizer/scoring code receives narrowed integer matrices.
 
@@ -1564,4 +1564,36 @@
   - Local-only vendor submodule dirtiness, unrelated OpenCode skill edits, and `tasks/prd-pvp-team-optimizer-scoring.md` remain outside this story and should not be staged.
 - Next iteration start:
   - Implement `US-038` by adding full-team grades and lower-is-better Threat Score in application/use-case payloads without moving scoring into exporters.
+---
+## 2026-06-12 03:58:00 MST - US-039
+- What was implemented
+  - Updated `TeamOptimizer._comparison_key()` so safety-floor, safe-member, and bulk guards remain first, then ranking-aware full-team quality and legacy full-team quality metrics are considered before pick-3 lineup diagnostics.
+  - Preserved existing score tuple indexes and kept recommended pick-3 lineup scoring available as lower-priority tie-breakers and diagnostics.
+  - Added optimizer score index constants to reduce magic-index risk in the revised comparator and optimizer logging.
+  - Updated focused optimizer tests for full bring-6 priority, including regressions where stronger pick-3 lineup diagnostics lose to better ranking-aware or legacy full-team quality.
+- Files changed: `AGENTS.md`, `progress.txt`, `src/pogo_team_optimizer/application/optimizer.py`, `tests/unit/test_optimizer_lineup_objective.py`
+- Commit message: `feat: US-039 - Prioritize full bring-6 objective in optimizer`
+- Checks:
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m pytest tests/unit/test_optimizer_lineup_objective.py tests/unit/test_us031_weighted_scoring_fixtures.py -q` (pass, 32 tests)
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m mypy src` (pass)
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m ruff check src tests` (pass)
+  - `conda run -n pogo-team-optimizer env PYTHONPATH=src python -m pytest` (pass, 268 passed, 2 skipped)
+- Implementation agents:
+  - Recommended: `refactoring-specialist`
+  - Used: `refactoring-specialist`
+- Specialist review:
+  - Agents used: `code-reviewer`, `qa-expert`
+  - Findings: fixed before commit; updated stale Codebase Patterns lines that still described lineup-depth metrics as prioritized before full-team quality, and added a regression proving legacy full-team metrics beat lineup diagnostics when ranking-aware scores tie.
+- Decisions (why):
+  - Chose a comparator-only behavior change because `_score_team()` already appends the ranking-aware full-team score and acceptance criteria required preserving existing tuple indexes where practical.
+  - Chose to keep safety, safe-member, and bulk deficits ahead of full-team scoring because they are established viability guards rather than lineup-specific objectives.
+  - Chose to keep pick-3 lineup metrics in the comparison key after full-team metrics so recommended lineups remain useful diagnostics and deterministic tie-breakers without driving primary selection.
+- **Learnings for future iterations:**
+  - `TeamOptimizer._comparison_key()` is the primary selector; changing optimizer objective order does not require changing `AnalyzeMetaUseCase` or exporters when existing score tuple fields already contain the needed diagnostics.
+  - Gotcha encountered: some existing tests named for lineup-first behavior also depended on ranking-aware score, so tests should assert both the preferred primary score and the diagnostic score they are contrasting.
+- Known issues / follow-ups:
+  - User-facing text and Markdown rendering of full-team grades and Threat Score remains pending for `US-040`.
+  - Documentation updates for the revised full bring-6 assumptions remain pending for `US-041`.
+- Next iteration start:
+  - Implement `US-040` by rendering existing full-team metric payload fields in text and Markdown without recomputing scores in exporters.
 ---

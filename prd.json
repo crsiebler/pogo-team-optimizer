@@ -732,7 +732,7 @@
         "Typecheck passes"
       ],
       "priority": 39,
-      "passes": false,
+      "passes": true,
       "notes": "Recommended agent: refactoring-specialist. This is the core revised objective: keep recommended_lineups as diagnostics and low-priority tie-breakers, but full-team bring-6 quality must drive selection before pick-3 lineup objective."
     },
     {

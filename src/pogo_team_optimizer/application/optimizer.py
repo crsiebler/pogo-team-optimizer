@@ -23,6 +23,27 @@ LOGGER = logging.getLogger(__name__)
 OPTIMIZER_PROGRESS_EVALUATIONS = 10000
 MAX_OPTIMIZER_WORKERS = 32
 
+PAIR_COVERAGE_SCORE_INDEX = 0
+FULL_COLUMN_COVERAGE_SCORE_INDEX = 1
+NO_COVER_PAIR_SCORE_INDEX = 2
+SINGLE_COVER_PAIR_SCORE_INDEX = 3
+WEIGHTED_WORST_BEST_SCORE_INDEX = 4
+BULK_SCORE_INDEX = 5
+SAFETY_SCORE_INDEX = 6
+CONSISTENCY_SCORE_INDEX = 7
+REDUNDANT_COVERAGE_2PLUS_SCORE_INDEX = 8
+REDUNDANT_COVERAGE_3PLUS_SCORE_INDEX = 9
+MEAN_BEST_SCORE_INDEX = 10
+DOMINATE_COUNT_SCORE_INDEX = 11
+OVERWHELMING_COUNT_SCORE_INDEX = 12
+LINEUP_OBJECTIVE_SCORE_INDEX = 13
+LINEUP_BEST_SCORE_INDEX = 14
+LINEUP_TOP_N_MEAN_SCORE_INDEX = 15
+LINEUP_VIABLE_COUNT_SCORE_INDEX = 16
+DEFENSIVE_TYPE_SCORE_INDEX = 17
+OFFENSIVE_MOVE_SCORE_INDEX = 18
+RANKING_AWARE_SCORE_INDEX = 19
+
 MatrixKey = tuple[tuple[tuple[int, ...], ...], ...]
 TypeEffectivenessKey = tuple[tuple[str, tuple[tuple[str, float], ...]], ...]
 ScoreContextKey = tuple[object, ...]
@@ -299,10 +320,10 @@ class TeamOptimizer:
                                 current_bases = {self.row_base_species[i] for i in candidate}
                                 improved = True
                                 LOGGER.info(
-                                    "optimizer accepted swap restart=%s/%s score=%.2f team=%s",
+                                    "optimizer accepted swap restart=%s/%s ranking_score=%.3f team=%s",
                                     restart_index + 1,
                                     restarts,
-                                    score[13],
+                                    score[RANKING_AWARE_SCORE_INDEX],
                                     ",".join(str(idx) for idx in candidate),
                                 )
                                 break
@@ -325,18 +346,18 @@ class TeamOptimizer:
             if key > best_key:
                 best = candidate_solution
                 LOGGER.info(
-                    "optimizer new best restart=%s/%s score=%.2f team=%s",
+                    "optimizer new best restart=%s/%s ranking_score=%.3f team=%s",
                     restart_index + 1,
                     restarts,
-                    best.score[13],
+                    best.score[RANKING_AWARE_SCORE_INDEX],
                     ",".join(str(idx) for idx in best.member_indices),
                 )
         if best is None:
             raise RuntimeError("Failed to optimize team")
         LOGGER.info(
-            "optimizer complete evaluated=%s best_score=%.2f team=%s",
+            "optimizer complete evaluated=%s best_ranking_score=%.3f team=%s",
             evaluated_candidates,
-            best.score[13],
+            best.score[RANKING_AWARE_SCORE_INDEX],
             ",".join(str(idx) for idx in best.member_indices),
         )
         return best
@@ -689,8 +710,8 @@ class TeamOptimizer:
         min_safe_members: int,
         safe_member_floor: float,
     ) -> tuple[float, ...]:
-        team_safety_score = score[6]
-        team_bulk_score = score[5]
+        team_safety_score = score[SAFETY_SCORE_INDEX]
+        team_bulk_score = score[BULK_SCORE_INDEX]
         floor_deficit = 0.0
         if safety_floor is not None and team_safety_score < safety_floor:
             floor_deficit = safety_floor - team_safety_score
@@ -705,24 +726,26 @@ class TeamOptimizer:
             -floor_deficit,
             -safe_member_deficit,
             -bulk_deficit,
-            score[13],
-            score[19],
-            score[15],
-            score[16],
-            score[14],
-            score[2],
-            score[3],
-            score[4],
-            score[6],
-            score[5],
-            score[0],
-            score[1],
-            score[7],
-            score[8],
-            score[9],
-            score[10],
-            score[11],
-            score[12],
+            score[RANKING_AWARE_SCORE_INDEX],
+            score[WEIGHTED_WORST_BEST_SCORE_INDEX],
+            score[MEAN_BEST_SCORE_INDEX],
+            score[PAIR_COVERAGE_SCORE_INDEX],
+            score[FULL_COLUMN_COVERAGE_SCORE_INDEX],
+            score[CONSISTENCY_SCORE_INDEX],
+            score[SAFETY_SCORE_INDEX],
+            score[BULK_SCORE_INDEX],
+            score[NO_COVER_PAIR_SCORE_INDEX],
+            score[SINGLE_COVER_PAIR_SCORE_INDEX],
+            score[REDUNDANT_COVERAGE_2PLUS_SCORE_INDEX],
+            score[REDUNDANT_COVERAGE_3PLUS_SCORE_INDEX],
+            score[DEFENSIVE_TYPE_SCORE_INDEX],
+            score[OFFENSIVE_MOVE_SCORE_INDEX],
+            score[DOMINATE_COUNT_SCORE_INDEX],
+            score[OVERWHELMING_COUNT_SCORE_INDEX],
+            score[LINEUP_OBJECTIVE_SCORE_INDEX],
+            score[LINEUP_TOP_N_MEAN_SCORE_INDEX],
+            score[LINEUP_VIABLE_COUNT_SCORE_INDEX],
+            score[LINEUP_BEST_SCORE_INDEX],
         )
 
 
