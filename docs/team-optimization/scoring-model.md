@@ -1,6 +1,6 @@
 # Weighted Scoring Model
 
-The optimizer should use weighted strategic scores rather than a strict tier list. In `pogo-team-optimizer`, the ranking-aware weighted final score is one comparison input after safety and bulk guards plus the primary lineup objective, not the sole selector for recommended rosters.
+The optimizer should use weighted strategic scores rather than a strict tier list. In `pogo-team-optimizer`, the ranking-aware weighted final score is the primary full bring-6 quality input after safety and bulk guards. Ordered pick-3 lineup metrics remain diagnostics and lower-priority tie-breakers, not the primary selector for recommended rosters.
 
 ## Priority Order
 
@@ -44,11 +44,11 @@ offensive_ratio: 0.05
 role: 0.03
 ```
 
-These values are starting points, not fixed requirements. Tune them against known good teams, known bad teams, and real meta results.
+These values are starting points, not fixed requirements. Tune them against known good teams, known bad teams, and real meta results. In this repository, weights, thresholds, shield aggregation values, and grade cutoffs are internal implementation details backed by tests; they are not CLI options.
 
 In this project, default weights live in `RosterScoreWeights` and component diagnostics are emitted in deterministic `ROSTER_COMPONENT_ORDER`: `synergy`, `threat_coverage`, `safety`, `consistency`, `bulk`, `defensive_ratio`, `offensive_ratio`, and `role_fit`. Current roster-level synergy and role-fit components use neutral fallback diagnostics. Role fit affects recommended-lineup scoring and diagnostics when category rankings are wired into the use case, but it is not currently a direct roster-level optimizer input. Missing components use neutral or explicit missing diagnostics so partial ranking inputs remain explainable.
 
-`TeamOptimizer` appends the ranking-aware final score after legacy tuple fields. `_comparison_key()` consumes candidate scores in this order: safety-floor deficit, safe-member deficit, bulk deficit, primary lineup objective score, ranking-aware final score, secondary lineup metrics, then legacy tie-breakers. Do not reorder existing tuple indexes consumed by use-case metrics or exporters.
+`TeamOptimizer` appends the ranking-aware final score after legacy tuple fields. `_comparison_key()` consumes candidate scores in this order: safety-floor deficit, safe-member deficit, bulk deficit, ranking-aware full-team score, legacy full-team quality metrics, then pick-3 lineup diagnostics as lower-priority tie-breakers. Do not reorder existing tuple indexes consumed by use-case metrics or exporters.
 
 ## Lineup Score
 
@@ -66,7 +66,7 @@ lineup_score =
   role_weight * lead_switch_closer_fit
 ```
 
-Roster score should aggregate lineup quality:
+Lineup quality should be retained as battle diagnostics and lower-priority roster tie-breakers:
 
 - Best lineup score.
 - Average of top N lineup scores.
@@ -84,6 +84,10 @@ Do not combine raw values on incompatible scales. Normalize first:
 - Convert type scores to bounded ratios.
 - Cap outliers so one category cannot dominate by scale accident.
 - Weight top-threat metrics separately from full-meta metrics.
+
+Top-meta threats are derived from active `overall` rankings intersected with simulation target columns. Broad/full-meta threats are derived from configured full-meta ranking profiles when present. Unranked simulation targets are excluded from threat scoring so threat-risk and coverage diagnostics are based on ranked, matrix-aligned opponents.
+
+Soft shield-aggregated matchup quality combines available shield scores with weights `0.30` for 0-shield, `0.50` for 1-shield, and `0.20` for 2-shield, renormalizing when fewer scenarios are available. Use soft quality bands and shield stability for full-team diagnostics such as coverage grade, safety grade, consistency grade, and lower-is-better Threat Score; preserve categorical `> 600` and `< 400` thresholds for lineup display counts.
 
 PvPoke ranking scores are already on a `0` to `100` scale where `100` is the best Pokemon in the league and category. Prefer normalized score values over raw rank positions when available because rank gaps are not uniform.
 

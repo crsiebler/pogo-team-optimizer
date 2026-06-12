@@ -16,7 +16,7 @@ Sources may include:
 
 Top-threat coverage should carry more weight than full-meta coverage. A team that loses hard to a common top threat should be penalized even if it covers many rare Pokemon.
 
-In `pogo-team-optimizer`, top threats are built in `application/ranking_pools.py` from the active meta ranking profile and matrix labels. Pool construction normalizes matrix labels with the same species helpers used by the optimizer, deduplicates by `parse_base_species()`, prefers finite PvPoke scores from `0` through `100`, and keeps missing scores deterministic rather than failing.
+In `pogo-team-optimizer`, top threats are built in `application/ranking_pools.py` from the active meta `overall` ranking profile intersected with simulation target labels. Pool construction normalizes matrix labels with the same species helpers used by the optimizer, deduplicates by `parse_base_species()`, prefers finite PvPoke scores from `0` through `100`, and keeps missing scores deterministic rather than failing. Unranked simulation columns are excluded from top-threat scoring.
 
 ## Full-Meta Pool
 
@@ -31,7 +31,7 @@ Use it to detect:
 
 Full-meta coverage matters, but it should not dominate top-threat coverage.
 
-The application pool builder can construct a full-meta pool when a separate full-meta ranking profile is supplied. In current normal CLI execution, `full_meta_ranking_paths` are parsed and validated but not loaded as a separate scoring profile; broad full-meta scoring uses all matchup matrix columns. If full-meta rankings are absent or not wired, scoring should remain deterministic and use explicit neutral or matrix-column fallback behavior.
+The application pool builder constructs a full-meta pool from configured `full_meta_ranking_paths` when a separate full-meta ranking profile is supplied. The resulting broad-meta pool is also intersected with simulation target labels, and unranked simulation columns are excluded from broad threat scoring. If full-meta rankings are absent, scoring should remain deterministic and use explicit neutral behavior rather than silently treating unranked targets as ranked broad-meta threats.
 
 ## Coverage Metrics
 

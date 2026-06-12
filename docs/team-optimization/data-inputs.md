@@ -28,14 +28,16 @@ Useful ranking exports:
 
 Use the same league, cup, move settings, and candidate filters across exports whenever possible.
 
-PvPoke rankings are a best-estimate resource, not immutable fact. Exact ranks can change as PvPoke improves its simulator and ranking algorithms. Treat ranking exports as strong signals for candidate quality, role fit, move quality, and threat weighting, but keep optimizer scoring explainable and robust to ranking changes.
+PvPoke rankings are local calibration inputs, not runtime tooling or immutable fact. Exact ranks can change as PvPoke improves its simulator and ranking algorithms. Treat ranking exports as strong signals for candidate quality, role fit, move quality, and threat weighting, but keep optimizer scoring explainable and robust to ranking changes. Normal optimizer runs should consume checked-in CSV inputs and must not call PvPoke services or execute PvPoke code.
 
 In `pogo-team-optimizer`, meta-specific ranking inputs are declared in `data/metas.json` as typed category maps:
 
 - `ranking_paths`: active cup or format rankings for `overall`, `leads`, `switches`, `closers`, `attackers`, `chargers`, and `consistency`.
-- `full_meta_ranking_paths`: optional broader league rankings for future or custom full-meta profile wiring; current normal CLI execution validates these paths but uses all matrix columns as broad full-meta scoring context.
+- `full_meta_ranking_paths`: optional broader league rankings for broad/full-meta scoring context when configured and loaded by the use case.
 
 The legacy `switch_rankings_path` key exists only for switch-ranking compatibility. New category-aware code should consume `MetaConfig.ranking_paths`, and should consume `MetaConfig.full_meta_ranking_paths` only when it also wires a separate full-meta ranking profile into application scoring instead of parsing raw JSON or falling back to CLI defaults.
+
+Candidate eligibility is stricter than category scoring fallback behavior. A candidate row must have complete matchup data in every configured shield matrix and a normalized species match in the active `overall` ranking profile before it can be selected. Other category scores can still use explicit neutral fallback diagnostics when absent or invalid.
 
 ## PvPoke Score Interpretation
 
@@ -121,14 +123,16 @@ Optional resource paths:
 - Shield spend: lead 2-shield, backline 0-shield.
 - Shield save: lead 0-shield, backline 2-shield.
 
+For full-team diagnostics, aggregate available shield scores softly with weights `0.30` for 0-shield, `0.50` for 1-shield, and `0.20` for 2-shield, renormalized when fewer scenarios are present. Blank or non-numeric matchup cells should be treated as missing data and filtered at the application/use-case layer before optimization.
+
 ## Threat Pools
 
-Build two threat pools from the available data:
+Build two ranked threat pools from the available data:
 
 - Top-threat pool for high-priority practical viability.
 - Full-meta pool for broad robustness.
 
-Top-threat coverage should be weighted higher. Full-meta coverage should catch unexpected holes and over-specialized teams.
+Top-threat coverage should be weighted higher. Full-meta coverage should catch unexpected holes and over-specialized teams. Both pools should be intersected with simulation target columns and should exclude unranked simulation targets from threat scoring.
 
 ## Normalized Internal Models
 

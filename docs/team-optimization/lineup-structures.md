@@ -85,6 +85,6 @@ Bad lineup synergy includes:
 
 ## Current Project Model
 
-`pogo-team-optimizer` enumerates 60 ordered lineups for each bring-6 roster: one ordered lead and one canonical unordered back pair. ABC, ABB, ABA, and unclassified labels are heuristic diagnostics exposed on recommended lineups. Labels remain explainable report fields, while scoring impact comes from type and matchup evidence such as shared weakness exposure, singleton coverage, redundant answers, and top-threat pressure.
+`pogo-team-optimizer` enumerates 60 ordered lineups for each bring-6 roster: one ordered lead and one canonical unordered back pair. Full bring-6 roster quality is the primary optimizer objective; pick-3 lineups remain recommended battle plans, diagnostics, and lower-priority tie-breakers. ABC, ABB, ABA, and unclassified labels are heuristic diagnostics exposed on recommended lineups. Labels remain explainable report fields, while scoring impact comes from type and matchup evidence such as shared weakness exposure, singleton coverage, redundant answers, and top-threat pressure.
 
 Synergy scoring is skipped when any lineup member lacks type data or when the configured type-effectiveness mapping is incomplete for the relevant member types. Viability checks should require both resource-path mean score and blended lineup score to meet the lineup viability threshold.

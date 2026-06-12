@@ -17,6 +17,11 @@ Validate the optimizer with known battle concepts, known meta teams, and control
 - Teams with severe shared weaknesses are penalized.
 - Teams with one Pokemon covering too many key threats are flagged as fragile.
 - Multiple viable lineups are preferred over one obvious best line.
+- Candidate rows with blank or non-numeric matchup cells in any configured shield matrix are excluded before optimization.
+- Candidate rows without a normalized active `overall` ranking match are excluded before optimization.
+- Ranked threat pools intersect ranking profiles with simulation target columns and exclude unranked targets from threat scoring.
+- Full-team diagnostics use soft shield aggregation with `0.30`, `0.50`, and `0.20` weights for 0-, 1-, and 2-shield scores, renormalized when needed.
+- Full-team A-F grades and lower-is-better Threat Score are validated as diagnostics while full bring-6 quality remains the primary selection objective.
 
 ## Useful Fixtures
 
@@ -50,4 +55,4 @@ Every recommendation should make sense to a human reviewer. If the optimizer ret
 
 If diagnostics cannot explain the recommendation, improve the score breakdown before tuning weights.
 
-Review score breakdowns as optimizer evidence and explanation payloads as diagnostics. Exporter text should summarize high-value diagnostics without restoring deprecated standalone Safe Cores, full-roster Coverage, or Resource / Shield Safety sections.
+Review score breakdowns as optimizer evidence and explanation payloads as diagnostics. Exporter text should summarize high-value diagnostics without restoring deprecated standalone Safe Cores, full-roster Coverage, or Resource / Shield Safety sections. Scoring weights, thresholds, shield aggregation values, and grade cutoffs are internal implementation details; validate them with regression tests instead of exposing them as CLI tuning knobs.

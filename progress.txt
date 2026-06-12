@@ -51,6 +51,37 @@
 - Reusable soft matchup helpers live in `application/scoring.py`: aggregate 0-/1-/2-shield scores with weights `0.30`/`0.50`/`0.20`, classify soft quality bands, compute lower-is-better risk, count playable soft answers, and penalize shield volatility before later optimizer wiring.
 - Full-team grade mapping and lower-is-better Threat Score calculations live in `application/scoring.py`; `AnalyzeMetaUseCase` exposes them as `recommended_team.metrics` fields and exporters should render those fields without recomputing diagnostics.
 - Preserve existing architecture boundaries: infrastructure parses raw CSV/JSON data, application filters and scores, `AnalyzeMetaUseCase` assembles payload diagnostics, CLI validates/wires repositories, and exporters render structured fields without recomputing scoring.
+- Documentation should describe PvPoke rankings and simulations as local calibration inputs, not runtime tooling; scoring weights, thresholds, shield aggregation values, and grade cutoffs are internal implementation details unless a future story adds CLI configuration.
+
+## 2026-06-12 04:30:25 MST - US-041
+- What was implemented
+- Updated README and team-optimization docs to document full bring-6 quality as the primary optimizer objective, with ordered pick-3 lineups retained as recommendations, diagnostics, and lower-priority tie-breakers.
+- Documented candidate eligibility from complete shield-matrix data plus active `overall` ranking matches, ranked top-meta and broad-meta threat pools, unranked target exclusion, soft shield aggregation, grade mapping, and internal-only scoring knobs.
+- Clarified that PvPoke rankings and simulations are local calibration inputs, not runtime external tooling or CLI-time PvPoke execution.
+- Files changed: `README.md`, `docs/pokemon-go-team-optimization.md`, `docs/team-optimization/scoring-model.md`, `docs/team-optimization/coverage-threat-pools.md`, `docs/team-optimization/data-inputs.md`, `docs/team-optimization/lineup-structures.md`, `docs/team-optimization/validation.md`, `progress.txt`
+- Commit message: `feat: US-041 - Document full bring-6 scoring assumptions`
+- Checks:
+  - `make typecheck` (pass)
+  - `make lint` (pass)
+  - `make test` (pass, 272 passed, 2 skipped)
+- Implementation agents:
+  - Recommended: `documentation-engineer`
+  - Used: `documentation-engineer`
+- Specialist review:
+  - Agents used: `code-reviewer`, `qa-expert`, `documentation-engineer`
+  - Findings: none; reviewers noted residual risk that pre-existing unstaged `.opencode/skills/gbl-optimizer/SKILL.md` and `vendor/pvpoke` changes were intentionally out of scope.
+- Decisions (why):
+  - Chose documentation-only changes because the implemented behavior and architecture were already stable and this story explicitly forbids feature scope.
+  - Chose README plus focused `docs/team-optimization/` updates instead of source-code changes so user-facing and maintainer-facing assumptions stay aligned without changing optimizer behavior.
+  - Left the pre-existing unstaged `.opencode/skills/gbl-optimizer/SKILL.md` changes untouched because they were not made in this iteration and contained unrelated edits from another stack; this story commit stages only owned documentation and metadata changes.
+- **Learnings for future iterations:**
+  - The docs had stale broad-meta wording from an earlier implementation path; future documentation should say ranked top-meta and broad-meta pools intersect rankings with simulation target columns and exclude unranked targets.
+  - The full bring-6 objective should be documented separately from recommended lineup diagnostics so report interpretation does not imply pick-3 lineups are the primary optimizer selector.
+- Known issues / follow-ups:
+  - `.opencode/skills/gbl-optimizer/SKILL.md` has pre-existing unstaged changes that reference unrelated TypeScript files and were not modified or staged by this iteration.
+- Next iteration start:
+  - If all PRD stories are passing after this commit, no further story iteration remains.
+---
 
 ## 2026-06-12 03:41:13 MST - US-038
 - What was implemented

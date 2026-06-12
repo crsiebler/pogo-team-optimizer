@@ -1,12 +1,12 @@
 # pogo-team-optimizer
 
-`pogo-team-optimizer` analyzes Pokemon GO PvP simulation matrices and recommends strong six-member teams for a selected meta.
+`pogo-team-optimizer` analyzes local Pokemon GO PvP simulation matrices and PvPoke ranking exports to recommend strong six-member teams for a selected meta.
 
 It evaluates matchup coverage across shield scenarios, identifies fragile matchups, and exports reports in multiple formats.
 
 ## Features
 
-- Optimize a 6-Pokemon team from simulation matrix data using ordered pick-3 lineups
+- Optimize a 6-Pokemon team from local simulation matrix and ranking data
 - Recommend playable lead/back-pair lineups from the selected bring-6 roster
 - Report lineup resource-path safety across shield scenarios
 - Explain bench utility, warnings, and Battle Frontier point diagnostics when available
@@ -123,6 +123,8 @@ into flat PvPoke rankings-page-compatible CSV files under `data/rankings/`, pres
 `cp{cp}_{cup}_{category}_rankings.csv` filename convention used by `data/metas.json`.
 Ranking JSON remains an intermediate sync source only; the optimizer continues to read the
 flat CSV files at runtime. Simulation matrix CSVs are not generated or overwritten by sync.
+PvPoke rankings and simulations are local calibration inputs, not runtime external tooling;
+normal CLI runs do not call PvPoke or execute PvPoke code.
 
 ## Ranking-Aware Inputs
 
@@ -143,19 +145,21 @@ The legacy `switch_rankings_path` field remains only as a compatibility shim. Ne
 inputs should use typed `ranking_paths` entries, and the CLI validates configured files
 before constructing repositories.
 
-Current CLI execution loads the active `ranking_paths` profile for category scoring and
-top-threat weighting. It parses and validates `full_meta_ranking_paths`, but normal scoring
-uses all matchup matrix columns as the broad full-meta context until a separate full-meta
-ranking profile is explicitly wired into the use case. Missing, invalid, or degenerate
-ranking values use deterministic neutral fallback behavior instead of making the optimizer
-crash or depend on file ordering.
+Current CLI execution loads the active `ranking_paths` profile for category scoring,
+candidate eligibility, and top-threat weighting. Candidate rows must have complete matchup
+data across the configured shield matrices and a normalized species match in the active
+`overall` rankings before they are eligible for selection. Configured
+`full_meta_ranking_paths` provide the broader ranked meta context when present. Missing,
+invalid, or degenerate non-eligibility ranking values use deterministic neutral fallback
+behavior instead of making scoring crash or depend on file ordering.
 
 ## Interpreting Lineup-Aware Results
 
-The optimizer recommends a bring-6 roster, but roster scoring is based on ordered pick-3
-lineups rather than treating all six Pokemon as simultaneously available in battle. Each
-six-Pokemon roster produces exactly `60` ordered lineups: `6` possible leads multiplied by
-`10` unordered back pairs from the remaining five Pokemon.
+The optimizer recommends a bring-6 roster using full-team quality as the primary selection
+objective. Ordered pick-3 lineups remain recommended battle plans, diagnostics, and
+lower-priority tie-breakers after full bring-6 quality has been evaluated. Each six-Pokemon
+roster produces exactly `60` ordered lineups: `6` possible leads multiplied by `10`
+unordered back pairs from the remaining five Pokemon.
 
 Each ordered lineup has one lead and a canonical unordered back pair. Lead order remains
 meaningful, so `A` leading with `B/C` is different from `B` leading with `A/C`, while the
@@ -203,13 +207,17 @@ Ranking-aware roster score breakdowns include weighted components for synergy, t
 coverage, safety, consistency, bulk, defensive type ratio, offensive move ratio, and role fit.
 Today, roster-level threat coverage, safety, consistency, bulk, defensive ratio, and offensive
 ratio distinguish teams in the appended ranking-aware score, while roster-level synergy and
-role fit use neutral fallback diagnostics. Role fit affects recommended-lineup scoring and
-diagnostics when category rankings are wired into the use case; it is not currently a direct
-roster-level optimizer input. Evidence-derived synergy can affect optimizer behavior through
-ordered-lineup scoring when the required type and matchup data is available. Explainability fields such
-as covered threats, remaining threats, no-answer threats, single-answer threats, shared
-weaknesses, role assumptions, and lineup dependency explain the selected roster but should not
-be treated as separate exporter-computed objectives.
+role fit use neutral fallback diagnostics. Top-meta threats come from active `overall`
+rankings intersected with simulation columns; broad-meta threats come from configured
+full-meta rankings when present. Unranked simulation targets are excluded from threat
+scoring. Soft matchup diagnostics aggregate available 0-, 1-, and 2-shield scores with
+`0.30`, `0.50`, and `0.20` weights, renormalized when a scenario is absent. Full-team
+diagnostics expose A-F coverage, bulk, safety, and consistency grades plus a lower-is-better
+Threat Score. Scoring weights, thresholds, and grade cutoffs are internal implementation
+details, not CLI options. Explainability fields such as covered threats, remaining threats,
+no-answer threats, single-answer threats, shared weaknesses, role assumptions, and lineup
+dependency explain the selected roster but should not be treated as separate exporter-computed
+objectives.
 
 Deterministic ranking-aware regression fixtures live under
 `tests/fixtures/us031_weighted_scoring/`. Use those fixtures for small tests involving category
