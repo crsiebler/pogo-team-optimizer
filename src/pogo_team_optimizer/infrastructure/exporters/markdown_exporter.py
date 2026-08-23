@@ -237,10 +237,7 @@ class MarkdownExporter(AnalysisExporter):
                 + self._escape(self._format_shared_weaknesses(diagnostics["shared_weaknesses"][:3]))
             )
         if diagnostics.get("role_assumptions"):
-            lines.append(
-                "- Role assumptions: "
-                + self._escape(diagnostics["role_assumptions"][0])
-            )
+            lines.append("- Role assumptions: " + self._escape(diagnostics["role_assumptions"][0]))
         dependency = diagnostics.get("lineup_dependency", {})
         if dependency.get("dependent"):
             lines.append(f"- Lineup dependency: {self._escape(dependency['reason'])}")
@@ -248,8 +245,7 @@ class MarkdownExporter(AnalysisExporter):
     def _score_component_summary(self, score_breakdown: dict[str, Any]) -> str:
         components = score_breakdown.get("components", [])
         return "; ".join(
-            f"{component['name']} `{component['weighted_score']:.2f}`"
-            for component in components
+            f"{component['name']} `{component['weighted_score']:.2f}`" for component in components
         )
 
     def _lineup_notes(self, lineup: dict[str, Any]) -> str:
@@ -266,8 +262,7 @@ class MarkdownExporter(AnalysisExporter):
 
     def _format_shared_weaknesses(self, weaknesses: list[dict[str, Any]]) -> str:
         return ", ".join(
-            f"{weakness['type']} ({', '.join(weakness['members'])})"
-            for weakness in weaknesses
+            f"{weakness['type']} ({', '.join(weakness['members'])})" for weakness in weaknesses
         )
 
     def _resource_path_label(self, name: str) -> str:

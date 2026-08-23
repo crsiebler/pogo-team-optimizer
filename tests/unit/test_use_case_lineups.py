@@ -433,9 +433,7 @@ def test_use_case_fails_when_overall_rankings_leave_too_few_candidates() -> None
         AnalyzeMetaUseCase(
             simulation_repository=TooFewRankedCandidatesSimulationRepository(),
             pokemon_repository=FakePokemonRepository(),
-            rankings_repository=OverallRankingsRepository(
-                ["Amon", "Bmon", "Cmon", "Dmon", "Emon"]
-            ),
+            rankings_repository=OverallRankingsRepository(["Amon", "Bmon", "Cmon", "Dmon", "Emon"]),
         ).execute(seed=7, restarts=1)
 
     assert "active overall rankings" in str(exc_info.value)
@@ -948,7 +946,14 @@ def test_ranking_diagnostics_identify_lineup_dependency() -> None:
             "lineup_viable_count": 1,
         },
         team_indices=(0, 1, 2, 3, 4, 5),
-        pokemon_types_by_row=[("water",), ("grass",), ("fire",), ("normal",), ("normal",), ("normal",)],
+        pokemon_types_by_row=[
+            ("water",),
+            ("grass",),
+            ("fire",),
+            ("normal",),
+            ("normal",),
+            ("normal",),
+        ],
         type_effectiveness=SynergyTypeEffectivenessRepository().load(),
         ranking_profile=None,
     )

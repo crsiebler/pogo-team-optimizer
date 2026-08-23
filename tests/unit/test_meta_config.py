@@ -54,7 +54,7 @@ def test_load_meta_config_reads_optional_per_meta_fields(tmp_path) -> None:
                         ],
                         "ranking_paths": {
                             "overall": "data/rankings/cp10000_battlefrontiermaster_overall_rankings.csv",
-                            "switches": "data/rankings/cp10000_battlefrontiermaster_switches_rankings.csv"
+                            "switches": "data/rankings/cp10000_battlefrontiermaster_switches_rankings.csv",
                         },
                         "full_meta_ranking_paths": {
                             "overall": "data/rankings/cp10000_all_overall_rankings.csv"

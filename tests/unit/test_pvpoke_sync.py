@@ -54,9 +54,7 @@ def test_collect_ranking_sync_targets_deduplicates_meta_paths(tmp_path: Path) ->
             "metas": {
                 "bayou": {
                     "matrix_files": [],
-                    "ranking_paths": {
-                        "overall": "data/rankings/cp1500_bayou_overall_rankings.csv"
-                    },
+                    "ranking_paths": {"overall": "data/rankings/cp1500_bayou_overall_rankings.csv"},
                     "full_meta_ranking_paths": {
                         "overall": "data/rankings/cp1500_all_overall_rankings.csv"
                     },

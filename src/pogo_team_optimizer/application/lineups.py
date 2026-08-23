@@ -8,7 +8,6 @@ from typing import Literal
 
 from pogo_team_optimizer.domain.models import RankingCategory, RankingProfile
 
-
 DOMINATING_SCORE_THRESHOLD = 600
 OVERWHELMING_LOSS_THRESHOLD = 400
 LINEUP_VIABILITY_THRESHOLD = 500.0
@@ -154,7 +153,9 @@ def score_ordered_lineup(
     type_effectiveness: dict[str, dict[str, float]] | None = None,
     threat_weights: Sequence[float] | None = None,
 ) -> OrderedLineupScore:
-    path_scores = tuple(_score_resource_path(lineup, matrices, path) for path in LINEUP_RESOURCE_PATHS)
+    path_scores = tuple(
+        _score_resource_path(lineup, matrices, path) for path in LINEUP_RESOURCE_PATHS
+    )
     resource_mean_score = _mean_path_score(path_scores)
     role_fit_score = None
     synergy_score = None
@@ -171,7 +172,9 @@ def score_ordered_lineup(
         and type_effectiveness
         and all(pokemon_types_by_row[index] for index in (lineup.lead_index, *lineup.back_indices))
         and _has_complete_type_effectiveness(
-            tuple(pokemon_types_by_row[index] for index in (lineup.lead_index, *lineup.back_indices)),
+            tuple(
+                pokemon_types_by_row[index] for index in (lineup.lead_index, *lineup.back_indices)
+            ),
             type_effectiveness,
         )
     ):
@@ -290,7 +293,12 @@ def calculate_lineup_synergy(
 
     low_shared_weakness = 1.0 - shared_weakness_pressure
     if shape == "ABC":
-        score = 0.40 + (0.30 * low_shared_weakness) + (0.25 * winner_diversity) + (0.05 * redundant_coverage)
+        score = (
+            0.40
+            + (0.30 * low_shared_weakness)
+            + (0.25 * winner_diversity)
+            + (0.05 * redundant_coverage)
+        )
     elif shape == "ABB":
         pair_weakness = weakness_sets[1] & weakness_sets[2]
         singleton_weakness = weakness_sets[0]
@@ -314,7 +322,9 @@ def calculate_lineup_synergy(
         shared_weakness = weakness_sets[0] & weakness_sets[shared_back_position]
         different_resistances = resistance_sets[different_position]
         different_covers_shared_weakness = _coverage_rate(shared_weakness, different_resistances)
-        uncovered_shared_weakness = 1.0 - different_covers_shared_weakness if shared_weakness else 0.0
+        uncovered_shared_weakness = (
+            1.0 - different_covers_shared_weakness if shared_weakness else 0.0
+        )
         only_different_answer_rate = _only_member_answer_rate(
             lineup,
             matrices,
@@ -332,9 +342,16 @@ def calculate_lineup_synergy(
         )
         components["unsafe_aba_shared_weakness"] = unsafe_aba
         components["aba_redundant_strength"] = redundant_strength
-        score = 0.45 + (0.30 * redundant_strength) + (0.10 * low_shared_weakness) - (0.35 * unsafe_aba)
+        score = (
+            0.45 + (0.30 * redundant_strength) + (0.10 * low_shared_weakness) - (0.35 * unsafe_aba)
+        )
     else:
-        score = 0.45 + (0.20 * low_shared_weakness) + (0.20 * winner_diversity) + (0.15 * redundant_coverage)
+        score = (
+            0.45
+            + (0.20 * low_shared_weakness)
+            + (0.20 * winner_diversity)
+            + (0.15 * redundant_coverage)
+        )
 
     return LineupSynergyScore(score=_clamp(score), components=components)
 
@@ -345,7 +362,10 @@ def score_roster_lineup_depth(
     top_n: int = ROSTER_LINEUP_TOP_N,
 ) -> RosterLineupScore:
     lineup_scores = sorted(
-        (_lineup_mean_score(score_ordered_lineup(lineup, matrices)) for lineup in enumerate_ordered_lineups(roster_indices)),
+        (
+            _lineup_mean_score(score_ordered_lineup(lineup, matrices))
+            for lineup in enumerate_ordered_lineups(roster_indices)
+        ),
         reverse=True,
     )
     if not lineup_scores:
@@ -357,9 +377,7 @@ def score_roster_lineup_depth(
     viable_lineup_count = sum(score >= LINEUP_VIABILITY_THRESHOLD for score in lineup_scores)
     viable_lineup_rate = viable_lineup_count / len(lineup_scores)
     objective_score = (
-        (0.45 * best_lineup_score)
-        + (0.40 * top_lineup_mean)
-        + (0.15 * viable_lineup_rate * 100.0)
+        (0.45 * best_lineup_score) + (0.40 * top_lineup_mean) + (0.15 * viable_lineup_rate * 100.0)
     )
     return RosterLineupScore(
         objective_score=objective_score,
@@ -379,8 +397,7 @@ def score_roster_bench_utility(
 ) -> tuple[RosterMemberLineupUsage, ...]:
     if len(roster_indices) < 3 or len(matrices) < len(LINEUP_RESOURCE_PATHS):
         return tuple(
-            _unused_member_usage(index, battle_frontier_points_by_row)
-            for index in roster_indices
+            _unused_member_usage(index, battle_frontier_points_by_row) for index in roster_indices
         )
 
     lineups = enumerate_ordered_lineups(roster_indices)
@@ -400,7 +417,10 @@ def score_roster_bench_utility(
             threat_weights=threat_weights,
         )
         lineup_score = _lineup_mean_score(score)
-        if score.resource_mean_score < LINEUP_VIABILITY_THRESHOLD or lineup_score < LINEUP_VIABILITY_THRESHOLD:
+        if (
+            score.resource_mean_score < LINEUP_VIABILITY_THRESHOLD
+            or lineup_score < LINEUP_VIABILITY_THRESHOLD
+        ):
             continue
 
         viable_lineup_count += 1
@@ -450,7 +470,10 @@ def score_battle_frontier_lineup_usage(
             threat_weights=threat_weights,
         )
         lineup_score = _lineup_mean_score(score)
-        if score.resource_mean_score < LINEUP_VIABILITY_THRESHOLD or lineup_score < LINEUP_VIABILITY_THRESHOLD:
+        if (
+            score.resource_mean_score < LINEUP_VIABILITY_THRESHOLD
+            or lineup_score < LINEUP_VIABILITY_THRESHOLD
+        ):
             continue
 
         viable_lineup_count += 1
@@ -702,7 +725,10 @@ def _only_member_answer_rate(
     rate = 0.0
     for column_index, weight in enumerate(_normalized_threat_weights(matrices, threat_weights)):
         member_scores = _member_column_scores(lineup, matrices, column_index)
-        if member_scores[member_position] > 500 and sum(score > 500 for score in member_scores) == 1:
+        if (
+            member_scores[member_position] > 500
+            and sum(score > 500 for score in member_scores) == 1
+        ):
             rate += weight
     return rate
 

@@ -516,9 +516,13 @@ def aggregate_shield_matchup_score(scores_by_shield: Sequence[float]) -> float:
 
     available_weights = SHIELD_SCENARIO_WEIGHTS[: len(scores_by_shield)]
     weight_total = sum(available_weights)
-    return sum(
-        score * weight for score, weight in zip(scores_by_shield, available_weights, strict=True)
-    ) / weight_total
+    return (
+        sum(
+            score * weight
+            for score, weight in zip(scores_by_shield, available_weights, strict=True)
+        )
+        / weight_total
+    )
 
 
 def classify_soft_matchup_score(score: float) -> SoftMatchupBand:
@@ -585,7 +589,9 @@ def _single_threat_risk(
     matrices: Sequence[Sequence[Sequence[int]]],
     col_idx: int,
 ) -> float:
-    scores_by_member = [tuple(matrix[row_idx][col_idx] for matrix in matrices) for row_idx in team_indices]
+    scores_by_member = [
+        tuple(matrix[row_idx][col_idx] for matrix in matrices) for row_idx in team_indices
+    ]
     aggregate_scores = [aggregate_shield_matchup_score(scores) for scores in scores_by_member]
     best_score = max(aggregate_scores) if aggregate_scores else 0.0
     playable_count = sum(score >= PLAYABLE_ANSWER_SCORE_THRESHOLD for score in aggregate_scores)
@@ -623,18 +629,14 @@ def _ordered_diagnostics(
 
 
 def _is_valid_pvpoke_score(score: float) -> bool:
-    return (
-        math.isfinite(score)
-        and MIN_PVPOKE_RANKING_SCORE <= score <= MAX_PVPOKE_RANKING_SCORE
-    )
+    return math.isfinite(score) and MIN_PVPOKE_RANKING_SCORE <= score <= MAX_PVPOKE_RANKING_SCORE
 
 
 def _validate_threat_indices(indices: Sequence[int], col_count: int) -> None:
     invalid_indices = [index for index in indices if index < 0 or index >= col_count]
     if invalid_indices:
         raise ValueError(
-            "threat indices must be between 0 and "
-            f"{max(0, col_count - 1)}; got {invalid_indices}"
+            f"threat indices must be between 0 and {max(0, col_count - 1)}; got {invalid_indices}"
         )
 
 
@@ -650,11 +652,16 @@ def _coverage_component(
     full_miss_rate = full_no_answer / len(full_meta_indices) if full_meta_indices else 0.0
     top_single_rate = top_single_answer / len(top_threat_indices) if top_threat_indices else 0.0
     full_single_rate = full_single_answer / len(full_meta_indices) if full_meta_indices else 0.0
-    penalty = (
-        TOP_THREAT_COVERAGE_WEIGHT * (top_miss_rate + (0.35 * top_single_rate))
-        + FULL_META_COVERAGE_WEIGHT * (full_miss_rate + (0.20 * full_single_rate))
+    penalty = TOP_THREAT_COVERAGE_WEIGHT * (
+        top_miss_rate + (0.35 * top_single_rate)
+    ) + FULL_META_COVERAGE_WEIGHT * (full_miss_rate + (0.20 * full_single_rate))
+    return (
+        _clamp(1.0 - penalty),
+        top_no_answer,
+        full_no_answer,
+        top_single_answer,
+        full_single_answer,
     )
-    return _clamp(1.0 - penalty), top_no_answer, full_no_answer, top_single_answer, full_single_answer
 
 
 def _answer_counts(
@@ -690,7 +697,9 @@ def _safety_component(
     shield_fragility = _shield_fragility(team_indices, matrices, full_meta_indices)
     top_count = len(top_threat_indices) or 1
     full_count = len(full_meta_indices) or 1
-    safe_swap_quality = _average_indexed_values(team_indices, safety_by_row, NORMALIZED_PVPOKE_SCORE_FALLBACK)
+    safe_swap_quality = _average_indexed_values(
+        team_indices, safety_by_row, NORMALIZED_PVPOKE_SCORE_FALLBACK
+    )
     if safe_swap_quality > 1.0:
         safe_swap_quality /= 100.0
     penalty = (
@@ -717,8 +726,10 @@ def _consistency_component(
         NORMALIZED_PVPOKE_SCORE_FALLBACK,
     )
     shield_stability = 1.0 - _shield_fragility(team_indices, matrices, full_meta_indices)
-    score = (0.60 * ranking_consistency) + (0.30 * shield_stability) + (
-        0.10 * NORMALIZED_PVPOKE_SCORE_FALLBACK
+    score = (
+        (0.60 * ranking_consistency)
+        + (0.30 * shield_stability)
+        + (0.10 * NORMALIZED_PVPOKE_SCORE_FALLBACK)
     )
     return _clamp(score), round(shield_stability, 6)
 
@@ -792,7 +803,9 @@ def _weighted_pool_type_score(
 ) -> float:
     top_score = _average_threat_type_score(top_threat_indices, scorer)
     full_score = _average_threat_type_score(full_meta_indices, scorer)
-    return _clamp((TOP_THREAT_COVERAGE_WEIGHT * top_score) + (FULL_META_COVERAGE_WEIGHT * full_score))
+    return _clamp(
+        (TOP_THREAT_COVERAGE_WEIGHT * top_score) + (FULL_META_COVERAGE_WEIGHT * full_score)
+    )
 
 
 def _average_threat_type_score(
@@ -820,7 +833,9 @@ def _defensive_threat_score(
         weak_count = 0
         resist_count = 0
         for row_idx in team_indices:
-            multiplier = _type_multiplier(attack_type, pokemon_types_by_row[row_idx], type_effectiveness)
+            multiplier = _type_multiplier(
+                attack_type, pokemon_types_by_row[row_idx], type_effectiveness
+            )
             if multiplier > 1.0:
                 weak_count += 1
             elif multiplier < 1.0:
@@ -839,8 +854,7 @@ def _offensive_threat_score(
     if not defender_types:
         return NORMALIZED_PVPOKE_SCORE_FALLBACK
     best_multiplier = max(
-        _type_multiplier(move_type, defender_types, type_effectiveness)
-        for move_type in move_types
+        _type_multiplier(move_type, defender_types, type_effectiveness) for move_type in move_types
     )
     return _clamp((best_multiplier - 0.39) / (1.6 - 0.39))
 
@@ -853,8 +867,7 @@ def _overwhelming_loss_count(
     count = 0
     for col_idx in threat_indices:
         best_score = max(
-            max(matrix[row_idx][col_idx] for matrix in matrices)
-            for row_idx in team_indices
+            max(matrix[row_idx][col_idx] for matrix in matrices) for row_idx in team_indices
         )
         if best_score < OVERWHELMING_LOSS_SCORE_THRESHOLD:
             count += 1
@@ -870,7 +883,9 @@ def _shield_fragility(
         return 0.0
     spreads = []
     for col_idx in threat_indices:
-        best_by_shield = [max(matrix[row_idx][col_idx] for row_idx in team_indices) for matrix in matrices]
+        best_by_shield = [
+            max(matrix[row_idx][col_idx] for row_idx in team_indices) for matrix in matrices
+        ]
         spreads.append((max(best_by_shield) - min(best_by_shield)) / 1000.0)
     return _clamp(sum(spreads) / len(spreads))
 

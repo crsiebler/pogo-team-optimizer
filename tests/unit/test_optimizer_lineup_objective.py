@@ -1,14 +1,14 @@
 import pickle
 
 import pogo_team_optimizer.application.optimizer as optimizer_module
+from pogo_team_optimizer.application.lineups import OrderedLineup, score_roster_lineup_depth
 from pogo_team_optimizer.application.optimizer import (
     LINEUP_OBJECTIVE_SCORE_INDEX,
     RANKING_AWARE_SCORE_INDEX,
     WEIGHTED_WORST_BEST_SCORE_INDEX,
     OptimizerRestartBatch,
+    TeamOptimizer,
 )
-from pogo_team_optimizer.application.lineups import OrderedLineup, score_roster_lineup_depth
-from pogo_team_optimizer.application.optimizer import TeamOptimizer
 
 
 def _optimizer_with_rows(rows: list[list[int]]) -> TeamOptimizer:
@@ -107,12 +107,14 @@ def test_comparison_prefers_better_ranking_aware_full_team_quality() -> None:
     paper_coverage_team = [0, 1, 2, 3, 4, 5]
     lineup_strength_team = [6, 7, 8, 9, 10, 11]
 
-    assert optimizer._score_team(paper_coverage_team)[1] > optimizer._score_team(
-        lineup_strength_team
-    )[1]
-    assert optimizer._score_team(lineup_strength_team)[19] > optimizer._score_team(
-        paper_coverage_team
-    )[19]
+    assert (
+        optimizer._score_team(paper_coverage_team)[1]
+        > optimizer._score_team(lineup_strength_team)[1]
+    )
+    assert (
+        optimizer._score_team(lineup_strength_team)[19]
+        > optimizer._score_team(paper_coverage_team)[19]
+    )
     assert _comparison_key(optimizer, lineup_strength_team) > _comparison_key(
         optimizer, paper_coverage_team
     )
@@ -163,9 +165,10 @@ def test_comparison_penalizes_below_pool_bulk_before_lineup_objective() -> None:
     frail_high_lineup_team = [0, 1, 2, 3, 4, 5]
     bulky_lower_lineup_team = [6, 7, 8, 9, 10, 11]
 
-    assert optimizer._score_team(frail_high_lineup_team)[13] > optimizer._score_team(
-        bulky_lower_lineup_team
-    )[13]
+    assert (
+        optimizer._score_team(frail_high_lineup_team)[13]
+        > optimizer._score_team(bulky_lower_lineup_team)[13]
+    )
     assert _comparison_key(optimizer, bulky_lower_lineup_team) > _comparison_key(
         optimizer, frail_high_lineup_team
     )
@@ -206,12 +209,14 @@ def test_above_floor_teams_compare_full_team_quality_before_lineup_objective() -
     stronger_lineup_team = [0, 1, 2, 3, 4, 5]
     weaker_lineup_team = [6, 7, 8, 9, 10, 11]
 
-    assert optimizer._score_team(stronger_lineup_team)[13] > optimizer._score_team(weaker_lineup_team)[
-        13
-    ]
-    assert optimizer._score_team(weaker_lineup_team)[19] > optimizer._score_team(stronger_lineup_team)[
-        19
-    ]
+    assert (
+        optimizer._score_team(stronger_lineup_team)[13]
+        > optimizer._score_team(weaker_lineup_team)[13]
+    )
+    assert (
+        optimizer._score_team(weaker_lineup_team)[19]
+        > optimizer._score_team(stronger_lineup_team)[19]
+    )
     assert _comparison_key(optimizer, weaker_lineup_team) > _comparison_key(
         optimizer, stronger_lineup_team
     )
@@ -277,9 +282,10 @@ def test_comparison_penalizes_shared_defensive_type_weakness() -> None:
     fighting_weak_team = [0, 1, 2, 3, 4, 5]
     balanced_defense_team = [6, 7, 8, 9, 10, 11]
 
-    assert optimizer._score_team(fighting_weak_team)[17] < optimizer._score_team(
-        balanced_defense_team
-    )[17]
+    assert (
+        optimizer._score_team(fighting_weak_team)[17]
+        < optimizer._score_team(balanced_defense_team)[17]
+    )
 
 
 def test_comparison_rewards_offensive_move_type_diversity() -> None:
@@ -303,9 +309,9 @@ def test_comparison_rewards_offensive_move_type_diversity() -> None:
     narrow_moves_team = [0, 1, 2, 3, 4, 5]
     diverse_moves_team = [6, 7, 8, 9, 10, 11]
 
-    assert optimizer._score_team(diverse_moves_team)[18] > optimizer._score_team(
-        narrow_moves_team
-    )[18]
+    assert (
+        optimizer._score_team(diverse_moves_team)[18] > optimizer._score_team(narrow_moves_team)[18]
+    )
 
 
 def test_comparison_uses_weighted_ranking_aware_components_after_bulk_guard() -> None:
@@ -592,7 +598,9 @@ def test_cached_lineup_depth_matches_canonical_lineup_scorer() -> None:
     optimizer = _optimizer_with_rows(rows)
     team = [0, 1, 2, 3, 4, 5]
 
-    assert optimizer._score_team_lineups(team) == score_roster_lineup_depth(team, optimizer.matrices)
+    assert optimizer._score_team_lineups(team) == score_roster_lineup_depth(
+        team, optimizer.matrices
+    )
 
 
 def test_lineup_depth_viability_requires_resource_and_blended_scores() -> None:
@@ -758,9 +766,27 @@ def test_workers_one_and_two_are_deterministic_with_ranking_aware_inputs() -> No
         "bulk_by_row": [210.0, 205.0, 200.0, 195.0, 190.0, 185.0, 180.0, 175.0],
         "safety_by_row": [0.9, 0.85, 0.8, 0.55, 0.5, 0.45, 0.7, 0.65],
         "consistency_by_row": [0.8, 0.75, 0.7, 0.45, 0.4, 0.35, 0.6, 0.55],
-        "pokemon_types_by_row": [("water",), ("water",), ("water",), ("fire",), ("fire",), ("fire",), ("grass",), ("grass",)],
+        "pokemon_types_by_row": [
+            ("water",),
+            ("water",),
+            ("water",),
+            ("fire",),
+            ("fire",),
+            ("fire",),
+            ("grass",),
+            ("grass",),
+        ],
         "opponent_types_by_col": [("fire",), ("rock",), ("grass",), ("water",)],
-        "move_types_by_row": [("water",), ("water",), ("water",), ("fire",), ("fire",), ("fire",), ("grass",), ("grass",)],
+        "move_types_by_row": [
+            ("water",),
+            ("water",),
+            ("water",),
+            ("fire",),
+            ("fire",),
+            ("fire",),
+            ("grass",),
+            ("grass",),
+        ],
         "type_effectiveness": {
             "water": {"fire": 1.6, "rock": 1.6, "grass": 0.625, "water": 0.625},
             "fire": {"fire": 0.625, "rock": 0.625, "grass": 1.6, "water": 0.625},

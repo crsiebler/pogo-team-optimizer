@@ -49,7 +49,9 @@ def build_threats(
 ) -> list[dict[str, Any]]:
     threats: list[dict[str, Any]] = []
     fallback_threats: list[dict[str, Any]] = []
-    candidate_indices = threat_indices if threat_indices is not None else list(range(len(col_labels)))
+    candidate_indices = (
+        threat_indices if threat_indices is not None else list(range(len(col_labels)))
+    )
     for col_idx in candidate_indices:
         opponent_label = col_labels[col_idx]
         shield_best_scores: list[int] = []
@@ -230,10 +232,16 @@ def _classify_ordered_core(
     matrices: list[list[list[int]]],
 ) -> tuple[str, list[str], list[str]]:
     lead_idx, switch_idx, closer_idx = order
-    back_weaknesses = _shared_matchups(switch_idx, closer_idx, col_labels, matrices, upper_bound=450)
+    back_weaknesses = _shared_matchups(
+        switch_idx, closer_idx, col_labels, matrices, upper_bound=450
+    )
     back_strengths = _shared_matchups(switch_idx, closer_idx, col_labels, matrices, lower_bound=600)
-    lead_closer_weaknesses = _shared_matchups(lead_idx, closer_idx, col_labels, matrices, upper_bound=450)
-    lead_closer_strengths = _shared_matchups(lead_idx, closer_idx, col_labels, matrices, lower_bound=600)
+    lead_closer_weaknesses = _shared_matchups(
+        lead_idx, closer_idx, col_labels, matrices, upper_bound=450
+    )
+    lead_closer_strengths = _shared_matchups(
+        lead_idx, closer_idx, col_labels, matrices, lower_bound=600
+    )
 
     if len(back_weaknesses) >= 2 or len(back_strengths) >= 2:
         return "ABB", back_weaknesses, back_strengths

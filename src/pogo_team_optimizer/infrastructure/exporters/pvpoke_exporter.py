@@ -171,7 +171,9 @@ class PvpokeExporter(AnalysisExporter):
         members = result.get("recommended_team", {}).get("members", [])
         for member in members:
             label = member["label"]
-            parsed_species, fast_token, charged1_token, charged2_token, ivs = self._parse_label(label)
+            parsed_species, fast_token, charged1_token, charged2_token, ivs = self._parse_label(
+                label
+            )
             species_id = self._resolve_species_id(parsed_species, label)
 
             legal_fast = self._legal_fast_by_id.get(species_id, set())

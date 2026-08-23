@@ -134,9 +134,7 @@ def test_build_ranking_pools_treats_non_finite_scores_as_missing() -> None:
 
 def test_build_ranking_pools_treats_out_of_range_scores_as_missing() -> None:
     pools = build_ranking_pools(
-        active_profile=_profile(
-            {"Clodsire": 101.0, "Corviknight": -1.0, "Lickilicky": 90.0}
-        ),
+        active_profile=_profile({"Clodsire": 101.0, "Corviknight": -1.0, "Lickilicky": 90.0}),
         full_meta_profile=None,
         row_labels=["Clodsire", "Corviknight", "Lickilicky"],
         col_labels=["Clodsire", "Corviknight", "Lickilicky"],

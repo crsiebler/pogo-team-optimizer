@@ -3,14 +3,14 @@ import pytest
 from pogo_team_optimizer.application.lineups import (
     OrderedLineup,
     bench_utility_warnings,
-    calculate_lineup_synergy,
     calculate_lineup_role_fit,
-    score_battle_frontier_lineup_usage,
-    classify_lineup_shape,
+    calculate_lineup_synergy,
     classify_bench_utility,
+    classify_lineup_shape,
     enumerate_ordered_lineups,
-    score_roster_bench_utility,
+    score_battle_frontier_lineup_usage,
     score_ordered_lineup,
+    score_roster_bench_utility,
 )
 from pogo_team_optimizer.domain.models import RankingCategory, RankingProfile, RankingRow
 
@@ -273,14 +273,16 @@ def test_calculate_lineup_role_fit_weights_distinct_components() -> None:
         "back_chargers",
         "back_consistency",
     }
-    assert role_fit.components == pytest.approx({
-        "lead_leads": 0.8,
-        "back_switches": 0.4,
-        "back_closers": 0.5,
-        "back_attackers": 0.6,
-        "back_chargers": 0.7,
-        "back_consistency": 0.3,
-    })
+    assert role_fit.components == pytest.approx(
+        {
+            "lead_leads": 0.8,
+            "back_switches": 0.4,
+            "back_closers": 0.5,
+            "back_attackers": 0.6,
+            "back_chargers": 0.7,
+            "back_consistency": 0.3,
+        }
+    )
     assert role_fit.score == pytest.approx(0.59)
 
 
@@ -634,7 +636,9 @@ def test_bench_utility_warnings_cover_low_usage_and_unbringable_members() -> Non
 def test_score_roster_bench_utility_marks_members_unbringable_when_no_viable_lineups() -> None:
     weak_matrix = [[300] for _ in range(6)]
 
-    utility = score_roster_bench_utility((0, 1, 2, 3, 4, 5), (weak_matrix, weak_matrix, weak_matrix))
+    utility = score_roster_bench_utility(
+        (0, 1, 2, 3, 4, 5), (weak_matrix, weak_matrix, weak_matrix)
+    )
 
     assert [usage.member_index for usage in utility] == [0, 1, 2, 3, 4, 5]
     assert {usage.tier for usage in utility} == {"unbringable"}
@@ -714,8 +718,7 @@ def test_roster_bench_utility_adds_battle_frontier_warnings_for_point_usage() ->
     )
 
     warnings_by_member = {
-        usage.member_index: [warning.code for warning in usage.warnings]
-        for usage in utility
+        usage.member_index: [warning.code for warning in usage.warnings] for usage in utility
     }
 
     assert "expensive_mostly_bench" in warnings_by_member[5]
