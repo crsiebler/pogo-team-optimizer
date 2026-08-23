@@ -480,7 +480,9 @@ def test_ranking_aware_roster_score_weights_top_threat_misses_above_full_meta_mi
         component for component in top_miss.components if component.name == "threat_coverage"
     )
     full_meta_coverage = next(
-        component for component in full_meta_only_miss.components if component.name == "threat_coverage"
+        component
+        for component in full_meta_only_miss.components
+        if component.name == "threat_coverage"
     )
     assert top_coverage.raw_value < full_meta_coverage.raw_value
     assert ("top_threat_no_answer", 1) in top_coverage.diagnostics
@@ -505,7 +507,9 @@ def test_ranking_aware_roster_score_honors_empty_explicit_threat_pools() -> None
         component for component in default_score.components if component.name == "threat_coverage"
     )
     empty_pool_coverage = next(
-        component for component in empty_pool_score.components if component.name == "threat_coverage"
+        component
+        for component in empty_pool_score.components
+        if component.name == "threat_coverage"
     )
     assert default_coverage.raw_value < empty_pool_coverage.raw_value
     assert ("top_threat_no_answer", 0) in empty_pool_coverage.diagnostics

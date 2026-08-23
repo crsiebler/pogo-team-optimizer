@@ -2,9 +2,9 @@ from pathlib import Path
 
 import pytest
 
-from pogo_team_optimizer.application.use_case import AnalyzeMetaUseCase
-from pogo_team_optimizer.application.optimizer import TeamOptimizer
 from pogo_team_optimizer.application.normalization import parse_species
+from pogo_team_optimizer.application.optimizer import TeamOptimizer
+from pogo_team_optimizer.application.use_case import AnalyzeMetaUseCase
 from pogo_team_optimizer.infrastructure.repositories.battle_frontier_points_repository import (
     CsvBattleFrontierPointsRepository,
 )

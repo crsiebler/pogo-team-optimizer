@@ -14,16 +14,16 @@ from pogo_team_optimizer.application.analyzers import (
 from pogo_team_optimizer.application.lineups import (
     LINEUP_RESOURCE_PATHS,
     LINEUP_RESOURCE_SCORE_WEIGHT,
-    LINEUP_RESOURCE_WITHOUT_ROLE_SYNERGY_SCORE_WEIGHT,
     LINEUP_RESOURCE_WITH_SYNERGY_SCORE_WEIGHT,
+    LINEUP_RESOURCE_WITHOUT_ROLE_SYNERGY_SCORE_WEIGHT,
     LINEUP_ROLE_FIT_SCORE_WEIGHT,
     LINEUP_SYNERGY_SCORE_WEIGHT,
     LINEUP_VIABILITY_THRESHOLD,
     classify_lineup_shape,
     enumerate_ordered_lineups,
     score_battle_frontier_lineup_usage,
-    score_roster_bench_utility,
     score_ordered_lineup,
+    score_roster_bench_utility,
 )
 from pogo_team_optimizer.application.normalization import parse_base_species, parse_species
 from pogo_team_optimizer.application.optimizer import TeamOptimizer
@@ -46,7 +46,6 @@ from pogo_team_optimizer.domain.interfaces import (
     TypeEffectivenessRepository,
 )
 from pogo_team_optimizer.domain.models import RankingCategory, RankingProfile
-
 
 MAX_RECOMMENDED_LINEUPS = 5
 LOGGER = logging.getLogger(__name__)
@@ -213,7 +212,9 @@ class AnalyzeMetaUseCase:
             safe_member_floor=safe_member_floor,
             workers=workers,
         )
-        LOGGER.info("optimizer complete team=%s", ",".join(str(idx) for idx in best_team.member_indices))
+        LOGGER.info(
+            "optimizer complete team=%s", ",".join(str(idx) for idx in best_team.member_indices)
+        )
 
         total_pairs = len(col_labels) * len(matrices)
         score = best_team.score
@@ -453,7 +454,10 @@ def _filter_complete_candidate_rows(
 
     filtered_labels = [row_labels[row_idx] for row_idx in eligible_indices]
     filtered_matrices = [
-        [[_require_matchup_value(value) for value in matrix[row_idx]] for row_idx in eligible_indices]
+        [
+            [_require_matchup_value(value) for value in matrix[row_idx]]
+            for row_idx in eligible_indices
+        ]
         for matrix in matrices
     ]
     return filtered_labels, filtered_matrices
@@ -533,8 +537,13 @@ def _build_recommended_lineups(
             type_effectiveness=type_effectiveness,
             threat_weights=threat_weights,
         )
-        lineup_score = score.lineup_score if score.lineup_score is not None else score.resource_mean_score
-        if score.resource_mean_score >= LINEUP_VIABILITY_THRESHOLD and lineup_score >= LINEUP_VIABILITY_THRESHOLD:
+        lineup_score = (
+            score.lineup_score if score.lineup_score is not None else score.resource_mean_score
+        )
+        if (
+            score.resource_mean_score >= LINEUP_VIABILITY_THRESHOLD
+            and lineup_score >= LINEUP_VIABILITY_THRESHOLD
+        ):
             scored_lineups.append((lineup_score, score))
 
     scored_lineups.sort(
@@ -570,7 +579,9 @@ def _normalized_category_scores_by_row(
     scores = []
     for species in row_species:
         row = rows.get(species)
-        scores.append(row.normalized_score if row is not None and row.normalized_score is not None else 0.5)
+        scores.append(
+            row.normalized_score if row is not None and row.normalized_score is not None else 0.5
+        )
     return scores
 
 
@@ -586,8 +597,7 @@ def _to_recommended_lineup(
     overwhelming_matchups = sum(path.overwhelming_count for path in score.path_scores)
     lead = _to_team_member(score.lineup.lead_index, row_labels, species_cache)
     back_pair = [
-        _to_team_member(index, row_labels, species_cache)
-        for index in score.lineup.back_indices
+        _to_team_member(index, row_labels, species_cache) for index in score.lineup.back_indices
     ]
     result: dict[str, Any] = {
         "lead": lead,
@@ -659,10 +669,7 @@ def _weighted_component_payload(component: WeightedScoreComponent) -> dict[str, 
         "raw_value": component.raw_value,
         "weight": component.weight,
         "weighted_score": component.weighted_score,
-        "diagnostics": [
-            {"key": key, "value": value}
-            for key, value in component.diagnostics
-        ],
+        "diagnostics": [{"key": key, "value": value} for key, value in component.diagnostics],
     }
 
 
@@ -713,9 +720,7 @@ def _lineup_component_payload(name: str, raw_value: float, weight: float) -> dic
 def _lineup_role_assumptions(score: Any) -> list[str]:
     if score.role_fit_score is None:
         return []
-    return [
-        "Lead uses PvPoke leads ranking; backs use unordered switch/closer support rankings."
-    ]
+    return ["Lead uses PvPoke leads ranking; backs use unordered switch/closer support rankings."]
 
 
 def _build_ranking_diagnostics(
@@ -814,8 +819,7 @@ def _threat_answer_count(
     col_idx: int,
 ) -> int:
     return sum(
-        max(matrix[row_idx][col_idx] for matrix in matrices) > 500
-        for row_idx in team_indices
+        max(matrix[row_idx][col_idx] for matrix in matrices) > 500 for row_idx in team_indices
     )
 
 

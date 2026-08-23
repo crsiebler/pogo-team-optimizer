@@ -2,9 +2,9 @@ from pathlib import Path
 
 import pytest
 
+from pogo_team_optimizer.application.optimizer import TeamOptimizer
 from pogo_team_optimizer.application.ranking_pools import build_ranking_pools
 from pogo_team_optimizer.application.scoring import calculate_ranking_aware_roster_score
-from pogo_team_optimizer.application.optimizer import TeamOptimizer
 from pogo_team_optimizer.cli.main import build_parser
 from pogo_team_optimizer.domain.models import RankingCategory
 from pogo_team_optimizer.infrastructure.repositories.csv_matrix_repository import (
@@ -14,8 +14,9 @@ from pogo_team_optimizer.infrastructure.repositories.csv_rankings_repository imp
     CsvRankingsRepository,
 )
 from pogo_team_optimizer.infrastructure.repositories.move_json_repository import MoveJsonRepository
-from pogo_team_optimizer.infrastructure.repositories.pokemon_json_repository import PokemonJsonRepository
-
+from pogo_team_optimizer.infrastructure.repositories.pokemon_json_repository import (
+    PokemonJsonRepository,
+)
 
 FIXTURE_ROOT = Path(__file__).resolve().parents[1] / "fixtures" / "us031_weighted_scoring"
 

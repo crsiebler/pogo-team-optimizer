@@ -594,7 +594,10 @@ class TeamOptimizer:
             return RosterLineupScore(0.0, 0.0, 0.0, 0)
 
         lineup_scores = sorted(
-            (self._lineup_resource_and_mean_score(lineup) for lineup in enumerate_ordered_lineups(team_indices)),
+            (
+                self._lineup_resource_and_mean_score(lineup)
+                for lineup in enumerate_ordered_lineups(team_indices)
+            ),
             key=lambda score: score[1],
             reverse=True,
         )
@@ -640,7 +643,9 @@ class TeamOptimizer:
             type_effectiveness=self.type_effectiveness,
             threat_weights=self.weights,
         )
-        mean_score = score.lineup_score if score.lineup_score is not None else score.resource_mean_score
+        mean_score = (
+            score.lineup_score if score.lineup_score is not None else score.resource_mean_score
+        )
         self._lineup_resource_mean_score_cache[cache_key] = score.resource_mean_score
         self._lineup_mean_score_cache[cache_key] = mean_score
         return score.resource_mean_score, mean_score
@@ -655,7 +660,9 @@ class TeamOptimizer:
             weakness_count = 0
             resistance_count = 0
             for row_idx in team_indices:
-                multiplier = self._defensive_multiplier(attack_type, self.pokemon_types_by_row[row_idx])
+                multiplier = self._defensive_multiplier(
+                    attack_type, self.pokemon_types_by_row[row_idx]
+                )
                 if multiplier > 1.0:
                     weakness_count += 1
                 elif multiplier < 1.0:

@@ -313,7 +313,7 @@ def test_main_switch_override_replaces_stale_configured_switch_path(tmp_path, mo
               ],
               "ranking_paths": {{
                 "overall": "{valid_overall_path}",
-                "switches": "{tmp_path / 'missing_switches.csv'}"
+                "switches": "{tmp_path / "missing_switches.csv"}"
               }}
             }}
           }}
@@ -383,7 +383,9 @@ def test_main_switch_override_replaces_stale_configured_switch_path(tmp_path, mo
     assert captured["switch_rankings_path"] == str(valid_override_path)
 
 
-def test_main_wires_category_rankings_repository_with_switch_override(tmp_path, monkeypatch) -> None:
+def test_main_wires_category_rankings_repository_with_switch_override(
+    tmp_path, monkeypatch
+) -> None:
     matrix_paths = [tmp_path / f"great_{shield}-shield.csv" for shield in range(3)]
     for path in matrix_paths:
         path.write_text("", encoding="utf-8")
@@ -661,7 +663,12 @@ def test_main_exports_all_formats_from_one_analysis_result(tmp_path, monkeypatch
 
     execute_calls = 0
     execute_kwargs: dict[str, object] = {}
-    result = {"recommended_team": {"members": [], "metrics": {}}, "coverage": [], "safe_cores": [], "threats": []}
+    result = {
+        "recommended_team": {"members": [], "metrics": {}},
+        "coverage": [],
+        "safe_cores": [],
+        "threats": [],
+    }
 
     class FakeUseCase:
         def __init__(self, *_: object, **__: object) -> None:
@@ -681,7 +688,9 @@ def test_main_exports_all_formats_from_one_analysis_result(tmp_path, monkeypatch
         def __init__(self, output_format: str) -> None:
             self.output_format = output_format
 
-        def export(self, exported_result: dict[str, object], output_path: str | None = None) -> str | None:
+        def export(
+            self, exported_result: dict[str, object], output_path: str | None = None
+        ) -> str | None:
             exports.append((self.output_format, output_path, id(exported_result)))
             if output_path is not None:
                 Path(output_path).write_text(self.output_format, encoding="utf-8")

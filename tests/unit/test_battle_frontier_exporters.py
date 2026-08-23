@@ -111,9 +111,7 @@ def build_result() -> dict[str, object]:
                 "major_broad_meta_threats": ["Giratina"],
                 "no_answer_threats": [],
                 "single_answer_threats": ["Zygarde"],
-                "shared_weaknesses": [
-                    {"type": "dark", "members": ["Mewtwo", "Gengar (Mega)"]}
-                ],
+                "shared_weaknesses": [{"type": "dark", "members": ["Mewtwo", "Gengar (Mega)"]}],
                 "role_assumptions": [
                     "Leads use PvPoke leads rankings when available.",
                     "Back pairs use unordered PvPoke switches, closers, attackers, chargers, and consistency blends when available.",
@@ -174,9 +172,7 @@ def build_result() -> dict[str, object]:
                     "role_assumptions": [
                         "Lead uses PvPoke leads ranking; backs use unordered switch/closer support rankings."
                     ],
-                    "shared_weaknesses": [
-                        {"type": "dark", "members": ["Mewtwo", "Gengar (Mega)"]}
-                    ],
+                    "shared_weaknesses": [{"type": "dark", "members": ["Mewtwo", "Gengar (Mega)"]}],
                 },
                 "resource_paths": [
                     {
@@ -245,9 +241,15 @@ def test_json_exporter_includes_structured_lineups_and_bench_warnings() -> None:
     assert rendered is not None
     payload = json.loads(rendered)
     assert payload["recommended_lineups"][0]["team_shape"] == "ABC"
-    assert payload["recommended_team"]["score_breakdown"]["components"][0]["name"] == "threat_coverage"
-    assert payload["recommended_team"]["ranking_diagnostics"]["single_answer_threats"] == ["Zygarde"]
-    assert payload["recommended_lineups"][0]["score_breakdown"]["components"][1]["name"] == "role_fit"
+    assert (
+        payload["recommended_team"]["score_breakdown"]["components"][0]["name"] == "threat_coverage"
+    )
+    assert payload["recommended_team"]["ranking_diagnostics"]["single_answer_threats"] == [
+        "Zygarde"
+    ]
+    assert (
+        payload["recommended_lineups"][0]["score_breakdown"]["components"][1]["name"] == "role_fit"
+    )
     assert payload["recommended_lineups"][0]["resource_paths"][1]["name"] == "shield_spend"
     warning = payload["recommended_team"]["bench_utility"][1]["warnings"][0]
     assert warning == {
@@ -463,20 +465,17 @@ def test_csv_exporter_writes_lineup_and_bench_utility_rows(tmp_path) -> None:
         [
             "recommended_lineup_resource_path",
             "#1 balanced",
-            "lead_shield=1;back_shield=1;mean_best_score=630.00;"
-            "dominating=2;overwhelming=0",
+            "lead_shield=1;back_shield=1;mean_best_score=630.00;dominating=2;overwhelming=0",
         ],
         [
             "recommended_lineup_resource_path",
             "#1 shield_spend",
-            "lead_shield=2;back_shield=0;mean_best_score=610.00;"
-            "dominating=1;overwhelming=1",
+            "lead_shield=2;back_shield=0;mean_best_score=610.00;dominating=1;overwhelming=1",
         ],
         [
             "recommended_lineup_resource_path",
             "#1 shield_save",
-            "lead_shield=0;back_shield=2;mean_best_score=624.50;"
-            "dominating=1;overwhelming=0",
+            "lead_shield=0;back_shield=2;mean_best_score=624.50;dominating=1;overwhelming=0",
         ],
         [
             "bench_utility",

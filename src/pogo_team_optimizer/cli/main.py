@@ -35,7 +35,6 @@ from pogo_team_optimizer.infrastructure.repositories.type_effectiveness_json_rep
     TypeEffectivenessJsonRepository,
 )
 
-
 DEFAULT_SWITCH_RANKINGS_PATH = "data/rankings/cp1500_all_switches_rankings.csv"
 DEFAULT_OUTPUT_DIR = "data/output"
 OUTPUT_FORMATS = ("text", "markdown", "json", "csv", "excel", "pvpoke")
@@ -151,9 +150,13 @@ def resolve_battle_frontier_points_path(
 def main() -> int:
     parser = build_parser()
     args = parser.parse_args()
-    diagnostics_enabled = args.diagnostics or os.environ.get(
-        "POGO_TEAM_OPTIMIZER_DIAGNOSTICS"
-    ) in {"1", "true", "TRUE", "yes", "YES"}
+    diagnostics_enabled = args.diagnostics or os.environ.get("POGO_TEAM_OPTIMIZER_DIAGNOSTICS") in {
+        "1",
+        "true",
+        "TRUE",
+        "yes",
+        "YES",
+    }
     if diagnostics_enabled:
         logging.basicConfig(level=logging.INFO, format="[%(asctime)s] %(name)s: %(message)s")
     if not 1 <= args.top_lineups <= 10:
@@ -239,9 +242,7 @@ def main() -> int:
         category: path for category, path in meta_config.full_meta_ranking_paths.items()
     }
     full_meta_rankings_repo = (
-        CsvRankingsRepository(full_meta_ranking_paths)
-        if full_meta_ranking_paths
-        else None
+        CsvRankingsRepository(full_meta_ranking_paths) if full_meta_ranking_paths else None
     )
     use_case = AnalyzeMetaUseCase(
         simulation_repo,

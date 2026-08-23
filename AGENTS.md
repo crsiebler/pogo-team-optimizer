@@ -19,11 +19,14 @@ conda env create -f environment.yml
 conda activate pogo-team-optimizer
 ```
 
-Important: run commands with `PYTHONPATH=src`.
+The Conda environment installs the project in editable mode; `PYTHONPATH` is
+not required.
 
 ## Build / Lint / Test Commands
 Use Makefile targets when available:
 ```bash
+make format
+make check-format
 make lint
 make typecheck
 make test
@@ -33,29 +36,32 @@ make all
 
 Equivalent direct commands:
 ```bash
-PYTHONPATH=src python -m ruff check src tests
-PYTHONPATH=src python -m mypy src
-PYTHONPATH=src python -m pytest
-PYTHONPATH=src python -m pytest --cov=src --cov-report=term-missing
+python -m ruff check --fix src tests
+python -m ruff format src tests
+python -m ruff check src tests
+python -m ruff format --check src tests
+python -m mypy src
+python -m pytest
+python -m pytest --cov=pogo_team_optimizer --cov-report=term-missing
 ```
 
 ## Single-Test Commands (Important)
 Fast iteration examples:
 ```bash
 # one file
-PYTHONPATH=src python -m pytest tests/unit/test_normalization.py
+python -m pytest tests/unit/test_normalization.py
 
 # one test function
-PYTHONPATH=src python -m pytest tests/unit/test_normalization.py::test_parse_species_strips_moves_and_ivs
+python -m pytest tests/unit/test_normalization.py::test_parse_species_strips_moves_and_ivs
 
 # keyword filter
-PYTHONPATH=src python -m pytest -k normalization
+python -m pytest -k normalization
 
 # fail fast
-PYTHONPATH=src python -m pytest -x
+python -m pytest -x
 
 # verbose targeted run
-PYTHONPATH=src python -m pytest -vv tests/unit/test_csv_repository.py::test_csv_repository_loads_three_scenarios
+python -m pytest -vv tests/unit/test_csv_repository.py::test_csv_repository_loads_three_scenarios
 ```
 
 ## CLI Commands
@@ -69,7 +75,7 @@ make run-pvpoke
 
 Direct invocation example:
 ```bash
-PYTHONPATH=src python -m pogo_team_optimizer.cli.main --meta bayou --format text
+python -m pogo_team_optimizer.cli.main --meta bayou --format text
 ```
 
 Each CLI run emits all supported formats; use `--output-dir` to control the destination.
@@ -90,7 +96,8 @@ Boundary rules:
 ## Code Style Guidelines
 
 ### Formatting
-- Follow Ruff defaults and project line length (`100`).
+- Use Ruff for lint fixes, import sorting, and formatting with the project line
+  length (`100`).
 - Prefer readable, explicit code over compact clever code.
 - Keep functions small and purpose-focused.
 

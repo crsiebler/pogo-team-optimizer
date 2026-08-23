@@ -121,4 +121,6 @@ def test_optimizer_workers_two_preserves_bfmaster_legality() -> None:
 
     assert same_seed_team == team
     assert sum(optimizer_a.battle_frontier_points_by_row[idx] for idx in team.member_indices) <= 11
-    assert sum(optimizer_a.battle_frontier_points_by_row[idx] == 5 for idx in team.member_indices) <= 1
+    assert (
+        sum(optimizer_a.battle_frontier_points_by_row[idx] == 5 for idx in team.member_indices) <= 1
+    )

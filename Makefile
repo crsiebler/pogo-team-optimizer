@@ -7,12 +7,14 @@ DIAGNOSTICS ?= 0
 WORKERS ?= 8
 DIAGNOSTICS_FLAG := $(if $(filter 1 true yes,$(DIAGNOSTICS)),--diagnostics,)
 
-.PHONY: help env-create env-update lint typecheck test coverage run sync all
+.PHONY: help env-create env-update format check-format lint typecheck test coverage run sync all
 
 help:
 	@printf "Targets:\n"
 	@printf "  make env-create  Create Conda environment from environment.yml\n"
 	@printf "  make env-update  Update Conda environment from environment.yml\n"
+	@printf "  make format      Fix and format Python code with Ruff\n"
+	@printf "  make check-format  Check Ruff lint and formatting\n"
 	@printf "  make lint        Run ruff\n"
 	@printf "  make typecheck   Run mypy\n"
 	@printf "  make test        Run pytest\n"
@@ -29,20 +31,30 @@ env-create:
 env-update:
 	conda env update -n $(CONDA_ENV) -f environment.yml --prune
 
+format:
+	$(PYTHON) -m ruff check --fix src tests
+	$(PYTHON) -m ruff format src tests
+
+check-format:
+	$(PYTHON) -m ruff check src tests
+	$(PYTHON) -m ruff format --check src tests
+
 lint:
-	PYTHONPATH=$(SRC) $(PYTHON) -m ruff check src tests
+	$(PYTHON) -m ruff check src tests
 
 typecheck:
-	PYTHONPATH=$(SRC) $(PYTHON) -m mypy src
+	$(PYTHON) -m mypy src
 
 test:
-	PYTHONPATH=$(SRC) $(PYTHON) -m pytest
+	$(PYTHON) -m pytest
 
 coverage:
-	PYTHONPATH=$(SRC) $(PYTHON) -m pytest --cov=src --cov-report=term-missing
+	$(PYTHON) -m pytest --cov=pogo_team_optimizer --cov-report=term-missing
 
 run:
-	PYTHONPATH=$(SRC) $(PYTHON) -m pogo_team_optimizer.cli.main --meta $(META) --top-threats 10 --top-lineups 10 --restarts 80 --workers $(WORKERS) $(DIAGNOSTICS_FLAG)
+	$(PYTHON) -m pogo_team_optimizer.cli.main --meta $(META) --top-threats 10 --top-lineups 10 --restarts 80 --workers $(WORKERS) $(DIAGNOSTICS_FLAG)
 
 sync:
-	PYTHONPATH=$(SRC) $(PYTHON) scripts/sync_pvpoke_data.py
+	$(PYTHON) scripts/sync_pvpoke_data.py
+
+all: check-format typecheck test

@@ -29,7 +29,8 @@ conda env create -f environment.yml
 conda activate pogo-team-optimizer
 ```
 
-All commands should run with `PYTHONPATH=src`.
+The Conda environment installs the project and its development dependencies
+from `pyproject.toml` in editable mode.
 
 ## Development Commands
 
@@ -37,6 +38,8 @@ The Makefile runs commands through the `pogo-team-optimizer` Conda environment b
 default. Use these targets for the local quality gate:
 
 ```bash
+make format
+make check-format
 make lint
 make typecheck
 make test
@@ -47,10 +50,13 @@ make all
 Direct equivalents:
 
 ```bash
-PYTHONPATH=src python -m ruff check src tests
-PYTHONPATH=src python -m mypy src
-PYTHONPATH=src python -m pytest
-PYTHONPATH=src python -m pytest --cov=src --cov-report=term-missing
+python -m ruff check --fix src tests
+python -m ruff format src tests
+python -m ruff check src tests
+python -m ruff format --check src tests
+python -m mypy src
+python -m pytest
+python -m pytest --cov=pogo_team_optimizer --cov-report=term-missing
 ```
 
 ## Running the CLI
@@ -58,7 +64,9 @@ PYTHONPATH=src python -m pytest --cov=src --cov-report=term-missing
 Basic run:
 
 ```bash
-PYTHONPATH=src python -m pogo_team_optimizer.cli.main --meta bayou
+python -m pogo_team_optimizer.cli.main --meta bayou
+# Equivalent installed console command:
+pogo-team-optimizer --meta bayou
 ```
 
 Supported metas include `bayou`, `bfretro`, `bfmaster`, `euic`, `great`, `majestic`,
@@ -69,7 +77,7 @@ Each CLI execution runs the optimizer once, prints the text report, and writes e
 format to `data/output/`:
 
 ```bash
-PYTHONPATH=src python -m pogo_team_optimizer.cli.main --meta bayou
+python -m pogo_team_optimizer.cli.main --meta bayou
 ```
 
 Generated files use the selected meta name: `<meta>.txt`, `<meta>.md`, `<meta>.json`,
@@ -227,10 +235,10 @@ rankings, top-threat/full-meta pools, type and move inputs, and weighted optimiz
 
 ```bash
 # single file
-PYTHONPATH=src python -m pytest tests/unit/test_normalization.py
+python -m pytest tests/unit/test_normalization.py
 
 # single test
-PYTHONPATH=src python -m pytest tests/unit/test_normalization.py::test_parse_species_strips_moves_and_ivs
+python -m pytest tests/unit/test_normalization.py::test_parse_species_strips_moves_and_ivs
 ```
 
 ## Notes

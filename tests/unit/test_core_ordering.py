@@ -36,9 +36,18 @@ def test_core_role_recommendation_orders_lead_switch_closer() -> None:
         {"role": "switch", "label": "Switchmon", "index": 1},
         {"role": "closer", "label": "Closermon", "index": 2},
     ]
-    assert recommendation["role_scores"]["Leadmon"]["lead"] > recommendation["role_scores"]["Leadmon"]["closer"]
-    assert recommendation["role_scores"]["Switchmon"]["switch"] > recommendation["role_scores"]["Switchmon"]["lead"]
-    assert recommendation["role_scores"]["Closermon"]["closer"] > recommendation["role_scores"]["Closermon"]["lead"]
+    assert (
+        recommendation["role_scores"]["Leadmon"]["lead"]
+        > recommendation["role_scores"]["Leadmon"]["closer"]
+    )
+    assert (
+        recommendation["role_scores"]["Switchmon"]["switch"]
+        > recommendation["role_scores"]["Switchmon"]["lead"]
+    )
+    assert (
+        recommendation["role_scores"]["Closermon"]["closer"]
+        > recommendation["role_scores"]["Closermon"]["lead"]
+    )
 
 
 def test_core_role_recommendation_classifies_abb_shared_backline() -> None:

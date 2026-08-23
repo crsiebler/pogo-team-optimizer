@@ -5,7 +5,6 @@ from pathlib import Path
 
 from pogo_team_optimizer.domain.interfaces import MatchupValue, SimulationMatrixRepository
 
-
 NON_MATCHUP_COLUMN_NAMES = {
     "wins",
     "losses",
@@ -40,7 +39,9 @@ class CsvSimulationMatrixRepository(SimulationMatrixRepository):
                 if not row or not row[0].strip():
                     continue
                 current_rows.append(row[0])
-                matrix.append([_parse_matchup_value(row, col_idx) for col_idx in matchup_col_indices])
+                matrix.append(
+                    [_parse_matchup_value(row, col_idx) for col_idx in matchup_col_indices]
+                )
 
             if col_labels is None:
                 col_labels = current_cols

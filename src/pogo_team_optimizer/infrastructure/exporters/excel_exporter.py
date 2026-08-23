@@ -17,7 +17,9 @@ class ExcelExporter(AnalysisExporter):
             workbook.writestr("[Content_Types].xml", self._content_types(len(sheets)))
             workbook.writestr("_rels/.rels", self._package_relationships())
             workbook.writestr("xl/workbook.xml", self._workbook_xml([name for name, _ in sheets]))
-            workbook.writestr("xl/_rels/workbook.xml.rels", self._workbook_relationships(len(sheets)))
+            workbook.writestr(
+                "xl/_rels/workbook.xml.rels", self._workbook_relationships(len(sheets))
+            )
             for index, (_, rows) in enumerate(sheets, start=1):
                 workbook.writestr(f"xl/worksheets/sheet{index}.xml", self._sheet_xml(rows))
 
@@ -33,9 +35,7 @@ class ExcelExporter(AnalysisExporter):
         for key, value in sorted(metrics.items()):
             metric_rows.append([key, value])
 
-        coverage_rows: list[list[object]] = [
-            ["Shield", "Wins", "Draws", "Losses", "Weighted Wins"]
-        ]
+        coverage_rows: list[list[object]] = [["Shield", "Wins", "Draws", "Losses", "Weighted Wins"]]
         for item in result["coverage"]:
             coverage_rows.append(
                 [item["shield"], item["wins"], item["draws"], item["losses"], item["weighted_wins"]]
@@ -55,7 +55,9 @@ class ExcelExporter(AnalysisExporter):
                     ]
                 )
             else:
-                core_rows.append([index, "", ", ".join(member["label"] for member in core["members"]), "", ""])
+                core_rows.append(
+                    [index, "", ", ".join(member["label"] for member in core["members"]), "", ""]
+                )
 
         threat_rows: list[list[object]] = [
             ["Opponent", "Single Coverage", "No Coverage", "Details"]
@@ -276,9 +278,7 @@ class ExcelExporter(AnalysisExporter):
         cell_reference = f"{column_name}{row_index}"
         if isinstance(value, (int, float)) and not isinstance(value, bool):
             return f'<c r="{cell_reference}"><v>{value}</v></c>'
-        return (
-            f'<c r="{cell_reference}" t="inlineStr"><is><t>{escape(str(value))}</t></is></c>'
-        )
+        return f'<c r="{cell_reference}" t="inlineStr"><is><t>{escape(str(value))}</t></is></c>'
 
     def _column_name(self, column_index: int) -> str:
         name = ""

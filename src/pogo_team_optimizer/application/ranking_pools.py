@@ -120,7 +120,9 @@ def _with_weights(entries: tuple[RankingPoolEntry, ...]) -> tuple[RankingPoolEnt
     if not entries:
         return ()
     positive_score_total = sum(
-        entry.ranking_score for entry in entries if entry.ranking_score is not None and entry.ranking_score > 0
+        entry.ranking_score
+        for entry in entries
+        if entry.ranking_score is not None and entry.ranking_score > 0
     )
     if positive_score_total <= 0:
         uniform_weight = 1.0 / len(entries)

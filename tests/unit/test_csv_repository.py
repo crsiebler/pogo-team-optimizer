@@ -133,10 +133,12 @@ def test_csv_repository_rejects_row_label_mismatch_across_shields(tmp_path) -> N
     with first_file.open("w", newline="", encoding="utf-8") as handle:
         writer = csv.writer(handle)
         writer.writerow(headers)
-        writer.writerows([
-            ["Mon1", "600", "400", "1", "0", "0", "500"],
-            ["Mon2", "400", "600", "1", "0", "0", "500"],
-        ])
+        writer.writerows(
+            [
+                ["Mon1", "600", "400", "1", "0", "0", "500"],
+                ["Mon2", "400", "600", "1", "0", "0", "500"],
+            ]
+        )
     with second_file.open("w", newline="", encoding="utf-8") as handle:
         writer = csv.writer(handle)
         writer.writerow(headers)

@@ -36,7 +36,9 @@ def load_meta_config(config_path: str, meta_name: str) -> MetaConfig:
     if not isinstance(matrix_files, list) or not all(isinstance(v, str) for v in matrix_files):
         raise ValueError(f"Meta '{meta_name}' must define string list 'matrix_files'")
 
-    ranking_paths = _parse_ranking_paths(meta_name, meta_value.get("ranking_paths"), "ranking_paths")
+    ranking_paths = _parse_ranking_paths(
+        meta_name, meta_value.get("ranking_paths"), "ranking_paths"
+    )
     full_meta_ranking_paths = _parse_ranking_paths(
         meta_name,
         meta_value.get("full_meta_ranking_paths"),
